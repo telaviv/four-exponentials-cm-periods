@@ -1,4 +1,4 @@
-# CM4E: four exponentials at CM periods, in Lean 4
+# lean_mstar: the M* results (four exponentials at CM periods and relatives), in Lean 4
 
 Formalisation project for the paper *Four exponentials at CM periods, and a bilinear statement for two CM elliptic
 curves* (draft, `../schanuel/five_exp/pilot_thmM/paper/`).
@@ -15,8 +15,8 @@ are in [`CM4E/Defs.lean`](CM4E/Defs.lean); read that file first.
 * (H2) g₂ of the lattice ϖℤ[i] is algebraic (g₃ = 0 is proved);
 * (H3) ϖ/π is irrational.
 
-`CM4E.MainQi.main` is the general version: four exponentials at t = cϖ/π for c ∈ ℚ(i)^×, under the extra
-assumption that 2πi, a, b are ℚ-independent.
+`CM4E.MainQi.fourExpAt_Qi` is the general version: `FourExpAt (cϖ/π)` for every c ∈ ℚ(i)^× (four exponentials at
+t = cϖ/π, only ℚ-independence of the logarithms assumed). What is assumed and what is covered: [TRUST.md](TRUST.md).
 
 Also proved, with standard axioms only:
 * the arithmetic of the paper's case checks against Waldschmidt's Theorem 4.1, for every n

@@ -119,7 +119,10 @@ theorem two_three (hW : Thm11Kappa lemniscatic 4)
     change IsAlgebraic ℚ (Complex.exp (Complex.log 3))
     rw [Complex.exp_log (by norm_num)]; exact_mod_cast halg 3
   rw [← ht]
-  exact MainQi.main hW hg₂ hS 1 0 1 one_pos (Or.inl one_ne_zero) _ _ h2 h3
-    linearIndependent_two_three
+  have hind : LinearIndependent ℚ ![Complex.log 2, Complex.log 3] := by
+    have := linearIndependent_two_three.comp Fin.succ (Fin.succ_injective _)
+    convert this using 1
+    funext i; fin_cases i <;> rfl
+  exact MainQi.main hW hg₂ hS 1 0 1 one_pos (Or.inl one_ne_zero) _ _ h2 h3 hind
 
 end CM4E.TwoThree

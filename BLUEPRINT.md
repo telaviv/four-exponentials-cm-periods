@@ -1,5 +1,6 @@
 # CM4E blueprint: a Lean proof of "four exponentials at CM periods"
 
+Library name `CM4E` (project folder renamed `lean_mstar/` on 2026-10-30; scope: all M* results, see TRUST.md §4).
 Paper: `../schanuel/five_exp/pilot_thmM/paper/paper.tex` (16 pp.). This project aims at a complete Lean 4 + Mathlib
 proof of its Theorem 1 using only the standard axioms. Theorems MG, MG♮, MX and MX′ come later. Status labels:
 ✔ proved in Lean · ◐ partly · ☐ open · ✱ reusable from elsewhere.
@@ -54,7 +55,7 @@ N8  E^♮: Weierstrass ζ, quasi-periods, Legendre ϖη(ϖ) = π, CM action on f
 | H1 | W88 §5d for G_m^{d₁} × E | ☐ (= N2) | the whole transcendence content |
 | H2 | g₂(ϖℤ[i]) = 4, g₃ = 0 | ◐ | **g₃ = 0 proved** (`g₃_lemniscatic`, symmetry iΛ = Λ); g₂ = 4 ⇔ the Γ-formula for ϖ (lemniscatic G₄), open |
 | H3 | ϖ/π irrational | ☐ | Schneider; should follow from H1 with a small configuration |
-| 2πi-restriction | remove "2πi, a, b Q-independent" | ☐ | needs ϖ ∉ Q̄𝓛 (Wüstholz-type; from H1 or Baker via StrongSix) |
+| 2πi-restriction | remove "2πi, a, b Q-independent" | ✔ | removed: the period vectors are independent through their E-coordinates (REFEREE_HYP.md) |
 | CaseCheck | arithmetic of the Thm 4.1 case tables (MX, MG, MG♮), for all n | ✔ | `CM4E/CaseCheck.lean`; also certifies the n = 2 failures |
 | LemmaL | algebra of the two parallel periods | ✔ | `CM4E/LemmaL.lean`; Legendre enters as a hypothesis |
 | LemmaK | (ψ, φ) : kⁿ ≅ K × K | ☐ | pure algebra; K ⊗_Q k ≅ K × K |

@@ -14,10 +14,10 @@ import CM4E.Lattice
 * (H1) Waldschmidt's κ-refined hyperplane theorem for `G_m⁴ × E`, with `E` the curve of the lattice `ϖℤ[i]`
   (`Thm11Kappa lemniscatic 4`, a published theorem, stated in `CM4E/Waldschmidt.lean`);
 * (H2) the invariant `g₂` of `ϖℤ[i]` is algebraic (true: `g₂ = 4`; `g₃ = 0` is proved in `CM4E/Lattice.lean`);
-* (H3) `ϖ/π` is irrational (true: it is transcendental, Schneider 1937).
+* (H3) `ϖ/π` is irrational (true: `π` and `ϖ` are algebraically independent, Chudnovsky 1976).
 
-Let `c = (p + qi)/D ≠ 0`, `t = cϖ/π`, and let `a, b` be logarithms of algebraic numbers with `2πi, a, b` linearly
-independent over `ℚ`. Then `e^{ta}` and `e^{tb}` are not both algebraic.
+Let `c = (p + qi)/D ≠ 0`, `t = cϖ/π`, and let `a, b` be `ℚ`-linearly independent logarithms of algebraic numbers.
+Then `e^{ta}` and `e^{tb}` are not both algebraic (`main`); i.e. `FourExpAt (cϖ/π)` (`fourExpAt_Qi`).
 
 This is Theorem MG of the paper for `K = ℚ(i)` (`n = 2`), via W88 §5d.
 * Take `G = G_m⁴ × E` (`d = 5`), `Ψ''(t, z) = (t₀ + it₁, t₂ + it₃ + z)` and `V = Ψ''⁻¹(ℂ(1, t))`, a hyperplane.
@@ -224,18 +224,63 @@ lemma key_contra (hS : Irrational (varpi / Real.pi)) (p q : ℤ) (D : ℕ) (hD :
 
 /-! ### The conditional main theorem -/
 
-/-- **Conditional main theorem** (four exponentials at `t = cϖ/π`, `c = (p + qi)/D ≠ 0`, with `2πi, a, b`
-`ℚ`-independent). Hypotheses: Waldschmidt's κ-refined hyperplane theorem on `G_m⁴ × E` (`hW`), the algebraicity of
-`g₂` for `ϖℤ[i]` (`hg₂`; `g₃ = 0` is proved, `g₃_lemniscatic`), and the irrationality of `ϖ/π` (`hS`). -/
+/-- The six generators are ℚ-independent as soon as `a, b` are (2πi not needed). -/
+lemma yv_linearIndependent_ab (p q : ℤ) (D : ℕ) (hpq : p ≠ 0 ∨ q ≠ 0) (a b : ℂ)
+    (hind : LinearIndependent ℚ ![a, b]) :
+    LinearIndependent ℚ (yv p q D a b) := by
+  rw [Fintype.linearIndependent_iff]
+  intro g hg
+  have hli := Fintype.linearIndependent_iff.mp hind
+  have h0 := congrArg (fun v : T 4 => v.1 0) hg
+  have h1 := congrArg (fun v : T 4 => v.1 1) hg
+  have hE := congrArg (fun v : T 4 => v.2) hg
+  simp [Fin.sum_univ_succ, yv, per, rat_smul_eq] at h0 h1 hE
+  have hv : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+  have hE' : ((g 0 : ℂ) * ((-2 * q : ℂ) + 2 * p * I) + (g 1 : ℂ) * ((-2 * p : ℂ) + (-2 * q) * I)) = 0 := by
+    have : ((g 0 : ℂ) * ((-2 * q : ℂ) + 2 * p * I) + (g 1 : ℂ) * ((-2 * p : ℂ) + (-2 * q) * I)) * varpi = 0 := by
+      linear_combination hE
+    simpa [hv] using this
+  have hre := congrArg Complex.re hE'
+  have him := congrArg Complex.im hE'
+  simp at hre him
+  have hre' : (g 0 : ℝ) * q + (g 1 : ℝ) * p = 0 := by linarith
+  have him' : (g 0 : ℝ) * p - (g 1 : ℝ) * q = 0 := by linarith
+  have hpq2 : (p : ℝ) ^ 2 + (q : ℝ) ^ 2 ≠ 0 := by
+    rcases hpq with hp | hq
+    · have : (0 : ℝ) < (p : ℝ) ^ 2 := by positivity
+      positivity
+    · have : (0 : ℝ) < (q : ℝ) ^ 2 := by positivity
+      positivity
+  have g0 : g 0 = 0 := by
+    have : ((g 0 : ℝ)) * ((p : ℝ) ^ 2 + (q : ℝ) ^ 2) = 0 := by linear_combination q * hre' + p * him'
+    have : (g 0 : ℝ) = 0 := by simpa [hpq2] using this
+    exact_mod_cast this
+  have g1 : g 1 = 0 := by
+    have : ((g 1 : ℝ)) * ((p : ℝ) ^ 2 + (q : ℝ) ^ 2) = 0 := by linear_combination p * hre' - q * him'
+    have : (g 1 : ℝ) = 0 := by simpa [hpq2] using this
+    exact_mod_cast this
+  rw [g0] at h0; rw [g1] at h1
+  have e0 := hli ![g 2, g 4] (by simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h0)
+  have e1 := hli ![g 3, g 5] (by simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h1)
+  have a0 := e0 0; have a1 := e0 1; have b0 := e1 0; have b1 := e1 1
+  simp at a0 a1 b0 b1
+  intro i
+  fin_cases i <;> simp [g0, g1, a0, a1, b0, b1]
+
+/-- **Conditional main theorem** (four exponentials at `t = cϖ/π`, `c = (p + qi)/D ≠ 0`). Hypotheses:
+Waldschmidt's κ-refined hyperplane theorem on `G_m⁴ × E` (`hW`), the algebraicity of `g₂` for `ϖℤ[i]` (`hg₂`;
+`g₃ = 0` is proved, `g₃_lemniscatic`), and the irrationality of `ϖ/π` (`hS`). Only `ℚ`-independence of `a, b` is
+assumed: the two period vectors are already independent through their `E`-coordinates (observation and proof of
+REFEREE_HYP.md). -/
 theorem main (hW : Thm11Kappa lemniscatic 4)
     (hg₂ : IsAlgebraic ℚ lemniscatic.g₂) (hS : Irrational (varpi / Real.pi))
     (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0)
     (a b : ℂ) (ha : a ∈ logAlg) (hb : b ∈ logAlg)
-    (hind : LinearIndependent ℚ ![2 * (Real.pi : ℂ) * I, a, b]) :
+    (hind : LinearIndependent ℚ ![a, b]) :
     ¬ (IsAlgebraic ℚ (Complex.exp (tExp p q D * a)) ∧
         IsAlgebraic ℚ (Complex.exp (tExp p q D * b))) := by
   rintro ⟨hta, htb⟩
-  have hliY := yv_linearIndependent p q D hD a b hind
+  have hliY := yv_linearIndependent_ab p q D hpq a b hind
   have hfinY : finrank ℚ (Submodule.span ℚ (Set.range (yv p q D a b))) = 6 := by
     rw [finrank_span_eq_card hliY]; simp
   have : FiniteDimensional ℚ (Submodule.span ℚ (Set.range (yv p q D a b))) :=
@@ -277,5 +322,12 @@ theorem main (hW : Thm11Kappa lemniscatic 4)
     have hV := hle hmem
     rw [LinearMap.mem_ker, phi_apply] at hV
     exact key_contra hS p q D hD hpq l hl0 hV
+
+
+/-- **Theorem 1(b) for `c ∈ ℚ(i)ˣ`, conditional:** `FourExpAt (c ϖ / π)` with `c = (p + qi)/D`. -/
+theorem fourExpAt_Qi (hW : Thm11Kappa lemniscatic 4)
+    (hg₂ : IsAlgebraic ℚ lemniscatic.g₂) (hS : Irrational (varpi / Real.pi))
+    (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) : FourExpAt (tExp p q D) :=
+  fun a b ha hb hind => main hW hg₂ hS p q D hD hpq a b ha hb hind
 
 end CM4E.MainQi

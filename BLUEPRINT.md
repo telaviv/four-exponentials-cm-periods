@@ -13,6 +13,10 @@ proof of its Theorem 1 using only the standard axioms. Theorems MG, MG♮, MX an
 | `Target.mg1_varpi` | one of e^{π²}, e^{πϖ}, e^{π²/ϖ} | Theorem MG + Chudnovsky-type independence |
 | `…omegaRho…` | the same for E_ρ | same, with Q(ρ) |
 
+**Status 2026-10-30:** the first milestone is proved **conditionally**: `CM4E.TwoThree.two_three` says 2^{ϖ/π} and
+3^{ϖ/π} are not both algebraic, assuming H1–H3 below. It uses the standard axioms only. The independent fidelity
+check of H1 is `REFEREE_HYP.md`.
+
 **Recommended first milestone:** `fourExp_varpi_div_pi` for c ∈ Q(i).
 * Take K = Q(i), so n = 2. Theorem MG's count closes for every even n, and then G″ = G_m⁴ × A″ with A″ ≅ E_i (one
   elliptic factor).
@@ -46,6 +50,11 @@ N8  E^♮: Weierstrass ζ, quasi-periods, Legendre ϖη(ϖ) = π, CM action on f
 | node | content | status | notes / reuse |
 |---|---|---|---|
 | Defs | target statements | ✔ | elementary; no elliptic curves in the statements |
+| **Conditional main theorem** | 4E at t = cϖ/π, c ∈ Q(i)^×, with 2πi, a, b Q-independent; headline 2^{ϖ/π}, 3^{ϖ/π} | ✔ (conditional) | `CM4E/MainQi.lean` (`main`), `CM4E/TwoThree.lean` (`two_three`). Hypotheses: H1 `Thm11Kappa lemniscatic 4` (W88 §5d on G_m⁴ × E, `CM4E/Waldschmidt.lean`), H2 g₂(ϖℤ[i]) algebraic, H3 ϖ/π irrational. Route: W88 §5d (no λ case analysis needed) |
+| H1 | W88 §5d for G_m^{d₁} × E | ☐ (= N2) | the whole transcendence content |
+| H2 | g₂(ϖℤ[i]) = 4, g₃ = 0 | ◐ | **g₃ = 0 proved** (`g₃_lemniscatic`, symmetry iΛ = Λ); g₂ = 4 ⇔ the Γ-formula for ϖ (lemniscatic G₄), open |
+| H3 | ϖ/π irrational | ☐ | Schneider; should follow from H1 with a small configuration |
+| 2πi-restriction | remove "2πi, a, b Q-independent" | ☐ | needs ϖ ∉ Q̄𝓛 (Wüstholz-type; from H1 or Baker via StrongSix) |
 | CaseCheck | arithmetic of the Thm 4.1 case tables (MX, MG, MG♮), for all n | ✔ | `CM4E/CaseCheck.lean`; also certifies the n = 2 failures |
 | LemmaL | algebra of the two parallel periods | ✔ | `CM4E/LemmaL.lean`; Legendre enters as a hypothesis |
 | LemmaK | (ψ, φ) : kⁿ ≅ K × K | ☐ | pure algebra; K ⊗_Q k ≅ K × K |

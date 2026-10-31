@@ -25,17 +25,13 @@ the two instances, `CM4E/Gen/Instances.lean`): as for `gmMGn`; the new logarithm
 algebraic points of `(E^♮)^n`; connected subgroups are products `T_L × H`, `θ` is `ℚ`-independent, and every nonzero
 connected `H ⊂ Q''` contains the fibre, on which `λ ≠ 0`. For a lattice with `κ₁ ≠ 0` the generators would have to use
 `ζ* = ζ − κ₁ z`; so the hypothesis `Thm11KappaMGnK L` is premised on `KappaOneZero L` (`ζ(αz) = ᾱζ(z)`, which makes the
-standard `ζ` conjugate-eigen), proved here for `ϖℤ[i]` (`kappaOneZero_latI`).
+standard `ζ` conjugate-eigen; defined in `CM4E/Gen/MGn.lean`, where `Thm11KappaMGn` carries the same premise), proved
+here for `ϖℤ[i]` and `Ω_ρℤ[ρ]` (`kappaOneZero_latI`, `kappaOneZero_latRho`).
 -/
 
 open Complex Module CM4E.Waldschmidt CM4E.MX
 
 namespace CM4E.Gen
-
-/-- `κ₁ = 0`, in the form `ζ(αz) = ᾱζ(z)` (true when `α` is a unit, as for `ϖℤ[i]` and `Ω_ρℤ[ρ]`). It makes the
-quasi-periods conjugate-linear, so the standard `ζ` is the conjugate-eigen `ζ*` and `η₀ = η(ω)`. -/
-def KappaOneZero (L : CMLattice) : Prop :=
-  ∀ z : ℂ, CM4E.Ext.Weierstrass.zeta L.pp (L.α * z) = starRingEnd ℂ L.α * CM4E.Ext.Weierstrass.zeta L.pp z
 
 /-- `ζ(iz) = −iζ(z)` on `ϖℤ[i]`. -/
 lemma kappaOneZero_latI : KappaOneZero latI := by
@@ -52,6 +48,52 @@ lemma kappaOneZero_latI : KappaOneZero latI := by
         simp only [mul_inv, mul_pow, Complex.I_sq, Complex.inv_I, div_eq_mul_inv, neg_one_mul, inv_neg]
         ring
     _ = -I * CM4E.Ext.Weierstrass.zeta lemniscatic z := tsum_mul_left
+
+lemma rho_sq : rho ^ 2 = -1 - rho := by simp only [rho]; ring_nf; rw [Complex.I_sq, r3_sq]; ring
+
+/-- `ρ` times a point of `Ω_ρℤ[ρ]` is a point of `Ω_ρℤ[ρ]`. -/
+lemma rho_mul_mem_lattice {x : ℂ} (hx : x ∈ equianharmonic.lattice) : rho * x ∈ equianharmonic.lattice := by
+  obtain ⟨m, n, rfl⟩ := PeriodPair.mem_lattice.mp hx
+  refine PeriodPair.mem_lattice.mpr ⟨-n, m - n, ?_⟩
+  simp only [equianharmonic]; push_cast
+  linear_combination (-(n : ℂ) * omegaRho) * rho_sq
+
+lemma rho_cube : rho ^ 3 = 1 := by linear_combination (rho - 1) * rho_sq
+
+lemma rho_ne_zero : rho ≠ 0 := by
+  intro h; have := rho_cube; rw [h] at this; norm_num at this
+
+lemma rho_inv : rho⁻¹ = starRingEnd ℂ rho := by
+  apply inv_eq_of_mul_eq_one_right
+  have hr : starRingEnd ℂ r3 = r3 := by simp [r3, Complex.conj_ofReal]
+  simp only [rho, map_div₀, map_add, map_neg, map_one, map_mul, Complex.conj_I, Complex.conj_ofNat, hr]
+  linear_combination (-(r3 ^ 2) / 4) * Complex.I_sq + (1 / 4 : ℂ) * r3_sq
+
+/-- Multiplication by `ρ` as a permutation of the lattice `Ω_ρℤ[ρ]`. -/
+noncomputable def mulRho : equianharmonic.lattice ≃ equianharmonic.lattice where
+  toFun l := ⟨rho * l, rho_mul_mem_lattice l.2⟩
+  invFun l := ⟨rho * (rho * l), rho_mul_mem_lattice (rho_mul_mem_lattice l.2)⟩
+  left_inv l := Subtype.ext (by simp only; linear_combination (l : ℂ) * rho_cube)
+  right_inv l := Subtype.ext (by simp only; linear_combination (l : ℂ) * rho_cube)
+
+/-- `ζ(ρz) = ρ̄ζ(z)` on `Ω_ρℤ[ρ]`. -/
+lemma kappaOneZero_latRho : KappaOneZero latRho := by
+  intro z
+  show CM4E.Ext.Weierstrass.zeta equianharmonic (rho * z) = starRingEnd ℂ rho * CM4E.Ext.Weierstrass.zeta equianharmonic z
+  rw [← rho_inv]
+  have hρ := rho_ne_zero
+  calc CM4E.Ext.Weierstrass.zeta equianharmonic (rho * z)
+      = ∑' l : equianharmonic.lattice,
+          CM4E.Ext.Weierstrass.zetaSummand ((mulRho l : equianharmonic.lattice) : ℂ) (rho * z) :=
+        (mulRho.tsum_eq (fun l : equianharmonic.lattice =>
+          CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) (rho * z))).symm
+    _ = ∑' l : equianharmonic.lattice, rho⁻¹ * CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) z := by
+        congr 1 with l
+        simp only [mulRho, Equiv.coe_fn_mk, CM4E.Ext.Weierstrass.zetaSummand]
+        rw [show rho * z - rho * (l : ℂ) = rho * (z - l) by ring]
+        simp only [mul_inv, mul_pow, div_eq_mul_inv]
+        field_simp
+    _ = rho⁻¹ * CM4E.Ext.Weierstrass.zeta equianharmonic z := tsum_mul_left
 
 /-- The quasi-period `η*((m + nα)ω) = (m + nᾱ)η₀` of a CM lattice. -/
 noncomputable def etaL (L : CMLattice) (m n : ℤ) : ℂ := ((m : ℂ) + n * starRingEnd ℂ L.α) * L.η₀

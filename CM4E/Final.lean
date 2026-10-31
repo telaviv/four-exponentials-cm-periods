@@ -114,7 +114,7 @@ theorem mx1 (hW : Gen.Thm11KappaMXG)
 `G_m^{2n} × Q''` (`Gen.Thm11KappaMGn Gen.latI`). -/
 theorem fourExpAt_varpi_all (hW : Gen.Thm11KappaMGn Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c)
     (hc0 : c ≠ 0) : FourExpAt (c * varpi) :=
-  Gen.fourExpAt_MGn Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT c hc hc0
+  Gen.fourExpAt_MGn Gen.latI hW Gen.kappaOneZero_latI hg₂ g₃_lemniscatic_isAlgebraic hT c hc hc0
 
 /-- **Theorem 1(b) for `Ω = ϖ` and every algebraic `c ≠ 0`**: `FourExpAt (cϖ/π)`, assuming only W88 §5d for the groups
 `G_m^{2n} × A''` (`Gen.Thm11KappaMG Gen.latI`). -/
@@ -128,7 +128,7 @@ theorem fourExpAt_varpi_div_pi_all (hW : Gen.Thm11KappaMG Gen.latI) (c : ℂ) (h
 theorem fourExpAt_omegaRho_all (hW : Gen.Thm11KappaMGn Gen.latRho)
     (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : FourExpAt (c * omegaRho) :=
-  Gen.fourExpAt_MGn Gen.latRho hW hg₂' hg₃'
+  Gen.fourExpAt_MGn Gen.latRho hW Gen.kappaOneZero_latRho hg₂' hg₃'
     (CM4E.Ext.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) c hc hc0
 

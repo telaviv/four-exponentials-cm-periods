@@ -6,6 +6,7 @@ import Mathlib
 import CM4E.Gen.Frame
 import CM4E.Gen.CMLattice
 import CM4E.Gen.BasisExists
+import CM4E.Ext.Weierstrass.ZetaDef
 
 /-!
 # Theorem MG♮ / Cor. MG♮2 for every algebraic `c`: four exponentials at `t = cω`
@@ -54,10 +55,15 @@ noncomputable def perQn : Set (Qn L b) :=
 noncomputable def gmMGn : GroupModel (TF (Fin r × Fin 2) (Qn L b)) :=
   gmF (algQn L b) (perQn L b) (LinearMap.snd ℂ _ ℂ)
 
+/-- `κ₁ = 0`, in the form `ζ(αz) = ᾱζ(z)` (true when `α` is a unit, as for `ϖℤ[i]` and `Ω_ρℤ[ρ]`). It makes the
+quasi-periods conjugate-linear, so the standard `ζ` is the conjugate-eigen `ζ*` and `η₀ = η(ω)`. -/
+def KappaOneZero (L : CMLattice) : Prop :=
+  ∀ z : ℂ, CM4E.Ext.Weierstrass.zeta L.pp (L.α * z) = starRingEnd ℂ L.α * CM4E.Ext.Weierstrass.zeta L.pp z
+
 /-- **The hypothesis for Theorem MG♮ (general `c`)**: W88 §5d for `G_m^{2n} × Q''`, for every adapted basis. Same form
 as all other hypotheses of the project (`HyperplaneKappa` of a group model). -/
 def Thm11KappaMGn : Prop :=
-  IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
+  KappaOneZero L → IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
     ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedFieldBasis L.α b → HyperplaneKappa (gmMGn L b)
 
 lemma sum_mul_conj_single (θ : Fin r × Fin 2 → ℂ) (i : Fin r × Fin 2) (c : ℂ) :
@@ -98,8 +104,9 @@ lemma finrank_Qn_lt (hr : 2 ≤ r) :
   omega
 
 /-- **Cor. MG♮2 for a CM lattice and every algebraic `c ≠ 0`**: four exponentials at `t = cω`. Hypotheses: W88 §5d
-for the groups `G_m^{2n} × Q''` (`hW`), algebraic `g₂, g₃`, and the transcendence of `ω` (Schneider). -/
-theorem fourExpAt_MGn (hW : Thm11KappaMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
+for the groups `G_m^{2n} × Q''` (`hW`), `κ₁ = 0` (`hκ`), algebraic `g₂, g₃`, and the transcendence of `ω` (Schneider). -/
+theorem fourExpAt_MGn (hW : Thm11KappaMGn L) (hκ : KappaOneZero L) (hg₂ : IsAlgebraic ℚ L.pp.g₂)
+    (hg₃ : IsAlgebraic ℚ L.pp.g₃)
     (hT : Transcendental ℚ L.ω) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     FourExpAt (c * L.ω) := by
   intro x₁ x₂ hx₁ hx₂ hind ⟨ht₁, ht₂⟩
@@ -137,7 +144,7 @@ theorem fourExpAt_MGn (hW : Thm11KappaMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂)
     rw [this, ← mem_algebraicClosure_iff]
     exact div_mem (inv_mem (mem_algebraicClosure_iff.mpr halg)) (mem_algebraicClosure_iff.mpr hc)
   refine frame_false θ hb.indep hθalg (algQn L b) (perQn L b) (LinearMap.snd ℂ _ ℂ)
-    (hW hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr)
+    (hW hκ hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr)
     ⟨⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
     (fun c' q hc' ⟨⟨v, hv, hvq⟩, hq2⟩ => ⟨⟨c' • v, fun j => hc'.mul (hv j), by simp [hvq]⟩, hc'.mul hq2⟩)
     (0, 1) ⟨⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_one⟩ rfl

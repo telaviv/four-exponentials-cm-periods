@@ -76,6 +76,7 @@ import CM4E
 #print axioms CM4E.Final.mg_K_varpi
 #print axioms CM4E.Final.mgn_K_varpi
 #print axioms CM4E.Gen.kappaOneZero_latI
+#print axioms CM4E.Gen.kappaOneZero_latRho
 #print axioms CM4E.AbVar.exists_adapted_basisD
 #print axioms CM4E.AbVar.relation_R
 #print axioms CM4E.AbVar.frameX_false

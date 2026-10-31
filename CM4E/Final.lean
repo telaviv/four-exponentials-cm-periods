@@ -14,6 +14,7 @@ import CM4E.Gen.MXGen
 import CM4E.Gen.SMG
 import CM4E.Gen.MG13
 import CM4E.Gen.Deg2
+import CM4E.Gen.ThmMCor
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -232,5 +233,61 @@ theorem deg2_i (hW : Gen.Thm11KappaMXP)
     (hrel : c0 * Real.pi + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho) = 0) :
     c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
   Gen.deg2_i hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
+
+/-! ## Theorem M and Corollary M -/
+
+/-- **Theorem M for `Ω = cϖ`**: if `u ∈ ℚ̄𝓛_{E_i}`, `ℓ ∈ 𝓛̃` and `iπu = cϖℓ` (`c ∈ ℚ̄ˣ`), then `u = s·cϖ`, `ℓ = s·iπ`
+with `s ∈ ℚ̄`. Assumes only W88 §5d for the groups `A'' × G_m^n × G_a` (`Gen.Thm11KappaM Gen.latI`). -/
+theorem thmM_varpi (hW : Gen.Thm11KappaM Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (u ℓ : ℂ)
+    (hu : u ∈ Gen.QbarLogE lemniscatic) (hℓ : ℓ ∈ Gen.Ltilde) (hrel : I * Real.pi * u = c * varpi * ℓ) :
+    ∃ s : ℂ, IsAlgebraic ℚ s ∧ u = s * (c * varpi) ∧ ℓ = s * (I * Real.pi) :=
+  Gen.thmM Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0 u ℓ hu hℓ hrel
+
+/-- **Theorem M for `Ω = cΩ_ρ`**, assuming also `g₂, g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
+theorem thmM_omegaRho (hW : Gen.Thm11KappaM Gen.latRho)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (u ℓ : ℂ)
+    (hu : u ∈ Gen.QbarLogE MX.equianharmonic) (hℓ : ℓ ∈ Gen.Ltilde)
+    (hrel : I * Real.pi * u = c * omegaRho * ℓ) :
+    ∃ s : ℂ, IsAlgebraic ℚ s ∧ u = s * (c * omegaRho) ∧ ℓ = s * (I * Real.pi) :=
+  Gen.thmM Gen.latRho hW hg₂' hg₃'
+    (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+      MX.omegaRho_ne_zero) c hc hc0 u ℓ hu hℓ hrel
+
+/-- **Theorem M on `E_i` with `s ∈ ℚ(i)`** for `u ∈ 𝓛_{E_i}`, assuming also Masser's theorem (`Gen.MasserCM`). -/
+theorem thmM_varpi_k (hW : Gen.Thm11KappaM Gen.latI) (hMa : Gen.MasserCM) (u ℓ : ℂ)
+    (hu : Gen.LogE lemniscatic u) (hℓ : ℓ ∈ Gen.Ltilde) (hrel : I * Real.pi * u = varpi * ℓ) :
+    ∃ p q : ℚ, u = (p + q * I) * varpi ∧ ℓ = (p + q * I) * (I * Real.pi) :=
+  Gen.thmM_I_k hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u ℓ hu hℓ hrel
+
+/-- **(M1)** `℘(cϖ/π) ∉ ℚ̄` for `c ∈ ℚ̄ˣ`, assuming only W88 §5d (`Gen.Thm11KappaM Gen.latI`). -/
+theorem m1_varpi (hW : Gen.Thm11KappaM Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
+    Transcendental ℚ (lemniscatic.weierstrassP (c * varpi / Real.pi)) :=
+  Gen.m1 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0
+
+/-- **(M3)** If `e^{π²} ∈ ℚ̄` then `℘(cπϖ) ∉ ℚ̄` for `c ∈ ℚ̄ˣ`; in particular one of `e^{π²}`, `℘(πϖ)` is
+transcendental. Assumes only W88 §5d. -/
+theorem m3_varpi (hW : Gen.Thm11KappaM Gen.latI)
+    (hπ2 : IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2))) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
+    Transcendental ℚ (lemniscatic.weierstrassP (c * Real.pi * varpi)) :=
+  Gen.m3 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hπ2 c hc hc0
+
+/-- **(M3′)** For `α = e^z ∈ ℚ̄ \ {0, 1}`, one of `e^{iπz}`, `℘(ϖz)` is transcendental. Assumes W88 §5d and
+Hermite–Lindemann (`Gen.HermiteLindemann`). -/
+theorem m3'_varpi (hW : Gen.Thm11KappaM Gen.latI) (hHL : Gen.HermiteLindemann) (z : ℂ)
+    (hz : IsAlgebraic ℚ (Complex.exp z)) (hz1 : Complex.exp z ≠ 1) :
+    ¬ (IsAlgebraic ℚ (Complex.exp (I * Real.pi * z)) ∧ IsAlgebraic ℚ (lemniscatic.weierstrassP (varpi * z))) :=
+  Gen.m3' Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hHL z hz hz1
+
+/-- **(Mη)** `η(ϖ)u ∉ 𝓛̃` for `u ∈ 𝓛_{E_i} \ ℚ(i)ϖ`. Assumes W88 §5d and Masser's theorem. -/
+theorem meta_varpi (hW : Gen.Thm11KappaM Gen.latI) (hMa : Gen.MasserCM) (u : ℂ) (hu : Gen.LogE lemniscatic u)
+    (hnot : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) : (Real.pi / varpi : ℂ) * u ∉ Gen.Ltilde :=
+  Gen.meta_I hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u hu hnot
 
 end CM4E.Final

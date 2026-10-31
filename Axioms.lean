@@ -56,3 +56,17 @@ import CM4E
 #print axioms CM4E.Final.mxP_K
 #print axioms CM4E.Gen.deg2_i
 #print axioms CM4E.Final.deg2_i
+#print axioms CM4E.Gen.frameM_false
+#print axioms CM4E.Gen.thmM
+#print axioms CM4E.Gen.thmM_I_k
+#print axioms CM4E.Gen.m1
+#print axioms CM4E.Gen.m3
+#print axioms CM4E.Gen.m3'
+#print axioms CM4E.Gen.meta_I
+#print axioms CM4E.Final.thmM_varpi
+#print axioms CM4E.Final.thmM_omegaRho
+#print axioms CM4E.Final.thmM_varpi_k
+#print axioms CM4E.Final.m1_varpi
+#print axioms CM4E.Final.m3_varpi
+#print axioms CM4E.Final.m3'_varpi
+#print axioms CM4E.Final.meta_varpi

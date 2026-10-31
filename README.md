@@ -5,19 +5,21 @@ CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 
 ## Results
 
-With `ϖ = Γ(1/4)²/(2√(2π))`, the real period of `y² = 4x³ − 4x` (library `CM4E`, standard axioms only):
+With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real periods of `y² = 4x³ − 4x` and `y² = 4x³ − 4`
+(library `CM4E`, standard axioms only):
 
-* `CM4E.Final.two_three_varpi`: **`2^ϖ` and `3^ϖ` are not both algebraic.**
-* `CM4E.Final.two_three`: **`2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic.**
-* `CM4E.Final.fourExpAt_varpi`, `CM4E.Final.fourExpAt_Qi`: the four exponentials statement `FourExpAt t` at `t = cϖ`
-  and `t = cϖ/π` for every `c ∈ ℚ(i)ˣ` (the paper's Theorem 1 for these `c`).
-* `CM4E.Final.mx`: Theorem MX in `K`-form for the curves `y² = 4x³ − 4x` and `y² = 4x³ − 4`, with `K = ℚ(i, √3)`.
+* `CM4E.Final.fourExpAt_varpi_all`, `CM4E.Final.fourExpAt_varpi_div_pi_all`: the four exponentials statement
+  `FourExpAt t` at **`t = cϖ` and `t = cϖ/π` for every algebraic `c ≠ 0`** (the paper's Theorem 1 for `Ω = ϖ`).
+  `CM4E.Final.fourExpAt_omegaRho_all`, `…_div_pi_all`: the same for `Ω_ρ`.
+* `CM4E.Final.two_three_varpi`, `two_three`, `two_three_omegaRho`: **`2^t` and `3^t` are not both algebraic** for
+  `t = ϖ`, `ϖ/π`, `Ω_ρ`.
+* `CM4E.Final.mx_K`, `mx`, `mx1`: **Theorem MX** for the two curves and every algebraic `β ≠ 0`, and Corollary MX1.
 
 Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
-for the algebraic group of the relevant proof. It is stated as an explicit hypothesis, never as an axiom.
-`CM4E.Final.mx` also assumes Wüstholz-type inputs about the second curve. Everything else is proved, including
-`g₂(ϖℤ[i]) = 4` and Schneider's theorem on the transcendence of `ϖ` and `ϖ/π`. What is assumed, why it is believed,
-and which paper results are covered: [TRUST.md](TRUST.md).
+for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`
+and MX results also assume that `g₂, g₃` of `Ω_ρℤ[ρ]` are algebraic, and Theorem MX / Cor. MX1 use named classical
+inputs (Wüstholz, Masser, Laurent). Everything else is proved, including `g₂(ϖℤ[i]) = 4` and Schneider's theorem. What
+is assumed, why it is believed, and which paper results are covered: [TRUST.md](TRUST.md).
 
 ## Layout
 
@@ -28,7 +30,8 @@ and which paper results are covered: [TRUST.md](TRUST.md).
 | `CM4E/Lattice.lean`, `CM4E/Common.lean` | the lattice `ϖℤ[i]`, `g₃ = 0`, quasi-periods; shared small lemmas |
 | `CM4E/MainQi.lean`, `CM4E/TwoThree.lean` | Theorem 1(b) for `c ∈ ℚ(i)`; `2^{ϖ/π}, 3^{ϖ/π}` |
 | `CM4E/MainNat.lean` | Theorem 1(a) for `c ∈ ℚ(i)`; `2^ϖ, 3^ϖ` |
-| `CM4E/MX.lean` | Theorem MX (`K`-form) |
+| `CM4E/MX.lean` | the curve `y² = 4x³ − 4`, quasi-periods, `Λ(E^♮)` (`LogNat`) |
+| `CM4E/Gen/` | the general proofs: Theorem 1 for every algebraic `c` (`Frame`, `MG`, `MGn`, `Instances`), adapted number-field bases, Theorem MX for every `β` (`MXGen`) |
 | `CM4E/Final.lean` | the final statements, with all inputs except W88 discharged |
 | `CM4E/CaseCheck.lean`, `CM4E/LemmaL.lean` | arithmetic of the paper's Theorem 4.1 case tables; Step 1 of Prop. D |
 | `CM4E/Ext/` | Weierstrass `ζ`/`σ`, `g₂(ϖℤ[i]) = 4`, Schneider's theorem (vendored; see `CM4E/Ext/PROVENANCE.md`) |
@@ -50,8 +53,8 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 
 * Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
   of the three group models.
-* Extend Theorem 1 to all algebraic `c` (larger `K`) and to `Ω_ρ`; the `K`-version of Theorem MG and Cor. MG1, MG3.
-* Theorem MX for general `β ∈ ℚ̄ˣ`, the step to `a = 0`, `z(X) ∈ ℚ(i)ϖ`, and Cor. MX1.
+* Theorem 1 for every CM curve (more `CMLattice` instances); the `K`-dimension versions of Theorems MG, MG♮ and
+  Cor. MG1, MG3; Theorems M and MX′; the companion paper's Theorems S and X.
 
 ## License and provenance
 

@@ -100,3 +100,5 @@ import CM4E
 #print axioms CM4E.AbVar.thmX7_torsion
 #print axioms CM4E.AbVar.x7a
 #print axioms CM4E.AbVar.x7b
+#print axioms CM4E.Unconditional.fourExpAt_Qi
+#print axioms CM4E.Unconditional.two_three

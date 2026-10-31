@@ -222,6 +222,7 @@ slot); they are claimed for the stated instances. Named classical inputs (explic
 
 | name | content | why it is believed |
 |---|---|---|
+| `AbVar.ChowlaSelberg7` | `g₂, g₃` of `E7 = B(1/7,2/7) ℤ[α]` are algebraic (premises of `Thm11KappaX7`, as in the `Thm11Kappa` convention) | Chowla–Selberg (Gross 1978); `j = −3375`, checked to 120 digits in `reviews/checks/hypx7/` |
 | `AbVar.WuestholzBeta7` | `1, P₁, P₂, P₃, Ω` (`P_j = (1 − ζ₇^j)B(j/7,j/7)`, `Ω = B(1/7,2/7)`) are `ℚ̄`-linearly independent | Wüstholz 1989 on `G_a × A × E` (distinct eigen-slots); [`reviews/REFEREE_INPUTS_X7.md`](reviews/REFEREE_INPUTS_X7.md): TRUE AS STATED (PARI `lindep` at 600 digits finds nothing) |
 | `AbVar.WuestholzX7 LA` | slot splitting of `z₁(v) + u + q = cP₁ + c'Ω` and `z₃(v') + z₂(v) + q = cP₃ + c'P₂` | Wüstholz 1989 on `G_a × A² × E²`, `G_a × A³`; same review: TRUE for every `LA ⊂ LA_A` |
 | `AbVar.WuestholzXA S` | `1, P_a, P_b, P_c, P_d` are `ℚ̄`-linearly independent (distinct first-kind slots) | Wüstholz 1989 on `G_a × ∏_A A`; [`reviews/REFEREE_INPUTS_XA.md`](reviews/REFEREE_INPUTS_XA.md): CORRECT; at level seven it is `WuestholzBeta7` by `rfl` |
@@ -232,7 +233,7 @@ slot); they are claimed for the stated instances. Named classical inputs (explic
 | `AbVar.WuestholzB5` | `P̄/π ∉ ℚ̄` for the second-kind period `P̄ = (1 − ζ₅⁴)B(4/5, 4/5)` | Wüstholz on `G_m × A^♮`; by `B(1/5,1/5)B(4/5,4/5) ∈ πℚ̄ˣ` it is equivalent to the transcendence of `B(1/5, 1/5)` (Schneider 1941); `reviews/REFEREE_HYP_AN.md`: CORRECT |
 
 The classical facts that the Beta expressions are the periods of the stated cycles (Weil, Rohrlich's appendix to Gross
-1978) and that `B(1/7,2/7)ℤ[α]` is the lattice of a curve with algebraic invariants (Chowla–Selberg) are **soundness
+1978) and that `B(1/7,2/7)ℤ[α]` is the lattice of a curve with algebraic invariants (Chowla–Selberg; for `Thm11KappaX7` it is the named input `ChowlaSelberg7`) are **soundness
 facts** of the models, checked numerically in the reviews, not Lean hypotheses and not proved in Lean.
 
 **The parameter `LA`.** Lean has no Jacobians, so the logarithms of `A` enter `thmX7` as a set `LA ⊂ ℂ³`. The intended

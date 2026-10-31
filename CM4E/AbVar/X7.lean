@@ -113,11 +113,17 @@ def algQX7 (q : QX7 r) : Prop := (∀ t s j, IsAlgebraic ℚ (q.1 t s j)) ∧ �
 noncomputable def gmX7 (LA : Set (Fin 3 → ℂ)) : GroupModel (TX (QX7 r)) :=
   gmFX (algQX7 (r := r)) (lamX7 LA) perX7 (mu1 b) (mu2 b)
 
-/-- **The hypothesis for Theorem X7**: W88 §5d for `A^{3r} × E^{3r} × G_a²`, for every `F`-basis `b` of a number field.
-It is claimed (sound) only when `LA` is a set of eigen-coordinate triples `(z₁(v), z₂(v), z₃(v))` of logarithms `v` of
-algebraic points of `A = Jac(y⁷ = x(1 − x))`; for `LA = ∅` (used by `x7c`) it is unconditional. -/
+/-- **The hypothesis for Theorem X7**: W88 §5d for `A^{3r} × E^{3r} × G_a²`, for every `F`-basis `b` of a number field,
+when `E7 = Ω ℤ[α]` has algebraic invariants (the `Thm11Kappa` convention: `E` is then a curve over `ℚ̄`). It is claimed
+(sound) only when `LA` is a set of eigen-coordinate triples `(z₁(v), z₂(v), z₃(v))` of logarithms `v` of algebraic points
+of `A = Jac(y⁷ = x(1 − x))`; for `LA = ∅` (used by `x7c`) it is unconditional. -/
 def Thm11KappaX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
-  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD zeta7 6 b → HyperplaneKappa (gmX7 b LA)
+  IsAlgebraic ℚ E7.g₂ → IsAlgebraic ℚ E7.g₃ →
+    ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD zeta7 6 b → HyperplaneKappa (gmX7 b LA)
+
+/-- **Named input (Chowla–Selberg at `−7`).** `E7 = B(1/7, 2/7) ℤ[α]` is the lattice of a curve with algebraic
+invariants (`j = −3375`; checked to 120 digits in `reviews/checks/hypx7/`, not proved in Lean). -/
+def ChowlaSelberg7 : Prop := IsAlgebraic ℚ E7.g₂ ∧ IsAlgebraic ℚ E7.g₃
 
 /-! ## Arithmetic of `ζ` inside `K` -/
 
@@ -459,7 +465,7 @@ theorem propX7_K (LA : Set (Fin 3 → ℂ)) (hW : HyperplaneKappa (gmX7 b LA)) (
       ring
 
 /-- **Proposition X at level seven**, with `ℚ̄` coefficients (the field `K` is chosen to contain them). -/
-theorem propX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : WuestholzBeta7) (β : ℂ)
+theorem propX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (β : ℂ)
     (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
     {N₁ N₂ N₃ M : ℕ} (c₁ : Fin N₁ → ℂ) (v₁ : Fin N₁ → Fin 3 → ℂ) (c₂ : Fin N₂ → ℂ) (v₂ : Fin N₂ → Fin 3 → ℂ)
     (c₃ : Fin N₃ → ℂ) (v₃ : Fin N₃ → Fin 3 → ℂ) (d : Fin M → ℂ) (u : Fin M → ℂ) (q₁ q₂ : ℂ)
@@ -478,7 +484,7 @@ theorem propX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : Wuesthol
       simp only [Finset.mem_insert, Finset.mem_union, Finset.mem_image, Finset.mem_univ, true_and] at hz
       rcases hz with rfl | ((⟨k, rfl⟩ | ⟨k, rfl⟩) | ⟨k, rfl⟩) | ⟨k, rfl⟩
       exacts [hβ, hc₁ k, hc₂ k, hc₃ k, hd k])
-  obtain ⟨c, c', hc, hc', heq⟩ := propX7_K (b := b) LA (hW r b hb) hb hWB β (hS β (by simp)) hβ0 c₁ v₁ c₂ v₂
+  obtain ⟨c, c', hc, hc', heq⟩ := propX7_K (b := b) LA (hW hCS.1 hCS.2 r b hb) hb hWB β (hS β (by simp)) hβ0 c₁ v₁ c₂ v₂
     c₃ v₃ d u q₁ q₂ (fun k => hS _ (by simp)) (fun k => hS _ (by simp)) (fun k => hS _ (by simp))
     (fun k => hS _ (by simp)) hv₁ hv₂ hv₃ hu hq₁ hq₂ hrel
   exact ⟨c, c', KspanD_isAlgebraic isAlgebraic_zeta7 hb.alg hc, KspanD_isAlgebraic isAlgebraic_zeta7 hb.alg hc',
@@ -499,7 +505,7 @@ def WuestholzX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
 /-- **Theorem X7** (paper [II], `thm:X7`, first part): if `v₁, v₂, v₃` are logarithms of algebraic points of `A`
 (eigen-coordinate triples in `LA`), `u ∈ 𝓛_E`, `q₁, q₂ ∈ ℚ̄`, `β ∈ ℚ̄ˣ` and
 `(z₁(v₁) + u + q₁)·βP₃ = (z₃(v₃) + z₂(v₂) + q₂)·P₁`, then `q₁ = q₂ = 0`, `z_j(v_j) ∈ ℚ̄P_j` and `u ∈ ℚ̄Ω`. -/
-theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
+theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
     (v₁ v₂ v₃ : Fin 3 → ℂ) (hv₁ : v₁ ∈ LA) (hv₂ : v₂ ∈ LA) (hv₃ : v₃ ∈ LA) (u : ℂ) (hu : LogE E7 u)
     (q₁ q₂ β : ℂ) (hq₁ : IsAlgebraic ℚ q₁) (hq₂ : IsAlgebraic ℚ q₂) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
     (hrel : (v₁ 0 + u + q₁) * (β * perA 3) = (v₃ 2 + v₂ 1 + q₂) * perA 1) :
@@ -508,7 +514,7 @@ theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : Wuestholz
   have hP1 := perA_ne (j := 1) (by norm_num) (by norm_num)
   have hμ' := mu7'_ne
   have hR := relation_R
-  obtain ⟨c, c', hc, hc', heq⟩ := propX7 LA hW hWB β hβ hβ0 (fun _ : Fin 1 => (1 : ℂ)) (fun _ => v₁)
+  obtain ⟨c, c', hc, hc', heq⟩ := propX7 LA hW hCS hWB β hβ hβ0 (fun _ : Fin 1 => (1 : ℂ)) (fun _ => v₁)
     (fun _ : Fin 1 => (1 : ℂ)) (fun _ => v₂) (fun _ : Fin 1 => (1 : ℂ)) (fun _ => v₃) (fun _ : Fin 1 => (1 : ℂ))
     (fun _ => u) q₁ q₂ (fun _ => isAlgebraic_one) (fun _ => isAlgebraic_one) (fun _ => isAlgebraic_one)
     (fun _ => isAlgebraic_one) (fun _ => Set.mem_insert_of_mem _ hv₁) (fun _ => Set.mem_insert_of_mem _ hv₂)
@@ -530,9 +536,9 @@ theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : Wuestholz
   exact ⟨e1, f1, ⟨c, hc, e2⟩, ⟨_, hcb', f3⟩, ⟨_, hcb, f2⟩, ⟨c', hc', e3⟩⟩
 
 /-- **Corollary X7 (c)** (paper [II], `cor:X7`(c)): `1, B(2/7, 2/7), B(3/7, 3/7), B(3/7, 3/7)/B(1/7, 1/7)` are linearly
-independent over `ℚ̄`. Uses only the periods (`LA = ∅`): W88 §5d for `A^{3r} × E^{3r} × G_a²` and the named input
-`WuestholzBeta7`. -/
-theorem x7c (hW : Thm11KappaX7 ∅) (hWB : WuestholzBeta7) (a₀ a₁ a₂ a₃ : ℂ) (h₀ : IsAlgebraic ℚ a₀)
+independent over `ℚ̄`. Uses only the periods (`LA = ∅`): W88 §5d for `A^{3r} × E^{3r} × G_a²` and the named inputs
+`ChowlaSelberg7`, `WuestholzBeta7`. -/
+theorem x7c (hW : Thm11KappaX7 ∅) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (a₀ a₁ a₂ a₃ : ℂ) (h₀ : IsAlgebraic ℚ a₀)
     (h₁ : IsAlgebraic ℚ a₁) (h₂ : IsAlgebraic ℚ a₂) (h₃ : IsAlgebraic ℚ a₃)
     (hrel : a₀ + a₁ * betaIntegral (2 / 7) (2 / 7) + a₂ * betaIntegral (3 / 7) (3 / 7) +
       a₃ * (betaIntegral (3 / 7) (3 / 7) / betaIntegral (1 / 7) (1 / 7)) = 0) :
@@ -573,7 +579,7 @@ theorem x7c (hW : Thm11KappaX7 ∅) (hWB : WuestholzBeta7) (a₀ a₁ a₂ a₃ 
     simp only [perT, Fin.isValue, Fin.val_zero, zero_add]
     field_simp at hrel2 ⊢
     linear_combination hrel2 - a₁ * (1 - zeta7 ^ 3) * hR
-  obtain ⟨c, c', hc, hc', heq⟩ := propX7 ∅ hW hWB 1 isAlgebraic_one one_ne_zero
+  obtain ⟨c, c', hc, hc', heq⟩ := propX7 ∅ hW hCS hWB 1 isAlgebraic_one one_ne_zero
     (fun _ : Fin 1 => a₂ / (1 - zeta7 ^ 3)) (fun _ => perT) (fun k : Fin 0 => k.elim0) (fun k => k.elim0)
     (fun k : Fin 0 => k.elim0) (fun k => k.elim0) (fun _ : Fin 1 => a₁ * mu7' / (1 - zeta7 ^ 2))
     (fun _ => omega7) (a₃ * (1 - zeta7) / (1 - zeta7 ^ 3)) (-a₀) (fun _ => hd1) (fun k => k.elim0)

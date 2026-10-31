@@ -12,7 +12,8 @@ The set-up of `CM4E/AbVar/X7.lean` as an `XSetup`: two isogeny classes, `A = Jac
 conjugates `κ_s = ζ^{s+1}`, periods `perT`, logarithms `LA`) and `E` (CM by `ℚ(α)`, `α = (−1 + √−7)/2`, period `Ω`,
 logarithms `{u : LogE E7 u}`); slots `a, b, c = z₁, z₂, z₃` on `A`, `d` on `E`. The first-kind relation is
 `relation_R` (`P₁P₂ = μ'P₃Ω`, proved). `thmX7_of_gen` derives the conclusion of `thmX7` from `thmXA`; this checks that
-the generic statement specialises to the level-seven one.
+the generic statement specialises to the level-seven one. The record `E7AV` is faithful (a curve over `ℚ̄`) by
+Chowla–Selberg at `−7` (`ChowlaSelberg7`), a soundness condition of `Thm11KappaXA (X7S LA).slot`.
 -/
 
 open Complex Module CM4E.Waldschmidt CM4E.Gen Polynomial

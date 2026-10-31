@@ -83,7 +83,8 @@ Every conditional theorem of this project assumes `HyperplaneKappa G` for a *gro
 * a `ℚ`-subspace `per` of the `ℚ`-span of the periods;
 * a family `sub` of subspaces that contains the Lie algebras of all connected algebraic subgroups over `ℚ̄`.
 
-**Soundness.** A model is *sound* for an algebraic group `G` over `ℚ̄` with maximal `d₀ = 0` and maximal `d₁` if
+**Soundness.** A model is *sound* for an algebraic group `G = G_a^{d₀} × G_m^{d₁} × G₂` over `ℚ̄` (`d₀`, `d₁` maximal,
+`d₂ = d − d₀ − d₁`; (1.2)/(5.4) do not involve `d₀`, so a `G_a` factor needs no field) if
 `lam ⊂ Λ(G)`, `per ⊂ ℚ ⊗ Ω(G)`, and every connected algebraic subgroup has its Lie algebra in `sub`. For a sound model
 W88 §5d implies `HyperplaneKappa G`:
 * a smaller `lam` strengthens the premise;
@@ -93,7 +94,7 @@ W88 §5d implies `HyperplaneKappa G`:
 The soundness of each model is a mathematical fact that is **not** checked by Lean. It is stated next to each model,
 with its source, and collected in `TRUST.md`. -/
 
-/-- A group model: the coordinate data of a commutative algebraic group `G = G_m^{d₁} × G₂` over `ℚ̄` (`d₀ = 0`). -/
+/-- A group model: the coordinate data of a commutative algebraic group `G = G_a^{d₀} × G_m^{d₁} × G₂` over `ℚ̄`. -/
 structure GroupModel (V : Type*) [AddCommGroup V] [Module ℂ V] [Module ℚ V] where
   /-- the dimension of the multiplicative factor -/
   d₁ : ℕ

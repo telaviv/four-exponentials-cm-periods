@@ -11,7 +11,7 @@ proof of its Theorem 1 using only the standard axioms. Theorems MG, MG♮, MX an
 |---|---|---|
 | `Target.fourExp_varpi_div_pi` | 4E at t = cϖ/π (e.g. 2^{ϖ/π}, 3^{ϖ/π}) | Theorem MG on G_m⁴ × E_i, K = Q(i) (only ℘ needed) |
 | `Target.fourExp_varpi` | 4E at t = cϖ (2^ϖ, 3^ϖ) | Theorem MG♮ (needs E^♮, i.e. ζ and quasi-periods) |
-| `Target.mg1_varpi` | one of e^{π²}, e^{πϖ}, e^{π²/ϖ} | Theorem MG + Chudnovsky-type independence |
+| `Target.mg1_varpi` | one of e^{π²}, e^{πϖ}, e^{π²/ϖ} | Theorem MG (K-version) + `Ω ∉ ℚ̄𝓛`, `Ω/π ∉ ℚ̄` (no Chudnovsky since paper Rev. 6) |
 | `…omegaRho…` | the same for E_ρ | same, with Q(ρ) |
 
 **Status 2026-10-30:** the first milestone is proved **conditionally**: `CM4E.TwoThree.two_three` says 2^{ϖ/π} and
@@ -57,6 +57,7 @@ N8  E^♮: Weierstrass ζ, quasi-periods, Legendre ϖη(ϖ) = π, CM action on f
 | H2 | g₂(ϖℤ[i]) = 4, g₃ = 0 | ◐ | **g₃ = 0 proved** (`g₃_lemniscatic`, symmetry iΛ = Λ); g₂ = 4 ⇔ the Γ-formula for ϖ (lemniscatic G₄), open |
 | H3 | ϖ/π irrational | ☐ | Schneider; should follow from H1 with a small configuration |
 | 2πi-restriction | remove "2πi, a, b Q-independent" | ✔ | removed: the period vectors are independent through their E-coordinates (REFEREE_HYP.md) |
+| **Conditional Theorem MX (K-form)** | Prop. D: z(X)+z(Y)+a ∈ Kϖ + KΩ_ρ, K = Q(i,√3), β ∈ K^× | ✔ (conditional) | `CM4E/MX.lean` (`main`). G″ = G_a × G_ℓ, d₀ = 1, d₂ = 9; W″ = ker Ψ″ (dim 8). Count 12 > (18 − κ)·1 with κ ≥ 8 (lifts of θ_h w₁, θ_h w₂ in `per`). Hypotheses: `Thm11KappaMX` (model `gmX`), g's algebraic, Wüstholz `hΓ`, `hM`. Defines Weierstrass ζ (`weierstrassZeta`, locally uniform convergence proved). Next: general β (larger K), the Bertrand–Masser/Masser step, Cor. MX1. Fidelity: `REFEREE_HYP_MX.md` (pending) |
 | CaseCheck | arithmetic of the Thm 4.1 case tables (MX, MG, MG♮), for all n | ✔ | `CM4E/CaseCheck.lean`; also certifies the n = 2 failures |
 | LemmaL | algebra of the two parallel periods | ✔ | `CM4E/LemmaL.lean`; Legendre enters as a hypothesis |
 | LemmaK | (ψ, φ) : kⁿ ≅ K × K | ☐ | pure algebra; K ⊗_Q k ≅ K × K |

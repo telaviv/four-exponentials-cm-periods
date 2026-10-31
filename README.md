@@ -22,6 +22,12 @@ t = cϖ/π, only ℚ-independence of the logarithms assumed). What is assumed an
 `CM4E.MainNat.main`: `FourExpAt (cϖ)` for c ∈ ℚ(i)^×), assuming (H1′) W88 §5d for G_m⁸ × Q″, where Q″ is a quotient of
 (E^♮)⁴ (same form as H1, model `gmQ` in [`CM4E/MainNat.lean`](CM4E/MainNat.lean)), (H2), and (H3′) ϖ is transcendental.
 
+`CM4E.MX.main` is **Theorem MX in K-form** (Proposition D) for K = ℚ(i, √3): for X ∈ Λ(E_i^♮), Y ∈ Λ(E_ρ^♮),
+a, t ∈ ℚ̄ and β ∈ K^×, the relation (z(X) + z(Y) + a)·βη(Ω_ρ) = (w(X) + w(Y) + t)·ϖ forces
+z(X) + z(Y) + a ∈ Kϖ + KΩ_ρ. It assumes W88 §5d for G_a × G_ℓ (model `gmX` in [`CM4E/MX.lean`](CM4E/MX.lean)), that
+g₂, g₃ of both lattices are algebraic, and Wüstholz's ϖΩ_ρ/π ∉ ℚ̄ and Ω_ρ/ϖ ∉ ℚ̄. The Weierstrass ζ function (not in
+Mathlib) is defined there, with a proof that its series converges locally uniformly.
+
 Also proved, with standard axioms only:
 * the arithmetic of the paper's case checks against Waldschmidt's Theorem 4.1, for every n
   (`CM4E/CaseCheck.lean`);

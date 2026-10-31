@@ -16,3 +16,6 @@ import CM4E
 #print axioms CM4E.MainNat.main
 #print axioms CM4E.MainNat.key_contraN
 #print axioms CM4E.MainNat.two_three_varpi
+#print axioms CM4E.MX.main
+#print axioms CM4E.MX.summable_zeta
+#print axioms CM4E.MX.yX_linearIndependent

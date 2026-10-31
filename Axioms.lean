@@ -83,3 +83,9 @@ import CM4E
 #print axioms CM4E.AbVar.propX7
 #print axioms CM4E.AbVar.thmX7
 #print axioms CM4E.AbVar.x7c
+#print axioms CM4E.AbVar.fourExpAt_inv
+#print axioms CM4E.AbVar.fourExpAt_A
+#print axioms CM4E.AbVar.fourExpAt_beta5
+#print axioms CM4E.AbVar.fourExpAt_beta7
+#print axioms CM4E.AbVar.two_three_beta5
+#print axioms CM4E.AbVar.fourExpAt_pi_div_beta5

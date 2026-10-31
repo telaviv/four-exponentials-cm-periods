@@ -8,8 +8,24 @@ Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 ## 1. Axioms
 
 Every declaration depends only on Lean's standard axioms `propext`, `Classical.choice`, `Quot.sound`
-(`lake env lean Axioms.lean`). There is no `sorry`, no `axiom` declaration and no `native_decide`, in `CM4E/` or in the
-vendored `CM4E/Ext/`.
+(`lake env lean Axioms.lean`, which also covers the imported `lean_lsg` declarations). There is no `sorry`, no `axiom`
+declaration and no `native_decide`, in `CM4E/` or in the vendored `CM4E/Ext/`.
+
+## 1a. What is unconditional, and what each result is conditional on
+
+The sibling project `lean_lsg` (a Lake path dependency, `../lean_lsg`; see §6) proves W88 Thm 4.1 under (NR) for
+`G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m` (`LSG.W88.theorem41Abelian`) and, from it, the §5d statement for `G_m^{d₁} × E`, which
+is verbatim our `Thm11Kappa` (`LSG.W88.thm11Kappa`; standard axioms only). The hypotheses `hW` of this project fall into
+four tiers:
+
+| tier | hypotheses `hW` | results |
+|---|---|---|
+| **unconditional** (W88 proved in `lean_lsg`) | `Thm11Kappa lemniscatic 4` | `Unconditional.fourExpAt_Qi` (`FourExpAt (((p+qi)/D)ϖ/π)`), `Unconditional.two_three` (`2^{ϖ/π}, 3^{ϖ/π}` not both algebraic) |
+| conditional on W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^m`, `m ≥ 2` (Thm 4.1 for these groups is proved in `lean_lsg`; missing: the §5d deduction for `m ≥ 2` and `d₀ > 0`, and the coordinate isomorphism `A'' = E^n/B_{ker ψ} ≅ E^{n/2}`) | `Gen.Thm11KappaMG`, `Gen.Thm11KappaMGK`, `Gen.Thm11KappaSMG`, `Gen.Thm11KappaM` | Theorem 1(b) for every algebraic `c`, Theorem MG and its `K`-form, Cor. MG1, MG3, Theorem M and Cor. M, Theorem S / SMG (with SMG♮ below) |
+| conditional on W88 for vector extensions (`G₂` with a factor `E^♮`; next stage of `lean_lsg`) | `MainNat.Thm11KappaNat`, `Gen.Thm11KappaMGn`, `Gen.Thm11KappaMGnK`, `Gen.Thm11KappaMXG`, `Gen.Thm11KappaMXP`, `Gen.Thm11KappaSMGn` | Theorem 1(a) (`2^ϖ, 3^ϖ`, `FourExpAt (cΩ)`), Theorem MG♮ and its `K`-form, Theorems MX, MX′, Cor. MX1, deg2 (i), (ii), Theorem S (its `t ∈ ℚ̄ˣ/Ω` half) |
+| conditional on W88 for CM abelian varieties of dimension 2, 3 (and their vector extensions) | `AbVar.Thm11KappaX7`, `AbVar.Thm11KappaA`, `AbVar.Thm11KappaAn`, `AbVar.Thm11KappaAK`, `AbVar.Thm11KappaAnK` | paper [II]: Theorems X7, MG-A, MG♮-A, Theorem A, Cor. A2, Cor. X7 |
+
+Named classical inputs (§3) are additional hypotheses in every tier where they appear.
 
 ## 2. The final theorems
 
@@ -139,7 +155,13 @@ Theorem 11).
 | Step 1 of Prop. D (algebra) | `LemmaL.*` | ✔; not used by the MX theorems |
 | Lemma U (Appendix A) | — | not a separate hypothesis: part of the proof of W88 Thm 4.1, which `hW` assumes |
 
-## 6. Vendored code
+## 6. Vendored code and the `lean_lsg` dependency
+
+Since 2026-10-31 the project requires `lean_lsg` as a Lake **path** dependency (`../lean_lsg`, with its own path
+dependency `../schanuel/six_exp/lean`); only `CM4E/Unconditional.lean` imports it. This reverses the earlier
+self-containment (the project no longer builds from its own directory alone); the published form will use a git
+dependency. The vendored `CM4E/Ext/` below predates the dependency and duplicates part of `lean_lsg`.
+
 
 `CM4E/Ext/` (32 files, 6,518 lines) is a renamed verbatim copy of the needed part of the author's sibling project
 `lean_lsg`: Weierstrass `ζ`/`σ`, Legendre's relation, `g₂(ϖℤ[i]) = 4`, and Schneider's theorem. Details and source
@@ -158,10 +180,11 @@ reports. No human expert has reviewed the definitions or proofs.
 | Theorem S, Theorems SMG, SMG♮ | `Gen.thmS`, `Gen.smg_false`, `Gen.smgn_false`, `Final.thmS_varpi`, `Final.thmS_omegaRho` | ✔ for CM lattices given as `CMLattice` (`ϖℤ[i]`, `Ω_ρℤ[ρ]`); SMG/SMG♮ with second rows in `𝓛̃` (elliptic logarithms / fibre values in the second row are not formalised) |
 | Theorem A, MG-A (families `cP/π`, `cπ/P`) | `AbVar.fourExpAt_A` (generic), `AbVar.fourExpAt_beta5`, `AbVar.fourExpAt_beta7`, `AbVar.fourExpAt_pi_div_beta5`, `AbVar.two_three_beta5` | ✔ for the first-kind eigen-periods `P = (1 − ζ_N)B(1/N, 1/N)` of `y⁵ = x(1 − x)` and `y⁷ = x(1 − x)` (`FourExpAt (cB/π)`, `FourExpAt (cπ/B(1/5,1/5))`; `2^t, 3^t` at `t = Γ(1/5)²/(πΓ(2/5))`); other eigen-periods need their own period data (an instance of the generic model) |
 | Theorem A, MG♮-A (families `cP`, `c/P`) | `AbVar.fourExpAt_An` (generic), `AbVar.fourExpAt_beta5'`, `AbVar.two_three_beta5'` | ✔ for `y⁵ = x(1 − x)`: `FourExpAt (cB(1/5, 1/5))`, and **`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/Γ(2/5)`** (the paper's example); the relation `B(1/5,1/5)B(4/5,4/5) ∈ πℚ̄ˣ` is proved (`AbVar.beta5_mul`) |
-| `K`-dimension forms of MG-A, MG♮-A; Cor. A2 (one of `e^{π²}, e^{πP}, e^{π²/P}`) | — | ✗ (the `K`-forms as for `Gen.mg_K`; Cor. A2 needs an abelian-variety version of Theorem SMG on the frame `gmF2`) |
-| Theorem X7 (`y⁷ = x(1 − x)` with `E` of CM by `ℚ(√−7)`) | `AbVar.propX7_K`, `AbVar.propX7`, `AbVar.thmX7` | ◐ Proposition X (first coordinate, `K`-form) and Theorem X7's conclusion `q₁ = q₂ = 0`, `z_j(v_j) ∈ ℚ̄P_j`, `u ∈ ℚ̄Ω` ✔; the torsion step (`exp v_j` torsion) is not formalised; logarithms of `A` enter as the parameter `LA` (see below) |
+| `K`-dimension forms of MG-A, MG♮-A | `AbVar.mgA_K`, `AbVar.mgAn_K` | ✔ for every number field `K ⊇ ℚ(ζ_N, i, c)` (the range for which [II] states them); logarithms of `A` (`A^♮`) enter as parameters `LA`, `LAn`, as for X7 |
+| Cor. A2: one of `e^{aπ²}, e^{bπP}, e^{cπ²/P}` is transcendental | `AbVar.corA2` (generic), `AbVar.corA2_beta5` | ✔ by the paper's route (MG-A `K`-form at `s = P/π`, `LA = ∅`), with `π` transcendental (proved) and the named input `NotLtildeA` (`P ∉ ℚ̄ + ℚ̄𝓛`); instance `B(1/5,1/5)` |
+| Theorem X7 (`y⁷ = x(1 − x)` with `E` of CM by `ℚ(√−7)`) | `AbVar.propX7_K`, `AbVar.propX7`, `AbVar.thmX7`, `AbVar.thmX7_torsion` | ✔ Proposition X (first coordinate, `K`-form) and the full conclusion of Theorem X7 (`q₁ = q₂ = 0`, all points torsion), the torsion step being the named input `TorsionX7`; logarithms of `A` enter as `LA` (below) |
 | Cor. X7 (c): `1, B(2/7,2/7), B(3/7,3/7), B(3/7,3/7)/B(1/7,1/7)` are `ℚ̄`-independent | `AbVar.x7c` | ✔ (only periods; `LA = ∅`) |
-| Cor. X7 (a), (b) | — | ✗ as stated (they are about abelian integrals `∫_O^Q dx/y^k`, not definable here); they are instances of `thmX7` for `LA` the set of Abel–Jacobi triples |
+| Cor. X7 (a), (b) | `AbVar.x7a_full`, `AbVar.x7b` (for `LA`); `AbVar.x7a_AJ`, `AbVar.x7b_AJ` (literal: Abel–Jacobi integrals `∫_O^Q dx/y^{7−s}` along lifts of `C¹` paths avoiding the branch points) | ✔ with `LA = LAJ`, the `ℚ`-span of the Abel–Jacobi triples (`AbVar.LAJ`); (a) in full (`ℚ̄`, including `z₁(v) ≠ 0`), (b) for `ℚ̄ˣ` as in the paper; endpoints at the branch points `(0,0), (1,0), ∞` are not covered |
 | Theorem X (general first-kind relations), Prop. 15 in general | — | ✗ only the level-seven instance; the relation `P₁P₂ = μ'P₃Ω` is proved there from the Beta cocycle and reflection (`AbVar.relation_R`), no Deligne/Koblitz–Ogus input |
 
 **The CM-abelian models** (`CM4E/AbVar/`). The group `G''` of each proof is written, up to isogeny, as a product of
@@ -172,6 +195,7 @@ copies of `A` (and `E`, `G_a`, `G_m`) in explicit eigen-coordinates; the paper's
 |---|---|---|---|
 | `AbVar.Thm11KappaX7 LA` | `A^{3r} × E^{3r} × G_a²`, `A = Jac(y⁷ = x(1 − x))`, `E` with lattice `B(1/7,2/7)ℤ[α]`, `α = (−1+√−7)/2`; frame `gmFX` (`d₂ = dim G''`, conservative) | `CM4E/AbVar/X7.lean`, `FrameX.lean` | [`reviews/REFEREE_HYP_X7.md`](reviews/REFEREE_HYP_X7.md) (CORRECT WITH NOTES): period triple checked on one explicit cycle to `10⁻⁶⁰`, CM action, `g₂, g₃` of `E` algebraic (`j = −3375`) |
 | `AbVar.Thm11KappaA N g κ P s₀` | `G_m^{2n} × A^r` (first-kind slot `s₀`), frame `gmF` | `CM4E/AbVar/ThmA.lean` | [`reviews/REFEREE_HYP_A.md`](reviews/REFEREE_HYP_A.md) (CORRECT WITH NOTES): instances `N = 5, 7` checked on one cycle to `10⁻⁶⁰`, Jacobians simple of type `{1,2}`, `{1,2,3}` |
+| `AbVar.Thm11KappaAK …`, `AbVar.Thm11KappaAnK …` | the groups of `Thm11KappaA`, `Thm11KappaAn` on the frame `gmF2` (uniform subgroup condition), with the logarithms `[ζ^e]v` (`v ∈ LA`), resp. `[ζ^e](v, w)` (`(v, w) ∈ LAn`) added | `CM4E/AbVar/MGAK.lean` | [`reviews/REFEREE_HYP_AK.md`](reviews/REFEREE_HYP_AK.md) (CORRECT WITH NOTES): sound when `LA` (`LAn`) consists of full, coherent coordinate tuples of logarithms of `A` (`A^♮`) in the normalisation of `P` (`P̄`); unconditional for `LA = ∅` |
 | `AbVar.Thm11KappaAn N g κ P P̄` | `G_m^{2n} × Q''`, `Q'' = (A^♮)^r/W'` (second-kind slot `ζ ↦ ζ^{N−1}`), frame `gmF` | `CM4E/AbVar/ThmAn.lean` | [`reviews/REFEREE_HYP_AN.md`](reviews/REFEREE_HYP_AN.md) (CORRECT WITH NOTES): `Q''` is isomorphic to the paper's `(A^♮)^n/U`; `P̄ = ∫_γ dx/y` over the same cycle to `10⁻⁷⁰`; the subgroup argument uses (F1)–(F4) (Mazur–Messing), a soundness fact |
 
 The generic hypotheses `Thm11KappaA`, `Thm11KappaAn` are W88 instances only when their parameters come from a real CM
@@ -183,6 +207,8 @@ slot); they are claimed for the stated instances. Named classical inputs (explic
 | `AbVar.WuestholzBeta7` | `1, P₁, P₂, P₃, Ω` (`P_j = (1 − ζ₇^j)B(j/7,j/7)`, `Ω = B(1/7,2/7)`) are `ℚ̄`-linearly independent | Wüstholz 1989 on `G_a × A × E` (distinct eigen-slots); [`reviews/REFEREE_INPUTS_X7.md`](reviews/REFEREE_INPUTS_X7.md): TRUE AS STATED (PARI `lindep` at 600 digits finds nothing) |
 | `AbVar.WuestholzX7 LA` | slot splitting of `z₁(v) + u + q = cP₁ + c'Ω` and `z₃(v') + z₂(v) + q = cP₃ + c'P₂` | Wüstholz 1989 on `G_a × A² × E²`, `G_a × A³`; same review: TRUE for every `LA ⊂ LA_A` |
 | `AbVar.WuestholzA5`, `AbVar.WuestholzA7` | `P/π ∉ ℚ̄` for `P = (1 − ζ_N)B(1/N, 1/N)`, `N = 5, 7` | Wüstholz on `G_m × A`; `reviews/REFEREE_HYP_A.md`: CORRECT |
+| `AbVar.NotLtildeA P` | `P ∉ 𝓛̃ = ℚ̄ + ℚ̄𝓛` (implies `P/π ∉ ℚ̄`) | Wüstholz on `G_a × G_m^m × A`; `reviews/REFEREE_HYP_AK.md`: true for first-kind eigen-periods (PSLQ at 400 digits finds no relation for `B(1/5,1/5)`) |
+| `AbVar.TorsionX7 LA` | the torsion step: a logarithm of `A` with a slot coordinate in `ℚ̄P_{s+1}` is in `Fγ`; an elliptic logarithm in `ℚ̄Ω` is in `ℚ(α)Ω` | Wüstholz on `A²` with `End⁰(A) = F`; Masser 1975; [`reviews/REFEREE_TORSION_X7.md`](reviews/REFEREE_TORSION_X7.md): TRUE for every subset of the intended set (and its `ℚ`-span), but **not** for its `ℚ̄`-span or rescaled triples |
 | `AbVar.WuestholzB5` | `P̄/π ∉ ℚ̄` for the second-kind period `P̄ = (1 − ζ₅⁴)B(4/5, 4/5)` | Wüstholz on `G_m × A^♮`; by `B(1/5,1/5)B(4/5,4/5) ∈ πℚ̄ˣ` it is equivalent to the transcendence of `B(1/5, 1/5)` (Schneider 1941); `reviews/REFEREE_HYP_AN.md`: CORRECT |
 
 The classical facts that the Beta expressions are the periods of the stated cycles (Weil, Rohrlich's appendix to Gross
@@ -196,7 +222,7 @@ triples of one point). `thmX7` is proved for every `LA`; for a set not of this f
 `WuestholzX7 LA` can be false (e.g. `WuestholzX7 {(1, 0, 0)}` is false), and the theorem is then vacuous rather than
 wrong. `x7c` uses `LA = ∅`, for which `Thm11KappaX7` needs no such reading.
 
-**What is still missing** for the rest of [II]: definitions of `Λ(A)` (abelian integrals on a Riemann surface) to state
-Cor. X7 (a), (b) literally; the torsion step (`End⁰(A) = F` and the analytic subgroup theorem on `A²`); general
-first-kind relations (Deligne's theorem in the form stated by Koblitz–Ogus) for Theorem X beyond level seven; period
-data for other Beta values (each a new instance and review); and the `K`-forms and Cor. A2 (on `gmF2`, as in `CM4E/Gen/`).
+**What is still missing** for the rest of [II]: general first-kind relations (Deligne's theorem in the form stated by
+Koblitz–Ogus) for Theorem X beyond level seven; period data for other Beta values (each a new instance and review);
+Cor. X7 (a), (b) for endpoints at the branch points (improper integrals); the reduction of Theorems MG-A, MG♮-A to
+simple CM abelian varieties of primitive type for non-cyclotomic CM fields.

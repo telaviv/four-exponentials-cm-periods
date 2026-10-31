@@ -5,6 +5,11 @@ CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 
 ## Results
 
+**Unconditional** (W88 proved in the sibling project `lean_lsg`, a Lake path dependency): `CM4E.Unconditional.fourExpAt_Qi`
+(four exponentials at `t = cϖ/π` for every `c ∈ ℚ(i)ˣ`) and `CM4E.Unconditional.two_three` (**`2^{ϖ/π}` and `3^{ϖ/π}` are not
+both algebraic**). Everything below is conditional on W88 for the stated groups; the tiers are in
+[TRUST.md](TRUST.md) §1a.
+
 With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real periods of `y² = 4x³ − 4x` and `y² = 4x³ − 4`
 (library `CM4E`, standard axioms only):
 
@@ -23,7 +28,8 @@ With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real 
 * Companion paper [II], CM abelian varieties (`CM4E/AbVar/`): `AbVar.x7c` (**`1, B(2/7,2/7), B(3/7,3/7),
   B(3/7,3/7)/B(1/7,1/7)` are `ℚ̄`-linearly independent**), `AbVar.thmX7` (Theorem X at level seven),
   `AbVar.two_three_beta5'` (**`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/Γ(2/5)`**), Theorem A for `B(1/5,1/5)`,
-  `B(1/7,1/7)`.
+  `B(1/7,1/7)`, the `K`-forms of MG-A, MG♮-A, Cor. A2, Theorem X7 with its torsion step, Cor. X7 (a), (b) for Abel–Jacobi
+  integrals.
 
 Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
 for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`
@@ -52,6 +58,9 @@ is assumed, why it is believed, and which paper results are covered: [TRUST.md](
 
 ## Build
 
+The project requires the sibling checkout `../lean_lsg` (and its dependency `../schanuel/six_exp/lean`) as Lake path
+dependencies.
+
 ```bash
 lake exe cache get
 lake build
@@ -66,7 +75,7 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
   of the group models.
 * Theorem 1 for every CM curve (more `CMLattice` instances); Baker's reduction for the `K`-forms; (M2) via
   Gel'fond–Schneider; Hermite–Lindemann from the vendored Schneider–Lang criterion; for the companion paper: the
-  torsion step of Theorem X, Cor. X7 (a), (b) (need abelian integrals), Cor. A2 and the `K`-forms (`TRUST.md` §8).
+  §5d deduction from `lean_lsg`'s Theorem 4.1 for `E^m`, `m ≥ 2` (would make Theorem 1(b), MG, M, S unconditional).
 
 ## License and provenance
 

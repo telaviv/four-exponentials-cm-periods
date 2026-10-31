@@ -19,3 +19,11 @@ import CM4E
 #print axioms CM4E.MX.main
 #print axioms CM4E.MX.summable_zeta
 #print axioms CM4E.MX.yX_linearIndependent
+#print axioms CM4E.Final.hg₂
+#print axioms CM4E.Final.hS
+#print axioms CM4E.Final.hT
+#print axioms CM4E.Final.fourExpAt_Qi
+#print axioms CM4E.Final.two_three
+#print axioms CM4E.Final.fourExpAt_varpi
+#print axioms CM4E.Final.two_three_varpi
+#print axioms CM4E.Final.mx

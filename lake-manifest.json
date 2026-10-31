@@ -3,6 +3,24 @@
  "packagesDir": ".lake/packages",
  "packages": [
   {
+   "type": "path",
+   "scope": "",
+   "name": "LSG",
+   "manifestFile": "lake-manifest.json",
+   "inherited": false,
+   "dir": "../lean_lsg",
+   "configFile": "lakefile.toml"
+  },
+  {
+   "type": "path",
+   "scope": "",
+   "name": "StrongSix",
+   "manifestFile": "lake-manifest.json",
+   "inherited": true,
+   "dir": "../lean_lsg/../schanuel/six_exp/lean",
+   "configFile": "lakefile.toml"
+  },
+  {
    "url": "https://github.com/leanprover-community/mathlib4",
    "type": "git",
    "subDir": null,

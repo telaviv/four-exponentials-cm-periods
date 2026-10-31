@@ -9,6 +9,10 @@ are in [`CM4E/Defs.lean`](CM4E/Defs.lean); read that file first.
 
 **Status (2026-10-30): conditional headline proved.**
 
+**Only W88 is assumed.** `CM4E.Final.two_three` (2^{ϖ/π}, 3^{ϖ/π}) and `CM4E.Final.two_three_varpi` (2^ϖ, 3^ϖ) take
+a single hypothesis, Waldschmidt's κ-refined hyperplane theorem for the relevant group. The other inputs below (H2,
+H3, H3′) are proved in the dependency [`../lean_lsg`](../lean_lsg) and discharged in [`CM4E/Final.lean`](CM4E/Final.lean).
+
 `CM4E.TwoThree.two_three` (standard axioms only) says that **2^{ϖ/π} and 3^{ϖ/π} are not both algebraic**, assuming:
 * (H1) Waldschmidt's κ-refined hyperplane theorem (W88 §5d) for G_m⁴ × E, stated in
   [`CM4E/Waldschmidt.lean`](CM4E/Waldschmidt.lean);
@@ -45,7 +49,8 @@ lake env lean Axioms.lean
 
 Toolchain and Mathlib: v4.35.0, as in `../schanuel/six_exp/lean` (StrongSix). During development `.lake/packages` is a
 directory junction to StrongSix's packages, so Mathlib is not downloaded twice. A fresh clone should run
-`lake exe cache get` instead.
+`lake exe cache get` instead. `lean_lsg` (`../lean_lsg`, which itself requires StrongSix at `../schanuel/six_exp/lean`)
+is a path dependency; both must be present next to this folder.
 
 ## Provenance
 

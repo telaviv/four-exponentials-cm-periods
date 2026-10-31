@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 import CM4E.Gen.Frame2
 import CM4E.Gen.MG
+import CM4E.Gen.MGn
 
 /-!
 # Theorem S (strong four exponentials at CM periods), from Theorems SMG and SMG♮ of [II]
@@ -353,9 +354,11 @@ noncomputable def perSSn : Set (TF (Fin r × Fin 2) (QSn L b)) :=
 noncomputable def gmSMGn : GroupModel (TF (Fin r × Fin 2) (QSn L b)) :=
   gmF2 (theta L.α b) (algQSn L b) (lamSSn L b) (perSSn L b) (muSn L b) (lamSn L b) (finrank ℂ (Qn L b))
 
-/-- **The hypothesis for Theorem SMG♮**: W88 §5d for `G_a × G_m^{2n} × Q''`, every adapted basis. -/
+/-- **The hypothesis for Theorem SMG♮**: W88 §5d for `G_a × G_m^{2n} × Q''`, every adapted basis. Premised on
+`KappaOneZero L` (as `Thm11KappaMGn`): the periods `perQn` use `η₀`, which is the quasi-period `η(ω)` of the actual
+`E^♮` exactly when `κ₁ = 0`; proved for `ϖℤ[i]`, `Ω_ρℤ[ρ]`. -/
 def Thm11KappaSMGn : Prop :=
-  IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
+  KappaOneZero L → IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
     ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedFieldBasis L.α b → HyperplaneKappa (gmSMGn L b)
 
 lemma inQSn_mem_span (S : Set (TF (Fin r × Fin 2) (QSn L b)))
@@ -370,7 +373,7 @@ lemma inQSn_mem_span (S : Set (TF (Fin r × Fin 2) (QSn L b)))
 
 /-- **Theorem SMG♮** (data in `𝓛̃`): for `s = cη₀/π` and `y₁, y₂ ∈ 𝓛̃` with `2πi, y₁, y₂` linearly independent over
 `ℚ̄`, `sy₁, sy₂` are not both in `𝓛̃`. -/
-theorem smgn_false (hW : Thm11KappaSMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
+theorem smgn_false (hW : Thm11KappaSMGn L) (hκ : KappaOneZero L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
     (hT : Transcendental ℚ L.ω) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0)
     (y : Fin 2 → ℂ) (hy : ∀ k, y k ∈ Ltilde) (hsy : ∀ k, c * L.η₀ / Real.pi * y k ∈ Ltilde)
     (hind3 : ∀ a₀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ →
@@ -445,7 +448,7 @@ theorem smgn_false (hW : Thm11KappaSMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (
     exact div_mem (mul_mem (mul_mem (by simp) (mem_algebraicClosure_iff.mpr hI))
       (mem_algebraicClosure_iff.mpr hc)) (mul_mem (mem_algebraicClosure_iff.mpr halg) hαc)
   refine frame2_false (theta L.α b) hb.indep hθalg (algQSn L b) (lamSSn L b) (perSSn L b) (muSn L b)
-    (lamSn L b) (finrank ℂ (Qn L b)) (hW hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr)
+    (lamSn L b) (finrank ℂ (Qn L b)) (hW hκ hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr)
     ⟨isAlgebraic_zero, ⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
     (fun q hq => hq.1) (fun q hq => hq.2.2)
     ({(1, 0), (0, (0, 1))} ∪ Set.range fun j => ((0 : ℂ),
@@ -547,9 +550,9 @@ lemma thmS_core {s P d : ℂ} (hd : IsAlgebraic ℚ d) (hd0 : d ≠ 0) (hsP : s 
 
 /-- **Theorem S** ([II], Theorem S) for a CM lattice: for `t ∈ ℚ̄ˣω ∪ ℚ̄ˣ/ω ∪ ℚ̄ˣω/π ∪ ℚ̄ˣπ/ω` and `ℚ̄`-linearly
 independent `y₁, y₂`, the numbers `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃`. Hypotheses: W88 §5d for the groups of
-SMG and SMG♮ (`hWa`, `hWb`), algebraic `g₂, g₃`, Schneider (`ω`, `ω/π` transcendental), and `NotLtilde L`. -/
-theorem thmS (hWa : Thm11KappaSMG L) (hWb : Thm11KappaSMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂)
-    (hg₃ : IsAlgebraic ℚ L.pp.g₃) (hTω : Transcendental ℚ L.ω) (hTωπ : Transcendental ℚ (L.ω / Real.pi))
+SMG and SMG♮ (`hWa`, `hWb`), `κ₁ = 0` (`hκ`), algebraic `g₂, g₃`, Schneider (`ω`, `ω/π` transcendental), and `NotLtilde L`. -/
+theorem thmS (hWa : Thm11KappaSMG L) (hWb : Thm11KappaSMGn L) (hκ : KappaOneZero L)
+    (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃) (hTω : Transcendental ℚ L.ω) (hTωπ : Transcendental ℚ (L.ω / Real.pi))
     (hNot : NotLtilde L) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
     (ht : t = c * L.ω ∨ t = c / L.ω ∨ t = c * L.ω / Real.pi ∨ t = c * Real.pi / L.ω)
     (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
@@ -594,7 +597,7 @@ theorem thmS (hWa : Thm11KappaSMG L) (hWb : Thm11KappaSMGn L) (hg₂ : IsAlgebra
       (∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * z 0 + a₂ * z 1 = 0 → a₁ = 0 ∧ a₂ = 0) →
       False := fun c' hc' hc0' z hz hsz hindz =>
     thmS_core (halg2I.mul hc') (mul_ne_zero h2I0 hc0') (by field_simp) hNot.2 z hz hsz hindz
-      (smgn_false L hWb hg₂ hg₃ hTω c' hc' hc0' z hz hsz)
+      (smgn_false L hWb hκ hg₂ hg₃ hTω c' hc' hc0' z hz hsz)
   rcases ht with rfl | rfl | rfl | rfl
   · -- `t = cω`: `1/t = c''η₀/π`, data `t y`
     have ht0 : c * L.ω ≠ 0 := mul_ne_zero hc0 hω

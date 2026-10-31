@@ -164,7 +164,7 @@ theorem thmS_varpi (hWa : Gen.Thm11KappaSMG Gen.latI) (hWb : Gen.Thm11KappaSMGn 
     (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
       a₁ = 0 ∧ a₂ = 0) :
     ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
-  Gen.thmS Gen.latI hWa hWb hg₂ g₃_lemniscatic_isAlgebraic hT
+  Gen.thmS Gen.latI hWa hWb Gen.kappaOneZero_latI hg₂ g₃_lemniscatic_isAlgebraic hT
     (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot c hc hc0 t ht y₁ y₂ hind
 
 /-- **Theorem S for `Ω = Ω_ρ`**, assuming also `g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
@@ -175,7 +175,7 @@ theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11Kappa
     (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
       a₁ = 0 ∧ a₂ = 0) :
     ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
-  Gen.thmS Gen.latRho hWa hWb hg₂' hg₃'
+  Gen.thmS Gen.latRho hWa hWb Gen.kappaOneZero_latRho hg₂' hg₃'
     (CM4E.Ext.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero)
     (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice

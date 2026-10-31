@@ -12,6 +12,7 @@ import CM4E.MX
 import CM4E.Gen.Instances
 import CM4E.Gen.MXGen
 import CM4E.Gen.SMG
+import CM4E.Gen.MG13
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -172,5 +173,27 @@ theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11Kappa
       MX.omegaRho_ne_zero)
     (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) hNot c hc hc0 t ht y₁ y₂ hind
+
+/-! ## Corollaries MG1, MG3 -/
+
+/-- **Corollary MG1 for `ϖ`**: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental. Assumes W88 §5d for the groups
+of Theorem SMG, `Gen.NotLtilde Gen.latI`, and Lindemann's theorem (`π` transcendental). -/
+theorem mg1_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hNot : Gen.NotLtilde Gen.latI) (hπ : Gen.LindemannPi) :
+    ¬ (IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (Real.pi * varpi)) ∧
+      IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2 / varpi))) := by
+  have := Gen.mg1 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot hπ 1 1 1
+    isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero
+  simpa [Gen.latI] using this
+
+/-- **Corollary MG3 for `ϖ`**: if `e^{π²}` and `e^{cπϖ}` are algebraic and `2πi, π², log α` are `ℚ`-independent, then
+`α^{ϖ/π}` is transcendental. Assumes W88 §5d (SMG) and Baker's theorem. -/
+theorem mg3_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hBaker : Gen.Baker3) (c : ℂ) (hc : IsAlgebraic ℚ c)
+    (hc0 : c ≠ 0) (hπ2 : IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)))
+    (hπω : IsAlgebraic ℚ (Complex.exp (c * Real.pi * varpi))) (x : ℂ) (hx : IsAlgebraic ℚ (Complex.exp x))
+    (hind : LinearIndependent ℚ ![2 * (Real.pi : ℂ) * I, (Real.pi : ℂ) ^ 2, x]) :
+    Transcendental ℚ (Complex.exp (varpi / Real.pi * x)) :=
+  Gen.mg3 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hBaker c hc hc0 hπ2 hπω x hx hind
 
 end CM4E.Final

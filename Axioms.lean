@@ -44,3 +44,7 @@ import CM4E
 #print axioms CM4E.Gen.thmS
 #print axioms CM4E.Final.thmS_varpi
 #print axioms CM4E.Final.thmS_omegaRho
+#print axioms CM4E.Gen.mg1
+#print axioms CM4E.Gen.mg3
+#print axioms CM4E.Final.mg1_varpi
+#print axioms CM4E.Final.mg3_varpi

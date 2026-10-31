@@ -1,0 +1,24 @@
+[A] kappa_1 per lattice
+  latI  (w=varpi, a=i)         kappa_1 = (-5.09669344541479e-52 + 0.0j)
+  latRho(w=Om_rho, a=rho)      kappa_1 = (0.0 + 0.0j)
+  Z[sqrt-2] (w=1)              kappa_1 = (1.05749891119153 + 0.0j)
+  Z[(1+sqrt-7)/2] (w=1)        kappa_1 = (0.934423537768746 + 0.0j)
+  direct series (N=60, truncation ~1e-2 rel. on non-abs. conv. sums are symmetric):
+    eta(varpi) = (1.1981883 + 8.3528028e-6j)   pi/varpi = 1.1981402
+    eta(i varpi) = (-1.3916107e-5 - 1.1981807j)   -i pi/varpi = (0.0 - 1.1981402j)
+[B] latI: eta0 from Lean legendre field vs eta(varpi); etaL
+  |eta0 - eta(w)|      = 0.0
+  m,n=  1,  0: |etaL - eta(mw+naw)| = 0.0
+  m,n=  0,  1: |etaL - eta(mw+naw)| = 2.6728e-51
+  m,n=  2, -3: |etaL - eta(mw+naw)| = 1.0691e-50
+  m,n= -5,  7: |etaL - eta(mw+naw)| = 0.0
+  latRho: |eta0 - eta(w)| = 1.3872e-52 , |eta0 - 2pi/(sqrt3 w)| = 0.0 , |eta(rho w) - conj(rho) eta(w)| = 0.0
+[C] kappa_1 != 0 control, Z[sqrt-2]: eta0 forced by legendre vs eta(w)
+  eta0 (= eta*(w)) = (2.22144146908 + 0.0j)   eta(w) = (3.27894038027 + 0.0j)   eta(w)-kappa1 w = (2.22144146908 + 0.0j)
+  so etaL = eta* at lattice points, but LogNat's 2nd disjunct uses zeta, not zeta* = zeta - kappa1 z:
+  a generator (u, zeta(u)) has conjugate-eigen fibre zeta*(u) = zeta(u) - kappa1 u; offset kappa1 = (1.05749891119 + 0.0j)
+[D] counts (n = [K:Q])
+  n= 4  MGK: d=10, (5.4) 12>8: True, LemmaU(k=n): True, worst k=3n-1: False | MGnK: d=11, (5.4) 12>10: True, LemmaU(k=n): True, worst: True
+  n= 6  MGK: d=15, (5.4) 18>12: True, LemmaU(k=n): True, worst k=3n-1: False | MGnK: d=16, (5.4) 18>14: True, LemmaU(k=n): True, worst: True
+  n= 8  MGK: d=20, (5.4) 24>16: True, LemmaU(k=n): True, worst k=3n-1: False | MGnK: d=21, (5.4) 24>18: True, LemmaU(k=n): True, worst: True
+  n=12  MGK: d=30, (5.4) 36>24: True, LemmaU(k=n): True, worst k=3n-1: False | MGnK: d=31, (5.4) 36>26: True, LemmaU(k=n): True, worst: True

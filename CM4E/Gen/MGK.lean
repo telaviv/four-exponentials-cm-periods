@@ -18,8 +18,11 @@ proof after that reduction.
 
 The group is that of the paper's proof, `G'' = G_m^{2n} × A''`, `A'' = E^n / B_{ker ψ}`, with
 `Ψ''(x, y, [z]) = (θᵀx, θᵀy + θᵀz)`. The model `gmMGK` differs from `gmMG` (`CM4E/Gen/MG.lean`) only in that its
-logarithms also contain the images of elliptic logarithms `u e_j`, `u ∈ 𝓛_E` (needed for the data in `K𝓛_E`), and in
-using the uniform subgroup condition of `CM4E/Gen/Frame2.lean`.
+logarithms also contain (besides all of `gmMG`'s generators: toric logarithms, and the periods `[ω e_j]`, which are
+images of `ω e_j` with `ω ∈ 𝓛_E`) the images of elliptic logarithms `u e_j`, `u ∈ 𝓛_E` (needed for the data in `K𝓛_E`),
+and in using the uniform subgroup condition of `CM4E/Gen/Frame2.lean`. That condition is sound exactly because the
+paper's `U` is the largest connected subgroup of `G^n` with tangent space in `ker Φ`: a connected `H ⊂ G''` with
+`T_H ⊂ ker Ψ''` has connected preimage in `G^n` inside `U`, so `H = 0`.
 
 Soundness of `gmMGK L b` (not checked by Lean): `G''` is the product `G_m^{2n} × A''` (`d₀ = 0`, `d₁ = 2n`,
 `d₂ = dim A''`); the logarithms and periods are as for `gmMG` and `gmM` (`CM4E/Gen/ThmM.lean`); connected subgroups are

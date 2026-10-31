@@ -65,7 +65,7 @@ Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharg
 | `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L` | the same theorem for `G_a² × G_m^{2n} × A″` and `G_a × G_m^{2n} × Q″` ([II], Theorems SMG, SMG♮), every adapted `K` | `CM4E/Gen/SMG.lean` (models `gmSMG`, `gmSMGn`, on the frame `gmF2` of `CM4E/Gen/Frame2.lean`) | Same source; review: [`reviews/REFEREE_HYP_SMG.md`](reviews/REFEREE_HYP_SMG.md) (CORRECT). The paper proves SMG via W88 Thm 4.1; Lean uses the §5d route with the uniform exclusion "no nonzero algebraic subgroup inside `ker Ψ″`". |
 | `hW : Gen.Thm11KappaMXP` | the same theorem for the twisted group of Theorem MX′, `G″ = G^n/U'`, `G = E_i^♮ × E_ρ^♮ × G_a²` (the push-out of `(E_i^n × E_ρ^n)^♮` along `θᵀ`, an extension of `E_i^n × E_ρ^n` by `G_a²`), every adapted `K ∋ i` with `r ≥ 3` | `CM4E/Gen/MXP.lean` (model `gmXP`) | Same source; review: [`reviews/REFEREE_HYP_MXP.md`](reviews/REFEREE_HYP_MXP.md) (CORRECT). |
 | `hW : Gen.Thm11KappaM L` | the same theorem for `A″ × G_m^n × G_a` (Theorem M; `G_a` a direct factor, so `d₀ = 1`), every adapted `K` | `CM4E/Gen/ThmM.lean` (model `gmM`, on the frame `gmFM` of `CM4E/Gen/FrameM.lean`) | Same source; review: [`reviews/REFEREE_HYP_M.md`](reviews/REFEREE_HYP_M.md) (CORRECT). The paper's first proof uses Roy–Waldschmidt; Lean writes out its reduction and applies W88 §5d to a hyperplane. |
-| `hW : Gen.Thm11KappaMGK L`, `Gen.Thm11KappaMGnK L` | the same theorem for `G_m^{2n} × A″` and `G_m^{2n} × Q″` with elliptic logarithms (resp. logarithms of `(E^♮)^n`) among the data; `MGnK` claimed only for lattices with `κ₁ = 0` (`ϖℤ[i]`, `Ω_ρℤ[ρ]`) | `CM4E/Gen/MGK.lean`, `CM4E/Gen/MGnK.lean` (models `gmMGK`, `gmMGnK`, on `gmF2`) | Same source; review: [`reviews/REFEREE_HYP_MGK.md`](reviews/REFEREE_HYP_MGK.md). |
+| `hW : Gen.Thm11KappaMGK L`, `Gen.Thm11KappaMGnK L` | the same theorem for `G_m^{2n} × A″` and `G_m^{2n} × Q″` with elliptic logarithms (resp. logarithms of `(E^♮)^n`) among the data; `MGnK` is premised on `Gen.KappaOneZero L` (`ζ(αz) = ᾱζ(z)`, i.e. `κ₁ = 0`; proved for `ϖℤ[i]` as `Gen.kappaOneZero_latI`) | `CM4E/Gen/MGK.lean`, `CM4E/Gen/MGnK.lean` (models `gmMGK`, `gmMGnK`, on `gmF2`) | Same source; review: [`reviews/REFEREE_HYP_MGK.md`](reviews/REFEREE_HYP_MGK.md) (CORRECT; the `κ₁ = 0` premise was added after it). |
 | `hg₂'`, `hg₃'` | `g₂`, `g₃` of `Ω_ρℤ[ρ]` are algebraic | arguments | True: `g₂ = 0`, `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`); not proved in Lean. |
 | `hΓ` | `ϖΩ_ρ/π ∉ ℚ̄` (Corollary Γ) | argument of the MX theorems | Wüstholz's analytic subgroup theorem (1989): a period of `E_i` and a quasi-period of `E_ρ` are `ℚ̄`-linearly independent. |
 | `hM` | `Ω_ρ/ϖ ∉ ℚ̄` | argument of `Final.mx_K` | Wüstholz 1989; derived from `WuestholzMX` in `Gen.mx_full`. |
@@ -89,8 +89,9 @@ Two further points about what the statements rely on:
 * `HyperplaneKappa gmE` also covers configurations with `κ = 5`, outside the range `2N ≥ d₁ + 2d₀ + κ` of Lemma U. By
   the argument of the paper-vs-Lean review (2026-10-30), `V` is then forced to be rational, so the conclusion holds
   trivially; this argument is not formalised. The same happens for `gmMG` when `κ = 3n − 1` (every such `V` contains
-  a rational toric line; `reviews/REFEREE_HYP_GEN.md`). For `gmM` the out-of-range values `κ = 2n − 1, 2n` again force
-  a rational toric line into `V` (`reviews/REFEREE_HYP_M.md`). For `gmQ`, `gmMGn`, `gmXG` and `gmXP` Lemma U's range
+  a rational toric line; `reviews/REFEREE_HYP_GEN.md`). For `gmMGK` the only out-of-range value is again `κ = 3n − 1`, with the same trivial conclusion
+  (`reviews/REFEREE_HYP_MGK.md`). For `gmM` the out-of-range values `κ = 2n − 1, 2n` again force
+  a rational toric line into `V` (`reviews/REFEREE_HYP_M.md`). For `gmQ`, `gmMGn`, `gmMGnK`, `gmXG` and `gmXP` Lemma U's range
   covers every configuration.
 
 All Lean proofs follow the paper's §5d derivations (paper Remarks 15, 20, 26), which apply the paper's
@@ -124,7 +125,7 @@ Theorem 11).
 | Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | `Gen.fourExpAt_MGn`, `Final.fourExpAt_varpi_all`, `Final.fourExpAt_omegaRho_all`, `Final.two_three_varpi`, `Final.two_three_omegaRho` (also `MainNat` for `c ∈ ℚ(i)`) | ✔ for `Ω ∈ {ϖ, Ω_ρ}` and every algebraic `c ≠ 0`. Missing: other CM curves |
 | Theorem MG, Cor. MG2 (`K`-version, `dim_K S_K ≤ 2`) | `Gen.mg_K`, `Final.mg_K_varpi` | ✔ for `K ∋ i, c` (any `CMLattice`); the paper's reduction from arbitrary `K ⊇ k` to this case (Baker's theorem) is not formalised |
 | Cor. MG1, Cor. MG3 | `Gen.mg1`, `Gen.mg3`, `Final.mg1_varpi`, `Final.mg3_varpi` | ✔ for any `CMLattice` (via Theorem SMG of [II], whose data may lie in `𝓛̃`); MG1 uses `NotLtilde` (and the proved transcendence of `π`), MG3 uses Baker |
-| Theorem MG♮ (`K`-version), Cor. MG♮2 | `Gen.mgn_K`, `Final.mgn_K_varpi`, `Gen.fourExpAt_MGn` | ✔ for `K ∋ c`, `[K : ℚ] ≥ 4`, lattices with `κ₁ = 0` (`s = 1/(cω) ∈ ℚ̄ˣη*/π`); Baker reduction not formalised |
+| Theorem MG♮ (`K`-version), Cor. MG♮2 | `Gen.mgn_K`, `Final.mgn_K_varpi`, `Gen.fourExpAt_MGn` | ✔ for `K ∋ c`, `[K : ℚ] ≥ 4`, lattices with `κ₁ = 0` (premise `KappaOneZero`, proved for `ϖℤ[i]`; `s = 1/(cω) ∈ ℚ̄ˣη*/π`); Baker reduction not formalised |
 | Affine MG; general form, elliptic 4E | — | ✗ (proof sketches in the paper) |
 | Theorem M | `Gen.thmM`, `Gen.thmM_I_k`, `Final.thmM_varpi`, `Final.thmM_omegaRho`, `Final.thmM_varpi_k` | ✔ (first proof, `K`-structure explicit, W88 §5d instead of Roy–Waldschmidt); `s ∈ k` on `E_i` via `MasserCM` (on `E_ρ` not written out) |
 | Cor. M (M1), (M3), (M3′), (Mη) | `Gen.m1`, `Gen.m3`, `Gen.m3'`, `Gen.meta_I`, `Final.m1_varpi`, `Final.m3_varpi`, `Final.m3'_varpi`, `Final.meta_varpi` | ✔ (M1, M3, M3′ for any `CMLattice`; M3′ with `HermiteLindemann`; Mη on `E_i` with `MasserCM`). (M2) ✗: needs Gel'fond–Schneider |

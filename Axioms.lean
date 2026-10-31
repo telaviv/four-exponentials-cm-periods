@@ -75,3 +75,4 @@ import CM4E
 #print axioms CM4E.Gen.mgn_K
 #print axioms CM4E.Final.mg_K_varpi
 #print axioms CM4E.Final.mgn_K_varpi
+#print axioms CM4E.Gen.kappaOneZero_latI

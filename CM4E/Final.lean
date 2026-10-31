@@ -317,6 +317,6 @@ theorem mgn_K_varpi (hW : Gen.Thm11KappaMGnK Gen.latI) {r : ℕ} {b : Fin r → 
       (c * varpi)⁻¹ * x k = y + e)
     (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
       a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
-  Gen.mgn_K Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT hb hr c hcK hc0 x hx hsx hind
+  Gen.mgn_K Gen.latI hW Gen.kappaOneZero_latI hg₂ g₃_lemniscatic_isAlgebraic hT hb hr c hcK hc0 x hx hsx hind
 
 end CM4E.Final

@@ -6,6 +6,7 @@ import Mathlib
 import CM4E.Gen.MGK
 import CM4E.Gen.MGn
 import CM4E.MX
+import CM4E.Gen.Instances
 
 /-!
 # Theorem MG♮ in its `K`-dimension form (paper [I], `thm:MGn`)
@@ -23,12 +24,34 @@ Soundness of `gmMGnK L b` (not checked by Lean), for lattices with `κ₁ = 0` (
 the two instances, `CM4E/Gen/Instances.lean`): as for `gmMGn`; the new logarithms are images of logarithms of
 algebraic points of `(E^♮)^n`; connected subgroups are products `T_L × H`, `θ` is `ℚ`-independent, and every nonzero
 connected `H ⊂ Q''` contains the fibre, on which `λ ≠ 0`. For a lattice with `κ₁ ≠ 0` the generators would have to use
-`ζ* = ζ − κ₁ z`, and the hypothesis below is not claimed.
+`ζ* = ζ − κ₁ z`; so the hypothesis `Thm11KappaMGnK L` is premised on `KappaOneZero L` (`ζ(αz) = ᾱζ(z)`, which makes the
+standard `ζ` conjugate-eigen), proved here for `ϖℤ[i]` (`kappaOneZero_latI`).
 -/
 
 open Complex Module CM4E.Waldschmidt CM4E.MX
 
 namespace CM4E.Gen
+
+/-- `κ₁ = 0`, in the form `ζ(αz) = ᾱζ(z)` (true when `α` is a unit, as for `ϖℤ[i]` and `Ω_ρℤ[ρ]`). It makes the
+quasi-periods conjugate-linear, so the standard `ζ` is the conjugate-eigen `ζ*` and `η₀ = η(ω)`. -/
+def KappaOneZero (L : CMLattice) : Prop :=
+  ∀ z : ℂ, CM4E.Ext.Weierstrass.zeta L.pp (L.α * z) = starRingEnd ℂ L.α * CM4E.Ext.Weierstrass.zeta L.pp z
+
+/-- `ζ(iz) = −iζ(z)` on `ϖℤ[i]`. -/
+lemma kappaOneZero_latI : KappaOneZero latI := by
+  intro z
+  show CM4E.Ext.Weierstrass.zeta lemniscatic (I * z) = starRingEnd ℂ I * CM4E.Ext.Weierstrass.zeta lemniscatic z
+  rw [Complex.conj_I]
+  calc CM4E.Ext.Weierstrass.zeta lemniscatic (I * z)
+      = ∑' l : lemniscatic.lattice, CM4E.Ext.Weierstrass.zetaSummand ((mulI l : lemniscatic.lattice) : ℂ) (I * z) :=
+        (mulI.tsum_eq (fun l : lemniscatic.lattice => CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) (I * z))).symm
+    _ = ∑' l : lemniscatic.lattice, -I * CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) z := by
+        congr 1 with l
+        simp only [mulI, Equiv.coe_fn_mk, CM4E.Ext.Weierstrass.zetaSummand]
+        rw [show I * z - I * (l : ℂ) = I * (z - l) by ring]
+        simp only [mul_inv, mul_pow, Complex.I_sq, Complex.inv_I, div_eq_mul_inv, neg_one_mul, inv_neg]
+        ring
+    _ = -I * CM4E.Ext.Weierstrass.zeta lemniscatic z := tsum_mul_left
 
 /-- The quasi-period `η*((m + nα)ω) = (m + nᾱ)η₀` of a CM lattice. -/
 noncomputable def etaL (L : CMLattice) (m n : ℤ) : ℂ := ((m : ℂ) + n * starRingEnd ℂ L.α) * L.η₀
@@ -54,9 +77,9 @@ noncomputable def gmMGnK : GroupModel (TF (Fin r × Fin 2) (Qn L b)) :=
     (LinearMap.snd ℂ _ ℂ) (finrank ℂ (Qn L b))
 
 /-- **The hypothesis for the `K`-form of Theorem MG♮**: W88 §5d for `G_m^{2n} × Q''`, for every adapted basis.
-Claimed (sound) only for lattices with `κ₁ = 0`. -/
+Premised on `κ₁ = 0` (`KappaOneZero L`). -/
 def Thm11KappaMGnK : Prop :=
-  IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
+  KappaOneZero L → IsAlgebraic ℚ L.pp.g₂ → IsAlgebraic ℚ L.pp.g₃ →
     ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedFieldBasis L.α b → HyperplaneKappa (gmMGnK L b)
 
 /-- A lift of `θ_h Σ β_k w_k` (`(u_k, w_k) ∈ Λ(E^♮)`) in `Q''`. -/
@@ -88,7 +111,7 @@ lemma fLift_mem (h : Fin r × Fin 2) {N : ℕ} (β u w : Fin N → ℂ)
 /-- **Theorem MG♮, `K`-form**: for `s = 1/(cω)`, `K ∋ c` with `[K : ℚ] ≥ 4`, there are no `x₁, x₂ ∈ K𝓛` with
 `sx₁, sx₂ ∈ K𝓛 + K·(fibre values)` and `2πi, x₁, x₂` linearly independent over `K`. Hypotheses: W88 §5d for
 `G_m^{2n} × Q''` (`hW`), algebraic `g₂, g₃`, and the transcendence of `ω` (Schneider). -/
-theorem mgn_K (hW : Thm11KappaMGnK L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
+theorem mgn_K (hW : Thm11KappaMGnK L) (hκ : KappaOneZero L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
     (hT : Transcendental ℚ L.ω) (hb : IsAdaptedFieldBasis L.α b) (hr : 2 ≤ r)
     (c : ℂ) (hcK : c ∈ Kspan L.α b) (hc0 : c ≠ 0)
     (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ KLog (Kspan L.α b))
@@ -152,7 +175,7 @@ theorem mgn_K (hW : Thm11KappaMGnK L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃
     rw [Complex.exp_two_pi_mul_I]; exact isAlgebraic_one
   refine frame2_false_K (theta L.α b) hb.indep hθalg (algQn L b) (lamMGnK L b)
     (perGen (ι := Fin r × Fin 2) (perQn L b)) 0 (LinearMap.snd ℂ _ ℂ) (finrank ℂ (Qn L b))
-    (hW hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr) ⟨⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
+    (hW hκ hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr) ⟨⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
     (fun _ _ => isAlgebraic_zero) (fun q hq => hq.2)
     ({(0, 1)} ∪ Set.range fun j => ((Submodule.Quotient.mk (Pi.single j 1) : (Fin r × Fin 2 → ℂ) ⧸ Wphi L b),
       (0 : ℂ))) ?_ ?_ _ hs

@@ -1,0 +1,11 @@
+'CM4E.AbVar.thmX7_torsion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.x7a' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.x7b' depends on axioms: [propext, Classical.choice, Quot.sound]
+TorsionX7 : Set (Fin 3 → ℂ) → Prop
+reviews/checks/torsionx7/TorX7.lean:17:26: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [he]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

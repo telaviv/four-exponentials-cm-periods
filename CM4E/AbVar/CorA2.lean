@@ -13,8 +13,8 @@ import CM4E.Gen.ThmMCor
 For a first-kind eigen-period `P` of a simple CM abelian variety and `a, b, c ∈ ℚ̄ˣ`, at least one of `e^{aπ²}`,
 `e^{bπP}`, `e^{cπ²/P}` is transcendental (`corA2`). The paper's proof: Theorem MG-A (`K`-form, `mgA_K` with `LA = ∅` and
 constant `1`) at `s = P/π` with data `x₁ = π²`, `x₂ = π²/P` (`sx₁ = πP`, `sx₂ = π`); the `K`-independence of
-`2πi, π², π²/P` comes from the transcendence of `π` (proved, `Gen.transcendental_pi`), `P/π ∉ ℚ̄`, and
-`P ∉ 𝓛̃ = ℚ̄ + ℚ̄𝓛` (a named input, `NotLtildeA`, the abelian analogue of `Gen.NotLtilde`; Wüstholz 1989 on
+`2πi, π², π²/P` comes from the transcendence of `π` (proved, `Gen.transcendental_pi`) and
+`P ∉ 𝓛̃ = ℚ̄ + ℚ̄𝓛` (which also gives `P/π ∉ ℚ̄`) (a named input, `NotLtildeA`, the abelian analogue of `Gen.NotLtilde`; Wüstholz 1989 on
 `G_a × G_m^m × A`). This is the argument that removes Chudnovsky's theorem (paper [II], Remark `rem:noChud`).
 
 Instance: `P = (1 − ζ₅)B(1/5, 1/5)` (`corA2_beta5`, stated for `B(1/5, 1/5)` itself).
@@ -34,13 +34,15 @@ lemma log_mem_KLog {K : Submodule ℚ ℂ} {a z : ℂ} (ha : a⁻¹ ∈ K) (hz :
 /-- **Corollary A2** (generic first-kind slot): at least one of `e^{aπ²}`, `e^{bπP}`, `e^{cπ²/P}` is transcendental. -/
 theorem corA2 (N g : ℕ) (κ : Fin g → ℕ) (P : Fin g → ℂ) (s₀ : Fin g) (hN : N ≠ 0)
     (hW : Thm11KappaAK N g κ P s₀ ∅) (hg : 2 * g ≤ N.totient) (hκ : κ s₀ = 1)
-    (hT : Transcendental ℚ (P s₀ / Real.pi)) (hNot : NotLtildeA (P s₀)) (a b c : ℂ) (ha : IsAlgebraic ℚ a)
+    (hNot : NotLtildeA (P s₀)) (a b c : ℂ) (ha : IsAlgebraic ℚ a)
     (hb : IsAlgebraic ℚ b) (hc : IsAlgebraic ℚ c) (ha0 : a ≠ 0) (hb0 : b ≠ 0) (hc0 : c ≠ 0) :
     ¬ (IsAlgebraic ℚ (Complex.exp (a * Real.pi ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (b * (Real.pi * P s₀))) ∧
       IsAlgebraic ℚ (Complex.exp (c * (Real.pi ^ 2 / P s₀)))) := by
   rintro ⟨h1, h2, h3⟩
   have hpi : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr Real.pi_ne_zero
   have hP0 : P s₀ ≠ 0 := fun h => hNot (h ▸ alg_mem_Ltilde isAlgebraic_zero)
+  have hT : Transcendental ℚ (P s₀ / Real.pi) := fun halg => hNot (by
+    rw [show P s₀ = P s₀ / Real.pi * Real.pi by field_simp]; exact Ltilde_smul halg pi_mem_Ltilde)
   obtain ⟨r, hr, β, hβ, hS⟩ := exists_adapted_basisN N hN {a⁻¹, b⁻¹, c⁻¹, I} (by
     intro s hs
     simp only [Finset.mem_insert, Finset.mem_singleton] at hs
@@ -134,7 +136,7 @@ theorem corA2 (N g : ℕ) (κ : Fin g → ℕ) (P : Fin g → ℂ) (s₀ : Fin g
 
 /-- **Corollary A2 for `B(1/5, 1/5)`**: at least one of `e^{aπ²}`, `e^{bπB(1/5,1/5)}`, `e^{cπ²/B(1/5,1/5)}` is
 transcendental (`a, b, c ∈ ℚ̄ˣ`). -/
-theorem corA2_beta5 (hW : Thm11KappaAK 5 2 (fun s => (s : ℕ) + 1) perA5 0 ∅) (hT : WuestholzA5)
+theorem corA2_beta5 (hW : Thm11KappaAK 5 2 (fun s => (s : ℕ) + 1) perA5 0 ∅)
     (hNot : NotLtildeA (perA5 0)) (a b c : ℂ) (ha : IsAlgebraic ℚ a) (hb : IsAlgebraic ℚ b) (hc : IsAlgebraic ℚ c)
     (ha0 : a ≠ 0) (hb0 : b ≠ 0) (hc0 : c ≠ 0) :
     ¬ (IsAlgebraic ℚ (Complex.exp (a * Real.pi ^ 2)) ∧
@@ -148,7 +150,7 @@ theorem corA2_beta5 (hW : Thm11KappaAK 5 2 (fun s => (s : ℕ) + 1) perA5 0 ∅)
   have hzalg : IsAlgebraic ℚ (1 - zetaN 5) := isAlgebraic_one.sub (isAlgebraic_zetaN 5 (by norm_num))
   have hP0 : perA5 0 ≠ 0 := fun h => hNot (h ▸ alg_mem_Ltilde isAlgebraic_zero)
   rintro ⟨h1, h2, h3⟩
-  refine corA2 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl hT hNot a (b / (1 - zetaN 5))
+  refine corA2 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl hNot a (b / (1 - zetaN 5))
     (c * (1 - zetaN 5)) ha (by
       rw [← mem_algebraicClosure_iff]
       exact div_mem (mem_algebraicClosure_iff.mpr hb) (mem_algebraicClosure_iff.mpr hzalg)) (hc.mul hzalg) ha0

@@ -28,7 +28,7 @@ def TorsionTriple (v : Fin 3 → ℂ) : Prop :=
   ∃ q : Fin 6 → ℚ, ∀ s : Fin 3, v s = ∑ e : Fin 6, (q e : ℂ) * zeta7 ^ (((s : ℕ) + 1) * (e : ℕ)) * perA ((s : ℕ) + 1)
 
 /-- **Named input (Wüstholz 1989 on `A²`, `End⁰(A) = F`; Masser 1975 for `E`): the torsion step.** A logarithm of `A`
-with one slot coordinate in `ℚ̄P_s` is a torsion triple; an elliptic logarithm of `E` in `ℚ̄Ω` lies in `ℚ(α)Ω`. -/
+with one slot coordinate in `ℚ̄P_{s+1}` is a torsion triple; an elliptic logarithm of `E` in `ℚ̄Ω` lies in `ℚ(α)Ω`. -/
 def TorsionX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
   (∀ v ∈ LA, ∀ s : Fin 3, ∀ c : ℂ, IsAlgebraic ℚ c → v s = c * perA ((s : ℕ) + 1) → TorsionTriple v) ∧
     (∀ u : ℂ, LogE E7 u → ∀ c : ℂ, IsAlgebraic ℚ c → u = c * omega7 → ∃ p q : ℚ, u = (p + q * alpha7) * omega7)
@@ -68,5 +68,64 @@ theorem x7b (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : WuestholzBe
   obtain ⟨-, -, -, -, -, ht⟩ := thmX7_torsion LA hW hWB hWX hTo 0 0 v h0 h0 hv u hu 0 0 c
     isAlgebraic_zero isAlgebraic_zero hc hc0 (by rw [h]; simp only [Pi.zero_apply]; field_simp; ring)
   exact hnt ht
+
+/-- A non-torsion logarithm of `A` has every slot coordinate nonzero (`TorsionX7` at `c = 0`). -/
+theorem slot_ne_zero (LA : Set (Fin 3 → ℂ)) (hTo : TorsionX7 LA) (v : Fin 3 → ℂ) (hv : v ∈ LA)
+    (hnt : ¬ TorsionTriple v) (s : Fin 3) : v s ≠ 0 := fun h =>
+  hnt (hTo.1 v hv s 0 isAlgebraic_zero (by simp [h]))
+
+/-- **Corollary X7 (a)** in full: for a non-torsion `v ∈ LA`, `z₁(v) ≠ 0` and `z₂(v)/z₁(v) ∉ ℚ̄·P₃/P₁`. -/
+theorem x7a_full (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
+    (hTo : TorsionX7 LA) (h0 : (0 : Fin 3 → ℂ) ∈ LA) (v : Fin 3 → ℂ) (hv : v ∈ LA) (hnt : ¬ TorsionTriple v) :
+    v 0 ≠ 0 ∧ ∀ c : ℂ, IsAlgebraic ℚ c → v 1 / v 0 ≠ c * (perA 3 / perA 1) := by
+  have h0' := slot_ne_zero LA hTo v hv hnt 0
+  refine ⟨h0', fun c hc h => ?_⟩
+  by_cases hc0 : c = 0
+  · subst hc0
+    exact slot_ne_zero LA hTo v hv hnt 1 (by simpa [h0'] using h)
+  · exact x7a LA hW hWB hWX hTo h0 v hv hnt c hc hc0 (by rw [div_eq_iff h0'] at h; rw [h]; ring)
+
+/-! ## The Abel–Jacobi set
+
+A lift of a `C¹` path `p` in `ℂ ∖ {0, 1}` to `C : y⁷ = x(1 − x)` (a continuous branch `y` with `y⁷ = p(1 − p)`) between
+points with algebraic coordinates; its triple is `z_s = ∫ dx/y^{6−s}` (`dx/y⁶, dx/y⁵, dx/y⁴`), the Abel–Jacobi
+eigen-coordinates of `Q − O` in the normalisation of `perT`. `LAJ` is their `ℚ`-span: by Jacobi inversion (every
+point of `A(ℚ̄)` is a sum of classes `Q_i − O` with affine non-branch `Q_i`), closed lifts (all periods) and divisibility
+of `Λ(A)`, it is the set of eigen-coordinate triples of `Λ(A)` (classical, not proved here). With `LA = LAJ` the named
+inputs are claims about this concrete set, and Corollary X7 (a), (b) are stated literally for points `O, Q ∈ C(ℚ̄)` off
+the branch points (`x7a_AJ`, `x7b_AJ`). -/
+
+/-- A lift to `C` of a `C¹` path in `ℂ ∖ {0, 1}`, with algebraic endpoints. -/
+structure AJPath where
+  p : ℝ → ℂ
+  y : ℝ → ℂ
+  hp : ContDiff ℝ 1 p
+  hy : ContinuousOn y (Set.Icc 0 1)
+  heq : ∀ t ∈ Set.Icc (0 : ℝ) 1, y t ^ 7 = p t * (1 - p t)
+  hne : ∀ t ∈ Set.Icc (0 : ℝ) 1, p t ≠ 0 ∧ p t ≠ 1
+  halg : IsAlgebraic ℚ (p 0) ∧ IsAlgebraic ℚ (y 0) ∧ IsAlgebraic ℚ (p 1) ∧ IsAlgebraic ℚ (y 1)
+
+/-- `z_s = ∫ dx/y^{6−s}` along the lift (`∫_O^Q` of the three eigen-differentials). -/
+noncomputable def AJPath.triple (γ : AJPath) : Fin 3 → ℂ :=
+  fun s => ∫ t in (0 : ℝ)..1, deriv γ.p t / γ.y t ^ (6 - (s : ℕ))
+
+/-- The intended `LA`: the `ℚ`-span of the Abel–Jacobi triples. -/
+def LAJ : Set (Fin 3 → ℂ) := Submodule.span ℚ (Set.range AJPath.triple)
+
+lemma zero_mem_LAJ : (0 : Fin 3 → ℂ) ∈ LAJ := Submodule.zero_mem _
+
+/-- **Corollary X7 (a)** (paper [II]): for `O, Q ∈ C(ℚ̄)` (off the branch points) with `Q − O` of infinite order,
+`∫_O^Q dx/y⁶ ≠ 0` and `∫_O^Q dx/y⁵ / ∫_O^Q dx/y⁶ ∉ ℚ̄·B(3/7,3/7)/B(1/7,1/7)` (stated with `P₃/P₁ ∈ ℚ(ζ)ˣ·B(3/7,3/7)/B(1/7,1/7)`). -/
+theorem x7a_AJ (hW : Thm11KappaX7 LAJ) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LAJ) (hTo : TorsionX7 LAJ)
+    (γ : AJPath) (hnt : ¬ TorsionTriple γ.triple) :
+    γ.triple 0 ≠ 0 ∧ ∀ c : ℂ, IsAlgebraic ℚ c → γ.triple 1 / γ.triple 0 ≠ c * (perA 3 / perA 1) :=
+  x7a_full LAJ hW hWB hWX hTo zero_mem_LAJ γ.triple (Submodule.subset_span ⟨γ, rfl⟩) hnt
+
+/-- **Corollary X7 (b)** (paper [II]): for `O, Q ∈ C(ℚ̄)` and `u ∈ 𝓛_E` with `exp_E(u)` of infinite order,
+`∫_O^Q dx/y⁴ / u ∉ ℚ̄ˣ·P₃/P₁`. -/
+theorem x7b_AJ (hW : Thm11KappaX7 LAJ) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LAJ) (hTo : TorsionX7 LAJ)
+    (γ : AJPath) (u : ℂ) (hu : LogE E7 u) (hnt : ¬ ∃ p q : ℚ, u = (p + q * alpha7) * omega7) (c : ℂ)
+    (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : γ.triple 2 ≠ c * u * perA 3 / perA 1 :=
+  x7b LAJ hW hWB hWX hTo zero_mem_LAJ γ.triple (Submodule.subset_span ⟨γ, rfl⟩) u hu hnt c hc hc0
 
 end CM4E.AbVar

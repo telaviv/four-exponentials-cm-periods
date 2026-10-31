@@ -1,0 +1,91 @@
+'CM4E.AbVar.mgA_K' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.mgAn_K' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.corA2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.corA2_beta5' depends on axioms: [propext, Classical.choice, Quot.sound]
+corA2_beta5 : Thm11KappaAK 5 2 (fun s => ↑s + 1) perA5 0 ∅ →
+  WuestholzA5 →
+    NotLtildeA (perA5 0) →
+      ∀ (a b c : ℂ),
+        IsAlgebraic ℚ a →
+          IsAlgebraic ℚ b →
+            IsAlgebraic ℚ c →
+              a ≠ 0 →
+                b ≠ 0 →
+                  c ≠ 0 →
+                    ¬(IsAlgebraic ℚ (cexp (a * ↑Real.pi ^ 2)) ∧
+                        IsAlgebraic ℚ (cexp (b * (↑Real.pi * (1 / 5).betaIntegral (1 / 5)))) ∧
+                          IsAlgebraic ℚ (cexp (c * (↑Real.pi ^ 2 / (1 / 5).betaIntegral (1 / 5)))))
+corA2 : ∀ (N g : ℕ) (κ : Fin g → ℕ) (P : Fin g → ℂ) (s₀ : Fin g),
+  N ≠ 0 →
+    Thm11KappaAK N g κ P s₀ ∅ →
+      2 * g ≤ N.totient →
+        κ s₀ = 1 →
+          Transcendental ℚ (P s₀ / ↑Real.pi) →
+            NotLtildeA (P s₀) →
+              ∀ (a b c : ℂ),
+                IsAlgebraic ℚ a →
+                  IsAlgebraic ℚ b →
+                    IsAlgebraic ℚ c →
+                      a ≠ 0 →
+                        b ≠ 0 →
+                          c ≠ 0 →
+                            ¬(IsAlgebraic ℚ (cexp (a * ↑Real.pi ^ 2)) ∧
+                                IsAlgebraic ℚ (cexp (b * (↑Real.pi * P s₀))) ∧
+                                  IsAlgebraic ℚ (cexp (c * (↑Real.pi ^ 2 / P s₀))))
+@mgA_K : ∀ {N g : ℕ} {κ : Fin g → ℕ} {r : ℕ} {P : Fin g → ℂ} {s₀ : Fin g} {b : Fin r → ℂ} (LA : Set (Fin g → ℂ)),
+  N ≠ 0 →
+    Thm11KappaAK N g κ P s₀ LA →
+      2 * g ≤ N.totient →
+        κ s₀ = 1 →
+          Transcendental ℚ (P s₀ / ↑Real.pi) →
+            IsAdaptedBasisD (zetaN N) N.totient b →
+              ∀ c ∈ KspanD (zetaN N) N.totient b,
+                c ≠ 0 →
+                  I ∈ KspanD (zetaN N) N.totient b →
+                    ∀ (x : Fin 2 → ℂ),
+                      (∀ (k : Fin 2), x k ∈ KLog (KspanD (zetaN N) N.totient b)) →
+                        (∀ (k : Fin 2),
+                            ∃ y ∈ KLog (KspanD (zetaN N) N.totient b),
+                              ∃ e ∈ KSlotA g P s₀ LA (KspanD (zetaN N) N.totient b),
+                                c * P s₀ / ↑Real.pi * x k = y + e) →
+                          (∀ (a₀ a₁ a₂ : ℂ),
+                              a₀ ∈ KspanD (zetaN N) N.totient b →
+                                a₁ ∈ KspanD (zetaN N) N.totient b →
+                                  a₂ ∈ KspanD (zetaN N) N.totient b →
+                                    a₀ * (2 * ↑Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) →
+                            False
+@mgAn_K : ∀ {N g : ℕ} {κ : Fin g → ℕ} {r : ℕ} {P : Fin g → ℂ} (Pb : ℂ) {b : Fin r → ℂ} (LAn : Set ((Fin g → ℂ) × ℂ)),
+  2 ≤ N →
+    Thm11KappaAnK N g κ P Pb LAn →
+      2 ≤ g →
+        2 * g ≤ N.totient →
+          Transcendental ℚ (Pb / ↑Real.pi) →
+            IsAdaptedBasisD (zetaN N) N.totient b →
+              ∀ c ∈ KspanD (zetaN N) N.totient b,
+                c ≠ 0 →
+                  I ∈ KspanD (zetaN N) N.totient b →
+                    ∀ (x : Fin 2 → ℂ),
+                      (∀ (k : Fin 2), x k ∈ KLog (KspanD (zetaN N) N.totient b)) →
+                        (∀ (k : Fin 2),
+                            ∃ y ∈ KLog (KspanD (zetaN N) N.totient b),
+                              ∃ e ∈ KFibA g P Pb LAn (KspanD (zetaN N) N.totient b), c * Pb / ↑Real.pi * x k = y + e) →
+                          (∀ (a₀ a₁ a₂ : ℂ),
+                              a₀ ∈ KspanD (zetaN N) N.totient b →
+                                a₁ ∈ KspanD (zetaN N) N.totient b →
+                                  a₂ ∈ KspanD (zetaN N) N.totient b →
+                                    a₀ * (2 * ↑Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) →
+                            False
+def CM4E.AbVar.NotLtildeA : ℂ → Prop :=
+fun P => P ∉ Ltilde
+def CM4E.AbVar.Thm11KappaAK : ℕ → (g : ℕ) → (Fin g → ℕ) → (Fin g → ℂ) → Fin g → Set (Fin g → ℂ) → Prop :=
+fun N g κ P s₀ LA =>
+  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b → HyperplaneKappa (gmAK N g κ P s₀ b LA)
+def CM4E.AbVar.KSlotA : (g : ℕ) → (Fin g → ℂ) → Fin g → Set (Fin g → ℂ) → Submodule ℚ ℂ → Set ℂ :=
+fun g P s₀ LA K => {x | ∃ M β v, (∀ (k : Fin M), β k ∈ K) ∧ (∀ (k : Fin M), v k ∈ insert P LA) ∧ x = ∑ k, β k * v k s₀}
+def CM4E.AbVar.KFibA : (g : ℕ) → (Fin g → ℂ) → ℂ → Set ((Fin g → ℂ) × ℂ) → Submodule ℚ ℂ → Set ℂ :=
+fun g P Pb LAn K =>
+  {x | ∃ M β vw, (∀ (k : Fin M), β k ∈ K) ∧ (∀ (k : Fin M), vw k ∈ insert (P, Pb) LAn) ∧ x = ∑ k, β k * (vw k).2}
+reviews/checks/hypak/axAK.lean:27:52: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲

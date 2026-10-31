@@ -1,0 +1,8 @@
+B(1/5,1/5) = 9.50150138988436741503057654421
+Gamma form diff: 0.0
+integral vs B: 1.1977e-8
+rewrite diffs: 0.0 9.6815e-122
+pslq relation for B over Q(sqrt5)-span of {1, pi, logs}: [-13093240, 7223853, 8638047, -5299702, -2768150, -3652872, -2962422, -2125655, 4780608, -4547575, 6956147, -1274097, 13262882, -2564645]
+pslq relation for B/pi over Q(zeta5)^+ real span: None
+residual of 120-digit 'relation' at 400 digits: 3.7544e-90
+pslq at 400 digits, maxcoeff 1e12: None

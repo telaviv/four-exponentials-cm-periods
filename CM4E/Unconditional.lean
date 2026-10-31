@@ -5,6 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import CM4E.Final
 import CM4E.Bridge.Results
 import CM4E.Bridge.M
+import CM4E.Bridge.Vec
 import LSG.W88.Main
 import LSG.W88.K5dMain
 
@@ -39,6 +40,15 @@ With the arithmetic of elliptic logarithms (`CM4E/Bridge/ELog.lean`: addition la
 * `m1_varpi`: (M1) `℘(cϖ/π) ∉ ℚ̄`; `m3_varpi`: (M3); `m3'_varpi`: (M3′) given Hermite–Lindemann;
 * `thmM_varpi_k`, `meta_varpi`: Theorem M with `s ∈ ℚ(i)` and (Mη), given Masser's theorem (`Gen.MasserCM`);
 * `mg_K_varpi`: the `K`-form of Theorem MG for `Ω = ϖ`.
+
+`lean_lsg` also proves the vector-extension hypotheses (`Bridge.thm11KappaMXG_uncond`, `Bridge.thm11KappaMGn_uncond`,
+`Bridge.thm11KappaMGnK_uncond`, `Bridge.thm11KappaNat_uncond`), so with no form of W88 assumed:
+
+* `fourExpAt_varpi`, `two_three_varpi`, `fourExpAt_varpi_all`: **Theorem 1(a)** for `Ω = ϖ` (`2^ϖ, 3^ϖ` not both
+  algebraic; `FourExpAt (cϖ)` for every algebraic `c ≠ 0`); `fourExpAt_omegaRho_all`, `two_three_omegaRho` for `Ω_ρ`
+  (only `hg₃'`);
+* `mgn_K_varpi`: the `K`-form of Theorem MG♮;
+* `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs.
 -/
 
 open Complex CM4E.Waldschmidt
@@ -154,5 +164,78 @@ theorem mg_K_varpi {r : ℕ} {b : Fin r → ℂ} (hb : Gen.IsAdaptedFieldBasis I
     (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
       a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
   Final.mg_K_varpi thm11KappaMGK_latI hb c hcK hc0 hIK x hx hsx hind
+
+/-- **Theorem 1(a) for `c ∈ ℚ(i)ˣ`, unconditionally**: four exponentials at `t = Dϖ/(p + qi)`. -/
+theorem fourExpAt_varpi (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) :
+    FourExpAt (MainNat.tN p q D) :=
+  Final.fourExpAt_varpi Bridge.thm11KappaNat_uncond p q D hD hpq
+
+/-- **`2^ϖ` and `3^ϖ` are not both algebraic** (no hypotheses). -/
+theorem two_three_varpi :
+    ¬ (IsAlgebraic ℚ (Complex.exp ((varpi : ℂ) * Complex.log 2)) ∧
+        IsAlgebraic ℚ (Complex.exp ((varpi : ℂ) * Complex.log 3))) :=
+  Final.two_three_varpi Bridge.thm11KappaNat_uncond
+
+/-- **Theorem 1(a) for `Ω = ϖ` and every algebraic `c ≠ 0`, unconditionally**: `FourExpAt (cϖ)`. -/
+theorem fourExpAt_varpi_all (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
+    FourExpAt (c * varpi) :=
+  Final.fourExpAt_varpi_all (Bridge.thm11KappaMGn_uncond Gen.latI) c hc hc0
+
+/-- **Theorem 1(a) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
+theorem fourExpAt_omegaRho_all (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (c : ℂ) (hc : IsAlgebraic ℚ c)
+    (hc0 : c ≠ 0) :
+    FourExpAt (c * omegaRho) :=
+  Final.fourExpAt_omegaRho_all (Bridge.thm11KappaMGn_uncond Gen.latRho) hg₃' c hc hc0
+
+/-- **`2^{Ω_ρ}` and `3^{Ω_ρ}` are not both algebraic**, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
+theorem two_three_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) :
+    ¬ (IsAlgebraic ℚ (Complex.exp ((omegaRho : ℂ) * Complex.log 2)) ∧
+        IsAlgebraic ℚ (Complex.exp ((omegaRho : ℂ) * Complex.log 3))) :=
+  Final.two_three_omegaRho (Bridge.thm11KappaMGn_uncond Gen.latRho) hg₃'
+
+/-- **Theorem MG♮, `K`-form, for `Ω = ϖ`, unconditionally**: for `s = 1/(cϖ)` and `K = span_ℚ θ ∋ c` with
+`[K : ℚ] ≥ 4`, no `x₁, x₂ ∈ K𝓛` with `sx_j ∈ K𝓛 + K·(fibre values)` and `2πi, x₁, x₂` `K`-independent. -/
+theorem mgn_K_varpi {r : ℕ} {b : Fin r → ℂ} (hb : Gen.IsAdaptedFieldBasis I b) (hr : 2 ≤ r) (c : ℂ)
+    (hcK : c ∈ Gen.Kspan I b) (hc0 : c ≠ 0) (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ Gen.KLog (Gen.Kspan I b))
+    (hsx : ∀ k, ∃ y ∈ Gen.KLog (Gen.Kspan I b), ∃ e ∈ Gen.KFib (Gen.Kspan I b) Gen.latI,
+      (c * varpi)⁻¹ * x k = y + e)
+    (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
+      a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) :
+    False :=
+  Final.mgn_K_varpi (Bridge.thm11KappaMGnK_uncond Gen.latI) hb hr c hcK hc0 x hx hsx hind
+
+/-- **Theorem MX, `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ`, `hM`. -/
+theorem mx_K (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
+    (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi)) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
+    (zX wX zY wY a t : ℂ) (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
+    (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) (hrel : (zX + zY + a) * (β * MX.etaRho) = (wX + wY + t) * varpi) :
+    ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + zY + a = x * varpi + x' * omegaRho :=
+  Final.mx_K Bridge.thm11KappaMXG_uncond hg₃' hΓ hM β hβ hβ0 zX wX zY wY a t hX hY ha ht hrel
+
+/-- **Theorem MX** for every `β ∈ ℚ̄ˣ`, assuming only `hg₃'`, `hΓ` and the named inputs `WuestholzMX`, `MasserCM`. -/
+theorem mx (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
+    (hWu : Gen.WuestholzMX) (hMa : Gen.MasserCM) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0) (zX wX zY wY a t : ℂ)
+    (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
+    (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) (hrel : (zX + zY + a) * (β * MX.etaRho) = (wX + wY + t) * varpi) :
+    a = 0 ∧ (∃ p q : ℚ, zX = (p + q * I) * varpi) ∧ (∃ p q : ℚ, zY = (p + q * MX.rho) * omegaRho) :=
+  Final.mx Bridge.thm11KappaMXG_uncond hg₃' hΓ hWu hMa β hβ hβ0 zX wX zY wY a t hX hY ha ht hrel
+
+/-- **Corollary MX1**, assuming only `hg₃'`, `hΓ` and the named inputs `WuestholzMX`, `MasserCM`, `LaurentZeta`. -/
+theorem mx1 (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
+    (hWu : Gen.WuestholzMX) (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ)
+    (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
+    (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
+    Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
+      (Real.pi * (u + a))) :=
+  Final.mx1 Bridge.thm11KappaMXG_uncond hg₃' hΓ hWu hMa hLa u hwp hwp' hu' a t ha ht
+
+/-- **Corollary deg2 (ii)**: `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are `ℚ̄`-independent, assuming only `hg₃'`, `hΓ` and the named
+input `WuestholzSix`. -/
+theorem deg2_ii (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (h6 : Gen.WuestholzSix) (c0 c1 c2 c3 : ℂ)
+    (h0 : IsAlgebraic ℚ c0) (h1 : IsAlgebraic ℚ c1) (h2 : IsAlgebraic ℚ c2) (h3 : IsAlgebraic ℚ c3)
+    (hrel : c0 + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho / Real.pi) = 0) :
+    c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
+  Final.deg2_ii Bridge.thm11KappaMXG_uncond hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
 
 end CM4E.Unconditional

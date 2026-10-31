@@ -141,3 +141,17 @@ import CM4E
 #print axioms CM4E.Bridge.thm11KappaMGn_of_vec
 #print axioms CM4E.Bridge.thm11KappaMGnK_of_vec
 #print axioms CM4E.Bridge.thm11KappaNat_of_vec
+#print axioms CM4E.Bridge.thm11KappaMXG_uncond
+#print axioms CM4E.Bridge.thm11KappaMGn_uncond
+#print axioms CM4E.Bridge.thm11KappaMGnK_uncond
+#print axioms CM4E.Bridge.thm11KappaNat_uncond
+#print axioms CM4E.Unconditional.fourExpAt_varpi
+#print axioms CM4E.Unconditional.two_three_varpi
+#print axioms CM4E.Unconditional.fourExpAt_varpi_all
+#print axioms CM4E.Unconditional.fourExpAt_omegaRho_all
+#print axioms CM4E.Unconditional.two_three_omegaRho
+#print axioms CM4E.Unconditional.mgn_K_varpi
+#print axioms CM4E.Unconditional.mx_K
+#print axioms CM4E.Unconditional.mx
+#print axioms CM4E.Unconditional.mx1
+#print axioms CM4E.Unconditional.deg2_ii

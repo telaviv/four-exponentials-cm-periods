@@ -10,7 +10,11 @@ CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 `c ≠ 0`**; e.g. `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic, `CM4E.Unconditional.two_three`); **Theorem M for
 `Ω = cϖ`** (`CM4E.Unconditional.thmM_varpi`) with (M1), (M3) and the `K`-form of Theorem MG; the same at `Ω_ρ` given that
 `g₃(Ω_ρℤ[ρ])` is algebraic (`g₂ = 0` is proved); Cor. MG1, MG3, (M3′), (Mη) given only the named classical inputs
-(Wüstholz, Baker, Hermite–Lindemann, Masser). Everything below is conditional on W88 for the stated groups; the tiers are in
+(Wüstholz, Baker, Hermite–Lindemann, Masser). With `lean_lsg`'s vector-extension theorem also **Theorem 1(a)**
+(`CM4E.Unconditional.fourExpAt_varpi_all`: `FourExpAt (cϖ)` for every algebraic `c ≠ 0`; `2^ϖ, 3^ϖ` not both algebraic,
+`CM4E.Unconditional.two_three_varpi`), the `K`-form of MG♮, and Theorem MX, Cor. MX1, deg2 (ii) with their named
+inputs. Still conditional: Theorem MX′ and deg2 (i), the SMG♮ half of Theorem S, and the abelian-variety results of
+paper [II]. Everything below is conditional on W88 for the stated groups; the tiers are in
 [TRUST.md](TRUST.md) §1a.
 
 With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real periods of `y² = 4x³ − 4x` and `y² = 4x³ − 4`
@@ -77,8 +81,8 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 * Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
   of the group models.
 * Theorem 1 for every CM curve (more `CMLattice` instances); `g₃(Ω_ρℤ[ρ]) = 4` (the real-period computation of
-  `CM4E/Ext/LemniscateIndep/` redone for the hexagonal lattice); vector extensions (Theorem 1(a), MG♮, MX, MX′, Theorem S)
-  once `lean_lsg` proves W88 for them; (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
+  `CM4E/Ext/LemniscateIndep/` redone for the hexagonal lattice); MX′ and deg2 (i) once `lean_lsg` proves the full
+  vector-extension theorem; a bridge for SMG♮ (Theorem S); (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
   vendored Schneider–Lang criterion.
 
 ## License and provenance

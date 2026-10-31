@@ -13,6 +13,7 @@ import CM4E.Gen.Instances
 import CM4E.Gen.MXGen
 import CM4E.Gen.SMG
 import CM4E.Gen.MG13
+import CM4E.Gen.Deg2
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -177,12 +178,12 @@ theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11Kappa
 /-! ## Corollaries MG1, MG3 -/
 
 /-- **Corollary MG1 for `ϖ`**: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental. Assumes W88 §5d for the groups
-of Theorem SMG, `Gen.NotLtilde Gen.latI`, and Lindemann's theorem (`π` transcendental). -/
-theorem mg1_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hNot : Gen.NotLtilde Gen.latI) (hπ : Gen.LindemannPi) :
+of Theorem SMG and `Gen.NotLtilde Gen.latI` (`π` transcendental is proved, `Gen.transcendental_pi`). -/
+theorem mg1_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hNot : Gen.NotLtilde Gen.latI) :
     ¬ (IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (Real.pi * varpi)) ∧
       IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2 / varpi))) := by
   have := Gen.mg1 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot hπ 1 1 1
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot 1 1 1
     isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero
   simpa [Gen.latI] using this
 
@@ -195,5 +196,16 @@ theorem mg3_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hBaker : Gen.Baker3) (c : �
     Transcendental ℚ (Complex.exp (varpi / Real.pi * x)) :=
   Gen.mg3 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
     (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hBaker c hc hc0 hπ2 hπω x hx hind
+
+/-- **Corollary deg2 (ii)**: `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are linearly independent over `ℚ̄`. Assumes W88 §5d (MX groups),
+`g₂, g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`, `hΓ`, and the named input `Gen.WuestholzSix`. -/
+theorem deg2_ii (hW : Gen.Thm11KappaMXG)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (h6 : Gen.WuestholzSix)
+    (c0 c1 c2 c3 : ℂ) (h0 : IsAlgebraic ℚ c0) (h1 : IsAlgebraic ℚ c1) (h2 : IsAlgebraic ℚ c2)
+    (h3 : IsAlgebraic ℚ c3)
+    (hrel : c0 + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho / Real.pi) = 0) :
+    c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
+  Gen.deg2_ii hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
 
 end CM4E.Final

@@ -18,5 +18,7 @@ import CM4E.Gen.Instances
 import CM4E.Gen.MXGen
 import CM4E.Gen.Frame2
 import CM4E.Gen.SMG
+import CM4E.Gen.PiTranscendental
 import CM4E.Gen.MG13
+import CM4E.Gen.Deg2
 import CM4E.Final

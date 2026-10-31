@@ -48,3 +48,6 @@ import CM4E
 #print axioms CM4E.Gen.mg3
 #print axioms CM4E.Final.mg1_varpi
 #print axioms CM4E.Final.mg3_varpi
+#print axioms CM4E.Gen.transcendental_pi
+#print axioms CM4E.Gen.deg2_ii
+#print axioms CM4E.Final.deg2_ii

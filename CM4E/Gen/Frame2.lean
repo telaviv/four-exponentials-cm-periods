@@ -14,7 +14,8 @@ groups of the paper [II]'s Theorems SMG and SMG♮, used for Theorem S). The tan
 
 The subgroup condition is the uniform form also used for Theorem MX: a connected algebraic subgroup is `0` or has an
 algebraic tangent vector with `Ψ'' ≠ 0` (i.e. `U` is the largest connected subgroup of `G^n` with tangent space in
-`ker Φ`). The logarithms, periods and `d₂ = dim G₂ − d₀` are supplied by the instance.
+`ker Φ`). The logarithms, periods and `d₂` are supplied by the instance (W88 writes `G = G_a^{d₀} × G_m^{d₁} × G₂`;
+here `Q = T(G_a^{d₀} × G₂)`, so `d₂ = dim Q − d₀`).
 
 `frame2_false`: given `n` period lifts with `Ψ'' = θ_h(2πi, s·2πi)`, `2n` data lifts with `Ψ'' = θ_h(y_k, s y_k)`,
 `2πi, y₁, y₂` linearly independent over `ℚ̄`, `s` transcendental and `d₂ < n`, the hypothesis `HyperplaneKappa` is
@@ -38,7 +39,7 @@ lemma PsiG_apply (θ : ι → ℂ) (μ lam : Q →ₗ[ℂ] ℂ) (v : TF ι Q) :
   simp [PsiG]
 
 /-- **The group model of `G_m^{2n} × G₂`** with linear forms `μ, λ`. Sound when `lamS` consists of logarithms of
-algebraic points, `perS` of periods, `d₂ = dim G₂ − d₀` (`d₀`, `d₁ = 2n` maximal), and no nonzero connected algebraic
+algebraic points, `perS` of periods, `d₂ = dim Q − d₀` (`d₀`, `d₁ = 2n` maximal), and no nonzero connected algebraic
 subgroup has its tangent space in `ker Ψ''`. -/
 noncomputable def gmF2 (θ : ι → ℂ) (algQ : Q → Prop) (lamS perS : Set (TF ι Q)) (μ lam : Q →ₗ[ℂ] ℂ)
     (d₂ : ℕ) : GroupModel (TF ι Q) where
@@ -157,7 +158,6 @@ theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIn
     (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
     (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) (hW : HyperplaneKappa (gmF2 θ algQ lamS perS μ lam d₂))
     (hd₂ : d₂ < Fintype.card ι)
-    (hfin : finrank ℂ (TF ι Q) ≤ 2 * Fintype.card ι + d₂ + 2)
     (halg0 : algQ 0) (hμ : ∀ q, algQ q → IsAlgebraic ℚ (μ q)) (hlamA : ∀ q, algQ q → IsAlgebraic ℚ (lam q))
     (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = ⊤)
     (s : ℂ) (hs : Transcendental ℚ s)

@@ -257,7 +257,7 @@ theorem smg_false (hW : Thm11KappaSMG L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg
     exact sum_mem fun j _ => mul_mem (mem_algebraicClosure_iff.mpr (hθalg j))
       (mem_algebraicClosure_iff.mpr (hv j))
   refine frame2_false (theta L.α b) hb.indep hθalg (algQS L b) (lamSS L b) (perSS L b) (muS L b)
-    (lamS L b) (finrank ℂ (Qm L b)) (hW hg₂ hg₃ r b hb) (finrank_Qm_lt L b hr1) ?_
+    (lamS L b) (finrank ℂ (Qm L b)) (hW hg₂ hg₃ r b hb) (finrank_Qm_lt L b hr1)
     ⟨isAlgebraic_zero, isAlgebraic_zero, ⟨0, fun _ => isAlgebraic_zero, by simp⟩⟩
     (fun q hq => hq.1) (fun q hq => by rw [lamS_apply]; exact hq.2.1.add (hlamMalg _ hq.2.2))
     ({(1, 0, 0), (0, 1, 0)} ∪ Set.range fun j => ((0 : ℂ), (0 : ℂ),
@@ -265,7 +265,6 @@ theorem smg_false (hW : Thm11KappaSMG L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg
     (fun h => tor1 h (2 * Real.pi * I) + qv (inQS L b (qh h))) ?_ ?_ ?_ y
     (fun k h => torLift1 (α := L.α) b h (dY k).β (dY k).ℓ + torLift2 (α := L.α) b h (dS k).β (dS k).ℓ +
       qv ((theta L.α b h * (dY k).β₀, theta L.α b h * (dS k).β₀, 0) : QS L b)) ?_ ?_ hind3
-  · simp [TF, QS, Module.finrank_prod, Module.finrank_fintype_fun_eq_card]; omega
   · rintro q ((rfl | rfl) | ⟨j, rfl⟩)
     · exact ⟨isAlgebraic_one, isAlgebraic_zero, ⟨0, fun _ => isAlgebraic_zero, by simp⟩⟩
     · exact ⟨isAlgebraic_zero, isAlgebraic_one, ⟨0, fun _ => isAlgebraic_zero, by simp⟩⟩
@@ -446,7 +445,7 @@ theorem smgn_false (hW : Thm11KappaSMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (
     exact div_mem (mul_mem (mul_mem (by simp) (mem_algebraicClosure_iff.mpr hI))
       (mem_algebraicClosure_iff.mpr hc)) (mul_mem (mem_algebraicClosure_iff.mpr halg) hαc)
   refine frame2_false (theta L.α b) hb.indep hθalg (algQSn L b) (lamSSn L b) (perSSn L b) (muSn L b)
-    (lamSn L b) (finrank ℂ (Qn L b)) (hW hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr) ?_
+    (lamSn L b) (finrank ℂ (Qn L b)) (hW hg₂ hg₃ r b hb) (finrank_Qn_lt L b hr)
     ⟨isAlgebraic_zero, ⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
     (fun q hq => hq.1) (fun q hq => hq.2.2)
     ({(1, 0), (0, (0, 1))} ∪ Set.range fun j => ((0 : ℂ),
@@ -454,7 +453,6 @@ theorem smgn_false (hW : Thm11KappaSMGn L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (
     (fun h => tor1 h (2 * Real.pi * I) + qv (((0 : ℂ), qh h) : QSn L b)) ?_ ?_ ?_ y
     (fun k h => torLift1 (α := L.α) b h (dY k).β (dY k).ℓ + torLift2 (α := L.α) b h (dS k).β (dS k).ℓ +
       qv ((theta L.α b h * (dY k).β₀, (0, theta L.α b h * (dS k).β₀)) : QSn L b)) ?_ ?_ hind3
-  · simp [TF, QSn, Module.finrank_prod, Module.finrank_fintype_fun_eq_card]; omega
   · rintro q ((rfl | rfl) | ⟨j, rfl⟩)
     · exact ⟨isAlgebraic_one, ⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_zero⟩
     · exact ⟨isAlgebraic_zero, ⟨0, fun _ => isAlgebraic_zero, by simp⟩, isAlgebraic_one⟩

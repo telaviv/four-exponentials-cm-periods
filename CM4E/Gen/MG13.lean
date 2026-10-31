@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import CM4E.Gen.SMG
+import CM4E.Gen.PiTranscendental
 
 /-!
 # Corollaries MG1 and MG3 (paper [I])
@@ -11,7 +12,7 @@ import CM4E.Gen.SMG
 Both follow from Theorem SMG (`CM4E/Gen/SMG.lean`, slope `s = ω/π`), whose data may lie in `𝓛̃ ⊃ ℚ̄𝓛`.
 
 * **MG1**: for `a, b, c ∈ ℚ̄ˣ`, one of `e^{aπ²}`, `e^{bπω}`, `e^{cπ²/ω}` is transcendental. Data `(π², π²/ω)`; the
-  `ℚ̄`-independence of `2πi, π², π²/ω` uses the transcendence of `π` (Lindemann), of `ω` and `ω/π` (Schneider) and
+  `ℚ̄`-independence of `2πi, π², π²/ω` uses the transcendence of `π` (proved: `transcendental_pi`), of `ω` and `ω/π` (Schneider) and
   `ω ∉ 𝓛̃` (`NotLtilde`).
 * **MG3**: if `e^{π²}` and `e^{cπω}` are algebraic, then `α^{ω/π} = e^{(ω/π) log α} ∉ ℚ̄` whenever `2πi, π², log α` are
   `ℚ`-independent. The step from `ℚ`- to `ℚ̄`-independence of these logarithms is Baker's theorem.
@@ -20,9 +21,6 @@ Both follow from Theorem SMG (`CM4E/Gen/SMG.lean`, slope `s = ω/π`), whose dat
 open Complex Module CM4E.Waldschmidt
 
 namespace CM4E.Gen
-
-/-- **Named input (Lindemann 1882).** `π` is transcendental. -/
-def LindemannPi : Prop := Transcendental ℚ (Real.pi : ℂ)
 
 /-- **Named input (Baker 1966).** Logarithms of algebraic numbers that are linearly independent over `ℚ` are linearly
 independent over `ℚ̄` (stated for three of them). -/
@@ -51,7 +49,7 @@ lemma isAlg_two_I_mul {a : ℂ} (ha : IsAlgebraic ℚ a) : IsAlgebraic ℚ (2 * 
 /-- **Corollary MG1** for a CM lattice: for `a, b, c ∈ ℚ̄ˣ`, `e^{aπ²}`, `e^{bπω}`, `e^{cπ²/ω}` are not all algebraic. -/
 theorem mg1 (hW : Thm11KappaSMG L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : IsAlgebraic ℚ L.pp.g₃)
     (hTω : Transcendental ℚ L.ω) (hTωπ : Transcendental ℚ (L.ω / Real.pi)) (hNot : NotLtilde L)
-    (hπ : LindemannPi) (a b c : ℂ) (ha : IsAlgebraic ℚ a) (ha0 : a ≠ 0) (hb : IsAlgebraic ℚ b)
+    (a b c : ℂ) (ha : IsAlgebraic ℚ a) (ha0 : a ≠ 0) (hb : IsAlgebraic ℚ b)
     (hb0 : b ≠ 0) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     ¬ (IsAlgebraic ℚ (Complex.exp (a * Real.pi ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (b * Real.pi * L.ω)) ∧
       IsAlgebraic ℚ (Complex.exp (c * Real.pi ^ 2 / L.ω))) := by
@@ -86,7 +84,7 @@ theorem mg1 (hW : Thm11KappaSMG L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (hg₃ : 
       rcases mul_eq_zero.mp this with h | h
       · exact absurd h (mul_ne_zero two_ne_zero Complex.I_ne_zero)
       · exact h
-    · exfalso; apply hπ
+    · exfalso; apply transcendental_pi
       have : (Real.pi : ℂ) = -(2 * I * a₀) / a₁ := by
         rw [eq_div_iff ha₁]; linear_combination h'
       rw [this]

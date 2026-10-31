@@ -38,3 +38,4 @@ import CM4E.AbVar.CorA2
 import CM4E.AbVar.X7Torsion
 import CM4E.Final
 import CM4E.Unconditional
+import CM4E.Bridge.Results

@@ -105,3 +105,10 @@ import CM4E
 #print axioms CM4E.AbVar.x7a_full
 #print axioms CM4E.AbVar.x7a_AJ
 #print axioms CM4E.AbVar.x7b_AJ
+#print axioms CM4E.Bridge.hyperplaneKappa_transport
+#print axioms CM4E.Bridge.thm11KappaMG_of_std
+#print axioms CM4E.Bridge.thm11KappaSMG_of_std
+#print axioms CM4E.Bridge.fourExpAt_varpi_div_pi_all
+#print axioms CM4E.Bridge.fourExpAt_omegaRho_div_pi_all
+#print axioms CM4E.Bridge.mg1_varpi
+#print axioms CM4E.Bridge.mg3_varpi

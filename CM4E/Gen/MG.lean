@@ -96,7 +96,7 @@ theorem fourExpAt_MG (hW : Thm11KappaMG L) (hg₂ : IsAlgebraic ℚ L.pp.g₂) (
     FourExpAt (c * L.ω / Real.pi) := by
   intro x₁ x₂ hx₁ hx₂ hind ⟨ht₁, ht₂⟩
   have hI : IsAlgebraic ℚ I := isAlgebraic_iff_isIntegral.mpr (Complex.isIntegral_I ℚ)
-  obtain ⟨r, hr, b, hb, hS⟩ := exists_adapted_basis L.α L.isAlgebraic_α L.him ⟨L.p, L.q, L.hquad⟩
+  obtain ⟨r, hr, b, hb, hS⟩ := exists_adapted_basis L.α L.isAlgebraic_α L.him.ne' ⟨L.p, L.q, L.hquad⟩
     {c, I} (by intro s hs; simp at hs; rcases hs with rfl | rfl; exacts [hc, hI])
   have hcK : c ∈ Kspan L.α b := hS c (by simp)
   have hIK : I ∈ Kspan L.α b := hS I (by simp)

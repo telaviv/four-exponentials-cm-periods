@@ -10,6 +10,7 @@ import CM4E.TwoThree
 import CM4E.MainNat
 import CM4E.MX
 import CM4E.Gen.Instances
+import CM4E.Gen.MXGen
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -65,17 +66,40 @@ theorem two_three_varpi (hW : MainNat.Thm11KappaNat) :
         IsAlgebraic ℚ (Complex.exp ((varpi : ℂ) * Complex.log 3))) :=
   MainNat.two_three_varpi hW hg₂ hT
 
-/-- **Theorem MX, `K`-form**, with `hg₂` for `ϖℤ[i]` discharged. -/
-theorem mx (hW : MX.Thm11KappaMX)
+/-- **Theorem MX, `K`-form, for every `β ∈ ℚ̄ˣ`**, with `g₂, g₃(ϖℤ[i])` discharged. -/
+theorem mx_K (hW : Gen.Thm11KappaMXG)
     (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
     (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi))
-    (b : Fin 4 → ℚ) (hb : b ≠ 0) (zX wX zY wY a t : ℂ)
+    (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0) (zX wX zY wY a t : ℂ)
     (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
     (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t)
-    (hrel : (zX + zY + a) * (MX.beta b * MX.etaRho) = (wX + wY + t) * varpi) :
-    ∃ x ∈ MX.K, ∃ x' ∈ MX.K, zX + zY + a = x * varpi + x' * omegaRho :=
-  MX.main hW hg₂ hg₂' hg₃' hΓ hM b hb zX wX zY wY a t hX hY ha ht hrel
+    (hrel : (zX + zY + a) * (β * MX.etaRho) = (wX + wY + t) * varpi) :
+    ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + zY + a = x * varpi + x' * omegaRho :=
+  Gen.mx_K hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hM β hβ hβ0 zX wX zY wY a t hX hY ha ht hrel
+
+/-- **Theorem MX** (`a = 0`, `z(X) ∈ ℚ(i)ϖ`, `z(Y) ∈ ℚ(ρ)Ω_ρ`) for every `β ∈ ℚ̄ˣ`, with `g₂, g₃(ϖℤ[i])` discharged. -/
+theorem mx (hW : Gen.Thm11KappaMXG)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (hWu : Gen.WuestholzMX)
+    (hMa : Gen.MasserCM) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0) (zX wX zY wY a t : ℂ)
+    (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
+    (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t)
+    (hrel : (zX + zY + a) * (β * MX.etaRho) = (wX + wY + t) * varpi) :
+    a = 0 ∧ (∃ p q : ℚ, zX = (p + q * I) * varpi) ∧ (∃ p q : ℚ, zY = (p + q * MX.rho) * omegaRho) :=
+  Gen.mx_full hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hWu hMa β hβ hβ0 zX wX zY wY a t hX hY ha ht
+    hrel
+
+/-- **Corollary MX1**, with `g₂, g₃(ϖℤ[i])` discharged. -/
+theorem mx1 (hW : Gen.Thm11KappaMXG)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (hWu : Gen.WuestholzMX)
+    (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ) (hu : u ∉ lemniscatic.lattice)
+    (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
+    (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
+    Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
+      (Real.pi * (u + a))) :=
+  Gen.mx1 hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hWu hMa hLa u hu hwp hwp' hu' a t ha ht
 
 /-! ## Theorem 1 for every algebraic `c` (general `K`; `CM4E/Gen/`) -/
 

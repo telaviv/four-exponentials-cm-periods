@@ -1,0 +1,13 @@
+K=Q(i, 2^(1/3)): n=6, det(psi,phi)=64, dim_Q ker psi=6, dim_Q ker phi=6, C-rank span ker psi=3, C-rank span ker phi=3  (expect n, n, n/2, n/2)
+K=Q(rho, 2^(1/3)): n=6, det(psi,phi)=27, dim_Q ker psi=6, dim_Q ker phi=6, C-rank span ker psi=3, C-rank span ker phi=3  (expect n, n, n/2, n/2)
+K=Q(i, sqrt2, sqrt3): n=8, det(psi,phi)=256, dim_Q ker psi=8, dim_Q ker phi=8, C-rank span ker psi=4, C-rank span ker phi=4  (expect n, n, n/2, n/2)
+K=Q(sqrt-2, sqrt3): n=4, det(psi,phi)=64, dim_Q ker psi=4, dim_Q ker phi=4, C-rank span ker psi=2, C-rank span ker phi=2  (expect n, n, n/2, n/2)
+varpi = 2.6220575542921198105  Omega_rho = 2.4286506478875816118
+latI: eta(omega) - eta0 = 2.3e-41;  eta(alpha omega) - conj(alpha) eta0 = 2.3e-41;  omega eta0 (alpha - conj alpha) - 2 pi i = 0.0
+   Legendre eta1 w2 - eta2 w1 - 2 pi i = 9.18e-41
+   alpha' = conj(alpha) (Im<0): forced eta0' = (-1.19814023474 + 0.0j), true eta(omega) = (1.19814023474 + 0.0j)
+latRho: eta(omega) - eta0 = 2.3e-41;  eta(alpha omega) - conj(alpha) eta0 = 1.15e-41;  omega eta0 (alpha - conj alpha) - 2 pi i = 0.0
+   Legendre eta1 w2 - eta2 w1 - 2 pi i = 0.0
+   alpha' = conj(alpha) (Im<0): forced eta0' = (-1.49366840044 + 0.0j), true eta(omega) = (1.49366840044 + 5.67402070672e-44j)
+latI: g2 = (4.0 + 0.0j), g3 = (-2.01243898964347e-41 + 0.0j)
+latRho: g2 = (0.0 - 1.48237751596774e-42j), g3 = (4.0 + 9.11691623929572e-43j)

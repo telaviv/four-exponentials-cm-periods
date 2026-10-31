@@ -10,7 +10,8 @@ import CM4E.Gen.Basis
 
 A `CMLattice` records a period pair `L = (ω, αω)` with `α` imaginary quadratic (`α² = p + qα`, `p, q ∈ ℚ`), and a number
 `η₀` meant to be the conjugate-eigen quasi-period `η*(ω)`, so that `η*((m + nα)ω) = (m + nᾱ) η₀`. The only property
-used in the proofs is Legendre's relation in the form `ω η₀ (α − ᾱ) = 2πi`. That `η₀` is the true quasi-period is a
+used in the proofs is Legendre's relation in the form `ω η₀ (α − ᾱ) = 2πi`. With `Im α > 0` this relation forces
+`η₀ = η*(ω)` (for `Im α < 0` it would force `−η*(ω)`, hence the sign condition `him`). That `η₀` is the true quasi-period is a
 soundness fact of the group models built from it (stated, with the instances, in `CM4E/Gen/Instances.lean`).
 -/
 
@@ -30,7 +31,7 @@ structure CMLattice where
   hω₁ : pp.ω₁ = ω
   hω₂ : pp.ω₂ = α * ω
   hquad : α ^ 2 = p + q * α
-  him : α.im ≠ 0
+  him : 0 < α.im
   legendre : ω * η₀ * (α - starRingEnd ℂ α) = 2 * Real.pi * I
 
 namespace CMLattice
@@ -52,7 +53,7 @@ lemma conj_α : starRingEnd ℂ L.α = L.q - L.α := by
     intro h
     have := congrArg Complex.im h
     simp [Complex.conj_im] at this
-    exact L.him (by linarith)
+    linarith [L.him]
   have : (L.α - starRingEnd ℂ L.α) * (L.α + starRingEnd ℂ L.α - L.q) = 0 := by
     linear_combination h1 - h2
   have h3 := (mul_eq_zero.mp this).resolve_left hne

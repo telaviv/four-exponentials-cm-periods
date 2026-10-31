@@ -71,8 +71,9 @@ noncomputable def torSub (L : Submodule ℚ ((ι → ℚ) × (ι → ℚ))) : Su
 
 /-- **The group model of `G_m^{2n} × G₂`.** Sound when: `algQ`, `perQ` are the `ℚ̄`-structure and (generators of the
 `ℚ`-span of) the periods of `G₂`; `G₂` has no `G_a` or `G_m` factor; and every nonzero connected algebraic subgroup of
-`G₂` has a tangent vector with `λ ≠ 0` (connected subgroups of `G_m^{2n} × G₂` are products, as there are no nonzero
-homomorphisms between a torus and `G₂`). -/
+`G₂` has a tangent vector with `λ ≠ 0`. Connected subgroups of `G_m^{2n} × G₂` are then products `T_L × H` (Goursat:
+no subquotient of `G₂` is a torus and no subquotient of a torus is a quotient of a subgroup of `G₂`, which holds for the
+`G₂` used here: abelian varieties and anti-affine extensions of them by `G_a`). -/
 noncomputable def gmF (algQ : Q → Prop) (perQ : Set Q) (lam : Q →ₗ[ℂ] ℂ) [FiniteDimensional ℂ Q] :
     GroupModel (TF ι Q) where
   d₁ := 2 * Fintype.card ι

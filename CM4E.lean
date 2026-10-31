@@ -15,4 +15,5 @@ import CM4E.Gen.CMLattice
 import CM4E.Gen.MGn
 import CM4E.Gen.MG
 import CM4E.Gen.Instances
+import CM4E.Gen.MXGen
 import CM4E.Final

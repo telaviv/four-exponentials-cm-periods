@@ -16,8 +16,6 @@ import CM4E
 #print axioms CM4E.MainNat.main
 #print axioms CM4E.MainNat.key_contraN
 #print axioms CM4E.MainNat.two_three_varpi
-#print axioms CM4E.MX.main
-#print axioms CM4E.MX.yX_linearIndependent
 #print axioms CM4E.Final.hg₂
 #print axioms CM4E.Final.hS
 #print axioms CM4E.Final.hT
@@ -25,7 +23,12 @@ import CM4E
 #print axioms CM4E.Final.two_three
 #print axioms CM4E.Final.fourExpAt_varpi
 #print axioms CM4E.Final.two_three_varpi
+#print axioms CM4E.Final.mx_K
 #print axioms CM4E.Final.mx
+#print axioms CM4E.Final.mx1
+#print axioms CM4E.Gen.mx_K
+#print axioms CM4E.Gen.mx_full
+#print axioms CM4E.Gen.mx1
 #print axioms CM4E.Gen.frame_false
 #print axioms CM4E.Gen.exists_adapted_basis
 #print axioms CM4E.Gen.fourExpAt_MGn

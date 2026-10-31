@@ -5,9 +5,10 @@ CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 
 ## Results
 
-**Unconditional** (W88 proved in the sibling project `lean_lsg`, a Lake path dependency): `CM4E.Unconditional.fourExpAt_Qi`
-(four exponentials at `t = cϖ/π` for every `c ∈ ℚ(i)ˣ`) and `CM4E.Unconditional.two_three` (**`2^{ϖ/π}` and `3^{ϖ/π}` are not
-both algebraic**). Everything below is conditional on W88 for the stated groups; the tiers are in
+**Unconditional** (W88 proved in the sibling project `lean_lsg`, a Lake path dependency):
+`CM4E.Unconditional.fourExpAt_varpi_div_pi_all` (**the four exponentials statement at `t = cϖ/π` for every algebraic
+`c ≠ 0`**; e.g. `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic, `CM4E.Unconditional.two_three`); the same at `cΩ_ρ/π` given
+that `g₂, g₃(Ω_ρℤ[ρ])` are algebraic; Cor. MG1 and MG3 given only the named classical inputs (Wüstholz, Baker). Everything below is conditional on W88 for the stated groups; the tiers are in
 [TRUST.md](TRUST.md) §1a.
 
 With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real periods of `y² = 4x³ − 4x` and `y² = 4x³ − 4`
@@ -73,9 +74,10 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 
 * Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
   of the group models.
-* Theorem 1 for every CM curve (more `CMLattice` instances); Baker's reduction for the `K`-forms; (M2) via
-  Gel'fond–Schneider; Hermite–Lindemann from the vendored Schneider–Lang criterion; for the companion paper: the
-  §5d deduction from `lean_lsg`'s Theorem 4.1 for `E^m`, `m ≥ 2` (would make Theorem 1(b), MG, M, S unconditional).
+* Theorem 1 for every CM curve (more `CMLattice` instances); bridges for the models with elliptic logarithms (Theorem M,
+  the `K`-form of MG: need the addition law and CM multiplication on algebraic points); vector extensions (Theorem 1(a),
+  MG♮, MX, Theorem S) once `lean_lsg` proves W88 for them; (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
+  vendored Schneider–Lang criterion.
 
 ## License and provenance
 

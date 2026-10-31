@@ -138,3 +138,6 @@ import CM4E
 #print axioms CM4E.Unconditional.mg_K_varpi
 #print axioms CM4E.Bridge.thm11KappaMXG_of_copy
 #print axioms CM4E.Bridge.thm11KappaMXG_of_vec
+#print axioms CM4E.Bridge.thm11KappaMGn_of_vec
+#print axioms CM4E.Bridge.thm11KappaMGnK_of_vec
+#print axioms CM4E.Bridge.thm11KappaNat_of_vec

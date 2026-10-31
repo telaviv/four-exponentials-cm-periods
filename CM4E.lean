@@ -40,3 +40,4 @@ import CM4E.Final
 import CM4E.Unconditional
 import CM4E.Bridge.Results
 import CM4E.Bridge.MXG
+import CM4E.Bridge.Vec

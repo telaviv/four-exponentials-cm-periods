@@ -18,7 +18,8 @@ This is Theorem MG♮ of the paper with `K = ℚ(i, √2)` (`n = 4`; `n = 2` is 
 
 `G'' = G_m⁸ × Q''`, where `Q'' = (E_i^♮)⁴ / U` is the quotient used in the paper (§3, proof of Theorem MG♮):
 * `E_i^♮` is the universal vector extension of `E_i : y² = 4x³ − 4x`, with `ℚ̄`-rational coordinates `(z, w)` dual to
-  `(dx/y, x dx/y)`.
+  `(dx/y, −x dx/y)` (with `+x dx/y` the second period coordinate is `−η(λ)`, since `∫ x dx/y = −η`; flipping the sign
+  of `w` changes nothing below).
 * Its periods are `(λ, η(λ))` for `λ ∈ ϖℤ[i]`, with `η(mϖ + niϖ) = (m − ni)·π/ϖ`. This uses Legendre's relation
   `ϖ η(ϖ) = π` and `η(iλ) = −iη(λ)`, which follows from `ζ(iz) = −iζ(z)`.
 * `θ = (1, i, √2, i√2)` is a `ℚ`-basis of `K = ℚ(i, √2)`, and `φ(m) = Σ θ_j m̄_j` on `ℚ(i)⁴`.
@@ -26,11 +27,14 @@ This is Theorem MG♮ of the paper with `K = ℚ(i, √2)` (`n = 4`; `n = 2` is 
 * The coordinates on `T(Q'')` are `(ℓ_{τ₁}(z), ℓ_{τ₂}(z), θᵀw)`, where `ℓ_τ(z) = Σ τ(θ_j) z_j` for the two embeddings
   `τ` of `K` with `τ(i) = −i`. These vanish on `T_U` and are independent modulo it.
 
-Soundness facts used to justify the model (not checked by Lean):
+Soundness facts used to justify the model (not checked by Lean; independently re-derived in `REFEREE_HYP_NAT.md`):
 1. the coordinates and the period formula above;
 2. the periods of `Q''` are the images of the periods of `(E^♮)⁴` (`U` is connected);
 3. every connected algebraic subgroup of `G_m⁸ × Q''` is `T_L × H` with `H = 0`, the fibre `F`, or `π⁻¹(B')`, and every
-   nonzero `H` contains `F` (paper §3, MG♮; REFEREE_MGF_2 #1–2);
+   nonzero `H` contains `F` (paper §3, MG♮; `schanuel/five_exp/pilot_epi2_mix/REFEREE_MGF_2.md` #1–2). Products only:
+   there are no nonzero homomorphisms between a torus and `Q''`, so Goursat gives `T_L × H`. Every nonzero `H`
+   contains `F`: otherwise `H` would split `π⁻¹(B')` for some `B' ≠ 0`, but the anti-affine image of `B^♮_{S'}` has
+   tangent vector `(0, 0, φ(m)) ≠ 0`, so it contains `F`;
 4. `d₀ = 0` is maximal (`Q''` is a quotient of an anti-affine group), `d₁ = 8`, and `d₂ = dim Q'' = 3`;
 5. `g₂, g₃` of `ϖℤ[i]` are algebraic (premise of the hypothesis).
 

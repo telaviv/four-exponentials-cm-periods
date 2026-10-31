@@ -6,10 +6,12 @@ import Mathlib
 import CM4E.Gen.MGnK
 import CM4E.MainNat
 import CM4E.Gen.MXGen
+import CM4E.Gen.SMG
 import LSG.W88.V5dMGn
 import LSG.W88.V5dMGnK
 import LSG.W88.V5dNat
 import LSG.W88.V5dOntoBridges
+import LSG.W88.V5dSMGn
 
 /-!
 # The vector-extension hypotheses from `lean_lsg`'s `Theorem41VecLA`
@@ -21,7 +23,8 @@ import LSG.W88.V5dOntoBridges
 on `Theorem41VecLA` (see also `CM4E/Bridge/MXG.lean`).
 
 `lean_lsg` 0ed4c24 also proves the copies outright (`LSG.W88.V5d.thm11KappaMXG_uncond`, `…MGn_uncond`, `…MGnK_uncond`,
-`…Nat_uncond`, via its Theorem 4.1 for vector extensions onto `M`); the `_uncond` theorems below repackage them.
+`…Nat_uncond`, via its Theorem 4.1 for vector extensions onto `M`; `…SMGn_uncond`, 36b7f5c); the `_uncond` theorems
+below repackage them.
 -/
 
 open Complex CM4E.Gen
@@ -60,6 +63,11 @@ theorem thm11KappaMGn_uncond (L : CMLattice) : Thm11KappaMGn L :=
 theorem thm11KappaMGnK_uncond (L : CMLattice) : Thm11KappaMGnK L :=
   fun hk h2 h3 r b hb =>
     LSG.W88.V5d.thm11KappaMGnK_uncond (adaptL L) hk h2 h3 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩
+
+/-- **`Gen.Thm11KappaSMGn L`, unconditionally**, for every CM lattice (premised on `KappaOneZero L`). -/
+theorem thm11KappaSMGn_uncond (L : CMLattice) : Thm11KappaSMGn L :=
+  fun hk h2 h3 r b hb =>
+    LSG.W88.V5d.thm11KappaSMGn_uncond (adaptL L) hk h2 h3 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩
 
 /-- **`MainNat.Thm11KappaNat`, unconditionally.** -/
 theorem thm11KappaNat_uncond : MainNat.Thm11KappaNat := LSG.W88.V5d.thm11KappaNat_uncond

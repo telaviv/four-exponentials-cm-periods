@@ -48,7 +48,8 @@ With the arithmetic of elliptic logarithms (`CM4E/Bridge/ELog.lean`: addition la
   algebraic; `FourExpAt (cϖ)` for every algebraic `c ≠ 0`); `fourExpAt_omegaRho_all`, `two_three_omegaRho` for `Ω_ρ`
   (only `hg₃'`);
 * `mgn_K_varpi`: the `K`-form of Theorem MG♮;
-* `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs.
+* `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs;
+* `thmS_varpi`, `thmS_omegaRho`: **Theorem S** of paper [II], assuming only `Gen.NotLtilde` (Wüstholz) (and `hg₃'`).
 -/
 
 open Complex CM4E.Waldschmidt
@@ -237,5 +238,25 @@ theorem deg2_ii (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (hrel : c0 + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho / Real.pi) = 0) :
     c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
   Final.deg2_ii Bridge.thm11KappaMXG_uncond hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
+
+/-- **Theorem S for `Ω = ϖ`** (paper [II]): for `t ∈ ℚ̄ˣϖ ∪ ℚ̄ˣ/ϖ ∪ ℚ̄ˣϖ/π ∪ ℚ̄ˣπ/ϖ` and `ℚ̄`-independent `y₁, y₂`, the
+numbers `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃ = ℚ̄ + ℚ̄𝓛`; assuming only `Gen.NotLtilde Gen.latI` (Wüstholz). -/
+theorem thmS_varpi (hNot : Gen.NotLtilde Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
+    (ht : t = c * varpi ∨ t = c / varpi ∨ t = c * varpi / Real.pi ∨ t = c * Real.pi / varpi)
+    (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
+      a₁ = 0 ∧ a₂ = 0) :
+    ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
+  Final.thmS_varpi (Bridge.thm11KappaSMG_of_std Gen.latI (hypStdCMAt lemniscatic 2) Bridge.int_I)
+    (Bridge.thm11KappaSMGn_uncond Gen.latI) hNot c hc hc0 t ht y₁ y₂ hind
+
+/-- **Theorem S for `Ω = Ω_ρ`**, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄` and `Gen.NotLtilde Gen.latRho`. -/
+theorem thmS_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hNot : Gen.NotLtilde Gen.latRho) (c : ℂ)
+    (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
+    (ht : t = c * omegaRho ∨ t = c / omegaRho ∨ t = c * omegaRho / Real.pi ∨ t = c * Real.pi / omegaRho)
+    (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
+      a₁ = 0 ∧ a₂ = 0) :
+    ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
+  Final.thmS_omegaRho (Bridge.thm11KappaSMG_of_std Gen.latRho (hypStdCMAt MX.equianharmonic 2) Bridge.int_rho)
+    (Bridge.thm11KappaSMGn_uncond Gen.latRho) hg₃' hNot c hc hc0 t ht y₁ y₂ hind
 
 end CM4E.Unconditional

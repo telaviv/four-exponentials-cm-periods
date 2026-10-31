@@ -155,3 +155,13 @@ import CM4E
 #print axioms CM4E.Unconditional.mx
 #print axioms CM4E.Unconditional.mx1
 #print axioms CM4E.Unconditional.deg2_ii
+#print axioms CM4E.AbVar.ch_rows_indep
+#print axioms CM4E.AbVar.ch_span
+#print axioms CM4E.AbVar.exists_adapted_common
+#print axioms CM4E.AbVar.propXA_K
+#print axioms CM4E.AbVar.XSetup.propX15
+#print axioms CM4E.AbVar.XSetup.thmXA
+#print axioms CM4E.AbVar.thmX7_of_gen
+#print axioms CM4E.Bridge.thm11KappaSMGn_uncond
+#print axioms CM4E.Unconditional.thmS_varpi
+#print axioms CM4E.Unconditional.thmS_omegaRho

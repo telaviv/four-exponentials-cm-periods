@@ -50,6 +50,7 @@ With the arithmetic of elliptic logarithms (`CM4E/Bridge/ELog.lean`: addition la
 * `mgn_K_varpi`: the `K`-form of Theorem MG♮;
 * `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs;
 * `thmS_varpi`, `thmS_omegaRho`: **Theorem S** of paper [II], assuming only `Gen.NotLtilde` (Wüstholz) (and `hg₃'`).
+* `mxP_K`, `deg2_i`: Proposition D′ (Theorem MX′) and deg2 (i), with their named inputs (`Bridge.thm11KappaMXP_uncond`).
 -/
 
 open Complex CM4E.Waldschmidt
@@ -258,5 +259,22 @@ theorem thmS_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hNot : 
     ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
   Final.thmS_omegaRho (Bridge.thm11KappaSMG_of_std Gen.latRho (hypStdCMAt MX.equianharmonic 2) Bridge.int_rho)
     (Bridge.thm11KappaSMGn_uncond Gen.latRho) hg₃' hNot c hc hc0 t ht y₁ y₂ hind
+
+/-- **Proposition D′ (Theorem MX′), `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ`, `hM`. -/
+theorem mxP_K (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
+    (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi)) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
+    (zX wX zY wY a c : ℂ) (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
+    (ha : IsAlgebraic ℚ a) (hc : IsAlgebraic ℚ c) (hrel : (zX + wY + a) * (β * omegaRho) = (wX + zY + c) * varpi) :
+    ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + wY + a = x * varpi + x' * MX.etaRho :=
+  Final.mxP_K Bridge.thm11KappaMXP_uncond hg₃' hΓ hM β hβ hβ0 zX wX zY wY a c hX hY ha hc hrel
+
+/-- **Corollary deg2 (i)**: `π, ϖ, Ω_ρ, ϖΩ_ρ` are `ℚ̄`-independent, assuming only `hg₃'`, `hΓ` and the named input
+`WuestholzSix`. -/
+theorem deg2_i (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (h6 : Gen.WuestholzSix) (c0 c1 c2 c3 : ℂ)
+    (h0 : IsAlgebraic ℚ c0) (h1 : IsAlgebraic ℚ c1) (h2 : IsAlgebraic ℚ c2) (h3 : IsAlgebraic ℚ c3)
+    (hrel : c0 * Real.pi + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho) = 0) :
+    c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
+  Final.deg2_i Bridge.thm11KappaMXP_uncond hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
 
 end CM4E.Unconditional

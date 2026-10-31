@@ -12,6 +12,8 @@ import LSG.W88.V5dMGnK
 import LSG.W88.V5dNat
 import LSG.W88.V5dOntoBridges
 import LSG.W88.V5dSMGn
+import LSG.W88.V5dMXPMain
+import CM4E.Gen.MXP
 
 /-!
 # The vector-extension hypotheses from `lean_lsg`'s `Theorem41VecLA`
@@ -68,6 +70,11 @@ theorem thm11KappaMGnK_uncond (L : CMLattice) : Thm11KappaMGnK L :=
 theorem thm11KappaSMGn_uncond (L : CMLattice) : Thm11KappaSMGn L :=
   fun hk h2 h3 r b hb =>
     LSG.W88.V5d.thm11KappaSMGn_uncond (adaptL L) hk h2 h3 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩
+
+/-- **`Gen.Thm11KappaMXP`, unconditionally** (lean_lsg 4f27015, via its Theorem 4.1 for `d₀ = 0`, `r ≤ 2`). -/
+theorem thm11KappaMXP_uncond : Thm11KappaMXP :=
+  fun h1 h2 h3 h4 r b hb =>
+    LSG.W88.V5d.thm11KappaMXP_uncond h1 h2 h3 h4 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩
 
 /-- **`MainNat.Thm11KappaNat`, unconditionally.** -/
 theorem thm11KappaNat_uncond : MainNat.Thm11KappaNat := LSG.W88.V5d.thm11KappaNat_uncond

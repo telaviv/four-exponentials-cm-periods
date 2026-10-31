@@ -26,6 +26,9 @@ vendored `CM4E/Ext/`.
 | `Final.mx_K` | Theorem MX, `K`-form: `z(X) + z(Y) + a ∈ ℚ̄ϖ + ℚ̄Ω_ρ`, every `β ∈ ℚ̄ˣ` | `hW : Gen.Thm11KappaMXG`, `hg₂'`, `hg₃'`, `hΓ`, `hM` |
 | `Final.mx` | Theorem MX: `a = 0`, `z(X) ∈ ℚ(i)ϖ`, `z(Y) ∈ ℚ(ρ)Ω_ρ`, every `β ∈ ℚ̄ˣ` | the above (with `hM` derived) and `WuestholzMX`, `MasserCM` |
 | `Final.mx1` | Corollary MX1 | the above and `LaurentZeta` |
+| `Final.thmS_varpi`, `Final.thmS_omegaRho` | Theorem S of [II]: for `t ∈ ℚ̄ˣΩ ∪ ℚ̄ˣ/Ω ∪ ℚ̄ˣΩ/π ∪ ℚ̄ˣπ/Ω` and `ℚ̄`-independent `y₁, y₂`, not all of `y₁, y₂, ty₁, ty₂` lie in `𝓛̃ = ℚ̄ + ℚ̄𝓛` (`Ω = ϖ`, `Ω_ρ`) | `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L`, `Gen.NotLtilde L` (and `hg₂'`, `hg₃'` for `Ω_ρ`) |
+| `Final.mg1_varpi` | Corollary MG1: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.NotLtilde Gen.latI`, `Gen.LindemannPi` |
+| `Final.mg3_varpi` | Corollary MG3 (`α^{ϖ/π}` transcendental when `e^{π²}`, `e^{cπϖ}` are algebraic) | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.Baker3` |
 
 `FourExpAt t` (`CM4E/Defs.lean`): for `ℚ`-linearly independent `a, b` with `e^a, e^b` algebraic, `e^{ta}` and `e^{tb}`
 are not both algebraic. The determinations of `α^t, β^t` are thus tied to the chosen logarithms.
@@ -49,12 +52,16 @@ Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharg
 | `hW : Gen.Thm11KappaMGn L` | the same theorem for `G_m^{2n} × Q″`, `Q″ = (E^♮)^n/U`, for every number field `K` with an adapted basis; `L` is a CM lattice (`latI`, `latRho`) | `CM4E/Gen/MGn.lean` (model `gmMGn`, on the frame `gmF` of `CM4E/Gen/Frame.lean`) | Same source; hand-written model (tangent space `ℂ^n/ℂ·ker φ × ℂ`). Fidelity: [`reviews/REFEREE_HYP_GEN.md`](reviews/REFEREE_HYP_GEN.md) (CORRECT; it also found the sign condition `Im α > 0`, now required). |
 | `hW : Gen.Thm11KappaMG L` | the same theorem for `G_m^{2n} × A″`, `A″ = E^n/B_{ker ψ}`, every adapted `K` | `CM4E/Gen/MG.lean` (model `gmMG`) | Same; fidelity in `reviews/REFEREE_HYP_GEN.md` (CORRECT). |
 | `hW : Gen.Thm11KappaMXG` | the same theorem for `G″ = G_a × G_ℓ = (E_i^♮ × E_ρ^♮ × G_a²)^n/U`, every adapted `K ∋ i` | `CM4E/Gen/MXGen.lean` (model `gmXG`) | Same; the model reviewed in [`reviews/REFEREE_HYP_MX.md`](reviews/REFEREE_HYP_MX.md) for `K = ℚ(i, √3)`, with general `K`; review of the general form: `reviews/REFEREE_HYP_MXG.md`. |
+| `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L` | the same theorem for `G_a² × G_m^{2n} × A″` and `G_a × G_m^{2n} × Q″` ([II], Theorems SMG, SMG♮), every adapted `K` | `CM4E/Gen/SMG.lean` (models `gmSMG`, `gmSMGn`, on the frame `gmF2` of `CM4E/Gen/Frame2.lean`) | Same source; review: `reviews/REFEREE_HYP_SMG.md`. The paper proves SMG via W88 Thm 4.1; Lean uses the §5d route with the uniform exclusion "no nonzero algebraic subgroup inside `ker Ψ″`". |
 | `hg₂'`, `hg₃'` | `g₂`, `g₃` of `Ω_ρℤ[ρ]` are algebraic | arguments | True: `g₂ = 0`, `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`); not proved in Lean. |
 | `hΓ` | `ϖΩ_ρ/π ∉ ℚ̄` (Corollary Γ) | argument of the MX theorems | Wüstholz's analytic subgroup theorem (1989): a period of `E_i` and a quasi-period of `E_ρ` are `ℚ̄`-linearly independent. |
 | `hM` | `Ω_ρ/ϖ ∉ ℚ̄` | argument of `Final.mx_K` | Wüstholz 1989; derived from `WuestholzMX` in `Gen.mx_full`. |
 | `Gen.WuestholzMX` | a `ℚ̄`-linear relation `z_X + z_Y + a = xϖ + x'Ω_ρ` between elliptic logarithms of `E_i`, `E_ρ` forces `a = 0`, `z_X = xϖ`, `z_Y = x'Ω_ρ` | `CM4E/Gen/MXGen.lean` | Wüstholz 1989, applied to `E_i² × E_ρ² × G_a` (argument in the docstring). |
 | `Gen.MasserCM` | an elliptic logarithm that is an algebraic multiple `xω` of the period has `x` in the CM field | `CM4E/Gen/MXGen.lean` | Masser 1975; also Wüstholz on `E²`. |
 | `Gen.LaurentZeta` | `ζ(u)` is transcendental for non-torsion `u` on `E_i` with `℘(u), ℘'(u)` algebraic | `CM4E/Gen/MXGen.lean` | Laurent 1980 (`1, u, ζ(u)` are `ℚ̄`-independent). |
+| `Gen.NotLtilde L` | `ω ∉ 𝓛̃` and `η₀ ∉ 𝓛̃` | `CM4E/Gen/SMG.lean` | [II], Lemma notLt (Wüstholz's analytic subgroup theorem). |
+| `Gen.LindemannPi` | `π` is transcendental | `CM4E/Gen/MG13.lean` | Lindemann 1882 (not in Mathlib v4.35). |
+| `Gen.Baker3` | three `ℚ`-independent logarithms of algebraic numbers are `ℚ̄`-independent | `CM4E/Gen/MG13.lean` | Baker 1966. |
 
 All `hW` have the same form `HyperplaneKappa G` for a `GroupModel G` (`CM4E/Waldschmidt.lean`). A model is
 *sound* if its logarithms, periods and subgroup family are true of the group; soundness is checked by the reviews, not
@@ -100,7 +107,7 @@ Theorem 11).
 | Example `2^{ϖ/π}, 3^{ϖ/π}` | `TwoThree.two_three`, `Final.two_three` | ✔ |
 | Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | `Gen.fourExpAt_MGn`, `Final.fourExpAt_varpi_all`, `Final.fourExpAt_omegaRho_all`, `Final.two_three_varpi`, `Final.two_three_omegaRho` (also `MainNat` for `c ∈ ℚ(i)`) | ✔ for `Ω ∈ {ϖ, Ω_ρ}` and every algebraic `c ≠ 0`. Missing: other CM curves |
 | Theorem MG, Cor. MG2 (`K`-version, `dim_K S_K ≤ 2`) | — | ✗ (only the `FourExpAt` form; the dimension statement needs `K`-linear algebra on `K𝓛` and Baker's theorem for `K`-independence) |
-| Cor. MG1, Cor. MG3 | — | ✗ (need the `K`-version of MG; MG3 needs Baker) |
+| Cor. MG1, Cor. MG3 | `Gen.mg1`, `Gen.mg3`, `Final.mg1_varpi`, `Final.mg3_varpi` | ✔ for any `CMLattice` (via Theorem SMG of [II], whose data may lie in `𝓛̃`); MG1 uses Lindemann and `NotLtilde`, MG3 uses Baker |
 | Theorem MG♮ (`K`-version), Cor. MG♮2 | `Gen.fourExpAt_MGn` | ◐ Cor. MG♮2 ✔ (as above); the `K`-dimension statement ✗ |
 | Affine MG; general form, elliptic 4E | — | ✗ (proof sketches in the paper) |
 | Theorem M, Cor. M1–Mη | — | ✗ |
@@ -123,3 +130,23 @@ commit: [`CM4E/Ext/PROVENANCE.md`](CM4E/Ext/PROVENANCE.md). The project depends 
 Written by AI models (Claude, Anthropic) under the direction of the author. All review so far is by AI referees: the
 fidelity reports in [`reviews/`](reviews/) (scripts and outputs in `reviews/checks/`) and the paper's own referee
 reports. No human expert has reviewed the definitions or proofs.
+
+## 8. The companion paper [II]
+
+| result of [II] | Lean | status |
+|---|---|---|
+| Theorem S, Theorems SMG, SMG♮ | `Gen.thmS`, `Gen.smg_false`, `Gen.smgn_false`, `Final.thmS_varpi`, `Final.thmS_omegaRho` | ✔ for CM lattices given as `CMLattice` (`ϖℤ[i]`, `Ω_ρℤ[ρ]`); SMG/SMG♮ with second rows in `𝓛̃` (elliptic logarithms / fibre values in the second row are not formalised) |
+| Theorem A (MG-A, MG♮-A), Cor. A2 | — | ✗ not formalised: needs a modelled CM abelian variety |
+| Theorem X, Prop. 15, Theorem X7, Cor. X7 | — | ✗ not formalised: needs a modelled CM abelian variety (the genus-3 Jacobian of `y⁷ = x(1 − x)`, with Beta-value periods) |
+
+**What a model of a CM abelian variety would require** (for Theorems A and X; a task for `lean_lsg` or a later project).
+The group models here only need, for each factor, a tangent space with its `ℚ̄`-structure, a lattice of periods and the
+list of connected algebraic subgroups. For a CM abelian variety `A` of dimension `g` with CM by a field `F` this means:
+an explicit period lattice in `ℂ^g` in eigen-coordinates (for the Jacobian of `y⁷ = x(1 − x)`: the periods of the
+eigen-differentials `dx/y^{7−j}`, which are Beta values `B(j/7, j/7)` times algebraic numbers and roots of unity), the
+`ℚ̄`-rationality of these coordinates, the description of `Λ(A)` (logarithms of algebraic points, e.g. via abelian
+integrals `∫_O^Q dx/y^k`), the abelian subvarieties of products `A^n × E^m` as `F`-subspaces (for simple `A` and
+non-isogenous factors), and, for Theorem X, the first-kind period relation used as the `κ`-term (Beta cocycle and
+reflection, with `B(1/7, 2/7) ∈ ℚ̄ˣΩ_E` by Chowla–Selberg). None of this is in Mathlib; the soundness of such a model
+would rest on classical facts about Fermat-curve Jacobians (Rohrlich, Gross, Koblitz–Ogus), each of which would need
+to be stated and refereed as carefully as the elliptic models here.

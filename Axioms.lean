@@ -136,3 +136,4 @@ import CM4E
 #print axioms CM4E.Unconditional.thmM_varpi_k
 #print axioms CM4E.Unconditional.meta_varpi
 #print axioms CM4E.Unconditional.mg_K_varpi
+#print axioms CM4E.Bridge.thm11KappaMXG_of_copy

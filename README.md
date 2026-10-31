@@ -1,8 +1,9 @@
 # lean_mstar: four exponentials at CM periods, in Lean 4
 
-Lean 4 + Mathlib certificate for the paper *A proof of the Roy–Waldschmidt theorem with period term, with explicit consequences at CM and Beta periods* (draft, merging the
-earlier drafts "[I]" on CM elliptic curves and "[II]" on CM abelian varieties; snapshot in [`paper/`](paper/); results are
-cited by the merged numbering, and `paper/README.md` maps the old numbers).
+Lean 4 + Mathlib certificate for the applications in the paper *A proof of the Roy–Waldschmidt theorem with period
+term, with explicit consequences at CM and Beta periods* (draft; it contains the results of the earlier drafts "[I]"
+on CM elliptic curves and "[II]" on CM abelian varieties; snapshot in [`paper/`](paper/); results are cited by its
+numbering, and `paper/README.md` maps the old numbers).
 
 ## Results
 

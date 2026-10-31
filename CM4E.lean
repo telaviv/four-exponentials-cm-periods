@@ -16,6 +16,7 @@ import CM4E.Gen.MGn
 import CM4E.Gen.MG
 import CM4E.Gen.Instances
 import CM4E.Gen.MXGen
+import CM4E.Gen.MXP
 import CM4E.Gen.Frame2
 import CM4E.Gen.SMG
 import CM4E.Gen.PiTranscendental

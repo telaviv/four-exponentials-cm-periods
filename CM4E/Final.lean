@@ -208,4 +208,29 @@ theorem deg2_ii (hW : Gen.Thm11KappaMXG)
     c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
   Gen.deg2_ii hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
 
+/-- **Proposition D′ (Theorem MX′), `K`-form, for every `β ∈ ℚ̄ˣ`**, with `g₂, g₃(ϖℤ[i])` discharged: if
+`(z(X) + w(Y) + a)·βΩ_ρ = (w(X) + z(Y) + c)·ϖ` then `z(X) + w(Y) + a ∈ ℚ̄ϖ + ℚ̄η_ρ`. -/
+theorem mxP_K (hW : Gen.Thm11KappaMXP)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
+    (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi))
+    (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0) (zX wX zY wY a c : ℂ)
+    (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
+    (ha : IsAlgebraic ℚ a) (hc : IsAlgebraic ℚ c)
+    (hrel : (zX + wY + a) * (β * omegaRho) = (wX + zY + c) * varpi) :
+    ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + wY + a = x * varpi + x' * MX.etaRho :=
+  Gen.mxP_K hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hM β hβ hβ0 zX wX zY wY a c hX hY ha hc
+    hrel
+
+/-- **Corollary deg2 (i)**: `π, ϖ, Ω_ρ, ϖΩ_ρ` are linearly independent over `ℚ̄`. Assumes W88 §5d (MX′ groups),
+`g₂, g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`, `hΓ`, and the named input `Gen.WuestholzSix`. -/
+theorem deg2_i (hW : Gen.Thm11KappaMXP)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (h6 : Gen.WuestholzSix)
+    (c0 c1 c2 c3 : ℂ) (h0 : IsAlgebraic ℚ c0) (h1 : IsAlgebraic ℚ c1) (h2 : IsAlgebraic ℚ c2)
+    (h3 : IsAlgebraic ℚ c3)
+    (hrel : c0 * Real.pi + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho) = 0) :
+    c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
+  Gen.deg2_i hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
+
 end CM4E.Final

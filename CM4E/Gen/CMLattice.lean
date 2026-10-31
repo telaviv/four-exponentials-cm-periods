@@ -108,4 +108,12 @@ lemma exists_coords {α : ℂ} {r : ℕ} {b : Fin r → ℂ} {x : ℂ} (hx : x �
   obtain ⟨m, hm⟩ := (Submodule.mem_span_range_iff_exists_fun ℚ).mp hx
   exact ⟨m, by simpa [Rat.smul_def] using hm⟩
 
+/-- Coordinates of `x ∈ K` in the basis `θ` (arbitrary outside `K`). -/
+noncomputable def coordsA (α : ℂ) {r : ℕ} (b : Fin r → ℂ) (x : ℂ) : Fin r × Fin 2 → ℚ :=
+  Classical.epsilon (fun m : Fin r × Fin 2 → ℚ => ∑ j, (m j : ℂ) * theta α b j = x)
+
+lemma coordsA_spec {α : ℂ} {r : ℕ} {b : Fin r → ℂ} {x : ℂ} (hx : x ∈ Kspan α b) :
+    ∑ j, (coordsA α b x j : ℂ) * theta α b j = x :=
+  Classical.epsilon_spec (exists_coords hx)
+
 end CM4E.Gen

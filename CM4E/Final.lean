@@ -11,6 +11,7 @@ import CM4E.MainNat
 import CM4E.MX
 import CM4E.Gen.Instances
 import CM4E.Gen.MXGen
+import CM4E.Gen.SMG
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -144,5 +145,32 @@ theorem two_three_omegaRho (hW : Gen.Thm11KappaMGn Gen.latRho)
     (Complex.log 3) (by simpa using log_mem_logAlg 2 two_ne_zero)
     (by simpa using log_mem_logAlg 3 three_ne_zero) linearIndependent_two_three
   simpa using h
+
+/-! ## Theorem S (paper [II]) -/
+
+/-- **Theorem S for `Ω = ϖ`**: for `t ∈ ℚ̄ˣϖ ∪ ℚ̄ˣ/ϖ ∪ ℚ̄ˣϖ/π ∪ ℚ̄ˣπ/ϖ` and `ℚ̄`-independent `y₁, y₂`, the numbers
+`y₁, y₂, ty₁, ty₂` are not all in `𝓛̃ = ℚ̄ + ℚ̄𝓛`. Assumes W88 §5d (`hWa`, `hWb`) and `Gen.NotLtilde Gen.latI`. -/
+theorem thmS_varpi (hWa : Gen.Thm11KappaSMG Gen.latI) (hWb : Gen.Thm11KappaSMGn Gen.latI)
+    (hNot : Gen.NotLtilde Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
+    (ht : t = c * varpi ∨ t = c / varpi ∨ t = c * varpi / Real.pi ∨ t = c * Real.pi / varpi)
+    (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
+      a₁ = 0 ∧ a₂ = 0) :
+    ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
+  Gen.thmS Gen.latI hWa hWb hg₂ g₃_lemniscatic_isAlgebraic hT
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot c hc hc0 t ht y₁ y₂ hind
+
+/-- **Theorem S for `Ω = Ω_ρ`**, assuming also `g₂, g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
+theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11KappaSMGn Gen.latRho)
+    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hNot : Gen.NotLtilde Gen.latRho) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
+    (ht : t = c * omegaRho ∨ t = c / omegaRho ∨ t = c * omegaRho / Real.pi ∨ t = c * Real.pi / omegaRho)
+    (y₁ y₂ : ℂ) (hind : ∀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → a₁ * y₁ + a₂ * y₂ = 0 →
+      a₁ = 0 ∧ a₂ = 0) :
+    ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
+  Gen.thmS Gen.latRho hWa hWb hg₂' hg₃'
+    (CM4E.Ext.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+      MX.omegaRho_ne_zero)
+    (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+      MX.omegaRho_ne_zero) hNot c hc hc0 t ht y₁ y₂ hind
 
 end CM4E.Final

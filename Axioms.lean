@@ -38,3 +38,9 @@ import CM4E
 #print axioms CM4E.Final.fourExpAt_omegaRho_all
 #print axioms CM4E.Final.fourExpAt_omegaRho_div_pi_all
 #print axioms CM4E.Final.two_three_omegaRho
+#print axioms CM4E.Gen.frame2_false
+#print axioms CM4E.Gen.smg_false
+#print axioms CM4E.Gen.smgn_false
+#print axioms CM4E.Gen.thmS
+#print axioms CM4E.Final.thmS_varpi
+#print axioms CM4E.Final.thmS_omegaRho

@@ -129,14 +129,6 @@ lemma psiX2_gXA (h : Fin r × Fin 2) (a t : ℂ) : psiX2 (gXA b h a t) = theta I
 lemma psiX_rsmul (f : TXG r →ₗ[ℂ] ℂ) (q : ℚ) (v : TXG r) : f (q • v) = (q : ℂ) * f v := by
   rw [map_rat_smul f q v, Rat.smul_def]
 
-variable (b) in
-/-- Coordinates of `x ∈ K` in the basis `θ` (zero outside `K`). -/
-noncomputable def coordsK (x : ℂ) : Fin r × Fin 2 → ℚ :=
-  Classical.epsilon (fun m : Fin r × Fin 2 → ℚ => ∑ j, (m j : ℂ) * theta I b j = x)
-
-lemma coordsK_spec {x : ℂ} (hx : x ∈ Kspan I b) :
-    ∑ j, (coordsK b x j : ℂ) * theta I b j = x :=
-  Classical.epsilon_spec (exists_coords hx)
 
 lemma sum_coef (m : Fin r × Fin 2 → ℚ) (θ : Fin r × Fin 2 → ℂ) (c : ℂ) :
     ∑ j, (m j : ℂ) * (θ j * c) = (∑ j, (m j : ℂ) * θ j) * c := by
@@ -145,13 +137,13 @@ lemma sum_coef (m : Fin r × Fin 2 → ℚ) (θ : Fin r × Fin 2 → ℂ) (c : �
 variable (b) in
 /-- A lift on `E_i^♮` with image `(xϖ, yπ/ϖ)`. -/
 noncomputable def liftI (x y : ℂ) : TXG r :=
-  ∑ j, (coordsK b ((x + y) / 2) j) • GX1 b j + ∑ j, (coordsK b ((x - y) / (2 * I)) j) • GX2 b j
+  ∑ j, (coordsA I b ((x + y) / 2) j) • GX1 b j + ∑ j, (coordsA I b ((x - y) / (2 * I)) j) • GX2 b j
 
 variable (b) in
 /-- A lift on `E_ρ^♮` with image `(xΩ_ρ, yη_ρ)`. -/
 noncomputable def liftR (x y : ℂ) : TXG r :=
-  ∑ j, (coordsK b (x - rho * ((x - y) / (rho - rhoBar))) j) • HX1 b j +
-    ∑ j, (coordsK b ((x - y) / (rho - rhoBar)) j) • HX2 b j
+  ∑ j, (coordsA I b (x - rho * ((x - y) / (rho - rhoBar))) j) • HX1 b j +
+    ∑ j, (coordsA I b ((x - y) / (rho - rhoBar)) j) • HX2 b j
 
 lemma two_mem (hb : IsAdaptedFieldBasis I b) : (2 : ℂ) ∈ Kspan I b := by
   have := Submodule.smul_mem _ (2 : ℚ) hb.one_mem
@@ -180,10 +172,10 @@ lemma psi_liftI (hb : IsAdaptedFieldBasis I b) (hI : I ∈ Kspan I b) {x y : ℂ
   have hv := varpi_ne_zero'
   constructor
   · simp only [liftI, GX1, GX2, map_add, map_sum, psiX_rsmul, psiX1_gXI]
-    rw [sum_coef, sum_coef, coordsK_spec hU, coordsK_spec hV]
+    rw [sum_coef, sum_coef, coordsA_spec hU, coordsA_spec hV]
     field_simp; ring_nf
   · simp only [liftI, GX1, GX2, map_add, map_sum, psiX_rsmul, psiX2_gXI]
-    rw [sum_coef, sum_coef, coordsK_spec hU, coordsK_spec hV]
+    rw [sum_coef, sum_coef, coordsA_spec hU, coordsA_spec hV]
     field_simp; ring_nf
 
 lemma psi_liftR (hb : IsAdaptedFieldBasis I b) (hI : I ∈ Kspan I b) (hr3 : r3 ∈ Kspan I b) {x y : ℂ}
@@ -198,10 +190,10 @@ lemma psi_liftR (hb : IsAdaptedFieldBasis I b) (hI : I ∈ Kspan I b) (hr3 : r3 
     sub_mem hx (hb.mul_mem _ (rho_mem hb hI hr3) _ hV)
   constructor
   · simp only [liftR, HX1, HX2, map_add, map_sum, psiX_rsmul, psiX1_gXR]
-    rw [sum_coef, sum_coef, coordsK_spec hU, coordsK_spec hV]
+    rw [sum_coef, sum_coef, coordsA_spec hU, coordsA_spec hV]
     ring
   · simp only [liftR, HX1, HX2, map_add, map_sum, psiX_rsmul, psiX2_gXR]
-    rw [sum_coef, sum_coef, coordsK_spec hU, coordsK_spec hV]
+    rw [sum_coef, sum_coef, coordsA_spec hU, coordsA_spec hV]
     field_simp; ring
 
 end Lifts

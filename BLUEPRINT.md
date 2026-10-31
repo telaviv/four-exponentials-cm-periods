@@ -52,6 +52,7 @@ N8  E^♮: Weierstrass ζ, quasi-periods, Legendre ϖη(ϖ) = π, CM action on f
 |---|---|---|---|
 | Defs | target statements | ✔ | elementary; no elliptic curves in the statements |
 | **Conditional main theorem** | 4E at t = cϖ/π, c ∈ Q(i)^×, with 2πi, a, b Q-independent; headline 2^{ϖ/π}, 3^{ϖ/π} | ✔ (conditional) | `CM4E/MainQi.lean` (`main`), `CM4E/TwoThree.lean` (`two_three`). Hypotheses: H1 `Thm11Kappa lemniscatic 4` (W88 §5d on G_m⁴ × E, `CM4E/Waldschmidt.lean`), H2 g₂(ϖℤ[i]) algebraic, H3 ϖ/π irrational. Route: W88 §5d (no λ case analysis needed) |
+| **Conditional Theorem 1(a)** | 4E at t = cϖ, c ∈ Q(i)^×; headline 2^ϖ, 3^ϖ | ✔ (conditional) | `CM4E/MainNat.lean` (`main`, `two_three_varpi`). K = Q(i,√2), n = 4, G″ = G_m⁸ × Q″ (Q″ = (E^♮)⁴/U, dim 3). Hypotheses: H1′ `Thm11KappaNat` (W88 §5d for the model `gmQ`), H2, H3′ ϖ transcendental. Count 12 > (8 + 6 − κ)·1 with κ ≥ 4. Fidelity of `gmQ`: `REFEREE_HYP_NAT.md` |
 | H1 | W88 §5d for G_m^{d₁} × E | ☐ (= N2) | the whole transcendence content |
 | H2 | g₂(ϖℤ[i]) = 4, g₃ = 0 | ◐ | **g₃ = 0 proved** (`g₃_lemniscatic`, symmetry iΛ = Λ); g₂ = 4 ⇔ the Γ-formula for ϖ (lemniscatic G₄), open |
 | H3 | ϖ/π irrational | ☐ | Schneider; should follow from H1 with a small configuration |

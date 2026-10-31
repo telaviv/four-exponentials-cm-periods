@@ -13,3 +13,6 @@ import CM4E
 #print axioms CM4E.MainQi.yv_linearIndependent
 #print axioms CM4E.TwoThree.two_three
 #print axioms CM4E.g₃_lemniscatic
+#print axioms CM4E.MainNat.main
+#print axioms CM4E.MainNat.key_contraN
+#print axioms CM4E.MainNat.two_three_varpi

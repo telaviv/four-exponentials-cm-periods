@@ -17,9 +17,11 @@ The main theorems are implications. Their hypotheses are named arguments.
 | `hW : Thm11Kappa lemniscatic 4` | Waldschmidt's κ-refined hyperplane theorem (W88 §5d, (5.4)) for `G = G_m⁴ × E`, where `E` is the curve of the lattice `ϖℤ[i]` | `CM4E/Waldschmidt.lean` (statement and source discussion) | Published: W88 = Waldschmidt, CUP 1988, 375–398, §5d p. 394 (Thm 1.1 with (1.2) replaced by (5.4)). Its proof rests on W88 Thm 4.1, whose auxiliary-function step for `W ≠ 0`, `κ > 0` is completed by Lemma U (paper, Appendix A; two internal referees). Fidelity of the Lean statement to the source: `REFEREE_HYP.md` (CORRECT, no encoding bug, no falsification found). |
 | `hg₂ : IsAlgebraic ℚ lemniscatic.g₂` | `g₂(ϖℤ[i])` is algebraic | argument of `main` | True: `g₂ = 4` (equivalent to the Γ-formula for `ϖ`; 50-digit check in `REFEREE_HYP.md`). `g₃ = 0` is **proved** (`CM4E.g₃_lemniscatic`). |
 | `hS : Irrational (varpi / π)` | `ϖ/π ∉ ℚ` | argument of `main` | True: `π` and `ϖ` are algebraically independent (Chudnovsky 1976). |
+| `hW : Thm11KappaNat` | the same theorem (W88 §5d, (5.4)), for `G″ = G_m⁸ × Q″`, where `Q″ = (E_i^♮)⁴/U` is the anti-affine quotient of the paper's proof of Theorem MG♮ (`K = ℚ(i, √2)`, `n = 4`) | `CM4E/MainNat.lean` (model `gmQ`, its docstring lists the soundness facts) | Same source as above. The encoding of `G″` (coordinates, periods via Legendre `ϖη(ϖ) = π`, and the subgroup list "every nonzero subgroup of `Q″` contains the `G_a`-fibre") is a hand-written model, **not** derived in Lean. Its fidelity rests on the paper's MG♮ proof (REFEREE_MGF_2 #1–2) and `REFEREE_HYP_NAT.md`. Both hypotheses have the identical form `HyperplaneKappa G` for a `GroupModel G`. |
+| `hT : Transcendental ℚ (varpi : ℂ)` | `ϖ` is transcendental | argument of `MainNat.main` | True: Schneider 1937 (periods of CM curves with algebraic invariants). |
 
-**The single point of failure** is the κ-term in W88 Thm 4.1 / §5d. Without it, the instance used in `main` would need
-`6 > 6`. An expert check of W88 §§6–7 together with Lemma U is the most valuable outside review.
+**The single point of failure** is the κ-term in W88 Thm 4.1 / §5d. Without it, the instance used in `MainQi.main` would need
+`6 > 6` (and `MainNat.main` would need `12 > 14 − 0`, false). An expert check of W88 §§6–7 together with Lemma U is the most valuable outside review.
 
 ## 3. What to read to trust a statement
 
@@ -35,10 +37,10 @@ The main theorems are implications. Their hypotheses are named arguments.
 |---|---|---|
 | Theorem 1(b) (4E at `cΩ/π`) | `CM4E.MainQi.main`, `CM4E.MainQi.fourExpAt_Qi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)^×` (conditional on `hW, hg₂, hS`). Missing: general algebraic `c` (larger `K`, quotient `A''` of dimension `n/2`), `Ω_ρ` and other CM periods |
 | Example `2^{ϖ/π}, 3^{ϖ/π}` | `CM4E.TwoThree.two_three` | ✔ conditional on `hW, hg₂, hS` |
-| Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | — | ✗ needs the `G_m^{2n} × Q''` hypothesis (vector extension `E^♮`) and the Weierstrass ζ / Legendre relation |
+| Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | `CM4E.MainNat.main`, `CM4E.MainNat.two_three_varpi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)^×` (conditional on `hW : Thm11KappaNat`, `hg₂`, `hT`); headline `2^ϖ, 3^ϖ` ✔. Missing: general algebraic `c`, `Ω_ρ`. The Legendre relation enters through the model `gmQ`, not through a Lean proof |
 | Theorem MG, Cor. MG2 (K-version) | — | ✗ (only the `FourExpAt` form above) |
 | Cor. MG1, Cor. MG3 | — | ✗ need the K-version of MG (`π ∉ 𝓛`), plus Chudnovsky/Baker as named hypotheses |
-| Theorem MG♮, Cor. MG♮2 | — | ✗ (see Theorem 1(a)) |
+| Theorem MG♮, Cor. MG♮2 | — | ◐ only the `FourExpAt` form at `t = cϖ`, `c ∈ ℚ(i)` (Theorem 1(a) row) |
 | Affine MG, Cor. (i)–(iii) | — | ✗ (proof sketch in the paper) |
 | General form, elliptic 4E | — | ✗ (proof sketch in the paper) |
 | Theorem M (both proofs), Cor. M1–Mη | — | ✗ (needs `G = E × G_m × G_a` hypothesis; second proof needs Wüstholz) |

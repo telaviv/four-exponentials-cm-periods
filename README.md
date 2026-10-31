@@ -18,6 +18,10 @@ are in [`CM4E/Defs.lean`](CM4E/Defs.lean); read that file first.
 `CM4E.MainQi.fourExpAt_Qi` is the general version: `FourExpAt (cϖ/π)` for every c ∈ ℚ(i)^× (four exponentials at
 t = cϖ/π, only ℚ-independence of the logarithms assumed). What is assumed and what is covered: [TRUST.md](TRUST.md).
 
+`CM4E.MainNat.two_three_varpi` says that **2^ϖ and 3^ϖ are not both algebraic** (Theorem 1(a); general form
+`CM4E.MainNat.main`: `FourExpAt (cϖ)` for c ∈ ℚ(i)^×), assuming (H1′) W88 §5d for G_m⁸ × Q″, where Q″ is a quotient of
+(E^♮)⁴ (same form as H1, model `gmQ` in [`CM4E/MainNat.lean`](CM4E/MainNat.lean)), (H2), and (H3′) ϖ is transcendental.
+
 Also proved, with standard axioms only:
 * the arithmetic of the paper's case checks against Waldschmidt's Theorem 4.1, for every n
   (`CM4E/CaseCheck.lean`);

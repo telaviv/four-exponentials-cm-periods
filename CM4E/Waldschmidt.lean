@@ -73,22 +73,81 @@ noncomputable def tangentSub {d₁ : ℕ} (ℒ : Submodule ℚ (Fin d₁ → ℚ
   (Submodule.span ℂ ((fun l : Fin d₁ → ℚ => fun j => ((l j : ℚ) : ℂ)) '' (ℒ : Set (Fin d₁ → ℚ)))).prod
     (if b then ⊤ else ⊥)
 
-/-- **Waldschmidt's κ-refined hyperplane theorem** (W88, §5d, hypothesis (5.4)), for `G = G_m^{d₁} × E_L`, where
-`L` is a lattice with algebraic invariants `g₂, g₃`. If
-* `V` is a hyperplane of `ℂ^{d₁} × ℂ`;
-* `W ⊂ V` is defined over `ℚ̄`;
-* `Y = span_ℚ {y₁, …, y_m} ⊂ V` with every `exp_G(y_i)` algebraic;
-* `dim_ℚ Y > (d₁ + 2 − κ)(d₁ − dim W)`, with `κ = dim_ℚ (Y ∩ Ω_ℚ)`;
+/-! ## The shared hypothesis form
 
-then `V` contains the Lie algebra of a nonzero connected algebraic subgroup `T_ℒ × (0 or E)`. -/
-def Thm11Kappa (L : PeriodPair) (d₁ : ℕ) : Prop :=
-  IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ →
-  ∀ (V W : Submodule ℂ (T d₁)) (m : ℕ) (y : Fin m → T d₁),
-    finrank ℂ V = d₁ → W ≤ V → RationalOverQbar W →
-    (∀ i, y i ∈ V ∧ ExpAlg L (y i)) →
+Every conditional theorem of this project assumes `HyperplaneKappa G` for a *group model* `G`. That is W88 §5d,
+(5.4), for the commutative algebraic group `G` described by the model. A model records
+* the tangent space, with its `ℚ̄`-structure (`alg`: vectors with algebraic coordinates);
+* the numbers `d₁` (the multiplicative factor) and `d₂ = dim G₂`;
+* a set `lam` of logarithms of algebraic points;
+* a `ℚ`-subspace `per` of the `ℚ`-span of the periods;
+* a family `sub` of subspaces that contains the Lie algebras of all connected algebraic subgroups over `ℚ̄`.
+
+**Soundness.** A model is *sound* for an algebraic group `G` over `ℚ̄` with maximal `d₀ = 0` and maximal `d₁` if
+`lam ⊂ Λ(G)`, `per ⊂ ℚ ⊗ Ω(G)`, and every connected algebraic subgroup has its Lie algebra in `sub`. For a sound model
+W88 §5d implies `HyperplaneKappa G`:
+* a smaller `lam` strengthens the premise;
+* a smaller `per` makes `κ` smaller, which only strengthens the premise `m > (d₁ + 2d₂ − κ)(d − 1 − t)`;
+* a larger `sub` weakens the conclusion.
+
+The soundness of each model is a mathematical fact that is **not** checked by Lean. It is stated next to each model,
+with its source, and collected in `TRUST.md`. -/
+
+/-- A group model: the coordinate data of a commutative algebraic group `G = G_m^{d₁} × G₂` over `ℚ̄` (`d₀ = 0`). -/
+structure GroupModel (V : Type*) [AddCommGroup V] [Module ℂ V] [Module ℚ V] where
+  /-- the dimension of the multiplicative factor -/
+  d₁ : ℕ
+  /-- `dim G₂` -/
+  d₂ : ℕ
+  /-- vectors with algebraic coordinates (the `ℚ̄`-structure of `T_G`) -/
+  alg : V → Prop
+  /-- (some) logarithms of algebraic points -/
+  lam : Set V
+  /-- (part of) the `ℚ`-span of the periods `Ker exp_G` -/
+  per : Submodule ℚ V
+  /-- a family containing the Lie algebras of all connected algebraic subgroups over `ℚ̄` -/
+  sub : Submodule ℂ V → Prop
+
+variable {Vt : Type*} [AddCommGroup Vt] [Module ℂ Vt] [Module ℚ Vt]
+
+/-- `W` is defined over `ℚ̄`: spanned by vectors with algebraic coordinates. -/
+def GroupModel.Rational (G : GroupModel Vt) (W : Submodule ℂ Vt) : Prop :=
+  ∃ S : Set Vt, (∀ v ∈ S, G.alg v) ∧ W = Submodule.span ℂ S
+
+/-- **The shared hypothesis: Waldschmidt's κ-refined hyperplane theorem (W88 §5d, (5.4)) for the group of `G`.**
+Suppose
+* `V` is a hyperplane;
+* `W ⊂ V` is defined over `ℚ̄`;
+* `Y = span_ℚ {y₁, …, y_m} ⊂ V` with every `y_i ∈ lam`;
+* `dim_ℚ Y > (d₁ + 2d₂ − κ)(d − 1 − dim W)`, with `κ = dim_ℚ (Y ∩ per)`.
+
+Then `V` contains a nonzero member of `sub`. -/
+def HyperplaneKappa (G : GroupModel Vt) : Prop :=
+  ∀ (V W : Submodule ℂ Vt) (m : ℕ) (y : Fin m → Vt),
+    finrank ℂ V + 1 = finrank ℂ Vt → W ≤ V → G.Rational W →
+    (∀ i, y i ∈ V ∧ y i ∈ G.lam) →
     ((finrank ℚ (Submodule.span ℚ (Set.range y)) : ℤ) >
-      ((d₁ : ℤ) + 2 - finrank ℚ ↥(Submodule.span ℚ (Set.range y) ⊓ OmegaQ L d₁)) *
-        ((d₁ : ℤ) - finrank ℂ W)) →
-    ∃ (ℒ : Submodule ℚ (Fin d₁ → ℚ)) (b : Bool), (ℒ ≠ ⊥ ∨ b = true) ∧ tangentSub ℒ b ≤ V
+      ((G.d₁ : ℤ) + 2 * G.d₂ - finrank ℚ ↥(Submodule.span ℚ (Set.range y) ⊓ G.per)) *
+        ((finrank ℂ Vt : ℤ) - 1 - finrank ℂ W)) →
+    ∃ S : Submodule ℂ Vt, G.sub S ∧ S ≠ ⊥ ∧ S ≤ V
+
+/-- The model of `G_m^{d₁} × E_L`. It is sound when `g₂, g₃ ∈ ℚ̄` (see the module docstring: the coordinates, `Λ(G)`,
+`Ker exp_G = 2πiℤ^{d₁} × L`, and the subgroups `T_ℒ × (0 or E)`). -/
+noncomputable def gmE (L : PeriodPair) (d₁ : ℕ) : GroupModel (T d₁) where
+  d₁ := d₁
+  d₂ := 1
+  alg := AlgVec
+  lam := {y | ExpAlg L y}
+  per := OmegaQ L d₁
+  sub := fun S => ∃ (ℒ : Submodule ℚ (Fin d₁ → ℚ)) (b : Bool), S = tangentSub ℒ b
+
+/-- **Waldschmidt's κ-refined hyperplane theorem** (W88, §5d, hypothesis (5.4)), for `G = G_m^{d₁} × E_L`, where
+`L` is a lattice with algebraic invariants `g₂, g₃`. -/
+def Thm11Kappa (L : PeriodPair) (d₁ : ℕ) : Prop :=
+  IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmE L d₁)
+
+lemma tangentSub_bot_false {d₁ : ℕ} : tangentSub (⊥ : Submodule ℚ (Fin d₁ → ℚ)) false = ⊥ := by
+  have h0 : (fun _ : Fin d₁ => (0 : ℂ)) = 0 := rfl
+  simp [tangentSub, h0, Submodule.prod_bot]
 
 end CM4E.Waldschmidt

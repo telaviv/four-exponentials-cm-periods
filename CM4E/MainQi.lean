@@ -302,10 +302,15 @@ theorem main (hW : Thm11Kappa lemniscatic 4)
     rw [Submodule.finrank_eq_zero] at h0
     rw [h0] at hmem
     exact hne (by simpa using hmem)
-  obtain ⟨ℒ, bb, hne, hle⟩ := hW hg₂ g₃_lemniscatic_isAlgebraic (LinearMap.ker (phi (tExp p q D)))
-    (Submodule.span ℂ (Set.range wv)) 6 (yv p q D a b) (finrank_ker_phi _) (W_le_V _) W_rational
+  have hT5 : finrank ℂ (T 4) = 5 := by simp [T, Module.finrank_prod]
+  obtain ⟨S, ⟨ℒ, bb, rfl⟩, hne, hle⟩ := hW hg₂ g₃_lemniscatic_isAlgebraic (LinearMap.ker (phi (tExp p q D)))
+    (Submodule.span ℂ (Set.range wv)) 6 (yv p q D a b) (by rw [finrank_ker_phi, hT5]) (W_le_V _) W_rational
     (fun i => ⟨yv_mem_V p q D hD a b i, yv_expAlg p q D a b ha hb hta htb i⟩)
-    (by rw [hfinY, finrank_W]; push_cast; omega)
+    (by
+      show ((finrank ℚ (Submodule.span ℚ (Set.range (yv p q D a b))) : ℤ) >
+        ((4 : ℤ) + 2 * 1 - finrank ℚ ↥(Submodule.span ℚ (Set.range (yv p q D a b)) ⊓ OmegaQ lemniscatic 4)) *
+          ((finrank ℂ (T 4) : ℤ) - 1 - finrank ℂ (Submodule.span ℂ (Set.range wv))))
+      rw [hfinY, finrank_W, hT5]; push_cast; omega)
   cases bb with
   | true =>
     have hmem : ((0 : Fin 4 → ℂ), (1 : ℂ)) ∈ tangentSub ℒ true := by
@@ -314,7 +319,8 @@ theorem main (hW : Thm11Kappa lemniscatic 4)
     have := hle hmem
     simp [LinearMap.mem_ker, phi_apply] at this
   | false =>
-    have hℒ : ℒ ≠ ⊥ := by simpa using hne
+    have hℒ : ℒ ≠ ⊥ := by
+      rintro rfl; exact hne tangentSub_bot_false
     obtain ⟨l, hl, hl0⟩ := Submodule.ne_bot_iff _ |>.mp hℒ
     have hmem : ((fun j => ((l j : ℚ) : ℂ)), (0 : ℂ)) ∈ tangentSub ℒ false := by
       rw [tangentSub, Submodule.mem_prod]

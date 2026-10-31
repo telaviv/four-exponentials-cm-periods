@@ -26,3 +26,12 @@ import CM4E
 #print axioms CM4E.Final.fourExpAt_varpi
 #print axioms CM4E.Final.two_three_varpi
 #print axioms CM4E.Final.mx
+#print axioms CM4E.Gen.frame_false
+#print axioms CM4E.Gen.exists_adapted_basis
+#print axioms CM4E.Gen.fourExpAt_MGn
+#print axioms CM4E.Gen.fourExpAt_MG
+#print axioms CM4E.Final.fourExpAt_varpi_all
+#print axioms CM4E.Final.fourExpAt_varpi_div_pi_all
+#print axioms CM4E.Final.fourExpAt_omegaRho_all
+#print axioms CM4E.Final.fourExpAt_omegaRho_div_pi_all
+#print axioms CM4E.Final.two_three_omegaRho

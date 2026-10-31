@@ -172,17 +172,18 @@ copies of `A` (and `E`, `G_a`, `G_m`) in explicit eigen-coordinates; the paper's
 |---|---|---|---|
 | `AbVar.Thm11KappaX7 LA` | `A^{3r} × E^{3r} × G_a²`, `A = Jac(y⁷ = x(1 − x))`, `E` with lattice `B(1/7,2/7)ℤ[α]`, `α = (−1+√−7)/2`; frame `gmFX` (`d₂ = dim G''`, conservative) | `CM4E/AbVar/X7.lean`, `FrameX.lean` | [`reviews/REFEREE_HYP_X7.md`](reviews/REFEREE_HYP_X7.md) (CORRECT WITH NOTES): period triple checked on one explicit cycle to `10⁻⁶⁰`, CM action, `g₂, g₃` of `E` algebraic (`j = −3375`) |
 | `AbVar.Thm11KappaA N g κ P s₀` | `G_m^{2n} × A^r` (first-kind slot `s₀`), frame `gmF` | `CM4E/AbVar/ThmA.lean` | [`reviews/REFEREE_HYP_A.md`](reviews/REFEREE_HYP_A.md) (CORRECT WITH NOTES): instances `N = 5, 7` checked on one cycle to `10⁻⁶⁰`, Jacobians simple of type `{1,2}`, `{1,2,3}` |
-| `AbVar.Thm11KappaAn N g κ P P̄` | `G_m^{2n} × Q''`, `Q'' = (A^♮)^r/W'` (second-kind slot `ζ ↦ ζ^{N−1}`), frame `gmF` | `CM4E/AbVar/ThmAn.lean` | [`reviews/REFEREE_HYP_AN.md`](reviews/REFEREE_HYP_AN.md) |
+| `AbVar.Thm11KappaAn N g κ P P̄` | `G_m^{2n} × Q''`, `Q'' = (A^♮)^r/W'` (second-kind slot `ζ ↦ ζ^{N−1}`), frame `gmF` | `CM4E/AbVar/ThmAn.lean` | [`reviews/REFEREE_HYP_AN.md`](reviews/REFEREE_HYP_AN.md) (CORRECT WITH NOTES): `Q''` is isomorphic to the paper's `(A^♮)^n/U`; `P̄ = ∫_γ dx/y` over the same cycle to `10⁻⁷⁰`; the subgroup argument uses (F1)–(F4) (Mazur–Messing), a soundness fact |
 
 The generic hypotheses `Thm11KappaA`, `Thm11KappaAn` are W88 instances only when their parameters come from a real CM
-abelian variety; they are claimed for the stated instances. Named classical inputs (explicit hypotheses):
+abelian variety (in particular `φ(N) = 2g`, and for `Thm11KappaAn` the embedding `ζ ↦ ζ^{N−1}` must be a second-kind
+slot); they are claimed for the stated instances. Named classical inputs (explicit hypotheses):
 
 | name | content | why it is believed |
 |---|---|---|
 | `AbVar.WuestholzBeta7` | `1, P₁, P₂, P₃, Ω` (`P_j = (1 − ζ₇^j)B(j/7,j/7)`, `Ω = B(1/7,2/7)`) are `ℚ̄`-linearly independent | Wüstholz 1989 on `G_a × A × E` (distinct eigen-slots); [`reviews/REFEREE_INPUTS_X7.md`](reviews/REFEREE_INPUTS_X7.md): TRUE AS STATED (PARI `lindep` at 600 digits finds nothing) |
 | `AbVar.WuestholzX7 LA` | slot splitting of `z₁(v) + u + q = cP₁ + c'Ω` and `z₃(v') + z₂(v) + q = cP₃ + c'P₂` | Wüstholz 1989 on `G_a × A² × E²`, `G_a × A³`; same review: TRUE for every `LA ⊂ LA_A` |
 | `AbVar.WuestholzA5`, `AbVar.WuestholzA7` | `P/π ∉ ℚ̄` for `P = (1 − ζ_N)B(1/N, 1/N)`, `N = 5, 7` | Wüstholz on `G_m × A`; `reviews/REFEREE_HYP_A.md`: CORRECT |
-| `AbVar.WuestholzB5` | `P̄/π ∉ ℚ̄` for the second-kind period `P̄ = (1 − ζ₅⁴)B(4/5, 4/5)` | Wüstholz on `G_m × A^♮`; `reviews/REFEREE_HYP_AN.md` |
+| `AbVar.WuestholzB5` | `P̄/π ∉ ℚ̄` for the second-kind period `P̄ = (1 − ζ₅⁴)B(4/5, 4/5)` | Wüstholz on `G_m × A^♮`; by `B(1/5,1/5)B(4/5,4/5) ∈ πℚ̄ˣ` it is equivalent to the transcendence of `B(1/5, 1/5)` (Schneider 1941); `reviews/REFEREE_HYP_AN.md`: CORRECT |
 
 The classical facts that the Beta expressions are the periods of the stated cycles (Weil, Rohrlich's appendix to Gross
 1978) and that `B(1/7,2/7)ℤ[α]` is the lattice of a curve with algebraic invariants (Chowla–Selberg) are **soundness

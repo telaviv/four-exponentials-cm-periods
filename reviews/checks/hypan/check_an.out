@@ -1,0 +1,50 @@
+start of L on sheet y0                           |diff| =        0.0  OK
+end of part 1 = start of part 2 (sheet zeta*y0)  |diff| =        0.0  OK
+end of part 1 is zeta*y0                         |diff| =   9.33e-72  OK
+end of L back on sheet y0 (closed on curve)      |diff| =        0.0  OK
+nearest-root tracking vs continuous-log branch   max |diff| = 3.16e-31  OK
+
+1. loop integrals over L (= -gamma)
+  int_L dx/y^1  vs  -(1-zeta^4) B(4/5,4/5)       |diff| =   4.05e-71  OK
+  int_L dx/y^2  vs  -(1-zeta^3) B(3/5,3/5)       |diff| =   3.62e-71  OK
+  int_L dx/y^3  vs  -(1-zeta^2) B(2/5,2/5)       |diff| =   7.24e-71  OK
+  int_L dx/y^4  vs  -(1-zeta^1) B(1/5,1/5)       |diff| =   7.24e-71  OK
+  perA5 0 = int_gamma dx/y^4                     |diff| =   7.24e-71  OK
+  perA5 1 = int_gamma dx/y^3                     |diff| =   7.24e-71  OK
+  perB5   = int_gamma dx/y  (same gamma)         |diff| =   4.05e-71  OK
+
+2. direct integral over gamma = [0->1, y0] + [1->0, zeta*y0]
+  int_gamma dx/y^1 vs (1-zeta^4)B                |diff| =   6.53e-71  OK
+  int_gamma dx/y^2 vs (1-zeta^3)B                |diff| =   9.06e-71  OK
+  int_gamma dx/y^3 vs (1-zeta^2)B                |diff| =   1.62e-70  OK
+  int_gamma dx/y^4 vs (1-zeta^1)B                |diff| =   3.62e-70  OK
+
+3. CM action: int over [zeta]_*L of dx/y^k = zeta^{-k} int_L; exponent mod 5
+  dx/y^4: eigenvalue zeta^1  [kappa=1 (s=0)]     |diff| =    3.9e-70  OK
+  dx/y^3: eigenvalue zeta^2  [kappa=2 (s=1)]     |diff| =    4.1e-70  OK
+  dx/y^1: eigenvalue zeta^4  [sigma-bar: N-1=4]  |diff| =   6.34e-71  OK
+  dx/y^2: eigenvalue zeta^3  [tau: 3]            |diff| =   1.49e-70  OK
+
+4. dx/y at infinity
+  ord_inf(dx/y^1) = -4   (pole)
+  ord_inf(dx/y^2) = -2   (pole)
+  ord_inf(dx/y^3) = 0   (holomorphic)
+  ord_inf(dx/y^4) = 2   (holomorphic)
+  5 turns close up on the curve                  |diff| =   1.67e-70  OK
+  residue of dx/y at infinity (5-turn integral)  |diff| =   3.23e-70  OK
+  |int_gamma dx/y| = 1.7832984085816925954 != 0, so [dx/y] != 0 in H^1_dR
+
+5. beta5_mul
+  B(1/5,1/5) B(4/5,4/5) = rho*pi                 |diff| =   1.45e-70  OK
+  B(1/5,1/5) = Gamma(1/5)^2/Gamma(2/5) (betaIntegral) |diff| =        0.0  OK
+  rho = 4.5879397349039117940240319397,  B(1/5,1/5) = 9.50150138988436741503057654421
+
+6. period vectors of [zeta^e]gamma~ in (z_0, z_1, w_4, w_3): C-rank
+  |det| = 8224.67033424  OK (rank 4)
+
+7. WuestholzB5 reformulation
+  perB5/pi = (1-zeta^4) rho / B(1/5,1/5)         |diff| =   4.53e-72  OK
+  P0 * perB5 = |1-zeta|^2 rho pi                 |diff| =   6.14e-70  OK
+  (c' perB5/pi)^-1 = c B(1/5,1/5)  (c = 7/3+2i)  |diff| =    4.1e-70  OK
+
+ALL OK

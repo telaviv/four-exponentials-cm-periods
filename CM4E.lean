@@ -27,4 +27,8 @@ import CM4E.Gen.ThmM
 import CM4E.Gen.ThmMCor
 import CM4E.Gen.MGK
 import CM4E.Gen.MGnK
+import CM4E.AbVar.Basis
+import CM4E.AbVar.Fermat7
+import CM4E.AbVar.FrameX
+import CM4E.AbVar.X7
 import CM4E.Final

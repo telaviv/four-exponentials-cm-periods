@@ -14,7 +14,7 @@ its proved Theorem 4.1. Through the bridges `thm11KappaMG_of_std`, `thm11KappaSM
 every algebraic `c` needs only the case `d = 0`, Corollaries MG1, MG3 the case `d = 2`:
 
 * `fourExpAt_varpi_div_pi_all`: `FourExpAt (cϖ/π)` for every algebraic `c ≠ 0`;
-* `fourExpAt_omegaRho_div_pi_all`: `FourExpAt (cΩ_ρ/π)` (with `g₂, g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`);
+* `fourExpAt_omegaRho_div_pi_all`: `FourExpAt (cΩ_ρ/π)` (with `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`; `g₂ = 0` is proved);
 * `mg1_varpi`: one of `e^{π²}, e^{πϖ}, e^{π²/ϖ}` is transcendental (with `Gen.NotLtilde`);
 * `mg3_varpi` (with Baker's theorem).
 -/
@@ -34,11 +34,11 @@ theorem fourExpAt_varpi_div_pi_all (hS : HypStdCMAt lemniscatic 0) (c : ℂ) (hc
     FourExpAt (c * varpi / Real.pi) :=
   Final.fourExpAt_varpi_div_pi_all (thm11KappaMG_of_std Gen.latI hS int_I) c hc hc0
 
-/-- **Theorem 1(b) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**, from `HypStdCM` and `g₂, g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
+/-- **Theorem 1(b) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**, from `HypStdCM` and `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
 theorem fourExpAt_omegaRho_div_pi_all (hS : HypStdCMAt MX.equianharmonic 0)
-    (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
+    (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : FourExpAt (c * omegaRho / Real.pi) :=
-  Final.fourExpAt_omegaRho_div_pi_all (thm11KappaMG_of_std Gen.latRho hS int_rho) hg₂' hg₃' c hc hc0
+  Final.fourExpAt_omegaRho_div_pi_all (thm11KappaMG_of_std Gen.latRho hS int_rho) hg₃' c hc hc0
 
 /-- **Corollary MG1 for `ϖ`**, from `HypStdCM` and `Gen.NotLtilde Gen.latI`. -/
 theorem mg1_varpi (hS : HypStdCMAt lemniscatic 2) (hNot : Gen.NotLtilde Gen.latI) :

@@ -49,33 +49,6 @@ lemma kappaOneZero_latI : KappaOneZero latI := by
         ring
     _ = -I * CM4E.Ext.Weierstrass.zeta lemniscatic z := tsum_mul_left
 
-lemma rho_sq : rho ^ 2 = -1 - rho := by simp only [rho]; ring_nf; rw [Complex.I_sq, r3_sq]; ring
-
-/-- `ρ` times a point of `Ω_ρℤ[ρ]` is a point of `Ω_ρℤ[ρ]`. -/
-lemma rho_mul_mem_lattice {x : ℂ} (hx : x ∈ equianharmonic.lattice) : rho * x ∈ equianharmonic.lattice := by
-  obtain ⟨m, n, rfl⟩ := PeriodPair.mem_lattice.mp hx
-  refine PeriodPair.mem_lattice.mpr ⟨-n, m - n, ?_⟩
-  simp only [equianharmonic]; push_cast
-  linear_combination (-(n : ℂ) * omegaRho) * rho_sq
-
-lemma rho_cube : rho ^ 3 = 1 := by linear_combination (rho - 1) * rho_sq
-
-lemma rho_ne_zero : rho ≠ 0 := by
-  intro h; have := rho_cube; rw [h] at this; norm_num at this
-
-lemma rho_inv : rho⁻¹ = starRingEnd ℂ rho := by
-  apply inv_eq_of_mul_eq_one_right
-  have hr : starRingEnd ℂ r3 = r3 := by simp [r3, Complex.conj_ofReal]
-  simp only [rho, map_div₀, map_add, map_neg, map_one, map_mul, Complex.conj_I, Complex.conj_ofNat, hr]
-  linear_combination (-(r3 ^ 2) / 4) * Complex.I_sq + (1 / 4 : ℂ) * r3_sq
-
-/-- Multiplication by `ρ` as a permutation of the lattice `Ω_ρℤ[ρ]`. -/
-noncomputable def mulRho : equianharmonic.lattice ≃ equianharmonic.lattice where
-  toFun l := ⟨rho * l, rho_mul_mem_lattice l.2⟩
-  invFun l := ⟨rho * (rho * l), rho_mul_mem_lattice (rho_mul_mem_lattice l.2)⟩
-  left_inv l := Subtype.ext (by simp only; linear_combination (l : ℂ) * rho_cube)
-  right_inv l := Subtype.ext (by simp only; linear_combination (l : ℂ) * rho_cube)
-
 /-- `ζ(ρz) = ρ̄ζ(z)` on `Ω_ρℤ[ρ]`. -/
 lemma kappaOneZero_latRho : KappaOneZero latRho := by
   intro z

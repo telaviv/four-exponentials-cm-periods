@@ -18,17 +18,28 @@ The sibling project `lean_lsg` (a Lake path dependency, `../lean_lsg`; see §6) 
 is verbatim our `Thm11Kappa` (`LSG.W88.thm11Kappa`), and the §5d statement for the standard model of
 `G_a^{d₀} × G_m^{d₁} × E^r`, one curve repeated, for every period pair with algebraic invariants, which is verbatim our
 `Bridge.HypStdCMAt` (`LSG.W88.hypStdCMAt`, `lean_lsg` commit 2d9a9b4); standard axioms only. With the proved bridges of
-`CM4E/Bridge/` (`HypStdCMAt L 0 → Gen.Thm11KappaMG L`, `HypStdCMAt L 2 → Gen.Thm11KappaSMG L` for CM lattices with
-integral `α`, via the isomorphism `A'' = E^n/B_{ker ψ} ≅ E^{n/2}`) the hypotheses `hW` fall into four tiers:
+`CM4E/Bridge/` (`HypStdCMAt L 0 → Gen.Thm11KappaMG L`, `HypStdCMAt L 2 → Gen.Thm11KappaSMG L`,
+`HypStdCMAt L 1 → Gen.Thm11KappaM L`, `HypStdCMAt L 0 → Gen.Thm11KappaMGK L` for CM lattices with integral `α`, via the
+isomorphism `A'' = E^n/B_{ker ψ} ≅ E^{n/2}`; the last two also use the arithmetic of elliptic logarithms,
+`CM4E/Bridge/ELog.lean`: the addition and duplication formulas make `𝓛_E` a group, and `℘(iz) = −℘(z)`,
+`℘(ρz) = ρ℘(z)` give complex multiplication on it for `ϖℤ[i]`, `Ω_ρℤ[ρ]`) the hypotheses `hW` fall into three tiers:
 
 | tier | hypotheses `hW` | results |
 |---|---|---|
-| **unconditional** (W88 proved in `lean_lsg`) | `Thm11Kappa L d₁`; `Gen.Thm11KappaMG L`, `Gen.Thm11KappaSMG L` for every CM lattice with integral `α` and algebraic invariants (`latI`, `latRho`) | `Unconditional.fourExpAt_Qi`, `Unconditional.two_three` (`2^{ϖ/π}, 3^{ϖ/π}` not both algebraic); **`Unconditional.fourExpAt_varpi_div_pi_all` (Theorem 1(b) for `Ω = ϖ` and every algebraic `c ≠ 0`)**; `Unconditional.fourExpAt_omegaRho_div_pi_all` (Theorem 1(b) for `Ω_ρ`; only `hg₂'`, `hg₃'`); `Unconditional.mg1_varpi_abc` (Cor. MG1; only `Gen.NotLtilde`); `Unconditional.mg3_varpi` (Cor. MG3; only `Gen.Baker3`); Theorems MG and SMG (compose `Gen.fourExpAt_MG`, `Gen.smg_false` with the bridges) |
-| conditional on W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^m` with elliptic logarithms among the data (not yet bridged: the bridge would need the addition law and CM multiplication on algebraic points of `E`, to map the models' `ℚ`-spans of logarithms into `Λ`) | `Gen.Thm11KappaMGK`, `Gen.Thm11KappaM` | the `K`-form of Theorem MG, Theorem M and Cor. M |
+| **unconditional** (W88 proved in `lean_lsg`) | `Thm11Kappa L d₁`; `Gen.Thm11KappaMG L`, `Gen.Thm11KappaSMG L` for every CM lattice with integral `α` and algebraic invariants; `Gen.Thm11KappaM L`, `Gen.Thm11KappaMGK L` for those on which `α` acts on `𝓛_E` (`Bridge.CMMulLogE`; proved for `latI`, `latRho`) | `Unconditional.fourExpAt_Qi`, `Unconditional.two_three` (`2^{ϖ/π}, 3^{ϖ/π}` not both algebraic); **`Unconditional.fourExpAt_varpi_div_pi_all` (Theorem 1(b) for `Ω = ϖ` and every algebraic `c ≠ 0`)**; `Unconditional.fourExpAt_omegaRho_div_pi_all` (Theorem 1(b) for `Ω_ρ`; only `hg₃'`); **`Unconditional.thmM_varpi` (Theorem M for `Ω = cϖ`)**, `Unconditional.thmM_omegaRho` (only `hg₃'`); `Unconditional.m1_varpi` (M1), `Unconditional.m3_varpi` (M3), `Unconditional.m3'_varpi` (M3′; only `Gen.HermiteLindemann`), `Unconditional.thmM_varpi_k`, `Unconditional.meta_varpi` (only `Gen.MasserCM`); `Unconditional.mg_K_varpi` (the `K`-form of Theorem MG); `Unconditional.mg1_varpi_abc` (Cor. MG1; only `Gen.NotLtilde`); `Unconditional.mg3_varpi` (Cor. MG3; only `Gen.Baker3`); Theorems MG and SMG (compose `Gen.fourExpAt_MG`, `Gen.smg_false` with the bridges) |
 | conditional on W88 for vector extensions (`G₂` with a factor `E^♮`; next stage of `lean_lsg`) | `MainNat.Thm11KappaNat`, `Gen.Thm11KappaMGn`, `Gen.Thm11KappaMGnK`, `Gen.Thm11KappaMXG`, `Gen.Thm11KappaMXP`, `Gen.Thm11KappaSMGn` | Theorem 1(a) (`2^ϖ, 3^ϖ`, `FourExpAt (cΩ)`), Theorem MG♮ and its `K`-form, Theorems MX, MX′, Cor. MX1, deg2 (i), (ii), Theorem S (its `t ∈ ℚ̄ˣ/Ω` half) |
 | conditional on W88 for CM abelian varieties of dimension 2, 3 (and their vector extensions) | `AbVar.Thm11KappaX7`, `AbVar.Thm11KappaA`, `AbVar.Thm11KappaAn`, `AbVar.Thm11KappaAK`, `AbVar.Thm11KappaAnK` | paper [II]: Theorems X7, MG-A, MG♮-A, Theorem A, Cor. A2, Cor. X7 |
 
-Named classical inputs (§3) are additional hypotheses in every tier where they appear.
+Named classical inputs (§3) are additional hypotheses in every tier where they appear. In the unconditional tier they
+are exactly the following; everything else (W88 included) is proved.
+
+| unconditional result | its only non-W88 inputs | literature |
+|---|---|---|
+| Cor. MG1 (`Unconditional.mg1_varpi_abc`) | `Gen.NotLtilde Gen.latI`: `ϖ ∉ 𝓛̃` and `η(ϖ) ∉ 𝓛̃`, `𝓛̃ = ℚ̄ + ℚ̄𝓛` | Wüstholz's analytic subgroup theorem: G. Wüstholz, *Algebraische Punkte auf analytischen Untergruppen algebraischer Gruppen*, Ann. of Math. 129 (1989), 501–517 (applied on `G_a × G_m^r × E` and `G_a × G_m^r × E^♮`, [II] Lemma notLt); A. Baker, G. Wüstholz, *Logarithmic Forms and Diophantine Geometry*, CUP 2007, Ch. 6 |
+| Cor. MG3 (`Unconditional.mg3_varpi`) | `Gen.Baker3`: three `ℚ`-independent logarithms of algebraic numbers are `ℚ̄`-independent | A. Baker, *Linear forms in the logarithms of algebraic numbers I*, Mathematika 13 (1966), 204–216; Baker–Wüstholz 2007, Ch. 2 |
+| (M3′) (`Unconditional.m3'_varpi`) | `Gen.HermiteLindemann` | Lindemann 1882 (Weierstrass 1885); not in Mathlib |
+| Theorem M with `s ∈ ℚ(i)`, (Mη) | `Gen.MasserCM` | D. Masser, *Elliptic Functions and Transcendence*, LNM 437, Springer 1975 |
+| the `Ω_ρ` statements | `hg₃'`: `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄` (`g₂ = 0` is proved, `MX.g₂_equianharmonic`) | classical (`g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`; Chowla–Selberg); see §3 for why it is not formalised |
 
 ## 2. The final theorems
 
@@ -38,26 +49,26 @@ Named classical inputs (§3) are additional hypotheses in every tier where they 
 |---|---|---|
 | `Final.fourExpAt_varpi_all` | `FourExpAt (cϖ)` for every algebraic `c ≠ 0` (Theorem 1(a), `Ω = ϖ`) | `hW : Gen.Thm11KappaMGn Gen.latI` |
 | `Final.fourExpAt_varpi_div_pi_all` | `FourExpAt (cϖ/π)` for every algebraic `c ≠ 0` (Theorem 1(b), `Ω = ϖ`) | `hW : Gen.Thm11KappaMG Gen.latI` |
-| `Final.fourExpAt_omegaRho_all` | `FourExpAt (cΩ_ρ)` for every algebraic `c ≠ 0` | `hW : Gen.Thm11KappaMGn Gen.latRho`, `hg₂'`, `hg₃'` |
-| `Final.fourExpAt_omegaRho_div_pi_all` | `FourExpAt (cΩ_ρ/π)` for every algebraic `c ≠ 0` | `hW : Gen.Thm11KappaMG Gen.latRho`, `hg₂'`, `hg₃'` |
-| `Final.two_three_varpi`, `Final.two_three`, `Final.two_three_omegaRho` | `2^t, 3^t` not both algebraic for `t = ϖ`, `ϖ/π`, `Ω_ρ` | `hW : MainNat.Thm11KappaNat`, resp. `Thm11Kappa lemniscatic 4`, resp. `Gen.Thm11KappaMGn Gen.latRho` with `hg₂'`, `hg₃'` |
+| `Final.fourExpAt_omegaRho_all` | `FourExpAt (cΩ_ρ)` for every algebraic `c ≠ 0` | `hW : Gen.Thm11KappaMGn Gen.latRho`, `hg₃'` |
+| `Final.fourExpAt_omegaRho_div_pi_all` | `FourExpAt (cΩ_ρ/π)` for every algebraic `c ≠ 0` | `hW : Gen.Thm11KappaMG Gen.latRho`, `hg₃'` |
+| `Final.two_three_varpi`, `Final.two_three`, `Final.two_three_omegaRho` | `2^t, 3^t` not both algebraic for `t = ϖ`, `ϖ/π`, `Ω_ρ` | `hW : MainNat.Thm11KappaNat`, resp. `Thm11Kappa lemniscatic 4`, resp. `Gen.Thm11KappaMGn Gen.latRho` with `hg₃'` |
 | `Final.fourExpAt_varpi`, `Final.fourExpAt_Qi` | the same for `c ∈ ℚ(i)ˣ`, from one fixed group (`K = ℚ(i, √2)`, resp. `ℚ(i)`) | `hW : MainNat.Thm11KappaNat`, resp. `Thm11Kappa lemniscatic 4` |
-| `Final.mx_K` | Theorem MX, `K`-form: `z(X) + z(Y) + a ∈ ℚ̄ϖ + ℚ̄Ω_ρ`, every `β ∈ ℚ̄ˣ` | `hW : Gen.Thm11KappaMXG`, `hg₂'`, `hg₃'`, `hΓ`, `hM` |
+| `Final.mx_K` | Theorem MX, `K`-form: `z(X) + z(Y) + a ∈ ℚ̄ϖ + ℚ̄Ω_ρ`, every `β ∈ ℚ̄ˣ` | `hW : Gen.Thm11KappaMXG`, `hg₃'`, `hΓ`, `hM` |
 | `Final.mx` | Theorem MX: `a = 0`, `z(X) ∈ ℚ(i)ϖ`, `z(Y) ∈ ℚ(ρ)Ω_ρ`, every `β ∈ ℚ̄ˣ` | the above (with `hM` derived) and `WuestholzMX`, `MasserCM` |
 | `Final.mx1` | Corollary MX1 | the above and `LaurentZeta` |
-| `Final.thmS_varpi`, `Final.thmS_omegaRho` | Theorem S of [II]: for `t ∈ ℚ̄ˣΩ ∪ ℚ̄ˣ/Ω ∪ ℚ̄ˣΩ/π ∪ ℚ̄ˣπ/Ω` and `ℚ̄`-independent `y₁, y₂`, not all of `y₁, y₂, ty₁, ty₂` lie in `𝓛̃ = ℚ̄ + ℚ̄𝓛` (`Ω = ϖ`, `Ω_ρ`) | `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L`, `Gen.NotLtilde L` (and `hg₂'`, `hg₃'` for `Ω_ρ`) |
+| `Final.thmS_varpi`, `Final.thmS_omegaRho` | Theorem S of [II]: for `t ∈ ℚ̄ˣΩ ∪ ℚ̄ˣ/Ω ∪ ℚ̄ˣΩ/π ∪ ℚ̄ˣπ/Ω` and `ℚ̄`-independent `y₁, y₂`, not all of `y₁, y₂, ty₁, ty₂` lie in `𝓛̃ = ℚ̄ + ℚ̄𝓛` (`Ω = ϖ`, `Ω_ρ`) | `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L`, `Gen.NotLtilde L` (and `hg₃'` for `Ω_ρ`) |
 | `Final.mg1_varpi` | Corollary MG1: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.NotLtilde Gen.latI` (`π` transcendental is proved: `Gen.transcendental_pi`, from the vendored Schneider–Lang criterion) |
 | `Final.mg3_varpi` | Corollary MG3 (`α^{ϖ/π}` transcendental when `e^{π²}`, `e^{cπϖ}` are algebraic) | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.Baker3` |
 | `Final.mg_K_varpi` | Theorem MG, `K`-form (`Ω = ϖ`): for `s = cϖ/π` and `K = span_ℚ θ ∋ i, c`, no `x₁, x₂ ∈ K𝓛` with `sx_j ∈ K𝓛 + K𝓛_E` and `2πi, x₁, x₂` `K`-independent (`dim_K S_K ≤ 2`) | `hW : Gen.Thm11KappaMGK Gen.latI` |
 | `Final.mgn_K_varpi` | Theorem MG♮, `K`-form (`Ω = ϖ`): the same with `s = 1/(cϖ)`, `sx_j ∈ K𝓛 + K·(fibre values)`, `[K : ℚ] ≥ 4` | `hW : Gen.Thm11KappaMGnK Gen.latI` |
-| `Final.thmM_varpi`, `Final.thmM_omegaRho` | Theorem M: `iπu = Ωℓ` with `u ∈ ℚ̄𝓛_E`, `ℓ ∈ 𝓛̃`, `Ω = cϖ` resp. `cΩ_ρ` (`c ∈ ℚ̄ˣ`) forces `u = sΩ`, `ℓ = s·iπ`, `s ∈ ℚ̄` | `hW : Gen.Thm11KappaM L` (and `hg₂'`, `hg₃'` for `Ω_ρ`) |
+| `Final.thmM_varpi`, `Final.thmM_omegaRho` | Theorem M: `iπu = Ωℓ` with `u ∈ ℚ̄𝓛_E`, `ℓ ∈ 𝓛̃`, `Ω = cϖ` resp. `cΩ_ρ` (`c ∈ ℚ̄ˣ`) forces `u = sΩ`, `ℓ = s·iπ`, `s ∈ ℚ̄` | `hW : Gen.Thm11KappaM L` (and `hg₃'` for `Ω_ρ`) |
 | `Final.thmM_varpi_k` | Theorem M on `E_i` with `s ∈ ℚ(i)` for `u ∈ 𝓛_E` | `hW : Gen.Thm11KappaM Gen.latI`, `Gen.MasserCM` |
 | `Final.m1_varpi`, `Final.m3_varpi` | (M1) `℘(cϖ/π) ∉ ℚ̄`; (M3) if `e^{π²} ∈ ℚ̄` then `℘(cπϖ) ∉ ℚ̄` (`c ∈ ℚ̄ˣ`) | `hW : Gen.Thm11KappaM Gen.latI` |
 | `Final.m3'_varpi` | (M3′) for `e^z ∈ ℚ̄ ∖ {0, 1}`, one of `e^{iπz}`, `℘(ϖz)` is transcendental | `hW : Gen.Thm11KappaM Gen.latI`, `Gen.HermiteLindemann` |
 | `Final.meta_varpi` | (Mη) `η(ϖ)u ∉ 𝓛̃` for `u ∈ 𝓛_{E_i} ∖ ℚ(i)ϖ` | `hW : Gen.Thm11KappaM Gen.latI`, `Gen.MasserCM` |
-| `Final.mxP_K` | Proposition D′ (Theorem MX′, `K`-form): `(z(X) + w(Y) + a)·βΩ_ρ = (w(X) + z(Y) + c)·ϖ` forces `z(X) + w(Y) + a ∈ ℚ̄ϖ + ℚ̄η_ρ`, every `β ∈ ℚ̄ˣ` | `hW : Gen.Thm11KappaMXP`, `hg₂'`, `hg₃'`, `hΓ`, `hM` |
-| `Final.deg2_i` | `π, ϖ, Ω_ρ, ϖΩ_ρ` are `ℚ̄`-linearly independent | `hW : Gen.Thm11KappaMXP`, `hg₂'`, `hg₃'`, `hΓ`, `Gen.WuestholzSix` |
-| `Final.deg2_ii` | `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are `ℚ̄`-linearly independent | `hW : Gen.Thm11KappaMXG`, `hg₂'`, `hg₃'`, `hΓ`, `Gen.WuestholzSix` |
+| `Final.mxP_K` | Proposition D′ (Theorem MX′, `K`-form): `(z(X) + w(Y) + a)·βΩ_ρ = (w(X) + z(Y) + c)·ϖ` forces `z(X) + w(Y) + a ∈ ℚ̄ϖ + ℚ̄η_ρ`, every `β ∈ ℚ̄ˣ` | `hW : Gen.Thm11KappaMXP`, `hg₃'`, `hΓ`, `hM` |
+| `Final.deg2_i` | `π, ϖ, Ω_ρ, ϖΩ_ρ` are `ℚ̄`-linearly independent | `hW : Gen.Thm11KappaMXP`, `hg₃'`, `hΓ`, `Gen.WuestholzSix` |
+| `Final.deg2_ii` | `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are `ℚ̄`-linearly independent | `hW : Gen.Thm11KappaMXG`, `hg₃'`, `hΓ`, `Gen.WuestholzSix` |
 
 `FourExpAt t` (`CM4E/Defs.lean`): for `ℚ`-linearly independent `a, b` with `e^a, e^b` algebraic, `e^{ta}` and `e^{tb}`
 are not both algebraic. The determinations of `α^t, β^t` are thus tied to the chosen logarithms.
@@ -69,7 +80,7 @@ The `ℚ(i)` versions need W88 for one fixed group only, which is a weaker assum
 Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharged in `Final.lean`:
 * `g₂(ϖℤ[i])` is algebraic (`Final.hg₂`; `g₂ = 4` from the Γ-formula for `ϖ`); `g₃(ϖℤ[i]) = 0` (`g₃_lemniscatic`);
 * `ϖ/π ∉ ℚ` (`Final.hS`), `ϖ` and `ϖ/π` transcendental (`Final.hT`): Schneider's theorem; for `Ω_ρ`, Schneider's
-  theorem is applied with `hg₂'`, `hg₃'`;
+  theorem is applied with `hg₃'`;
 * in Corollary MX1, `u + a ≠ 0` (Schneider: `℘` is transcendental at nonzero algebraic non-periods).
 
 ## 3. What is assumed: explicit hypotheses, never global axioms
@@ -85,7 +96,7 @@ Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharg
 | `hW : Gen.Thm11KappaMXP` | the same theorem for the twisted group of Theorem MX′, `G″ = G^n/U'`, `G = E_i^♮ × E_ρ^♮ × G_a²` (the push-out of `(E_i^n × E_ρ^n)^♮` along `θᵀ`, an extension of `E_i^n × E_ρ^n` by `G_a²`), every adapted `K ∋ i` with `r ≥ 3` | `CM4E/Gen/MXP.lean` (model `gmXP`) | Same source; review: [`reviews/REFEREE_HYP_MXP.md`](reviews/REFEREE_HYP_MXP.md) (CORRECT). |
 | `hW : Gen.Thm11KappaM L` | the same theorem for `A″ × G_m^n × G_a` (Theorem M; `G_a` a direct factor, so `d₀ = 1`), every adapted `K` | `CM4E/Gen/ThmM.lean` (model `gmM`, on the frame `gmFM` of `CM4E/Gen/FrameM.lean`) | Same source; review: [`reviews/REFEREE_HYP_M.md`](reviews/REFEREE_HYP_M.md) (CORRECT). The paper's first proof uses Roy–Waldschmidt; Lean writes out its reduction and applies W88 §5d to a hyperplane. |
 | `hW : Gen.Thm11KappaMGK L`, `Gen.Thm11KappaMGnK L` | the same theorem for `G_m^{2n} × A″` and `G_m^{2n} × Q″` with elliptic logarithms (resp. logarithms of `(E^♮)^n`) among the data; `MGnK` is premised on `Gen.KappaOneZero L` (`ζ(αz) = ᾱζ(z)`, i.e. `κ₁ = 0`; proved for `ϖℤ[i]` and `Ω_ρℤ[ρ]` as `Gen.kappaOneZero_latI`, `Gen.kappaOneZero_latRho`) | `CM4E/Gen/MGK.lean`, `CM4E/Gen/MGnK.lean` (models `gmMGK`, `gmMGnK`, on `gmF2`) | Same source; review: [`reviews/REFEREE_HYP_MGK.md`](reviews/REFEREE_HYP_MGK.md) (CORRECT; the `κ₁ = 0` premise was added after it). |
-| `hg₂'`, `hg₃'` | `g₂`, `g₃` of `Ω_ρℤ[ρ]` are algebraic | arguments | True: `g₂ = 0`, `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`); not proved in Lean. |
+| `hg₃'` | `g₃` of `Ω_ρℤ[ρ]` is algebraic (`g₂ = 0` is proved: `MX.g₂_equianharmonic`, by `(ρl)⁻⁴ = ρ⁻¹l⁻⁴`; `Final.hg₂'`) | arguments | True: `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`). Not proved in Lean: it is the evaluation of the real period, `Ω_ρ/2 = g^{-1/2} ∫₀¹ dt/√(1 − t⁶)` with `g³ = g₃/4`, plus `∫₀¹ dt/√(1 − t⁶) = B(1/6, 1/2)/6` and Legendre duplication at `1/6`; the analogous `g₂ = 4` for `ϖℤ[i]` took ~600 lines (`CM4E/Ext/LemniscateIndep/`), and the square-lattice steps (`℘(iz) = −℘(z)`, the sign of `e`) would have to be redone for the hexagonal lattice. |
 | `hΓ` | `ϖΩ_ρ/π ∉ ℚ̄` (Corollary Γ) | argument of the MX theorems | Wüstholz's analytic subgroup theorem (1989): a period of `E_i` and a quasi-period of `E_ρ` are `ℚ̄`-linearly independent. |
 | `hM` | `Ω_ρ/ϖ ∉ ℚ̄` | argument of `Final.mx_K` | Wüstholz 1989; derived from `WuestholzMX` in `Gen.mx_full`. |
 | `Gen.WuestholzMX` | a `ℚ̄`-linear relation `z_X + z_Y + a = xϖ + x'Ω_ρ` between elliptic logarithms of `E_i`, `E_ρ` forces `a = 0`, `z_X = xϖ`, `z_Y = x'Ω_ρ` | `CM4E/Gen/MXGen.lean` | Wüstholz 1989, applied to `E_i² × E_ρ² × G_a` (argument in the docstring). |

@@ -7,8 +7,10 @@ CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 
 **Unconditional** (W88 proved in the sibling project `lean_lsg`, a Lake path dependency):
 `CM4E.Unconditional.fourExpAt_varpi_div_pi_all` (**the four exponentials statement at `t = cϖ/π` for every algebraic
-`c ≠ 0`**; e.g. `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic, `CM4E.Unconditional.two_three`); the same at `cΩ_ρ/π` given
-that `g₂, g₃(Ω_ρℤ[ρ])` are algebraic; Cor. MG1 and MG3 given only the named classical inputs (Wüstholz, Baker). Everything below is conditional on W88 for the stated groups; the tiers are in
+`c ≠ 0`**; e.g. `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic, `CM4E.Unconditional.two_three`); **Theorem M for
+`Ω = cϖ`** (`CM4E.Unconditional.thmM_varpi`) with (M1), (M3) and the `K`-form of Theorem MG; the same at `Ω_ρ` given that
+`g₃(Ω_ρℤ[ρ])` is algebraic (`g₂ = 0` is proved); Cor. MG1, MG3, (M3′), (Mη) given only the named classical inputs
+(Wüstholz, Baker, Hermite–Lindemann, Masser). Everything below is conditional on W88 for the stated groups; the tiers are in
 [TRUST.md](TRUST.md) §1a.
 
 With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real periods of `y² = 4x³ − 4x` and `y² = 4x³ − 4`
@@ -34,7 +36,7 @@ With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real 
 
 Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
 for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`
-and MX results also assume that `g₂, g₃` of `Ω_ρℤ[ρ]` are algebraic, and some corollaries use named classical inputs
+and MX results also assume that `g₃` of `Ω_ρℤ[ρ]` is algebraic (`g₂ = 0` is proved), and some corollaries use named classical inputs
 (Wüstholz, Masser, Laurent, Baker, Hermite–Lindemann). Everything else is proved, including `g₂(ϖℤ[i]) = 4` and Schneider's theorem. What
 is assumed, why it is believed, and which paper results are covered: [TRUST.md](TRUST.md).
 
@@ -74,9 +76,9 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 
 * Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
   of the group models.
-* Theorem 1 for every CM curve (more `CMLattice` instances); bridges for the models with elliptic logarithms (Theorem M,
-  the `K`-form of MG: need the addition law and CM multiplication on algebraic points); vector extensions (Theorem 1(a),
-  MG♮, MX, Theorem S) once `lean_lsg` proves W88 for them; (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
+* Theorem 1 for every CM curve (more `CMLattice` instances); `g₃(Ω_ρℤ[ρ]) = 4` (the real-period computation of
+  `CM4E/Ext/LemniscateIndep/` redone for the hexagonal lattice); vector extensions (Theorem 1(a), MG♮, MX, MX′, Theorem S)
+  once `lean_lsg` proves W88 for them; (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
   vendored Schneider–Lang criterion.
 
 ## License and provenance

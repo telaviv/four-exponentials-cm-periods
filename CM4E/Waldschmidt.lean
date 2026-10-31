@@ -11,7 +11,7 @@ This file only *states* a published theorem, as a `Prop`: the shared form `Hyper
 and its first instance `Thm11Kappa` (for `G_m^{d₁} × E`, used by `CM4E/MainQi.lean`). The other instances are
 `MainNat.Thm11KappaNat` and those of `CM4E/Gen/` (`Thm11KappaMG`, `Thm11KappaMGn`, `Thm11KappaMXG`, `Thm11KappaMXP`,
 `Thm11KappaSMG`, `Thm11KappaSMGn`, `Thm11KappaM`, `Thm11KappaMGK`, `Thm11KappaMGnK`) and of `CM4E/AbVar/`
-(`Thm11KappaX7`, `Thm11KappaA`, `Thm11KappaAn`, `Thm11KappaAK`, `Thm11KappaAnK`, `Thm11KappaXA`). The theorem is *not* proved here; it is the W88 hypothesis of the final theorems in
+(`Thm11KappaX7`, `Thm11KappaA`, `Thm11KappaAn`, `Thm11KappaAK`, `Thm11KappaAnK`, `Thm11KappaXA`, `Thm11KappaSE`). The theorem is *not* proved here; it is the W88 hypothesis of the final theorems in
 `CM4E/Final.lean`.
 
 ## The source

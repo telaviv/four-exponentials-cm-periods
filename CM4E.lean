@@ -30,6 +30,8 @@ import CM4E.Gen.MGnK
 import CM4E.AbVar.Basis
 import CM4E.AbVar.Fermat7
 import CM4E.AbVar.FrameX
+import CM4E.AbVar.FrameX1
+import CM4E.AbVar.SE
 import CM4E.AbVar.X7
 import CM4E.AbVar.ThmA
 import CM4E.AbVar.ThmAn
@@ -45,3 +47,5 @@ import CM4E.Unconditional
 import CM4E.Bridge.Results
 import CM4E.Bridge.MXG
 import CM4E.Bridge.Vec
+import CM4E.Bridge.SE
+import CM4E.Bridge.SEPaper

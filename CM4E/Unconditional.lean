@@ -6,6 +6,7 @@ import CM4E.Final
 import CM4E.Bridge.Results
 import CM4E.Bridge.M
 import CM4E.Bridge.Vec
+import CM4E.Bridge.SE
 import LSG.W88.Main
 import LSG.W88.K5dMain
 
@@ -51,6 +52,14 @@ With the arithmetic of elliptic logarithms (`CM4E/Bridge/ELog.lean`: addition la
 * `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs;
 * `thmS_varpi`, `thmS_omegaRho`: **Theorem S** of paper [II], assuming only `Gen.NotLtilde` (Wüstholz) (and `hg₃'`).
 * `mxP_K`, `deg2_i`: Proposition D′ (Theorem MX′) and deg2 (i), with their named inputs (`Bridge.thm11KappaMXP_uncond`).
+
+`lean_lsg` also proves the §5d statement for `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m` with pairwise equal or non-isogenous
+curves (`LSG.W88.hypStd_of_pair`); with the bridge of `CM4E/Bridge/SE.lean`, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`:
+
+* `thmSE_varpi_omegaRho`: **Theorem SE (SE)** (paper addition seed 2) for `E_i`, `E_ρ`: for `t = cΩ_ρ/ϖ` (`c ∈ ℚ̄ˣ`) and
+  `u₁, u₂ ∈ 𝓛̃_{E_i}` with `ϖ, u₁, u₂` `ℚ̄`-independent, `tu₁, tu₂` are not both in `ℚ̄ + ℚ̄𝓛_{E_i} + ℚ̄𝓛_{E_ρ}`
+  (`Bridge.thmSE_of_nonIsog` is the statement for any two non-isogenous CM lattices);
+* `transcendental_omegaRho_div_varpi`: `Ω_ρ/ϖ ∉ ℚ̄` (the hypothesis `hM` of `mx_K`, `mxP_K`).
 -/
 
 open Complex CM4E.Waldschmidt
@@ -206,13 +215,13 @@ theorem mgn_K_varpi {r : ℕ} {b : Fin r → ℂ} (hb : Gen.IsAdaptedFieldBasis 
     False :=
   Final.mgn_K_varpi (Bridge.thm11KappaMGnK_uncond Gen.latI) hb hr c hcK hc0 x hx hsx hind
 
-/-- **Theorem MX, `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ`, `hM`. -/
+/-- **Theorem MX, `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ` (`Ω_ρ/ϖ ∉ ℚ̄` is proved: `Bridge.transcendental_omegaRho_div_varpi_of`). -/
 theorem mx_K (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
-    (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi)) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
+    (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
     (zX wX zY wY a t : ℂ) (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
     (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) (hrel : (zX + zY + a) * (β * MX.etaRho) = (wX + wY + t) * varpi) :
     ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + zY + a = x * varpi + x' * omegaRho :=
-  Final.mx_K Bridge.thm11KappaMXG_uncond hg₃' hΓ hM β hβ hβ0 zX wX zY wY a t hX hY ha ht hrel
+  Final.mx_K Bridge.thm11KappaMXG_uncond hg₃' hΓ (Bridge.transcendental_omegaRho_div_varpi_of hg₃') β hβ hβ0 zX wX zY wY a t hX hY ha ht hrel
 
 /-- **Theorem MX** for every `β ∈ ℚ̄ˣ`, assuming only `hg₃'`, `hΓ` and the named inputs `WuestholzMX`, `MasserCM`. -/
 theorem mx (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
@@ -260,13 +269,13 @@ theorem thmS_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hNot : 
   Final.thmS_omegaRho (Bridge.thm11KappaSMG_of_std Gen.latRho (hypStdCMAt MX.equianharmonic 2) Bridge.int_rho)
     (Bridge.thm11KappaSMGn_uncond Gen.latRho) hg₃' hNot c hc hc0 t ht y₁ y₂ hind
 
-/-- **Proposition D′ (Theorem MX′), `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ`, `hM`. -/
+/-- **Proposition D′ (Theorem MX′), `K`-form, for every `β ∈ ℚ̄ˣ`**, assuming only `hg₃'`, `hΓ` (`Ω_ρ/ϖ ∉ ℚ̄` is proved: `Bridge.transcendental_omegaRho_div_varpi_of`). -/
 theorem mxP_K (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi))
-    (hM : Transcendental ℚ ((omegaRho : ℂ) / varpi)) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
+    (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
     (zX wX zY wY a c : ℂ) (hX : MX.LogNat lemniscatic etaLem zX wX) (hY : MX.LogNat MX.equianharmonic MX.etaR zY wY)
     (ha : IsAlgebraic ℚ a) (hc : IsAlgebraic ℚ c) (hrel : (zX + wY + a) * (β * omegaRho) = (wX + zY + c) * varpi) :
     ∃ x x' : ℂ, IsAlgebraic ℚ x ∧ IsAlgebraic ℚ x' ∧ zX + wY + a = x * varpi + x' * MX.etaRho :=
-  Final.mxP_K Bridge.thm11KappaMXP_uncond hg₃' hΓ hM β hβ hβ0 zX wX zY wY a c hX hY ha hc hrel
+  Final.mxP_K Bridge.thm11KappaMXP_uncond hg₃' hΓ (Bridge.transcendental_omegaRho_div_varpi_of hg₃') β hβ hβ0 zX wX zY wY a c hX hY ha hc hrel
 
 /-- **Corollary deg2 (i)**: `π, ϖ, Ω_ρ, ϖΩ_ρ` are `ℚ̄`-independent, assuming only `hg₃'`, `hΓ` and the named input
 `WuestholzSix`. -/
@@ -276,5 +285,21 @@ theorem deg2_i (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (hrel : c0 * Real.pi + c1 * varpi + c2 * omegaRho + c3 * (varpi * omegaRho) = 0) :
     c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
   Final.deg2_i Bridge.thm11KappaMXP_uncond hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
+
+/-- **`Ω_ρ/ϖ` is transcendental**, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄` (W88 §5d on `E_i × E_ρ`, `lean_lsg`). -/
+theorem transcendental_omegaRho_div_varpi (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) :
+    Transcendental ℚ ((omegaRho : ℂ) / varpi) :=
+  Bridge.transcendental_omegaRho_div_varpi_of hg₃'
+
+/-- **Theorem SE (SE) for `E_i` and `E_ρ`** (paper addition seed 2, Theorem `thm:SE` (1)), assuming only
+`g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`: for `c ∈ ℚ̄ˣ`, `t = cΩ_ρ/ϖ` and `u₁, u₂ ∈ 𝓛̃_{E_i} = ℚ̄ + ℚ̄𝓛_{E_i}` with `ϖ, u₁, u₂` linearly
+independent over `ℚ̄`, the numbers `tu₁, tu₂` are not both in `ℚ̄ + ℚ̄𝓛_{E_i} + ℚ̄𝓛_{E_ρ}`. -/
+theorem thmSE_varpi_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (c : ℂ) (hc : IsAlgebraic ℚ c)
+    (hc0 : c ≠ 0) (u₁ u₂ : ℂ) (hu₁ : u₁ ∈ AbVar.LtildeE lemniscatic) (hu₂ : u₂ ∈ AbVar.LtildeE lemniscatic)
+    (hind : ∀ a₀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ →
+      a₀ * varpi + a₁ * u₁ + a₂ * u₂ = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) :
+    ¬ (c * omegaRho / varpi * u₁ ∈ AbVar.LtildeEE lemniscatic MX.equianharmonic ∧
+      c * omegaRho / varpi * u₂ ∈ AbVar.LtildeEE lemniscatic MX.equianharmonic) :=
+  Bridge.thmSE_varpi_omegaRho hg₃' c hc hc0 u₁ u₂ hu₁ hu₂ hind
 
 end CM4E.Unconditional

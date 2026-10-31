@@ -1,0 +1,48 @@
+'CM4E.Unconditional.thmSE_varpi_omegaRho' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Bridge.thmSE_of_nonIsog' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Unconditional.transcendental_omegaRho_div_varpi' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Bridge.transcendental_div_of_nonIsog' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Bridge.uniform_SE' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Bridge.thm11KappaSE_of_nonIsog' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.Bridge.hyperplaneKappa_gmES' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.thmSE' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.frameX1_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LSG.W88.hypStd_of_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+@LSG.W88.hypStd_of_pair : ∀ {m : ℕ} (Ls : Fin m → PeriodPair) {L L' : PeriodPair},
+  (∀ (j : Fin m), Ls j = L ∨ Ls j = L') →
+    IsAlgebraic ℚ L.g₂ ∧ IsAlgebraic ℚ L.g₃ →
+      IsAlgebraic ℚ L'.g₂ ∧ IsAlgebraic ℚ L'.g₃ →
+        LSG.W88.NonIsog L L' →
+          LSG.W88.NonIsog L' L → ∀ (d0 d1 : ℕ), LSG.W88.MStarCopy.HyperplaneKappa (LSG.W88.MStarCopy.gmStd d0 d1 Ls)
+@LSG.W88.K5d.hyperplaneKappaStd_of_rat : ∀ {d0 d1 m : ℕ} (Ls : Fin m → PeriodPair),
+  (∀ (j : Fin m), IsAlgebraic ℚ (Ls j).g₂ ∧ IsAlgebraic ℚ (Ls j).g₃) →
+    (∀ (t : Submodule ℂ (Fin m → ℂ)), LSG.W88.IsAbelianTangent Ls t → LSG.W88.RationalOverQbar t) →
+      LSG.W88.MStarCopy.HyperplaneKappa (LSG.W88.MStarCopy.gmStd d0 d1 Ls)
+def CM4E.AbVar.LtildeE : PeriodPair → Set ℂ :=
+fun P =>
+  {z |
+    ∃ N β₀ β v,
+      IsAlgebraic ℚ β₀ ∧
+        (∀ (k : Fin N), IsAlgebraic ℚ (β k)) ∧ (∀ (k : Fin N), CM4E.Gen.LogE P (v k)) ∧ z = β₀ + ∑ k, β k * v k}
+def CM4E.AbVar.LtildeEE : PeriodPair → PeriodPair → Set ℂ :=
+fun P P' =>
+  {z |
+    ∃ N N' β₀ β v β' v',
+      IsAlgebraic ℚ β₀ ∧
+        (∀ (k : Fin N), IsAlgebraic ℚ (β k)) ∧
+          (∀ (k : Fin N), CM4E.Gen.LogE P (v k)) ∧
+            (∀ (k : Fin N'), IsAlgebraic ℚ (β' k)) ∧
+              (∀ (k : Fin N'), CM4E.Gen.LogE P' (v' k)) ∧ z = β₀ + ∑ k, β k * v k + ∑ k, β' k * v' k}
+CM4E.Unconditional.thmSE_varpi_omegaRho : IsAlgebraic ℚ CM4E.MX.equianharmonic.g₃ →
+  ∀ (c : ℂ),
+    IsAlgebraic ℚ c →
+      c ≠ 0 →
+        ∀ (u₁ u₂ : ℂ),
+          u₁ ∈ CM4E.AbVar.LtildeE CM4E.lemniscatic →
+            u₂ ∈ CM4E.AbVar.LtildeE CM4E.lemniscatic →
+              (∀ (a₀ a₁ a₂ : ℂ),
+                  IsAlgebraic ℚ a₀ →
+                    IsAlgebraic ℚ a₁ →
+                      IsAlgebraic ℚ a₂ → a₀ * ↑CM4E.varpi + a₁ * u₁ + a₂ * u₂ = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) →
+                ¬(c * ↑CM4E.omegaRho / ↑CM4E.varpi * u₁ ∈ CM4E.AbVar.LtildeEE CM4E.lemniscatic CM4E.MX.equianharmonic ∧
+                    c * ↑CM4E.omegaRho / ↑CM4E.varpi * u₂ ∈ CM4E.AbVar.LtildeEE CM4E.lemniscatic CM4E.MX.equianharmonic)

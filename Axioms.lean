@@ -169,3 +169,13 @@ import CM4E
 #print axioms CM4E.Bridge.thm11KappaMXP_uncond
 #print axioms CM4E.Unconditional.mxP_K
 #print axioms CM4E.Unconditional.deg2_i
+#print axioms CM4E.AbVar.frameX1_false
+#print axioms CM4E.AbVar.thmSE
+#print axioms CM4E.Bridge.thm11KappaSE_of_nonIsog
+#print axioms CM4E.Bridge.transcendental_div_of_nonIsog
+#print axioms CM4E.Bridge.thmSE_of_nonIsog
+#print axioms CM4E.Bridge.thmSE_varpi_omegaRho
+#print axioms CM4E.Unconditional.transcendental_omegaRho_div_varpi
+#print axioms CM4E.Unconditional.thmSE_varpi_omegaRho
+#print axioms CM4E.Bridge.SEPaper.nonIsog_iff
+#print axioms CM4E.Bridge.SEPaper.thmSE_paper

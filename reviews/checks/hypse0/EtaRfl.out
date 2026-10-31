@@ -1,0 +1,2 @@
+def CM4E.Ext.Weierstrass.eta : PeriodPair → ℂ → ℂ :=
+fun L ω => CM4E.Ext.Weierstrass.zeta L (L.ω₁ / 2 + ω) - CM4E.Ext.Weierstrass.zeta L (L.ω₁ / 2)

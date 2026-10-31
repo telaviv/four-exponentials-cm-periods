@@ -11,7 +11,7 @@ import CM4E.Gen.SMG
 
 The model `gmSMG L b` of `G_a² × G_m^{2n} × A''` (`CM4E/Gen/SMG.lean`, frame `gmF2` with the uniform subgroup condition)
 is identified with the standard model `gmStd 2 (2n) (E, …, E)` by `(x, y, (a₁, a₂, [z])) ↦ ((a₁, a₂), (x, y), E0 z)`
-(`phiSMG`, using `phiE` of `CM4E/Bridge/MG.lean`), and `thm11KappaSMG_of_std` derives `Thm11KappaSMG L` from `HypStd`.
+(`phiSMG`, using `phiE` of `CM4E/Bridge/MG.lean`), and `thm11KappaSMG_of_std` derives `Thm11KappaSMG L` from `HypStdCM L.pp`.
 The uniform subgroup condition is proved: a nonzero `h₀ × U^⊥ × t` contains an algebraic vector with `Ψ'' ≠ 0` (an
 algebraic vector of `h₀`; a rational vector of `U^⊥`; or `z/ω` for a nonzero lattice vector `z ∈ t`).
 -/
@@ -52,13 +52,13 @@ lemma phiSMG_symm_apply (hb : IsAdaptedFieldBasis L.α b)
     (phiSMG hb).symm w = ((phiT _).symm w.2.1, (w.1 0, w.1 1, (phiE hb).symm w.2.2)) := rfl
 
 /-- **Thm11KappaSMG from the standard model** (`L` with `α` integral). -/
-theorem thm11KappaSMG_of_std (hS : HypStd) (L : CMLattice) (hint : ∃ a c : ℤ, L.α ^ 2 = a + c * L.α) :
+theorem thm11KappaSMG_of_std (L : CMLattice) (hS : HypStdCM L.pp) (hint : ∃ a c : ℤ, L.α ^ 2 = a + c * L.α) :
     Thm11KappaSMG L := by
   intro hg₂ hg₃ r b hb
   have hθalg := theta_isAlgebraic L.isAlgebraic_α hb.alg
   have hexp0 : IsAlgebraic ℚ (Complex.exp 0) := by simpa using isAlgebraic_one
   refine hyperplaneKappa_transport (gmSMG L b) (gmStd 2 _ (fun _ : Fin r => L.pp)) (phiSMG hb) ?_ ?_ ?_ ?_ ?_
-    (hS 2 _ r _ (fun _ => ⟨hg₂, hg₃⟩))
+    (hS 2 _ r hg₂ hg₃)
   · -- algebraic vectors
     rintro v ⟨h1, h2, ⟨ha1, ha2, ⟨z, hz, hzv⟩⟩⟩
     rw [phiSMG_apply]

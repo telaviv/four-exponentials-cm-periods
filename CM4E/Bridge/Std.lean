@@ -39,6 +39,14 @@ def HypStd : Prop :=
   ∀ (d0 d1 m : ℕ) (Ls : Fin m → PeriodPair), (∀ j, IsAlgebraic ℚ (Ls j).g₂ ∧ IsAlgebraic ℚ (Ls j).g₃) →
     HyperplaneKappa (gmStd d0 d1 Ls)
 
+/-- **W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^r`, one curve `E` repeated** (the form the bridges use; `lean_lsg` proves it
+unconditionally for CM lattices with algebraic invariants). -/
+def HypStdCM (L : PeriodPair) : Prop :=
+  ∀ (d0 d1 r : ℕ), IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmStd d0 d1 (fun _ : Fin r => L))
+
+lemma hypStdCM_of_hypStd (h : HypStd) (L : PeriodPair) : HypStdCM L :=
+  fun d0 d1 r h₂ h₃ => h d0 d1 r _ (fun _ => ⟨h₂, h₃⟩)
+
 /-- The logarithms with every `E`-coordinate a period: an additive subgroup of `Lam Ls`. -/
 def lamPer (Ls : Fin m → PeriodPair) : AddSubgroup (Tan d0 d1 m) where
   carrier := {p | AlgVec p.1 ∧ (∀ i, IsAlgebraic ℚ (Complex.exp (p.2.1 i))) ∧ ∀ j, p.2.2 j ∈ (Ls j).lattice}

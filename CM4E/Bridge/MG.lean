@@ -16,7 +16,7 @@ For a CM lattice `L = ω ℤ[α]` with `α` integral (`α² = a + cα`, `a, c �
 `(x_{j0}, x_{j1}) ↦ x_{j0} + [α]x_{j1}`: on tangent spaces `E0 z = (z_{j0} + α z_{j1})_j`, whose kernel is `ℂ·ker ψ`
 (`ker_E0`), so `Qm = ℂ^n/ℂ·ker ψ ≅ ℂ^r` (`phiE`), and `λ = Σ_j b_j y_j` in the new coordinates. Together with a reindexing
 of the toric coordinates this identifies the model `gmMG L b` of `G_m^{2n} × A''` with the standard model
-`gmStd 0 (2n) (E, …, E)`, and `hyperplaneKappa_transport` gives `Thm11KappaMG L` from `HypStdCM L.pp`
+`gmStd 0 (2n) (E, …, E)`, and `hyperplaneKappa_transport` gives `Thm11KappaMG L` from `HypStdCMAt L.pp 0`
 (`thm11KappaMG_of_std`). Everything here is proved; in particular the subgroup condition of `gmMG` (every nonzero abelian
 subvariety of `A''` has `λ ≠ 0` on its tangent space), a soundness fact of `CM4E/Gen/MG.lean`, becomes a theorem:
 a nonzero abelian tangent space contains a nonzero lattice vector `((m_j + n_j α) ω)_j`, on which `λ = ω θᵀ(m, n) ≠ 0`.
@@ -193,11 +193,11 @@ lemma E0_single_mem (hint : ∃ a c : ℤ, L.α ^ 2 = a + c * L.α) (p : Fin r �
     · simp [Pi.single_apply, Ne.symm hj, hj]
 
 /-- **Thm11KappaMG from the standard model** (`L` with `α` integral). -/
-theorem thm11KappaMG_of_std (L : CMLattice) (hS : HypStdCM L.pp) (hint : ∃ a c : ℤ, L.α ^ 2 = a + c * L.α) :
+theorem thm11KappaMG_of_std (L : CMLattice) (hS : HypStdCMAt L.pp 0) (hint : ∃ a c : ℤ, L.α ^ 2 = a + c * L.α) :
     Thm11KappaMG L := by
   intro hg₂ hg₃ r b hb
   refine hyperplaneKappa_transport (gmMG L b) (gmStd 0 _ (fun _ : Fin r => L.pp)) (phiMG hb) ?_ ?_ ?_ ?_ ?_
-    (hS 0 _ r hg₂ hg₃)
+    (hS _ r hg₂ hg₃)
   · -- algebraic vectors
     rintro v ⟨h1, h2, ⟨z, hz, hzv⟩⟩
     rw [phiMG_apply]

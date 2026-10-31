@@ -112,3 +112,4 @@ import CM4E
 #print axioms CM4E.Bridge.fourExpAt_omegaRho_div_pi_all
 #print axioms CM4E.Bridge.mg1_varpi
 #print axioms CM4E.Bridge.mg3_varpi
+#print axioms CM4E.Bridge.mg1_varpi_abc

@@ -39,13 +39,21 @@ def HypStd : Prop :=
   ∀ (d0 d1 m : ℕ) (Ls : Fin m → PeriodPair), (∀ j, IsAlgebraic ℚ (Ls j).g₂ ∧ IsAlgebraic ℚ (Ls j).g₃) →
     HyperplaneKappa (gmStd d0 d1 Ls)
 
-/-- **W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^r`, one curve `E` repeated** (the form the bridges use; `lean_lsg` proves it
-unconditionally for CM lattices with algebraic invariants). -/
+/-- **W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^r`, one curve `E` repeated** (to be supplied by `lean_lsg`, as a consequence of
+its `HypStd`). -/
 def HypStdCM (L : PeriodPair) : Prop :=
   ∀ (d0 d1 r : ℕ), IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmStd d0 d1 (fun _ : Fin r => L))
 
 lemma hypStdCM_of_hypStd (h : HypStd) (L : PeriodPair) : HypStdCM L :=
   fun d0 d1 r h₂ h₃ => h d0 d1 r _ (fun _ => ⟨h₂, h₃⟩)
+
+/-- The case `d₀ = d` of `HypStdCM` (the bridges use `d = 0` for Theorem MG and `d = 2` for Theorem SMG; for `d₀ = 0` every
+configuration outside (NR) is trivial, while `d₀ > 0` also needs Roy's (NR)-free linear case). -/
+def HypStdCMAt (L : PeriodPair) (d : ℕ) : Prop :=
+  ∀ (d1 r : ℕ), IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmStd d d1 (fun _ : Fin r => L))
+
+lemma hypStdCMAt_of_hypStdCM {L : PeriodPair} (h : HypStdCM L) (d : ℕ) : HypStdCMAt L d :=
+  fun d1 r h₂ h₃ => h d d1 r h₂ h₃
 
 /-- The logarithms with every `E`-coordinate a period: an additive subgroup of `Lam Ls`. -/
 def lamPer (Ls : Fin m → PeriodPair) : AddSubgroup (Tan d0 d1 m) where

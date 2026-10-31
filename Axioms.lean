@@ -201,3 +201,12 @@ import CM4E
 #print axioms CM4E.Gen.frame2_false_K_on
 #print axioms CM4E.AbVar.perA_poly
 #print axioms CM4E.AbVar.perA_inj
+#print axioms CM4E.Gen.ker_eq_span_proj
+#print axioms CM4E.Gen.torInj_ker_phiW
+#print axioms CM4E.Gen.frameW_false
+#print axioms CM4E.AbVar.exists_not_mem_KspanD
+#print axioms CM4E.AbVar.transcendental_div_pi_of_thm11KappaA
+#print axioms CM4E.AbVar.wuestholzA5_of
+#print axioms CM4E.AbVar.wuestholzA7_of
+#print axioms CM4E.AbVar.transcendental_div_pi_of_thm11KappaAn
+#print axioms CM4E.AbVar.wuestholzB5_of

@@ -74,7 +74,9 @@ noncomputable def tangentSub {d₁ : ℕ} (ℒ : Submodule ℚ (Fin d₁ → ℚ
 
 /-! ## The shared hypothesis form
 
-Every conditional theorem of this project assumes `HyperplaneKappa G` for a *group model* `G`. That is W88 §5d,
+Every conditional theorem of this project assumes `HyperplaneKappa G` for a *group model* `G` (the abelian-variety
+hypotheses `Thm11KappaA`, `Thm11KappaAK` assume only `HyperplaneKappaOn G (TorInj G)`, i.e. W88 §5d for toric-injective
+hyperplanes, which is all their proofs use). That is W88 §5d,
 (5.4), for the commutative algebraic group `G` described by the model. A model records
 * the tangent space, with its `ℚ̄`-structure (`alg`: vectors with algebraic coordinates);
 * the numbers `d₁` (the multiplicative factor) and `d₂ = dim G₂`;

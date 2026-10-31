@@ -11,6 +11,7 @@ import CM4E.MX
 import CM4E.Gen.Basis
 import CM4E.Gen.BasisExists
 import CM4E.Gen.Frame
+import CM4E.Gen.FrameW
 import CM4E.Gen.CMLattice
 import CM4E.Gen.MGn
 import CM4E.Gen.MG

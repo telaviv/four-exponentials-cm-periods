@@ -165,3 +165,4 @@ import CM4E
 #print axioms CM4E.Bridge.thm11KappaSMGn_uncond
 #print axioms CM4E.Unconditional.thmS_varpi
 #print axioms CM4E.Unconditional.thmS_omegaRho
+#print axioms CM4E.AbVar.XSetup.distinct_of_wuestholz

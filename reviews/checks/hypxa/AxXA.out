@@ -1,0 +1,17 @@
+'CM4E.AbVar.XSetup.propX15' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.XSetup.thmXA' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.thmX7_of_gen' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.ch_span' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.propXA_K' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.XSetup.propX15_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.XSetup.propX15_sup' depends on axioms: [propext, Classical.choice, Quot.sound]
+reviews/checks/hypxa/AxXA.lean:30:54: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+reviews/checks/hypxa/AxXA.lean:30:50: warning: Unused tactic linter: `<;>` should be replaced with `;` or be removed.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+reviews/checks/hypxa/AxXA.lean:30:54: warning: Unused tactic linter: `linear_combination hper` does nothing.
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+'distinct_of_wuestholz' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -112,13 +112,17 @@ structure IsAdaptedX : Prop where
   span : ∀ j, KspanD (S j).α (S j).d (b j) = KspanD (S 0).α (S 0).d (b 0)
 
 /-- **The hypothesis for Theorem X (generic)**: W88 §5d for `∏_j A_j^{r_j} × G_a²`, for all adapted slot bases. Claimed
-(sound) when the four slots are pairwise distinct first-kind slots of simple CM abelian varieties and each `LA` consists
-of eigen-coordinate vectors of logarithms of algebraic points. -/
+(sound, `reviews/REFEREE_HYP_XA.md`) when: each record is faithful (`A` a simple CM abelian variety over `ℚ̄` of primitive
+type, `κ_s = σ_s(α)` for a primitive element `α` of its CM field, `P` the eigen-coordinate vector of one nonzero cycle,
+`LA` eigen-coordinate vectors of logarithms of algebraic points, coherent in one `ℚ̄`-model); and the four slots are
+pairwise distinct, where two slots are equal iff their varieties are isogenous and their embeddings correspond (so slots
+given on one record need different `s`). For non-distinct slots the model is unsound, but then `WuestholzXA` is false. -/
 def Thm11KappaXA : Prop :=
   ∀ (r : Fin 4 → ℕ) (b : (j : Fin 4) → Fin (r j) → ℂ), IsAdaptedX S b → HyperplaneKappa (gmXA S b)
 
-/-- **Named input (Wüstholz 1989; paper [II], (W)).** `1, P_a, P_b, P_c, P_d` are `ℚ̄`-linearly independent (periods
-of pairwise distinct slots). -/
+/-- **Named input (Wüstholz 1989; paper [II], (W)).** `1, P_a, P_b, P_c, P_d` are `ℚ̄`-linearly independent, for
+distinct first-kind slots of simple CM abelian varieties over `ℚ̄` (two slots are equal iff the varieties are isogenous
+and the embeddings correspond); `reviews/REFEREE_INPUTS_XA.md`. -/
 def WuestholzXA : Prop :=
   ∀ a₀ a₁ a₂ a₃ a₄ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → IsAlgebraic ℚ a₃ →
     IsAlgebraic ℚ a₄ → a₀ + a₁ * (S 0).per + a₂ * (S 1).per + a₃ * (S 2).per + a₄ * (S 3).per = 0 →

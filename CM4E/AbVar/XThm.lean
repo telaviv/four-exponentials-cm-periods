@@ -27,7 +27,12 @@ import CM4E.AbVar.X7
   slot splitting (`WuestholzSplitXA`, named input) finishes.
 
 The `[K : ℚ] ≥ 5` in `propX15` comes from the frame `gmFX`, which counts `G_a²` in `d₂` (the paper's count has no such
-condition); `thmXA` chooses `K` itself and has no such hypothesis.
+condition); it is never restrictive, since four pairwise distinct first-kind slots force `[K : ℚ] ≥ 6`
+(`reviews/REFEREE_HYP_XA.md`, §2), and `thmXA` chooses `K` itself. The distinctness of slots on one record
+(`Distinct`) follows from `WuestholzXA` (`distinct_of_wuestholz`); that different records `AV i`, `AV i'` are
+non-isogenous is a convention of the set-up, not checked by Lean. The torsion clause of the paper's Theorem X ("if
+`v_j ∈ Λ(A_j)` then `exp(v_j)` is torsion") is not formalised in general (Lean has no `exp_A`); at level seven it is
+`thmX7_torsion` with the named input `TorsionX7`.
 -/
 
 open Complex Module CM4E.Waldschmidt CM4E.Gen Polynomial
@@ -46,7 +51,8 @@ structure CMAV.Good (A : CMAV) : Prop where
 noncomputable def lamK (A : CMAV) (K : IntermediateField ℚ ℂ) : Submodule K (Fin A.g → ℂ) :=
   Submodule.span K {u | ∃ e : ℕ, ∃ ℓ ∈ insert A.P A.LA, u = fun s => A.κ s ^ e * ℓ s}
 
-/-- The set-up of Theorem X: isogeny classes `AV i`, slot `j` = coordinate `sl j` of `AV (cls j)`. -/
+/-- The set-up of Theorem X: isogeny classes `AV i` (pairwise non-isogenous; a convention, not checked by Lean), slot
+`j` = coordinate `sl j` of `AV (cls j)`. -/
 structure XSetup where
   m : ℕ
   AV : Fin m → CMAV
@@ -74,7 +80,7 @@ def psiLamK (K : IntermediateField ℚ ℂ) : Set (ℂ × ℂ) :=
   {v | ∃ l : X.LieG, (∀ i, l i ∈ lamK (X.AV i) K) ∧ ∃ q₁ q₂ : ℂ, IsAlgebraic ℚ q₁ ∧ IsAlgebraic ℚ q₂ ∧
     v = X.Psi l q₁ q₂}
 
-/-- The slots are pairwise distinct. -/
+/-- Slots on one record have different coordinates (implied by `WuestholzXA`, `distinct_of_wuestholz`). -/
 def Distinct : Prop := ∀ j j', j ≠ j' → X.cls j = X.cls j' → (X.sl j : ℕ) ≠ X.sl j'
 
 /-- The slot period `P_j`. -/
@@ -89,7 +95,10 @@ def zQbar (S : FKSlot) : Set ℂ :=
 
 /-- **Named input (Wüstholz 1989; slot splitting, paper [II] proof of Theorem X).** A relation
 `x + x' + q = cP_a + c'P_d` (resp. with slots `c, b`) with `x ∈ ℚ̄z_a(Λ(A_a))`, `x' ∈ ℚ̄z_d(Λ(A_d))` and `q, c, c'`
-algebraic splits slot by slot. -/
+algebraic splits slot by slot. True (`reviews/REFEREE_INPUTS_XA.md`) when the two slots of each pair are distinct up to
+isogeny, each `A` is a simple CM abelian variety over `ℚ̄`, `P` is the eigen-coordinate vector of a nonzero cycle and
+`LA` consists of eigen-coordinates of logarithms of algebraic points; false for other `LA` (e.g. `LA ∋ (1, …, 1)`), and
+`thmXA` is then vacuous. -/
 def WuestholzSplitXA (S : Fin 4 → FKSlot) : Prop :=
   (∀ x x' q c c' : ℂ, x ∈ zQbar (S 0) → x' ∈ zQbar (S 3) → IsAlgebraic ℚ q → IsAlgebraic ℚ c →
       IsAlgebraic ℚ c' → x + x' + q = c * (S 0).per + c' * (S 3).per →
@@ -147,6 +156,27 @@ lemma exists_coord_log {A : CMAV} (hA : A.Good) (K : IntermediateField ℚ ℂ) 
 namespace XSetup
 
 variable (X : XSetup)
+
+/-- Distinct coordinates for slots on one record follow from `WuestholzXA` (equal slots have equal periods). -/
+lemma distinct_of_wuestholz (hWB : WuestholzXA X.slot) : X.Distinct := by
+  intro j j' hjj' hc hs
+  have hper : X.per j = X.per j' := by
+    simp only [XSetup.per, XSetup.slot, FKSlot.per]
+    have : ∀ (i i' : Fin X.m) (h : i = i') (s : Fin (X.AV i).g) (s' : Fin (X.AV i').g),
+        (s : ℕ) = s' → (X.AV i).P s = (X.AV i').P s' := by
+      rintro i _ rfl s s' h; rw [Fin.ext h]
+    exact this _ _ hc _ _ hs
+  let a : Fin 4 → ℂ := fun k => (if k = j then 1 else 0) - (if k = j' then 1 else 0)
+  have ha : ∀ k, IsAlgebraic ℚ (a k) := fun k => by
+    simp only [a]; split_ifs <;> simp [isAlgebraic_zero, isAlgebraic_one, isAlgebraic_one.neg]
+  have hsum : (0 : ℂ) + a 0 * (X.slot 0).per + a 1 * (X.slot 1).per + a 2 * (X.slot 2).per +
+      a 3 * (X.slot 3).per = 0 := by
+    have : ∀ k, (X.slot k).per = X.per k := fun _ => rfl
+    simp only [this]
+    fin_cases j <;> fin_cases j' <;> simp_all [a] <;> linear_combination hper
+  obtain ⟨-, h0, h1, h2, h3⟩ := hWB 0 (a 0) (a 1) (a 2) (a 3) isAlgebraic_zero (ha 0) (ha 1) (ha 2) (ha 3) hsum
+  have hj : a j = 0 := by fin_cases j <;> assumption
+  simp [a, hjj'] at hj
 
 /-- Adapted bases for the four slots, all for one number field `K`. -/
 lemma exists_adapted_slots (K : IntermediateField ℚ ℂ) [FiniteDimensional ℚ K]
@@ -227,13 +257,14 @@ theorem propX15_sub (hX : ∀ i, (X.AV i).Good) (hW : Thm11KappaXA X.slot) (hWB 
     exact sub_eq_zero.mp ((mul_eq_zero.mp key).resolve_right (mul_ne_zero hμ0 hP0))
 
 /-- **Proposition 15, `⊇`** (uses (Ch)). -/
-theorem propX15_sup (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hWB : WuestholzXA X.slot)
+theorem propX15_sup (hX : ∀ i, (X.AV i).Good) (hWB : WuestholzXA X.slot)
     (K : IntermediateField ℚ ℂ) (hκK : ∀ i s, (X.AV i).κ s ∈ K)
     (μ : ℂ) (hμK : μ ∈ K) (hμ0 : μ ≠ 0) (hR : X.per 0 * X.per 1 = μ * X.per 2 * X.per 3)
     (β : ℂ) (hβK : β ∈ K) (x y : ℂ) (hx : x ∈ K) (hy : y ∈ K) :
     let v : ℂ × ℂ := (x * X.per 0 + y * X.per 3, x * (β * X.per 2) + y * (β / μ * X.per 1))
     (∃ t : ℂ, v = (t * X.per 0, t * (β * X.per 2))) ∧ v ∈ X.psiLamK K := by
   intro v
+  have hD := X.distinct_of_wuestholz hWB
   have hP0 : X.per 0 ≠ 0 := by
     intro h0
     obtain ⟨-, h1, -⟩ := hWB 0 1 0 0 0 isAlgebraic_zero isAlgebraic_one isAlgebraic_zero isAlgebraic_zero
@@ -274,7 +305,7 @@ theorem propX15_sup (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hWB : Wuestho
   · simp only [v, Psi, hz, hco]; simp; ring
 
 /-- **Proposition 15** (paper [II], `prop:X`): `V ∩ Ψ(Λ_K(G)) = Kw + Kw'`. -/
-theorem propX15 (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hW : Thm11KappaXA X.slot) (hWB : WuestholzXA X.slot)
+theorem propX15 (hX : ∀ i, (X.AV i).Good) (hW : Thm11KappaXA X.slot) (hWB : WuestholzXA X.slot)
     (K : IntermediateField ℚ ℂ) [FiniteDimensional ℚ K] (hK5 : 5 ≤ finrank ℚ K) (hκK : ∀ i s, (X.AV i).κ s ∈ K)
     (μ : ℂ) (hμK : μ ∈ K) (hμ0 : μ ≠ 0) (hR : X.per 0 * X.per 1 = μ * X.per 2 * X.per 3)
     (β : ℂ) (hβK : β ∈ K) (hβ0 : β ≠ 0) :
@@ -286,7 +317,7 @@ theorem propX15 (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hW : Thm11KappaXA
   · rintro ⟨hV, hv⟩
     exact X.propX15_sub hX hW hWB K hK5 hκK μ hμK hμ0 hR β hβK hβ0 v hV hv
   · rintro ⟨x, y, hx, hy, rfl⟩
-    exact X.propX15_sup hX hD hWB K hκK μ hμK hμ0 hR β hβK x y hx hy
+    exact X.propX15_sup hX hWB K hκK μ hμK hμ0 hR β hβK x y hx hy
 
 /-- The data value `z_j(v_j) = Σ_k c_k z_j(v_k)` of slot `j` (`v_k ∈ LieG`; only the component on `A_j` matters). -/
 def dataVal {N : Fin 4 → ℕ} (c : (j : Fin 4) → Fin (N j) → ℂ) (v : (j : Fin 4) → Fin (N j) → X.LieG)
@@ -311,11 +342,11 @@ lemma exists_field (F : Finset ℂ) (hF : ∀ x ∈ F, IsAlgebraic ℚ x) :
   have := IntermediateField.finrank_le_of_le_right hle
   omega
 
-/-- **Theorem X** (paper [II], `thm:X`, generic): for pairwise distinct first-kind slots with the relation
+/-- **Theorem X** (paper [II], `thm:X`, generic; without the torsion clause): for pairwise distinct first-kind slots with the relation
 `P_aP_b = μP_cP_d` (`μ ∈ ℚ̄ˣ`), `β ∈ ℚ̄ˣ`, data `z_j(v_j) ∈ ℚ̄ z_j(Λ(A_j))` and `q₁, q₂ ∈ ℚ̄` with
 `(z_a(v_a) + z_d(v_d) + q₁)·βP_c = (z_c(v_c) + z_b(v_b) + q₂)·P_a`, one has `q₁ = q₂ = 0` and `z_j(v_j) ∈ ℚ̄P_j`. Assumes
 W88 for the block groups (`hW`), and Wüstholz's theorem in the forms `WuestholzXA`, `WuestholzSplitXA`. -/
-theorem thmXA (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hW : Thm11KappaXA X.slot) (hWB : WuestholzXA X.slot)
+theorem thmXA (hX : ∀ i, (X.AV i).Good) (hW : Thm11KappaXA X.slot) (hWB : WuestholzXA X.slot)
     (hSp : WuestholzSplitXA X.slot) (μ : ℂ) (hμ : IsAlgebraic ℚ μ) (hμ0 : μ ≠ 0)
     (hR : X.per 0 * X.per 1 = μ * X.per 2 * X.per 3) (β : ℂ) (hβ : IsAlgebraic ℚ β) (hβ0 : β ≠ 0)
     {N : Fin 4 → ℕ} (c : (j : Fin 4) → Fin (N j) → ℂ) (v : (j : Fin 4) → Fin (N j) → X.LieG)
@@ -326,6 +357,7 @@ theorem thmXA (hX : ∀ i, (X.AV i).Good) (hD : X.Distinct) (hW : Thm11KappaXA X
       (X.dataVal c v 2 + X.dataVal c v 1 + q₂) * X.per 0) :
     q₁ = 0 ∧ q₂ = 0 ∧ ∀ j, ∃ a : ℂ, IsAlgebraic ℚ a ∧ X.dataVal c v j = a * X.per j := by
   classical
+  have hD := X.distinct_of_wuestholz hWB
   -- the field
   set F : Finset ℂ := {μ, β} ∪ Finset.univ.biUnion (fun j : Fin 4 => Finset.univ.image (c j)) ∪
     Finset.univ.biUnion (fun i : Fin X.m => Finset.univ.image (X.AV i).κ) with hFdef

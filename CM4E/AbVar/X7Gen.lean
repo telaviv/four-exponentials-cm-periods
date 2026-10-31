@@ -87,10 +87,6 @@ lemma X7S_good (LA : Set (Fin 3 → ℂ)) : ∀ i, ((X7S LA).AV i).Good := by
   fin_cases i
   exacts [A7_good LA, E7AV_good]
 
-lemma X7S_distinct (LA : Set (Fin 3 → ℂ)) : (X7S LA).Distinct := by
-  intro j j' hjj' hc
-  fin_cases j <;> fin_cases j' <;> simp_all [X7S]
-
 lemma X7S_per (LA : Set (Fin 3 → ℂ)) :
     (X7S LA).per 0 = perA 1 ∧ (X7S LA).per 1 = perA 2 ∧ (X7S LA).per 2 = perA 3 ∧ (X7S LA).per 3 = omega7 := by
   refine ⟨rfl, rfl, rfl, rfl⟩
@@ -117,7 +113,7 @@ theorem thmX7_of_gen (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaXA (X7S LA).slot
   have hd : ∀ j, X.dataVal (fun _ _ => 1) v j = ![v₁ 0, v₂ 1, v₃ 2, u] j := by
     intro j
     fin_cases j <;> simp only [XSetup.dataVal, Fin.sum_univ_one, one_mul] <;> rfl
-  obtain ⟨f1, f2, hj⟩ := X.thmXA (X7S_good LA) (X7S_distinct LA) hW (wuestholzXA_X7 LA hWB) hSp mu7'
+  obtain ⟨f1, f2, hj⟩ := X.thmXA (X7S_good LA) hW (wuestholzXA_X7 LA hWB) hSp mu7'
     isAlgebraic_mu7' mu7'_ne relation_R β hβ hβ0 (fun _ _ => 1) v (fun _ _ => isAlgebraic_one)
     (fun j _ => by
       fin_cases j

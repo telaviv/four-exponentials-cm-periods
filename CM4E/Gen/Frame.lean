@@ -18,6 +18,8 @@ This file proves the contradiction once, for any `(Q, λ)`:
 * `frame_false`: if `s` is transcendental, `dim Q < n`, `λ` is onto with algebraically spanned kernel, the period
   lifts `qh h` exist with `λ(qh h) = s·2πiθ_h`, and `(X_k, Y_k = sX_k)` (`k = 1, 2`) are pairs of logarithms with
   `Y₁, Y₂` `ℚ`-independent, then `HyperplaneKappa (gmF …)` is contradictory.
+* `frame_false_on`: the same under `HyperplaneKappaOn (gmF …) (TorInj …)` (the hypothesis restricted to toric-injective
+  hyperplanes), when `λ` is injective on `span_ℚ perQ`; both come from `frame_false_of_good`.
 
 The count: `m = 3n`, `κ ≥ n`, `d₁ = 2n`, `d₂ = dim Q`, `d − 1 − t ≤ 1`, so `(5.4)` holds as soon as `dim Q < n`.
 -/
@@ -324,16 +326,17 @@ lemma torSub_bot : torSub (⊥ : Submodule ℚ ((ι → ℚ) × (ι → ℚ))) =
   rw [Submodule.span_singleton_eq_bot]
   refine Prod.ext ?_ ?_ <;> funext j <;> simp
 
-/-- **The frame contradiction.** Under the hypothesis `HyperplaneKappa (gmF …)` (W88 §5d for `G_m^{2n} × G₂`), the
-listed data cannot exist. -/
-theorem frame_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+/-- **The frame contradiction, for `HyperplaneKappaOn`.** Under W88 §5d for `G_m^{2n} × G₂` restricted to a class
+`good` of hyperplanes containing `V'' = ker (phiF θ lam s)`, the listed data cannot exist. This is the common core of
+`frame_false` (`good = ⊤`) and `frame_false_on` (`good = TorInj`). -/
+theorem frame_false_of_good [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
     (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (perQ : Set Q) (lam : Q →ₗ[ℂ] ℂ)
-    (hW : HyperplaneKappa (gmF (ι := ι) algQ perQ lam))
+    {good : Submodule ℂ (TF ι Q) → Prop} (hW : HyperplaneKappaOn (gmF (ι := ι) algQ perQ lam) good)
     (hdQ : finrank ℂ Q < Fintype.card ι)
     (halg0 : algQ 0) (halgS : ∀ (c : ℂ) (q : Q), IsAlgebraic ℚ c → algQ q → algQ (c • q))
     (q₁ : Q) (hq₁ : algQ q₁) (hlq₁ : lam q₁ = 1)
     (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = LinearMap.ker lam)
-    (s : ℂ) (hs : Transcendental ℚ s)
+    (s : ℂ) (hs : Transcendental ℚ s) (hgood : good (LinearMap.ker (phiF θ lam s)))
     (qh : ι → Q) (hqh : ∀ h, qh h ∈ Submodule.span ℚ perQ)
     (hlqh : ∀ h, lam (qh h) = s * (2 * Real.pi * I * θ h))
     (X₁ Y₁ X₂ Y₂ : ℂ) (hX₁ : IsAlgebraic ℚ (Complex.exp X₁)) (hY₁ : IsAlgebraic ℚ (Complex.exp Y₁))
@@ -393,7 +396,7 @@ theorem frame_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearInd
       exact isAlgebraic_ite _ isAlgebraic_one isAlgebraic_zero
     · exact ⟨fun k => isAlgebraic_zero, fun k => isAlgebraic_zero, hTalg q hq⟩
   -- apply W88 §5d
-  obtain ⟨S, ⟨L, h, hh, rfl⟩, hne, hle⟩ := hW (LinearMap.ker (phiF θ lam s)) W _ y'
+  obtain ⟨S, ⟨L, h, hh, rfl⟩, hne, hle⟩ := hW (LinearMap.ker (phiF θ lam s)) W _ y' hgood
     (by omega) hWV hWrat
     (fun i => ⟨genF_mem_V θ lam s qh hlqh X₁ Y₁ X₂ Y₂ h₁ h₂ _,
       genF_mem_lam perQ qh hqh X₁ Y₁ X₂ Y₂ hX₁ hY₁ hX₂ hY₂ _⟩)
@@ -436,6 +439,75 @@ theorem frame_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearInd
     rw [LinearMap.mem_ker, phiF_apply] at hVx
     simp [qv] at hVx
     exact hlx hVx
+
+/-- **The frame contradiction.** Under the hypothesis `HyperplaneKappa (gmF …)` (W88 §5d for `G_m^{2n} × G₂`), the
+listed data cannot exist. -/
+theorem frame_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+    (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (perQ : Set Q) (lam : Q →ₗ[ℂ] ℂ)
+    (hW : HyperplaneKappa (gmF (ι := ι) algQ perQ lam))
+    (hdQ : finrank ℂ Q < Fintype.card ι)
+    (halg0 : algQ 0) (halgS : ∀ (c : ℂ) (q : Q), IsAlgebraic ℚ c → algQ q → algQ (c • q))
+    (q₁ : Q) (hq₁ : algQ q₁) (hlq₁ : lam q₁ = 1)
+    (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = LinearMap.ker lam)
+    (s : ℂ) (hs : Transcendental ℚ s)
+    (qh : ι → Q) (hqh : ∀ h, qh h ∈ Submodule.span ℚ perQ)
+    (hlqh : ∀ h, lam (qh h) = s * (2 * Real.pi * I * θ h))
+    (X₁ Y₁ X₂ Y₂ : ℂ) (hX₁ : IsAlgebraic ℚ (Complex.exp X₁)) (hY₁ : IsAlgebraic ℚ (Complex.exp Y₁))
+    (hX₂ : IsAlgebraic ℚ (Complex.exp X₂)) (hY₂ : IsAlgebraic ℚ (Complex.exp Y₂))
+    (h₁ : Y₁ = s * X₁) (h₂ : Y₂ = s * X₂) (hind : LinearIndependent ℚ ![Y₁, Y₂]) : False :=
+  frame_false_of_good θ hθ hθalg algQ perQ lam (good := fun _ => True) hW.on hdQ halg0 halgS q₁ hq₁ hlq₁ T hTalg
+    hT s hs trivial qh hqh hlqh X₁ Y₁ X₂ Y₂ hX₁ hY₁ hX₂ hY₂ h₁ h₂ hind
+
+/-! ## Toric injectivity -/
+
+/-- **Toric injectivity of a hyperplane `V`** (for a group model on the frame space `TF ι Q`, toric part `v.1`): every
+vector of `V` in the period group with zero toric part is `0`. It is natural because on the period group it says
+exactly that no nonzero period with zero toric part (a period of `G₂` alone) lies in `V`. The sibling project
+`lean_lsg` uses it to prove W83 Prop. 2.1 for these hyperplanes without Masser's Theorem A. -/
+def TorInj (G : GroupModel (TF ι Q)) (V : Submodule ℂ (TF ι Q)) : Prop :=
+  ∀ v ∈ V, v ∈ G.per → v.1 = 0 → v = 0
+
+omit [Fintype ι] [Module ℂ Q] in
+/-- A vector of `span_ℚ (perGen perQ)` has its `Q`-part in `span_ℚ perQ` (the toric generators have `Q`-part `0`). -/
+lemma snd_mem_span_perQ (perQ : Set Q) {v : TF ι Q} (hv : v ∈ Submodule.span ℚ (perGen (ι := ι) perQ)) :
+    v.2 ∈ Submodule.span ℚ perQ := by
+  have : Submodule.map (LinearMap.snd ℚ ((ι → ℂ) × (ι → ℂ)) Q) (Submodule.span ℚ (perGen (ι := ι) perQ)) ≤
+      Submodule.span ℚ perQ := by
+    rw [Submodule.map_span, Submodule.span_le]
+    rintro _ ⟨w, ((⟨j, rfl⟩ | ⟨j, rfl⟩) | ⟨q, hq, rfl⟩), rfl⟩
+    · simp [tor1]
+    · simp [tor2]
+    · exact Submodule.subset_span hq
+  exact this ⟨v, hv, rfl⟩
+
+/-- `V'' = ker (phiF θ lam s)` is toric-injective for `gmF` as soon as `λ` is injective on `span_ℚ perQ`. -/
+lemma torInj_ker_phiF [FiniteDimensional ℂ Q] (θ : ι → ℂ) (algQ : Q → Prop) (perQ : Set Q) (lam : Q →ₗ[ℂ] ℂ)
+    (s : ℂ) (hper0 : ∀ q ∈ Submodule.span ℚ perQ, lam q = 0 → q = 0) :
+    TorInj (gmF (ι := ι) algQ perQ lam) (LinearMap.ker (phiF θ lam s)) := by
+  intro v hv hper h1
+  have hl : lam v.2 = 0 := by
+    rw [LinearMap.mem_ker, phiF_apply, h1] at hv
+    simpa using hv
+  exact Prod.ext h1 (hper0 _ (snd_mem_span_perQ perQ hper) hl)
+
+/-- **The frame contradiction under the toric-injective hypothesis.** As `frame_false`, with `HyperplaneKappa`
+weakened to `HyperplaneKappaOn … TorInj`, plus `λ` injective on `span_ℚ perQ` (which makes `V''` toric-injective). -/
+theorem frame_false_on [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+    (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (perQ : Set Q) (lam : Q →ₗ[ℂ] ℂ)
+    (hW : HyperplaneKappaOn (gmF (ι := ι) algQ perQ lam) (TorInj (gmF (ι := ι) algQ perQ lam)))
+    (hper0 : ∀ q ∈ Submodule.span ℚ perQ, lam q = 0 → q = 0)
+    (hdQ : finrank ℂ Q < Fintype.card ι)
+    (halg0 : algQ 0) (halgS : ∀ (c : ℂ) (q : Q), IsAlgebraic ℚ c → algQ q → algQ (c • q))
+    (q₁ : Q) (hq₁ : algQ q₁) (hlq₁ : lam q₁ = 1)
+    (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = LinearMap.ker lam)
+    (s : ℂ) (hs : Transcendental ℚ s)
+    (qh : ι → Q) (hqh : ∀ h, qh h ∈ Submodule.span ℚ perQ)
+    (hlqh : ∀ h, lam (qh h) = s * (2 * Real.pi * I * θ h))
+    (X₁ Y₁ X₂ Y₂ : ℂ) (hX₁ : IsAlgebraic ℚ (Complex.exp X₁)) (hY₁ : IsAlgebraic ℚ (Complex.exp Y₁))
+    (hX₂ : IsAlgebraic ℚ (Complex.exp X₂)) (hY₂ : IsAlgebraic ℚ (Complex.exp Y₂))
+    (h₁ : Y₁ = s * X₁) (h₂ : Y₂ = s * X₂) (hind : LinearIndependent ℚ ![Y₁, Y₂]) : False :=
+  frame_false_of_good θ hθ hθalg algQ perQ lam hW hdQ halg0 halgS q₁ hq₁ hlq₁ T hTalg hT s hs
+    (torInj_ker_phiF θ algQ perQ lam s hper0) qh hqh hlqh X₁ Y₁ X₂ Y₂ hX₁ hY₁ hX₂ hY₂ h₁ h₂ hind
 
 end Main
 

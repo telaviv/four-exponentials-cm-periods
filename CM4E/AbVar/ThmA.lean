@@ -79,9 +79,96 @@ def algA (q : Fin g × Fin r → ℂ) : Prop := ∀ p, IsAlgebraic ℚ (q p)
 noncomputable def gmA : GroupModel (TF (Fin r × Fin N.totient) (Fin g × Fin r → ℂ)) :=
   gmF (algA g) (perAgen N g κ P) (dotL (thetaA g s₀ b))
 
-/-- **The hypothesis for Theorem MG-A**: W88 §5d for `G_m^{2n} × A^r`, for every `F`-basis `b` of a number field. -/
+/-- **The hypothesis for Theorem MG-A**: W88 §5d for `G_m^{2n} × A^r`, for every `F`-basis `b` of a number field,
+restricted to the toric-injective hyperplanes (`TorInj`: no nonzero period of `A^r` alone lies in `V`). The restriction
+only weakens the hypothesis (`HyperplaneKappa.on`); the proof uses it only at `V''`, which is toric-injective
+(`perA_inj`). -/
 def Thm11KappaA : Prop :=
-  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b → HyperplaneKappa (gmA N g κ P s₀ b)
+  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b →
+    HyperplaneKappaOn (gmA N g κ P s₀ b) (TorInj (gmA N g κ P s₀ b))
+
+/-- The coordinates of a vector of `span_ℚ perAgen`: `q (s, j) = P s · f_j(ζ^{κ s})` for rational polynomials `f_j`
+(`[ζ^e]γ` in copy `j` is `f_j = X^e`). -/
+lemma perA_poly {q : Fin g × Fin r → ℂ} (hq : q ∈ Submodule.span ℚ (perAgen N g κ P)) :
+    ∃ f : Fin r → Polynomial ℚ, ∀ p, q p = P p.1 * Polynomial.aeval (zetaN N ^ κ p.1) (f p.2) := by
+  induction hq using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨⟨j, e⟩, rfl⟩ := hx
+    refine ⟨fun j' => if j' = j then Polynomial.X ^ e else 0, fun p => ?_⟩
+    by_cases h : p.2 = j
+    · simp [h, pow_mul]; ring
+    · simp [h]
+  | zero => exact ⟨0, fun p => by simp⟩
+  | add x y _ _ hx hy =>
+    obtain ⟨f, hf⟩ := hx
+    obtain ⟨f', hf'⟩ := hy
+    exact ⟨f + f', fun p => by simp [hf, hf', mul_add]⟩
+  | smul c x _ hx =>
+    obtain ⟨f, hf⟩ := hx
+    refine ⟨c • f, fun p => ?_⟩
+    simp only [Pi.smul_apply, hf, map_smul, Rat.smul_def]
+    ring
+
+/-- **`λ` is injective on the periods of `A^r`** (so `V''` is toric-injective). If `Σ_j b_j f_j(ζ) = 0` then every
+`f_j(ζ) = 0` (`ℚ`-independence of `θ(j, e) = ζ^e b_j`), so `Φ_N ∣ f_j` and `f_j(ζ^{κ s}) = 0` for every `s`, as every
+`κ s` is prime to `N`. -/
+lemma perA_inj (hN : N ≠ 0) (hb : IsAdaptedBasisD (zetaN N) N.totient b) (hκ : κ s₀ = 1)
+    (hκN : ∀ s, (κ s).Coprime N) (hP : P s₀ ≠ 0) :
+    ∀ q ∈ Submodule.span ℚ (perAgen N g κ P), dotL (thetaA g s₀ b) q = 0 → q = 0 := by
+  intro q hq hl
+  obtain ⟨f, hf⟩ := perA_poly N g κ P hq
+  set Φ := Polynomial.cyclotomic N ℚ with hΦ
+  have hmon : Φ.Monic := Polynomial.cyclotomic.monic N ℚ
+  have hdeg : Φ.natDegree = N.totient := Polynomial.natDegree_cyclotomic N ℚ
+  have ht0 : 0 < N.totient := Nat.totient_pos.mpr (Nat.pos_of_ne_zero hN)
+  have hΦ1 : Φ ≠ 1 := fun h => by rw [h, Polynomial.natDegree_one] at hdeg; omega
+  have hroot : ∀ k, k.Coprime N → Polynomial.aeval (zetaN N ^ k) Φ = 0 := by
+    intro k hk
+    have := ((zetaN_prim N hN).pow_of_coprime k hk).isRoot_cyclotomic (Nat.pos_of_ne_zero hN)
+    rw [hΦ, Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
+    exact this
+  -- `λ(q) = P_{s₀} Σ_j b_j f_j(ζ)`
+  have hl' : ∑ j, b j * Polynomial.aeval (zetaN N) (f j) = 0 := by
+    have : dotL (thetaA g s₀ b) q = P s₀ * ∑ j, b j * Polynomial.aeval (zetaN N) (f j) := by
+      rw [dotL_apply, Fintype.sum_prod_type, Finset.sum_eq_single s₀]
+      · rw [Finset.mul_sum]
+        refine Finset.sum_congr rfl fun j _ => ?_
+        simp [thetaA, hf, hκ]
+        ring
+      · intro s _ hs
+        simp [thetaA, hs]
+      · simp
+    rw [this] at hl
+    exact (mul_eq_zero.mp hl).resolve_left hP
+  -- reduce mod `Φ_N` and use the independence of `θ`
+  have hR : ∀ j, Polynomial.aeval (zetaN N) (f j) =
+      ∑ k : Fin N.totient, ((f j %ₘ Φ).coeff k : ℂ) * zetaN N ^ (k : ℕ) := by
+    intro j
+    have h1 : Polynomial.aeval (zetaN N) Φ = 0 := by simpa using hroot 1 (Nat.coprime_one_left N)
+    rw [← Polynomial.aeval_modByMonic_eq_self_of_root h1,
+      Polynomial.aeval_eq_sum_range' (n := N.totient) (by
+        rw [← hdeg]; exact Polynomial.natDegree_modByMonic_lt _ hmon hΦ1), Finset.sum_range]
+    simp [Algebra.smul_def]
+  have hzero := Fintype.linearIndependent_iff.mp hb.indep (fun p => (f p.1 %ₘ Φ).coeff p.2) (by
+    rw [Fintype.sum_prod_type, ← hl']
+    refine Finset.sum_congr rfl fun j _ => ?_
+    rw [hR j, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    simp only [thetaD, Rat.smul_def]
+    ring)
+  have hdvd : ∀ j, Φ ∣ f j := by
+    intro j
+    rw [← Polynomial.modByMonic_eq_zero_iff_dvd hmon]
+    ext k
+    by_cases hk : k < N.totient
+    · simpa using hzero (j, ⟨k, hk⟩)
+    · rw [Polynomial.coeff_eq_zero_of_natDegree_lt, Polynomial.coeff_zero]
+      have := Polynomial.natDegree_modByMonic_lt (f j) hmon hΦ1
+      omega
+  funext p
+  obtain ⟨u, hu⟩ := hdvd p.2
+  rw [hf p, hu, map_mul, hroot _ (hκN p.1), zero_mul, mul_zero]
+  rfl
 
 lemma exists_adapted_basisN (hN : N ≠ 0) (S : Finset ℂ) (hS : ∀ s ∈ S, IsAlgebraic ℚ s) :
     ∃ r : ℕ, 1 ≤ r ∧ ∃ b : Fin r → ℂ, IsAdaptedBasisD (zetaN N) N.totient b ∧
@@ -91,8 +178,10 @@ lemma exists_adapted_basisN (hN : N ≠ 0) (S : Finset ℂ) (hS : ∀ s ∈ S, I
   exact h
 
 /-- **Theorem MG-A (first-kind slot)**: `FourExpAt (cP/π)` for every algebraic `c ≠ 0`. Hypotheses: W88 §5d for the
-groups `G_m^{2n} × A^r` (`hW`), `2g ≤ φ(N)`, `κ s₀ = 1`, and `P_{s₀}/π ∉ ℚ̄`. -/
+groups `G_m^{2n} × A^r` (`hW`), `2g ≤ φ(N)`, `κ s₀ = 1`, every `κ s` prime to `N` (true for a CM type), and
+`P_{s₀}/π ∉ ℚ̄`. -/
 theorem fourExpAt_A (hN : N ≠ 0) (hW : Thm11KappaA N g κ P s₀) (hg : 2 * g ≤ N.totient) (hκ : κ s₀ = 1)
+    (hκN : ∀ s, (κ s).Coprime N)
     (hT : Transcendental ℚ (P s₀ / Real.pi)) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     FourExpAt (c * P s₀ / Real.pi) := by
   intro x₁ x₂ hx₁ hx₂ hind ⟨ht₁, ht₂⟩
@@ -164,8 +253,9 @@ theorem fourExpAt_A (hN : N ≠ 0) (hW : Thm11KappaA N g κ P s₀) (hg : 2 * g 
     simp only [Module.finrank_fintype_fun_eq_card, Fintype.card_prod, Fintype.card_fin]
     have : g < N.totient := by omega
     nlinarith
-  refine frame_false (thetaD (zetaN N) N.totient b) hb.indep hθalg (algA g) (perAgen N g κ P)
-    (dotL (thetaA g s₀ b)) (hW r b hb) hfin (fun _ => isAlgebraic_zero)
+  have hP0 : P s₀ ≠ 0 := fun h => hT (by rw [h, zero_div]; exact isAlgebraic_zero)
+  refine frame_false_on (thetaD (zetaN N) N.totient b) hb.indep hθalg (algA g) (perAgen N g κ P)
+    (dotL (thetaA g s₀ b)) (hW r b hb) (perA_inj N g κ P s₀ b hN hb hκ hκN hP0) hfin (fun _ => isAlgebraic_zero)
     (fun c' q hc' hq p => by simpa using hc'.mul (hq p))
     (Pi.single i0 (thetaA g s₀ b i0)⁻¹)
     (fun p => by
@@ -219,7 +309,7 @@ theorem fourExpAt_beta5 (hW : Thm11KappaA 5 2 (fun s => (s : ℕ) + 1) perA5 0) 
     rw [← mem_algebraicClosure_iff]
     exact div_mem (mem_algebraicClosure_iff.mpr hc)
       (sub_mem (one_mem _) (mem_algebraicClosure_iff.mpr (isAlgebraic_zetaN 5 (by norm_num))))
-  have h := fourExpAt_A 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl hT
+  have h := fourExpAt_A 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl (by decide) hT
     (c / (1 - zetaN 5)) hcalg (div_ne_zero hc0 hz)
   rw [hB]
   convert h using 1
@@ -239,7 +329,7 @@ theorem fourExpAt_beta7 (hW : Thm11KappaA 7 3 (fun s => (s : ℕ) + 1) perT 0) (
     rw [← mem_algebraicClosure_iff]
     exact div_mem (mem_algebraicClosure_iff.mpr hc)
       (sub_mem (one_mem _) (mem_algebraicClosure_iff.mpr isAlgebraic_zeta7))
-  have h := fourExpAt_A 7 3 (fun s => (s : ℕ) + 1) perT 0 (by norm_num) hW (by decide) rfl hT
+  have h := fourExpAt_A 7 3 (fun s => (s : ℕ) + 1) perT 0 (by norm_num) hW (by decide) rfl (by decide) hT
     (c / (1 - zeta7)) hcalg (div_ne_zero hc0 hz)
   rw [hB]
   convert h using 1

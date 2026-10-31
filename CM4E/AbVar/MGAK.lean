@@ -128,10 +128,13 @@ noncomputable def gmAK : GroupModel (TF (Fin r × Fin N.totient) (Fin g × Fin r
     (perGen (ι := Fin r × Fin N.totient) (perAgen N g κ P)) 0 (dotL (thetaA g s₀ b))
     (finrank ℂ (Fin g × Fin r → ℂ))
 
-/-- **The hypothesis for the `K`-form of MG-A**: W88 §5d for `G_m^{2n} × A^r`, every `F`-basis `b`. Claimed when `LA`
+/-- **The hypothesis for the `K`-form of MG-A**: W88 §5d for `G_m^{2n} × A^r`, every `F`-basis `b`, restricted to the
+toric-injective hyperplanes (`TorInj`: no nonzero period of `A^r` alone lies in `V`; this only weakens it, by
+`HyperplaneKappa.on`, and the proof uses only `V''`, which is toric-injective by `perA_inj`). Claimed when `LA`
 consists of eigen-coordinate tuples of logarithms of algebraic points of `A` (normalised as `P`). -/
 def Thm11KappaAK : Prop :=
-  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b → HyperplaneKappa (gmAK N g κ P s₀ b LA)
+  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b →
+    HyperplaneKappaOn (gmAK N g κ P s₀ b LA) (TorInj (gmAK N g κ P s₀ b LA))
 
 /-- `K · z_{s₀}(Λ(A))`: `K`-combinations of slot values of logarithms of `A` (or the period). -/
 def KSlotA (K : Submodule ℚ ℂ) : Set ℂ :=
@@ -165,8 +168,9 @@ lemma aLiftA_mem (h : Fin r × Fin N.totient) {M : ℕ} (β : Fin M → ℂ) (v 
 
 /-- **Theorem MG-A, `K`-form**: for `s = cP_{s₀}/π` and `K = span_ℚ θ ∋ i, c`, there are no `x₁, x₂ ∈ K𝓛` with
 `sx_k ∈ K𝓛 + K·z_{s₀}(Λ(A))` and `2πi, x₁, x₂` linearly independent over `K`. Hypotheses: W88 §5d (`hW`), `2g ≤ φ(N)`,
-`κ s₀ = 1`, `P_{s₀}/π ∉ ℚ̄`. -/
+`κ s₀ = 1`, every `κ s` prime to `N` (true for a CM type), `P_{s₀}/π ∉ ℚ̄`. -/
 theorem mgA_K (hN : N ≠ 0) (hW : Thm11KappaAK N g κ P s₀ LA) (hg : 2 * g ≤ N.totient) (hκ : κ s₀ = 1)
+    (hκN : ∀ s, (κ s).Coprime N)
     (hT : Transcendental ℚ (P s₀ / Real.pi)) (hb : IsAdaptedBasisD (zetaN N) N.totient b)
     (c : ℂ) (hcK : c ∈ KspanD (zetaN N) N.totient b) (hc0 : c ≠ 0) (hIK : I ∈ KspanD (zetaN N) N.totient b)
     (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ KLog (KspanD (zetaN N) N.totient b))
@@ -237,10 +241,17 @@ theorem mgA_K (hN : N ≠ 0) (hW : Thm11KappaAK N g κ P s₀ LA) (hg : 2 * g �
     simp only [Module.finrank_fintype_fun_eq_card, Fintype.card_prod, Fintype.card_fin]
     have : g < N.totient := by omega
     nlinarith
-  refine frame2_false_K (thetaD (zetaN N) N.totient b) hb.indep hθalg (algA g) (lamAK N g κ P LA)
+  -- `V''` is toric-injective
+  have hP0 : P s₀ ≠ 0 := fun h => hT (by rw [h, zero_div]; exact isAlgebraic_zero)
+  have hper0 : ∀ v ∈ Submodule.span ℚ (perGen (ι := Fin r × Fin N.totient) (perAgen N g κ P)), v.1 = 0 →
+      dotL (thetaA g s₀ b) v.2 = s * (0 : (Fin g × Fin r → ℂ) →ₗ[ℂ] ℂ) v.2 → v = 0 := by
+    intro v hv h1 hl
+    rw [LinearMap.zero_apply, mul_zero] at hl
+    exact Prod.ext h1 (perA_inj N g κ P s₀ b hN hb hκ hκN hP0 _ (snd_mem_span_perQ _ hv) hl)
+  refine frame2_false_K_on (thetaD (zetaN N) N.totient b) hb.indep hθalg (algA g) (lamAK N g κ P LA)
     (perGen (ι := Fin r × Fin N.totient) (perAgen N g κ P)) 0 (dotL (thetaA g s₀ b))
     (finrank ℂ (Fin g × Fin r → ℂ)) (hW r b hb) hfin (fun _ => isAlgebraic_zero)
-    (fun _ _ => isAlgebraic_zero) ?_ (Set.range fun p => (Pi.single p 1 : Fin g × Fin r → ℂ)) ?_ ?_ s hs
+    (fun _ _ => isAlgebraic_zero) ?_ (Set.range fun p => (Pi.single p 1 : Fin g × Fin r → ℂ)) ?_ ?_ s hs hper0
     (fun h => tor1 h (2 * Real.pi * I) + qv (qh h)) ?_ ?_ ?_ x
     (fun k h => tLift1 (zetaN N) b h (β k) (ℓ k) + tLift2 (zetaN N) b h (β' k) (ℓ' k) +
       aLiftA N g κ b h (β'' k) (v k)) ?_ ?_ hind

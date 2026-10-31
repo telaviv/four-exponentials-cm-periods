@@ -33,7 +33,7 @@ lemma log_mem_KLog {K : Submodule ℚ ℂ} {a z : ℂ} (ha : a⁻¹ ∈ K) (hz :
 
 /-- **Corollary A2** (generic first-kind slot): at least one of `e^{aπ²}`, `e^{bπP}`, `e^{cπ²/P}` is transcendental. -/
 theorem corA2 (N g : ℕ) (κ : Fin g → ℕ) (P : Fin g → ℂ) (s₀ : Fin g) (hN : N ≠ 0)
-    (hW : Thm11KappaAK N g κ P s₀ ∅) (hg : 2 * g ≤ N.totient) (hκ : κ s₀ = 1)
+    (hW : Thm11KappaAK N g κ P s₀ ∅) (hg : 2 * g ≤ N.totient) (hκ : κ s₀ = 1) (hκN : ∀ s, (κ s).Coprime N)
     (hNot : NotLtildeA (P s₀)) (a b c : ℂ) (ha : IsAlgebraic ℚ a)
     (hb : IsAlgebraic ℚ b) (hc : IsAlgebraic ℚ c) (ha0 : a ≠ 0) (hb0 : b ≠ 0) (hc0 : c ≠ 0) :
     ¬ (IsAlgebraic ℚ (Complex.exp (a * Real.pi ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (b * (Real.pi * P s₀))) ∧
@@ -119,7 +119,7 @@ theorem corA2 (N g : ℕ) (κ : Fin g → ℕ) (P : Fin g → ℂ) (s₀ : Fin g
               (mem_algebraicClosure_iff.mpr isAlgebraic_I)) (mem_algebraicClosure_iff.mpr g₀)))
           exact Ltilde_add (Ltilde_smul (hq _ g₁) hπPL) (Ltilde_smul (hq _ g₂) hπL)
   -- apply Theorem MG-A (`K`-form) with `c = 1`
-  refine mgA_K (b := β) ∅ hN hW hg hκ hT hβ 1 hβ.one_mem one_ne_zero hIK
+  refine mgA_K (b := β) ∅ hN hW hg hκ hκN hT hβ 1 hβ.one_mem one_ne_zero hIK
     ![(Real.pi : ℂ) ^ 2, (Real.pi : ℂ) ^ 2 / P s₀] ?_ ?_ (by simpa using hind)
   · intro k
     fin_cases k
@@ -150,7 +150,7 @@ theorem corA2_beta5 (hW : Thm11KappaAK 5 2 (fun s => (s : ℕ) + 1) perA5 0 ∅)
   have hzalg : IsAlgebraic ℚ (1 - zetaN 5) := isAlgebraic_one.sub (isAlgebraic_zetaN 5 (by norm_num))
   have hP0 : perA5 0 ≠ 0 := fun h => hNot (h ▸ alg_mem_Ltilde isAlgebraic_zero)
   rintro ⟨h1, h2, h3⟩
-  refine corA2 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl hNot a (b / (1 - zetaN 5))
+  refine corA2 5 2 (fun s => (s : ℕ) + 1) perA5 0 (by norm_num) hW (by decide) rfl (by decide) hNot a (b / (1 - zetaN 5))
     (c * (1 - zetaN 5)) ha (by
       rw [← mem_algebraicClosure_iff]
       exact div_mem (mem_algebraicClosure_iff.mpr hb) (mem_algebraicClosure_iff.mpr hzalg)) (hc.mul hzalg) ha0

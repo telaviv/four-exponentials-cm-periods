@@ -19,7 +19,8 @@ here `Q = T(G_a^{d₀} × G₂)`, so `d₂ = dim Q − d₀`).
 
 `frame2_false`: given `n` period lifts with `Ψ'' = θ_h(2πi, s·2πi)`, `2n` data lifts with `Ψ'' = θ_h(y_k, s y_k)`,
 `2πi, y₁, y₂` linearly independent over `ℚ̄`, `s` transcendental and `d₂ < n`, the hypothesis `HyperplaneKappa` is
-contradictory. The count is that of Frame: `m = 3n`, `κ ≥ n`, `d − 1 − t ≤ 1`.
+contradictory. The count is that of Frame: `m = 3n`, `κ ≥ n`, `d − 1 − t ≤ 1`. `frame2_false_K_on` is the same
+under `HyperplaneKappaOn … TorInj`; both come from `frame2_false_K_of_good`.
 -/
 
 open Complex Module CM4E.Waldschmidt
@@ -161,15 +162,17 @@ lemma dot_rat_mem_span (θ : ι → ℂ) (l : ι → ℚ) :
   rw [show θ h * ((l h : ℚ) : ℂ) = l h • θ h by rw [Rat.smul_def]; ring]
   exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨h, rfl⟩)
 
-/-- **The frame-2 contradiction** (W88 §5d for `G_m^{2n} × G₂`), with independence of `2πi, y₁, y₂` assumed only over
-`K = span_ℚ θ`. -/
-theorem frame2_false_K [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+/-- **The frame-2 contradiction, for `HyperplaneKappaOn`** (W88 §5d for `G_m^{2n} × G₂` restricted to a class `good`
+of hyperplanes containing `V'' = ker (phiG θ μ lam s)`), with independence of `2πi, y₁, y₂` assumed only over
+`K = span_ℚ θ`. Common core of `frame2_false_K` (`good = ⊤`) and `frame2_false_K_on` (`good = TorInj`). -/
+theorem frame2_false_K_of_good [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
     (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
-    (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) (hW : HyperplaneKappa (gmF2 θ algQ lamS perS μ lam d₂))
+    (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) {good : Submodule ℂ (TF ι Q) → Prop}
+    (hW : HyperplaneKappaOn (gmF2 θ algQ lamS perS μ lam d₂) good)
     (hd₂ : d₂ < Fintype.card ι)
     (halg0 : algQ 0) (hμ : ∀ q, algQ q → IsAlgebraic ℚ (μ q)) (hlamA : ∀ q, algQ q → IsAlgebraic ℚ (lam q))
     (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = ⊤)
-    (s : ℂ) (hs : Transcendental ℚ s)
+    (s : ℂ) (hs : Transcendental ℚ s) (hgood : good (LinearMap.ker (phiG θ μ lam s)))
     (p : ι → TF ι Q) (hpl : ∀ h, p h ∈ Submodule.span ℚ lamS) (hpp : ∀ h, p h ∈ Submodule.span ℚ perS)
     (hpΨ : ∀ h, PsiG θ μ lam (p h) = (θ h * (2 * Real.pi * I), s * (θ h * (2 * Real.pi * I))))
     (y : Fin 2 → ℂ) (dl : Fin 2 → ι → TF ι Q) (hdl : ∀ k h, dl k h ∈ Submodule.span ℚ lamS)
@@ -283,7 +286,7 @@ theorem frame2_false_K [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : Linear
     fin_cases k
     exacts [hpl h, hdl 0 h, hdl 1 h]
   -- apply W88 §5d
-  obtain ⟨S, hsub, hne, hle⟩ := hW (LinearMap.ker (phiG θ μ lam s)) W _ y'
+  obtain ⟨S, hsub, hne, hle⟩ := hW (LinearMap.ker (phiG θ μ lam s)) W _ y' hgood
     (by omega) hWV hWrat
     (fun i => ⟨hVmem (e.symm i), hlamMem (e.symm i)⟩)
     (by
@@ -323,6 +326,58 @@ theorem frame2_false_K [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : Linear
       have : s = P.2 / P.1 := by field_simp; linear_combination -hxV
       rw [this, ← mem_algebraicClosure_iff]
       exact div_mem (mem_algebraicClosure_iff.mpr h2) (mem_algebraicClosure_iff.mpr h1)
+
+/-- **The frame-2 contradiction** (W88 §5d for `G_m^{2n} × G₂`), with independence of `2πi, y₁, y₂` assumed only over
+`K = span_ℚ θ`. -/
+theorem frame2_false_K [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+    (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
+    (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) (hW : HyperplaneKappa (gmF2 θ algQ lamS perS μ lam d₂))
+    (hd₂ : d₂ < Fintype.card ι)
+    (halg0 : algQ 0) (hμ : ∀ q, algQ q → IsAlgebraic ℚ (μ q)) (hlamA : ∀ q, algQ q → IsAlgebraic ℚ (lam q))
+    (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = ⊤)
+    (s : ℂ) (hs : Transcendental ℚ s)
+    (p : ι → TF ι Q) (hpl : ∀ h, p h ∈ Submodule.span ℚ lamS) (hpp : ∀ h, p h ∈ Submodule.span ℚ perS)
+    (hpΨ : ∀ h, PsiG θ μ lam (p h) = (θ h * (2 * Real.pi * I), s * (θ h * (2 * Real.pi * I))))
+    (y : Fin 2 → ℂ) (dl : Fin 2 → ι → TF ι Q) (hdl : ∀ k h, dl k h ∈ Submodule.span ℚ lamS)
+    (hdΨ : ∀ k h, PsiG θ μ lam (dl k h) = (θ h * y k, s * (θ h * y k)))
+    (hind3 : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Submodule.span ℚ (Set.range θ) → a₁ ∈ Submodule.span ℚ (Set.range θ) →
+      a₂ ∈ Submodule.span ℚ (Set.range θ) →
+      a₀ * (2 * Real.pi * I) + a₁ * y 0 + a₂ * y 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
+  frame2_false_K_of_good θ hθ hθalg algQ lamS perS μ lam d₂ (good := fun _ => True) hW.on hd₂ halg0 hμ hlamA T hTalg
+    hT s hs trivial p hpl hpp hpΨ y dl hdl hdΨ hind3
+
+/-- `V'' = ker (phiG θ μ lam s)` is toric-injective (`TorInj`, `CM4E/Gen/Frame.lean`) for `gmF2` when no nonzero vector
+of `span_ℚ perS` with zero toric part satisfies `λ(q) = s μ(q)`. -/
+lemma torInj_ker_phiG (θ : ι → ℂ) (algQ : Q → Prop) (lamS perS : Set (TF ι Q)) (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ)
+    (s : ℂ) (hper0 : ∀ v ∈ Submodule.span ℚ perS, v.1 = 0 → lam v.2 = s * μ v.2 → v = 0) :
+    TorInj (gmF2 θ algQ lamS perS μ lam d₂) (LinearMap.ker (phiG θ μ lam s)) := by
+  intro v hv hper h1
+  refine hper0 v hper h1 ?_
+  rw [LinearMap.mem_ker, phiG_apply, PsiG_apply, h1] at hv
+  simp only [Prod.fst_zero, Prod.snd_zero, map_zero, zero_add] at hv
+  linear_combination hv
+
+/-- **The frame-2 contradiction under the toric-injective hypothesis.** As `frame2_false_K`, with `HyperplaneKappa`
+weakened to `HyperplaneKappaOn … TorInj`, plus the condition `hper0` of `torInj_ker_phiG` (which makes `V''`
+toric-injective). -/
+theorem frame2_false_K_on [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+    (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
+    (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ)
+    (hW : HyperplaneKappaOn (gmF2 θ algQ lamS perS μ lam d₂) (TorInj (gmF2 θ algQ lamS perS μ lam d₂)))
+    (hd₂ : d₂ < Fintype.card ι)
+    (halg0 : algQ 0) (hμ : ∀ q, algQ q → IsAlgebraic ℚ (μ q)) (hlamA : ∀ q, algQ q → IsAlgebraic ℚ (lam q))
+    (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = ⊤)
+    (s : ℂ) (hs : Transcendental ℚ s)
+    (hper0 : ∀ v ∈ Submodule.span ℚ perS, v.1 = 0 → lam v.2 = s * μ v.2 → v = 0)
+    (p : ι → TF ι Q) (hpl : ∀ h, p h ∈ Submodule.span ℚ lamS) (hpp : ∀ h, p h ∈ Submodule.span ℚ perS)
+    (hpΨ : ∀ h, PsiG θ μ lam (p h) = (θ h * (2 * Real.pi * I), s * (θ h * (2 * Real.pi * I))))
+    (y : Fin 2 → ℂ) (dl : Fin 2 → ι → TF ι Q) (hdl : ∀ k h, dl k h ∈ Submodule.span ℚ lamS)
+    (hdΨ : ∀ k h, PsiG θ μ lam (dl k h) = (θ h * y k, s * (θ h * y k)))
+    (hind3 : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Submodule.span ℚ (Set.range θ) → a₁ ∈ Submodule.span ℚ (Set.range θ) →
+      a₂ ∈ Submodule.span ℚ (Set.range θ) →
+      a₀ * (2 * Real.pi * I) + a₁ * y 0 + a₂ * y 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
+  frame2_false_K_of_good θ hθ hθalg algQ lamS perS μ lam d₂ hW hd₂ halg0 hμ hlamA T hTalg hT s hs
+    (torInj_ker_phiG θ algQ lamS perS μ lam d₂ s hper0) p hpl hpp hpΨ y dl hdl hdΨ hind3
 
 /-- **The frame-2 contradiction** with `2πi, y₁, y₂` independent over `ℚ̄`. -/
 theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)

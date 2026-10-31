@@ -131,6 +131,22 @@ def HyperplaneKappa (G : GroupModel Vt) : Prop :=
         ((finrank ℂ Vt : ℤ) - 1 - finrank ℂ W)) →
     ∃ S : Submodule ℂ Vt, G.sub S ∧ S ≠ ⊥ ∧ S ≤ V
 
+/-- **`HyperplaneKappa` restricted to the hyperplanes `V` with `good V`.** Same premises and conclusion as
+`HyperplaneKappa`, with the extra premise `good V`; so it is weaker than `HyperplaneKappa` (`HyperplaneKappa.on`). -/
+def HyperplaneKappaOn (G : GroupModel Vt) (good : Submodule ℂ Vt → Prop) : Prop :=
+  ∀ (V W : Submodule ℂ Vt) (m : ℕ) (y : Fin m → Vt), good V →
+    finrank ℂ V + 1 = finrank ℂ Vt → W ≤ V → G.Rational W →
+    (∀ i, y i ∈ V ∧ y i ∈ G.lam) →
+    ((finrank ℚ (Submodule.span ℚ (Set.range y)) : ℤ) >
+      ((G.d₁ : ℤ) + 2 * G.d₂ - finrank ℚ ↥(Submodule.span ℚ (Set.range y) ⊓ G.per)) *
+        ((finrank ℂ Vt : ℤ) - 1 - finrank ℂ W)) →
+    ∃ S : Submodule ℂ Vt, G.sub S ∧ S ≠ ⊥ ∧ S ≤ V
+
+/-- The full hypothesis implies its restriction to any class `good` of hyperplanes. -/
+lemma HyperplaneKappa.on {G : GroupModel Vt} {good : Submodule ℂ Vt → Prop} (h : HyperplaneKappa G) :
+    HyperplaneKappaOn G good :=
+  fun V W m y _ => h V W m y
+
 /-- The model of `G_m^{d₁} × E_L`. It is sound when `g₂, g₃ ∈ ℚ̄` (see the module docstring: the coordinates, `Λ(G)`,
 `Ker exp_G = 2πiℤ^{d₁} × L`, and the subgroups `T_ℒ × (0 or E)`). -/
 noncomputable def gmE (L : PeriodPair) (d₁ : ℕ) : GroupModel (T d₁) where

@@ -9,8 +9,9 @@ import Mathlib
 
 This file only *states* a published theorem, as a `Prop`: the shared form `HyperplaneKappa G` for a group model `G`,
 and its first instance `Thm11Kappa` (for `G_m^{d₁} × E`, used by `CM4E/MainQi.lean`). The other instances are
-`MainNat.Thm11KappaNat` and `MX.Thm11KappaMX`. The theorem is *not* proved here; it is the one hypothesis of the
-final theorems in `CM4E/Final.lean`.
+`MainNat.Thm11KappaNat` and those of `CM4E/Gen/` (`Thm11KappaMG`, `Thm11KappaMGn`, `Thm11KappaMXG`,
+`Thm11KappaSMG`, `Thm11KappaSMGn`). The theorem is *not* proved here; it is the W88 hypothesis of the final theorems in
+`CM4E/Final.lean`.
 
 ## The source
 

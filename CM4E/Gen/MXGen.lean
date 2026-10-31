@@ -18,8 +18,19 @@ This generalises `CM4E/MX.lean` (`K = ℚ(i, √3)`) to every number field `K �
 
 Group (paper, proof of Proposition D): `G'' = (E_i^♮ × E_ρ^♮ × G_a²)^n / U = G_a × G_ℓ`, tangent space
 `ℂ × ℂ^n × ℂ^n × ℂ` with coordinates `(s₁, z_i, z_ρ, s₂)` and `Ψ'' = (s₁ + θᵀz_i + θᵀz_ρ, s₂)`; `d₀ = 1`, `d₁ = 0`,
-`d₂ = 2n + 1`. The model `gmXG` is `gmX` of `CM4E/MX.lean` with `Fin 4` replaced by the index of `θ`; its soundness
-facts are those listed there (reviewed in `reviews/REFEREE_HYP_MX.md`), and do not depend on `K`.
+`d₂ = 2n + 1`. The model `gmXG` generalises the `K = ℚ(i, √3)` model reviewed in `reviews/REFEREE_HYP_MX.md`
+(general form: `reviews/REFEREE_HYP_MXG.md`). Soundness facts (not checked by Lean; they need only that `θ` is algebraic
+and `ℚ`-independent):
+1. `LogNat` describes `Λ(E^♮)` in coordinates with `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))`, and the quasi-periods are
+   `η((m + ni)ϖ) = (m − ni)π/ϖ`, `η((m + nρ)Ω_ρ) = (m + nρ̄)·2π/(√3 Ω_ρ)`.
+2. `lam` is the `ℚ`-span of images of elements of `Λ(G^n)` (one copy at a time); `Λ(G'')` is a `ℚ`-vector space.
+3. `perXG` is the `ℚ`-span of the images of the periods of `G^n` (`U` is a vector group).
+4. Every nonzero connected algebraic subgroup `H` of `G''` has `T_H ⊄ ker Ψ''`: if `H` meets the kernel `G_a × G_a` of
+   `G'' → A` it contains `(c, 0, 0, d) ≠ 0`; otherwise `H` is a splitting over `B = B_i × B_ρ ≠ 0`, its `G_a`-part is
+   trivial, a splitting forces `φ(S) = 0` (the anti-affine image of `B^♮` would otherwise contain the fibre), and
+   `ker ψ ∩ ker φ = 0` gives `θᵀ ≠ 0` on `T_B`. Since `T_H` is spanned by algebraic vectors, this is `sub`.
+5. `d₀ = 1`, `d₁ = 0` maximal (`G_ℓ` is a quotient of an anti-affine group), `d₂ = 2n + 1`.
+6. `g₂, g₃` of both lattices are algebraic (premise of the hypothesis).
 
 The period lifts of `θ_h w₁`, `θ_h w₂` are explicit: on `E_i^♮`, `m = u + iv ∈ ℚ(i)^n` has image
 `(Σθ_j m_j ϖ, Σθ_j m̄_j π/ϖ) = ((U + iV)ϖ, (U − iV)π/ϖ)` with `U = θᵀu`, `V = θᵀv`; any `(xϖ, yπ/ϖ)` with `x, y ∈ K` is
@@ -589,12 +600,16 @@ theorem mx1 (hW : Thm11KappaMXG) (hg₂ : IsAlgebraic ℚ lemniscatic.g₂)
     (hg₃ : IsAlgebraic ℚ lemniscatic.g₃)
     (hg₂' : IsAlgebraic ℚ equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ equianharmonic.g₃)
     (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (hWu : WuestholzMX) (hMa : MasserCM)
-    (hLa : LaurentZeta) (u : ℂ) (hu : u ∉ lemniscatic.lattice)
+    (hLa : LaurentZeta) (u : ℂ)
     (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
     (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
     Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
       (Real.pi * (u + a))) := by
   intro halg
+  have hu : u ∉ lemniscatic.lattice := by
+    intro hl
+    obtain ⟨m, n, hmn⟩ := PeriodPair.mem_lattice.mp hl
+    exact hu' ⟨m, n, by rw [← hmn]; simp [lemniscatic]; ring⟩
   set ζu := CM4E.Ext.Weierstrass.zeta lemniscatic u
   have hv := varpi_ne_zero'
   have hO := omegaRho_ne_zero

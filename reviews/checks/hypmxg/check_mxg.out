@@ -1,0 +1,13 @@
+varpi  = 2.62205755429211981046483958989
+Omega  = 2.42865064788758161181994168978
+u      = 0.72694593546890819853957062602  (paper: 0.72694593546890819853)
+wp(u)-2 = 3.3035e-42
+zeta(u) = 1.34980232904397380178356306048
+MX1 value varpi*Omega*zeta(u)/(pi*u) = 3.76379062156897182773522349388  (paper: 3.76379062156897182773)
+varpi*(2/sqrt3)*(pi/varpi) - Omega*eta_rho = 4.2169e-81
+MX1 relation residual: 4.2169e-81
+findpoly(varpi*Omega/pi, deg<=8, coeff<=1e8): None
+findpoly(Omega/varpi, deg<=8, coeff<=1e8): None
+findpoly(zeta(u), deg<=8, coeff<=1e8): None
+findpoly(MX1 value, deg<=8, coeff<=1e8): None
+Lemma K identities psi+-phi verified on samples (k = Q(i), Q(rho); K = Q(i, sqrt2), rho not in K)

@@ -23,8 +23,9 @@ standard axioms only:
 
 `CM4E.Ext.LemniscateIndep.varpi` has the same body as `CM4E.varpi`, so the two are equal by `rfl` (used implicitly
 below). This file feeds these facts into the conditional theorems. What remains assumed is the hyperplane hypothesis
-`hW` (W88 §5d for the relevant group model) and, for Theorem MX, the inputs about the second curve (`hg₂'`, `hg₃'`,
-`hΓ`, `hM`).
+`hW` (W88 §5d for the relevant group model); for the `Ω_ρ` and MX results, `g₂, g₃` of `Ω_ρ ℤ[ρ]` (`hg₂'`, `hg₃'`);
+and, for Theorem MX and Cor. MX1, the named classical inputs `hΓ`, `hM`, `Gen.WuestholzMX`, `Gen.MasserCM`,
+`Gen.LaurentZeta` (all consequences of Wüstholz's analytic subgroup theorem or classical results; see `TRUST.md`).
 -/
 
 open Complex CM4E.Waldschmidt
@@ -94,12 +95,12 @@ theorem mx (hW : Gen.Thm11KappaMXG)
 theorem mx1 (hW : Gen.Thm11KappaMXG)
     (hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂) (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (hΓ : Transcendental ℚ ((varpi : ℂ) * omegaRho / Real.pi)) (hWu : Gen.WuestholzMX)
-    (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ) (hu : u ∉ lemniscatic.lattice)
+    (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ)
     (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
     (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
     Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
       (Real.pi * (u + a))) :=
-  Gen.mx1 hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hWu hMa hLa u hu hwp hwp' hu' a t ha ht
+  Gen.mx1 hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hWu hMa hLa u hwp hwp' hu' a t ha ht
 
 /-! ## Theorem 1 for every algebraic `c` (general `K`; `CM4E/Gen/`) -/
 

@@ -29,7 +29,7 @@ lemma varpi_ne_zero : varpi ≠ 0 := varpi_pos.ne'
 lemma varpi_ne_zero' : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
 
 /-- The quasi-period `η((m + ni)ϖ) = (m − ni) π/ϖ` of `ϖℤ[i]` (Legendre's relation `ϖ η(ϖ) = π` and
-`η(iλ) = −iη(λ)`). It enters the group models `gmQ`, `gmX` as a stated soundness fact, not as a Lean proof. -/
+`η(iλ) = −iη(λ)`). It enters the group models `gmQ`, `gmMGn`, `gmXG` as a stated soundness fact, not as a Lean proof. -/
 noncomputable def etaLem (m n : ℤ) : ℂ := ((m : ℂ) - n * I) * (Real.pi / varpi)
 
 /-- `ϖ` and `iϖ` are linearly independent over `ℝ`. -/

@@ -41,7 +41,9 @@ Soundness facts used to justify the model (not checked by Lean):
 4. Every nonzero connected algebraic subgroup `H` of `G''` has `T_H ⊄ ker Ψ''`. Proof: if `H` meets the kernel
    `G_a × G_a` of `G'' → A` nontrivially, `T_H` contains `(c, 0, 0, d) ≠ 0`, with `Ψ''`-image `(c, d)`. Otherwise `H`
    is a splitting over an abelian subvariety `B = B_i × B_ρ ≠ 0`, `T_{B_i} = ℂ S_i` for a `ℚ(i)`-subspace
-   `S_i ⊂ ℚ(i)⁴` (likewise `B_ρ`); a splitting forces `φ(S) = 0`, and `ker ψ ∩ ker φ = 0` (Lemma K) gives
+   `S_i ⊂ ℚ(i)⁴` (likewise `B_ρ`). Its `G_a`-component is trivial (`Hom(B, G_a) = 0`), so `H ⊂ 0 × G_ℓ`. A splitting
+   forces `φ(S) = 0`: otherwise the image in `G_ℓ` of the anti-affine group `B^♮` contains the fibre, and `H`, which
+   would have to contain that image, meets the kernel. And `ker ψ ∩ ker φ = 0` (Lemma K) gives
    `ψ = θᵀ ≠ 0` on `T_B`, so `Ψ''₁ ≠ 0` on `T_H`. Since `T_H` is spanned by algebraic vectors, one of them has nonzero
    `Ψ''`-image: this is `sub`.
 5. `d₀ = 1` and `d₁ = 0` are maximal (`G_ℓ` is a quotient of an anti-affine group), `d₂ = 9`.
@@ -609,7 +611,8 @@ lemma etaRho_ne_zero : etaRho ≠ 0 := by
 
 /-- **Conditional Theorem MX, `K`-form (Proposition D)** for `K = ℚ(i, √3)` and `β ∈ Kˣ`: if
 `X = (zX, wX) ∈ Λ(E_i^♮)`, `Y = (zY, wY) ∈ Λ(E_ρ^♮)`, `a, t ∈ ℚ̄` and
-`(zX + zY + a) β η(Ω_ρ) = (wX + wY + t) ϖ`, then `zX + zY + a ∈ Kϖ + KΩ_ρ`.
+`(zX + zY + a) β η(Ω_ρ) = (wX + wY + t) ϖ`, then `zX + zY + a ∈ Kϖ + KΩ_ρ`. This is Proposition D restricted to
+`v ∈ Ψ(Λ(G))` (rather than `Ψ(Λ_K(G))`), which is the case Theorem MX uses.
 
 Hypotheses: W88 §5d for `G_a × G_ℓ` (`hW`); `g₂, g₃ ∈ ℚ̄` for both lattices (`g₃(ϖℤ[i]) = 0` is proved);
 `ϖΩ_ρ/π ∉ ℚ̄` (`hΓ`) and `Ω_ρ/ϖ ∉ ℚ̄` (`hM`), both consequences of Wüstholz's analytic subgroup theorem. -/

@@ -1,0 +1,25 @@
+varpi   = 2.62205755429211981046483958989
+Omega_r = 2.42865064788758161181994168978
+[varpi Z[i]] g2 = (4.0 + 0.0j)  g3 = (-2.727363405707479549174839e-61 + 0.0j)
+[varpi Z[i]] eta(w1) (E2 formula) - Lean value = 0.0
+[Omega Z[rho]] g2 = (-5.807897089572428174472215e-61 - 4.094918930762094910737734e-61j)  g3 = (4.0 + 2.518456499530237862615291e-61j)
+[Omega Z[rho]] eta(w1) (E2 formula) - Lean value = 1.5674e-62
+Legendre E_i : eta1*w2 - eta2*w1 - 2pi i = 6.223e-61
+Legendre E_r : eta1*w2 - eta2*w1 - 2pi i = 0.0
+etaRho_mul   : etaRho*Om - 2 sqrt3 pi/3 = 3.1115e-61
+direct zeta sums (Richardson, ~1e-7 accuracy expected):
+  E_i : eta(varpi): direct = 1.1981402358+0.0000000002j, Lean = 1.1981402347+0.0000000000j, |diff| = 1.09e-09
+  E_i : eta(i varpi): direct = -0.0000000003-1.1981402356j, Lean = 0.0000000000-1.1981402347j, |diff| = 9.62e-10
+  E_r : eta(Omega): direct = 1.4936684015-0.0000000012j, Lean = 1.4936684004+0.0000000000j, |diff| = 1.60e-09
+  E_r : eta(rho Omega)  [HP2]: direct = -0.7468342001-1.2935547808j, Lean = -0.7468342002-1.2935547796j, |diff| = 1.16e-09
+  E_i: direct g2 = 3.9999973621+0.0000000000j, g3 = -0.0000000000+0.0000000000j
+  E_r: direct g2 = -0.0000023893+0.0000041384j, g3 = 4.0000000000-0.0000000000j
+w2' - (eta_rho/varpi) w1' = 3.1594e-61
+deg2_i c0=0: hrelP(LHS-RHS) - k*(c1 Vp + c2 Or + c3 Vp Or) = 0
+c0=0 shortcut identity residual: 0
+deg2_i c0!=0: LHS-RHS = A*Or*Vp + B*Vp + C*Or - Pi  (vanishes iff Pi = A Vp Or + B Vp + C Or)
+PSLQ over Q(sqrt3) on (pi, varpi, Om, varpi Om): None
+PSLQ over Q(sqrt3) on the six numbers: [240916, -317147, -14231, -11387, -60734, 173732, 59563, -15216, 139262, 141160, 18504, -127254]
+residual of the 80-digit PSLQ vector at 200 digits: -1.6282e-60
+PSLQ at 200 digits, maxcoeff 1e6: None
+PSLQ at 200 digits on (pi, varpi, Om, varpi Om) over Q(sqrt3), maxcoeff 1e10: None

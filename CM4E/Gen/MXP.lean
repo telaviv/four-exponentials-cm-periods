@@ -10,15 +10,17 @@ import CM4E.Gen.MXGen
 
 Twisted variant of Theorem MX (paper [I], §`sec:MXP`): `G = E_i^♮ × E_ρ^♮ × G_a²`,
 `Ψ'(X_i, X_ρ, a₁, a₂) = (z(X_i) + w(X_ρ) + a₁, w(X_i) + z(X_ρ) + a₂)`, `V' = ℂ(ϖ, βΩ_ρ)`. With an adapted basis `θ` of a
-number field `K ∋ i` (`n = [K : ℚ]`), the quotient `G'' = G^n / U'`, `U' = {θᵀ(w_ρ + a₁) = θᵀ(w_i + a₂) = 0}`, is the
+number field `K ∋ i` (`n = [K : ℚ]`), the quotient `G'' = G^n / U'`, `U' = {z_i = z_ρ = 0, θᵀ(w_ρ + a₁) = θᵀ(w_i + a₂) = 0}`, is the
 push-out of `(E_i^n × E_ρ^n)^♮` along `(w_i, w_ρ) ↦ (θᵀw_i, θᵀw_ρ)`, an extension of `E_i^n × E_ρ^n` by `G_a²`.
 Tangent coordinates `(z_i, z_ρ, s₁, s₂)`, `s₁ = θᵀ(w_ρ + a₁)`, `s₂ = θᵀ(w_i + a₂)`, and `Ψ'' = (θᵀz_i + s₁, θᵀz_ρ + s₂)`;
 `d₀ = d₁ = 0`, `d₂ = 2n + 2`. W88 §5d with `m = 3n`, `κ ≥ 2n`, `t = 2n` needs `3n > 2n + 4`, i.e. `n ≥ 6`.
 
 Soundness facts (not checked by Lean): as for `gmXG` (`CM4E/Gen/MXGen.lean`) for the logarithms and periods; `G''` is a
 quotient of an anti-affine group, so `d₀ = d₁ = 0`; and no nonzero connected subgroup has tangent space in `ker Ψ''`
-(a canonical lift `B^♮` of `B_{S_i} × B_{S_ρ}` has tangent space in `ker Φ'` only if `ψ(S) = φ(S) = 0`, i.e. `B = 0`, by
-Lemma K; so `U'` is the largest connected subgroup with tangent space in `ker Φ'`).
+(a connected subgroup meeting the `G_a²` fibre has a fibre vector with `Ψ'' ≠ 0`; one that does not splits over
+`B = B_i × B_ρ`, and since the quasi-periods are conjugate-linear on both CM lattices the splitting forces the `k`-spaces
+of `B` into `ker ψ ∩ ker φ = 0`; see `reviews/REFEREE_HYP_MXP.md`). This uses only that `θ` is algebraic and
+`ℚ`-independent.
 
 Corollary deg2 (i) (`π, ϖ, Ω_ρ, ϖΩ_ρ` linearly independent over `ℚ̄`) is derived from it in `CM4E/Gen/Deg2.lean`.
 -/

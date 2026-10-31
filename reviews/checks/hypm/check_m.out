@@ -1,0 +1,13 @@
+varpi = 2.62205755429211981046483958989111941368275495143162316281682
+[1] lemniscatic: |wp'^2 - (4wp^3 - 4wp)| = 1.3239e-57
+    |wp(z+varpi)-wp(z)| = 4.4003e-60  |wp(iz)+wp(z)| = 1.3915e-60 (q-series valid only for |Im(z/varpi)| < 1/2)
+[2] varpi/pi (M1, c=1) / varpi = 0.31830988618379067154 (transcendental multiple, not in Z[i])
+[2] pi*varpi (M3, c=1) / varpi = 3.1415926535897932385 (transcendental multiple, not in Z[i])
+[3] wp(varpi/pi) = 1.57943573709912204977956
+    no integer polynomial of degree <= 6, coeffs <= 1e5 [sanity only]
+[3] wp(pi*varpi) = 7.282547228665865272196339
+    no integer polynomial of degree <= 6, coeffs <= 1e5 [sanity only]
+[5] wp(varpi/2) = (1.0 + 0.0j)  -> s = 1/2 satisfies i pi u = varpi l
+[6] Q(i,sqrt2) : n = 4  explicit k-vectors in ker psi: 2 valid: True  C-rank: 2  dim_k ker psi = n - dim_k K = 2  => d2 = dim A'' = 2 = r; 2*d2 <= n: True
+[6] Q(rho,sqrt2) : n = 4  explicit k-vectors in ker psi: 2 valid: True  C-rank: 2  dim_k ker psi = n - dim_k K = 2  => d2 = dim A'' = 2 = r; 2*d2 <= n: True
+[7] count n+1 > n + 2r - kappa (kappa = n) and Lemma U 3n >= 2n + 2 hold for n = 4..40; Lemma U range is kappa <= 2n-2; with G_a counted in d2 the count would be n+1 > n+2 (false)

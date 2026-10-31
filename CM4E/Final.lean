@@ -29,7 +29,8 @@ standard axioms only:
 `CM4E.Ext.LemniscateIndep.varpi` has the same body as `CM4E.varpi`, so the two are equal by `rfl` (used implicitly
 below). This file feeds these facts into the conditional theorems. What remains assumed is the hyperplane hypothesis
 `hW` (W88 §5d for the relevant group model); for the `Ω_ρ` and MX results, `g₂, g₃` of `Ω_ρ ℤ[ρ]` (`hg₂'`, `hg₃'`);
-and, for Theorem MX and Cor. MX1, the named classical inputs `hΓ`, `hM`, `Gen.WuestholzMX`, `Gen.MasserCM`,
+and the named classical inputs where used (Theorems S, MX, MX′, M; Cors. MG1, MG3, MX1, deg2, Mη, M3′): `hΓ`, `hM`,
+`Gen.WuestholzMX`, `Gen.WuestholzSix`, `Gen.MasserCM`, `Gen.Baker3`, `Gen.NotLtilde`, `Gen.HermiteLindemann`,
 `Gen.LaurentZeta` (all consequences of Wüstholz's analytic subgroup theorem or classical results; see `TRUST.md`).
 -/
 

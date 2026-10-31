@@ -17,14 +17,14 @@ Let `L = ω ℤ[α]` be a CM lattice with algebraic `g₂, g₃`, `Ω = cω` (`c
 The paper's first proof applies Roy–Waldschmidt to `G = E × G_m × G_a`, `Ψ(e, t, a) = (e, t + a)`, `V = ℂ(Ω, iπ)`
 (`κ = 1`, `α_K(G) = 2`). Here the `K`-structure is made explicit as for Theorem MG: with an adapted basis `θ` of a number
 field `K ⊇ k` containing the coefficients, the group is `G'' = A'' × G_m^n × G_a`, `A'' = E^n / B_{ker ψ}` (the abelian
-variety of `CM4E/Gen/MG.lean`, of dimension `≤ r = n/2`), and `Ψ''([z], y, s) = (θᵀz, θᵀy + s)`. W88 §5d is applied to
+variety of `CM4E/Gen/MG.lean`, of dimension `r = n/2`), and `Ψ''([z], y, s) = (θᵀz, θᵀy + s)`. W88 §5d is applied to
 `V'' = Ψ''⁻¹(ℂ(Ω, iπ))` with the `n` period lifts of `θ_h(Ω, iπ)` and one lift of `(u, ℓ)`: `m = n + 1`, `κ ≥ n`,
-`d₁ + 2d₂ − κ ≤ n` (`CM4E/Gen/FrameM.lean`). The CM structure enters through `d₂ = dim A'' ≤ n/2`; without CM the
-count ties, as the paper notes.
+`d₁ + 2d₂ − κ ≤ n` (`CM4E/Gen/FrameM.lean`). The CM structure enters through `d₂ = dim A'' = n/2`; without CM
+(`d₂ = n`) this count fails.
 
 Soundness of `gmM L b` (not checked by Lean): `G''` is the product `A'' × G_m^n × G_a`, so `d₀ = 1`, `d₁ = n`,
 `d₂ = dim A''`. The logarithms: the image in `T(A'')` of `u e_j` with `u ∈ 𝓛_E` is a logarithm of an algebraic point of
-`A''` (`E^n → A''` is an isogeny-quotient defined over `ℚ̄`); `l e_h` with `e^l ∈ ℚ̄` and `c ∈ ℚ̄` are logarithms in
+`A''` (the quotient `E^n → A''` by `B_{ker ψ}` is defined over `ℚ̄`); `l e_h` with `e^l ∈ ℚ̄` and `c ∈ ℚ̄` are logarithms in
 `G_m^n` and `G_a`. The periods: `perQm` (as in `MG.lean`) and `2πi e_h`. Subgroups: a connected algebraic subgroup of
 `A'' × G_m^n × G_a` is a product `B × T × (0 or G_a)` (no nonzero homomorphisms between the three kinds of factor). A
 nonzero `B` has `θᵀ ≠ 0` on `T(B)` (as in `MG.lean`); a nonzero subtorus `T_ℒ` has `θᵀ ≠ 0` on its rational tangent

@@ -34,4 +34,5 @@ import CM4E.AbVar.X7
 import CM4E.AbVar.ThmA
 import CM4E.AbVar.ThmAn
 import CM4E.AbVar.MGAK
+import CM4E.AbVar.CorA2
 import CM4E.Final

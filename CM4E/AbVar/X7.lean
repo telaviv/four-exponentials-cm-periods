@@ -17,7 +17,7 @@ import CM4E.Gen.ThmM
 relation `P₁P₂ = μ'P₃Ω` (`relation_R`, proved).
 
 **The group.** For an `F`-basis `b` of a number field `K` (`θ(j, e) = ζ^e b j`, `n = 6r`), the paper's
-`G'' = G^n/U = A'' × G_a²` is written as `A^{3r} × E^{3r} × G_a²` in explicit eigen-coordinates: `A^{3r}` = three blocks
+`G'' = G^n/U = A'' × G_a²` is replaced by the isogenous group `A^{3r} × E^{3r} × G_a²`, in explicit eigen-coordinates: `A^{3r}` = three blocks
 `t = 0, 1, 2` (one per slot of `A`) of `r` copies of `A`, coordinates `zA t s j` (`s` = eigen-coordinate); `E^{3r}`, coordinates
 `zE (j, e)`, `e < 3`. The slot forms are
 `μ₁ = Σ_j b_j zA 0 0 j + Σ_{j, e<3} ζ^e b_j zE (j, e)` and `μ₂ = Σ_j b_j zA 2 2 j + Σ_j b_j zA 1 1 j`, and
@@ -26,8 +26,8 @@ relation `P₁P₂ = μ'P₃Ω` (`relation_R`, proved).
 `[ζ^e]v` (coordinates `ζ^{(s+1)e} v_s`); the logarithms of `E` are `u, αu` with `u ∈ 𝓛_E` (`LogE`).
 
 Soundness of `gmX7 LA b` (not checked by Lean; `reviews/`): `A^{3r} × E^{3r} × G_a²` is an algebraic group over `ℚ̄`
-(`E` has algebraic invariants by Chowla–Selberg); `perA s = z_s(γ)` (Rohrlich); `[ζ^e]` acts on `z_s` by `ζ^{(s+1)e}`
-(`σ_s(ζ) = ζ^s`); `LA` consists of eigen-coordinate triples of logarithms of algebraic points of `A`; connected subgroups
+(`E` has algebraic invariants by Chowla–Selberg); `perA (s+1) = z_s(γ)` (Rohrlich); `[ζ^e]` acts on `z_s` by
+`ζ^{(s+1)e}` (`σ_{s+1}(ζ) = ζ^{s+1}`); `LA` consists of eigen-coordinate triples of logarithms of algebraic points of `A`; connected subgroups
 are products `B × B' × L` (`A` simple, not isogenous to `E`); a nonzero abelian subvariety of `A^{3r}` (an `F`-subspace
 `S' ⊂ F^{3r}`) is killed by the three slot forms only if `S' = 0`, since `b` is `F`-independent and different `σ_s` carry
 independent tangent directions; one of `E^{3r}` (`S'' ⊂ k^{3r}`) only if `S'' = 0`, since `{ζ^e b_j}_{e<3}` is a `k`-basis of `K`;
@@ -113,7 +113,9 @@ def algQX7 (q : QX7 r) : Prop := (∀ t s j, IsAlgebraic ℚ (q.1 t s j)) ∧ �
 noncomputable def gmX7 (LA : Set (Fin 3 → ℂ)) : GroupModel (TX (QX7 r)) :=
   gmFX (algQX7 (r := r)) (lamX7 LA) perX7 (mu1 b) (mu2 b)
 
-/-- **The hypothesis for Theorem X7**: W88 §5d for `A^{3r} × E^{3r} × G_a²`, for every `F`-basis `b` of a number field. -/
+/-- **The hypothesis for Theorem X7**: W88 §5d for `A^{3r} × E^{3r} × G_a²`, for every `F`-basis `b` of a number field.
+It is claimed (sound) only when `LA` is a set of eigen-coordinate triples `(z₁(v), z₂(v), z₃(v))` of logarithms `v` of
+algebraic points of `A = Jac(y⁷ = x(1 − x))`; for `LA = ∅` (used by `x7c`) it is unconditional. -/
 def Thm11KappaX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
   ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD zeta7 6 b → HyperplaneKappa (gmX7 b LA)
 

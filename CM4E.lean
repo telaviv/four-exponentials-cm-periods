@@ -32,4 +32,5 @@ import CM4E.AbVar.Fermat7
 import CM4E.AbVar.FrameX
 import CM4E.AbVar.X7
 import CM4E.AbVar.ThmA
+import CM4E.AbVar.ThmAn
 import CM4E.Final

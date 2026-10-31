@@ -1,0 +1,55 @@
+=== (a) closed loop integration ===
+y^7 = x(1-x) on the loop, and continuity at the junctions: OK
+loop int dx/y^6: (5.12641661444 - 10.6451137876j)
+perA 1           : (5.12641661444 - 10.6451137876j)
+   |diff| = 1.24e-60
+loop int dx/y^5: (7.77864571043 - 6.20326295561j)
+perA 2           : (7.77864571043 - 6.20326295561j)
+   |diff| = 6.22e-61
+loop int dx/y^4: (7.34864578233 - 1.67728044542j)
+perA 3           : (7.34864578233 - 1.67728044542j)
+   |diff| = 6.41e-61
+j=1: int_0^1 (x(1-x))^(-6/7) dx - B(j/7,j/7) = 7.81e-9
+j=2: int_0^1 (x(1-x))^(-5/7) dx - B(j/7,j/7) = 2.17e-18
+j=3: int_0^1 (x(1-x))^(-4/7) dx - B(j/7,j/7) = 8.07e-28
+
+=== (b) CM action direction ===
+j=1: int_{[zeta]gamma} dx/y^6 / perA j = (0.623489801858734 + 0.78183148246803j);  zeta^1 = (0.623489801858734 + 0.78183148246803j);  |diff| = 2.46e-61
+j=2: int_{[zeta]gamma} dx/y^5 / perA j = (-0.222520933956314 + 0.974927912181824j);  zeta^2 = (-0.222520933956314 + 0.974927912181824j);  |diff| = 1.57e-61
+j=3: int_{[zeta]gamma} dx/y^4 / perA j = (-0.900968867902419 + 0.433883739117558j);  zeta^3 = (-0.900968867902419 + 0.433883739117558j);  |diff| = 2.33e-61
+det of the 6x6 real period matrix of [zeta^e]gamma, e<6: 12722939.241359
+(control) same with embeddings {1,6,2}: det = 0
+
+=== (c) the lattice Omega*Z[alpha] ===
+alpha = (-0.5 + 1.3228756555322952953j)  Im alpha > 0: True
+g2(Omega Z[alpha]): (0.0123538400105 + 3.91349271891e-64j)
+g3(Omega Z[alpha]): (0.000324935358466 - 1.79064140206e-65j)
+j: (-3375.0 - 2.0456879445e-57j)
+lambda^-2 := (g3/392)/(g2/140): (0.00939370610359 - 8.15241892396e-64j)
+consistency g2/140 - (lambda^-2)^2 = 4.21e-65
+g2 imag part: 3.91e-64
+  minimal polynomial (deg <= 6, coeffs <= 1e12) of Re g2: [-1075648, 384160, -14700, 125]
+   residual: 2.99e-59
+g3 imag part: -1.79e-65
+  minimal polynomial (deg <= 6, coeffs <= 1e12) of Re g3: [-60236288, 2612288, -3920, 1]
+   residual: 5.45e-61
+lambda^-2 imag part: -8.15e-64
+  minimal polynomial (deg <= 6, coeffs <= 1e12) of Re lambda^-2: [-153664, 10976, -196, 1]
+   residual: 7.78e-62
+direct lattice sum 60*G4 (N=60): (0.01235368471 + 2.282878751e-7j)  vs g2: (0.01235384001 + 3.913492719e-64j)
+direct lattice sum 140*G6 (N=60): (0.0003249353586 - 1.262089847e-13j)  vs g3: (0.0003249353585 - 1.790641402e-65j)
+
+=== (d) algebra used in Lean ===
+mu7 - sin(3pi/7)/sin(pi/7): 0.0
+relation_R residual |P1 P2 - mu' P3 Omega|: 3.08e-59
+alpha^2+alpha+2: 3.48e-61 ; alpha - (-1+sqrt(-7))/2: 7.78e-62
+zeta^0 - sum (zp+zq alpha) zeta^e' : 0.0
+zeta^1 - sum (zp+zq alpha) zeta^e' : 0.0
+zeta^2 - sum (zp+zq alpha) zeta^e' : 0.0
+zeta^3 - sum (zp+zq alpha) zeta^e' : 2.09e-61
+zeta^4 - sum (zp+zq alpha) zeta^e' : 1.1e-61
+zeta^5 - sum (zp+zq alpha) zeta^e' : 9.72e-62
+multipliers: 2*4 mod 7 = 1 , 3*5 mod 7 = 1
+|det| of [alpha^a zeta^e'] over the 6 embeddings (nonzero => {1,zeta,zeta^2} is a k-basis of F): 129.6418142
+B(2/7,2/7) - G(2/7)^2 G(3/7) sin(3pi/7)/pi: 6.22e-61
+B(3/7,3/7) - G(3/7)^2 G(1/7) sin(pi/7)/pi: 6.22e-61

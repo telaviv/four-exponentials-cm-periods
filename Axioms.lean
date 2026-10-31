@@ -97,3 +97,6 @@ import CM4E
 #print axioms CM4E.AbVar.mgAn_K
 #print axioms CM4E.AbVar.corA2
 #print axioms CM4E.AbVar.corA2_beta5
+#print axioms CM4E.AbVar.thmX7_torsion
+#print axioms CM4E.AbVar.x7a
+#print axioms CM4E.AbVar.x7b

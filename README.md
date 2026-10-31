@@ -1,58 +1,59 @@
-# lean_mstar: the M* results (four exponentials at CM periods and relatives), in Lean 4
+# lean_mstar: four exponentials at CM periods, in Lean 4
 
-Formalisation project for the paper *Four exponentials at CM periods, and a bilinear statement for two CM elliptic
-curves* (draft, `../schanuel/five_exp/pilot_thmM/paper/`).
+Lean 4 + Mathlib certificate for parts of the paper *Four exponentials at CM periods, and a bilinear statement for two
+CM elliptic curves* (draft; snapshot in [`paper/`](paper/)).
 
-**Target.** For the real period ϖ = Γ(1/4)²/(2√(2π)) of y² = 4x³ − 4x and any algebraic c ≠ 0, the four exponentials
-conjecture holds at t = cϖ and at t = cϖ/π. For example, 2^ϖ and 3^ϖ are not both algebraic. The precise statements
-are in [`CM4E/Defs.lean`](CM4E/Defs.lean); read that file first.
+## Results
 
-**Status (2026-10-30): conditional headline proved.**
+With `ϖ = Γ(1/4)²/(2√(2π))`, the real period of `y² = 4x³ − 4x` (library `CM4E`, standard axioms only):
 
-**Only W88 is assumed.** `CM4E.Final.two_three` (2^{ϖ/π}, 3^{ϖ/π}) and `CM4E.Final.two_three_varpi` (2^ϖ, 3^ϖ) take
-a single hypothesis, Waldschmidt's κ-refined hyperplane theorem for the relevant group. The other inputs below (H2,
-H3, H3′) are proved in the dependency [`../lean_lsg`](../lean_lsg) and discharged in [`CM4E/Final.lean`](CM4E/Final.lean).
+* `CM4E.Final.two_three_varpi`: **`2^ϖ` and `3^ϖ` are not both algebraic.**
+* `CM4E.Final.two_three`: **`2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic.**
+* `CM4E.Final.fourExpAt_varpi`, `CM4E.Final.fourExpAt_Qi`: the four exponentials statement `FourExpAt t` at `t = cϖ`
+  and `t = cϖ/π` for every `c ∈ ℚ(i)ˣ` (the paper's Theorem 1 for these `c`).
+* `CM4E.Final.mx`: Theorem MX in `K`-form for the curves `y² = 4x³ − 4x` and `y² = 4x³ − 4`, with `K = ℚ(i, √3)`.
 
-`CM4E.TwoThree.two_three` (standard axioms only) says that **2^{ϖ/π} and 3^{ϖ/π} are not both algebraic**, assuming:
-* (H1) Waldschmidt's κ-refined hyperplane theorem (W88 §5d) for G_m⁴ × E, stated in
-  [`CM4E/Waldschmidt.lean`](CM4E/Waldschmidt.lean);
-* (H2) g₂ of the lattice ϖℤ[i] is algebraic (g₃ = 0 is proved);
-* (H3) ϖ/π is irrational.
+Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
+for the algebraic group of the relevant proof. It is stated as an explicit hypothesis, never as an axiom.
+`CM4E.Final.mx` also assumes Wüstholz-type inputs about the second curve. Everything else is proved, including
+`g₂(ϖℤ[i]) = 4` and Schneider's theorem on the transcendence of `ϖ` and `ϖ/π`. What is assumed, why it is believed,
+and which paper results are covered: [TRUST.md](TRUST.md).
 
-`CM4E.MainQi.fourExpAt_Qi` is the general version: `FourExpAt (cϖ/π)` for every c ∈ ℚ(i)^× (four exponentials at
-t = cϖ/π, only ℚ-independence of the logarithms assumed). What is assumed and what is covered: [TRUST.md](TRUST.md).
+## Layout
 
-`CM4E.MainNat.two_three_varpi` says that **2^ϖ and 3^ϖ are not both algebraic** (Theorem 1(a); general form
-`CM4E.MainNat.main`: `FourExpAt (cϖ)` for c ∈ ℚ(i)^×), assuming (H1′) W88 §5d for G_m⁸ × Q″, where Q″ is a quotient of
-(E^♮)⁴ (same form as H1, model `gmQ` in [`CM4E/MainNat.lean`](CM4E/MainNat.lean)), (H2), and (H3′) ϖ is transcendental.
-
-`CM4E.MX.main` is **Theorem MX in K-form** (Proposition D) for K = ℚ(i, √3): for X ∈ Λ(E_i^♮), Y ∈ Λ(E_ρ^♮),
-a, t ∈ ℚ̄ and β ∈ K^×, the relation (z(X) + z(Y) + a)·βη(Ω_ρ) = (w(X) + w(Y) + t)·ϖ forces
-z(X) + z(Y) + a ∈ Kϖ + KΩ_ρ. It assumes W88 §5d for G_a × G_ℓ (model `gmX` in [`CM4E/MX.lean`](CM4E/MX.lean)), that
-g₂, g₃ of both lattices are algebraic, and Wüstholz's ϖΩ_ρ/π ∉ ℚ̄ and Ω_ρ/ϖ ∉ ℚ̄. The Weierstrass ζ function (not in
-Mathlib) is defined there, with a proof that its series converges locally uniformly.
-
-Also proved, with standard axioms only:
-* the arithmetic of the paper's case checks against Waldschmidt's Theorem 4.1, for every n
-  (`CM4E/CaseCheck.lean`);
-* the algebra of the two parallel periods, Lemma L (`CM4E/LemmaL.lean`).
-
-The targets are **not** proved yet. The plan, dependency graph and reuse map are in [BLUEPRINT.md](BLUEPRINT.md).
+| path | content |
+|---|---|
+| `CM4E/Defs.lean` | elementary definitions used in the statements (`FourExpAt`, `logAlg`, `varpi`, `omegaRho`); read first |
+| `CM4E/Waldschmidt.lean` | the hypothesis form `HyperplaneKappa` (W88 §5d) and the model of `G_m^{d₁} × E` |
+| `CM4E/Lattice.lean`, `CM4E/Common.lean` | the lattice `ϖℤ[i]`, `g₃ = 0`, quasi-periods; shared small lemmas |
+| `CM4E/MainQi.lean`, `CM4E/TwoThree.lean` | Theorem 1(b) for `c ∈ ℚ(i)`; `2^{ϖ/π}, 3^{ϖ/π}` |
+| `CM4E/MainNat.lean` | Theorem 1(a) for `c ∈ ℚ(i)`; `2^ϖ, 3^ϖ` |
+| `CM4E/MX.lean` | Theorem MX (`K`-form) |
+| `CM4E/Final.lean` | the final statements, with all inputs except W88 discharged |
+| `CM4E/CaseCheck.lean`, `CM4E/LemmaL.lean` | arithmetic of the paper's Theorem 4.1 case tables; Step 1 of Prop. D |
+| `CM4E/Ext/` | Weierstrass `ζ`/`σ`, `g₂(ϖℤ[i]) = 4`, Schneider's theorem (vendored; see `CM4E/Ext/PROVENANCE.md`) |
+| `Axioms.lean` | axiom audit of the main declarations |
+| `reviews/` | fidelity reviews of the three hypothesis models, with their check scripts |
+| `paper/` | snapshot of the paper |
 
 ## Build
 
 ```bash
-export PATH="$HOME/.elan/bin:$PATH"
+lake exe cache get
 lake build
 lake env lean Axioms.lean
 ```
 
-Toolchain and Mathlib: v4.35.0, as in `../schanuel/six_exp/lean` (StrongSix). During development `.lake/packages` is a
-directory junction to StrongSix's packages, so Mathlib is not downloaded twice. A fresh clone should run
-`lake exe cache get` instead. `lean_lsg` (`../lean_lsg`, which itself requires StrongSix at `../schanuel/six_exp/lean`)
-is a path dependency; both must be present next to this folder.
+Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 
-## Provenance
+## Next steps
 
-Written by AI models (Claude, Anthropic) under the direction of the author. No human expert has reviewed the
-definitions or proofs yet.
+* Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
+  of the three group models.
+* Extend Theorem 1 to all algebraic `c` (larger `K`) and to `Ω_ρ`; the `K`-version of Theorem MG and Cor. MG1, MG3.
+* Theorem MX for general `β ∈ ℚ̄ˣ`, the step to `a = 0`, `z(X) ∈ ℚ(i)ϖ`, and Cor. MX1.
+
+## License and provenance
+
+Apache 2.0 ([LICENSE](LICENSE)). Written by AI models (Claude, Anthropic) under the direction of the author. All review
+so far is by AI referees ([`reviews/`](reviews/)); no human expert has reviewed the definitions or proofs.

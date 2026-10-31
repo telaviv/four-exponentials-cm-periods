@@ -1,87 +1,108 @@
 # TRUST: what the Lean certificate proves, and what it assumes
 
-Project: `lean_mstar/` (Lean 4.35, Mathlib v4.35.0; library name `CM4E`). Paper:
-`../schanuel/five_exp/pilot_thmM/paper/paper.tex`.
+Project: `lean_mstar` (Lean 4.35, Mathlib v4.35.0; library `CM4E`). Paper: *Four exponentials at CM periods, and a
+bilinear statement for two CM elliptic curves* (draft; snapshot in [`paper/`](paper/)). W88 below is M. Waldschmidt,
+*On the transcendence methods of Gel'fond and Schneider in several variables*, in: A. Baker (ed.), New Advances in
+Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 
 ## 1. Axioms
 
 Every declaration depends only on Lean's standard axioms `propext`, `Classical.choice`, `Quot.sound`
-(`lake env lean Axioms.lean`). There is no `sorry`, no `axiom` declaration, and no `native_decide`. This includes the
-parts of the dependency `lean_lsg` (library `LSG`) used by `CM4E/Final.lean`, which the audit covers transitively.
+(`lake env lean Axioms.lean`). There is no `sorry`, no `axiom` declaration and no `native_decide`, in `CM4E/` or in the
+vendored `CM4E/Ext/`.
 
-## 2. What is assumed: explicit hypotheses, never global axioms
+## 2. The final theorems
 
-The main theorems are implications. Their hypotheses are named arguments.
+`CM4E/Final.lean` states the results with every input proved except W88:
 
-**Discharged (2026-10-30).** `hg₂`, `hS` and `hT` below are now **theorems**, proved in `lean_lsg` (standard axioms) and
-fed in by `CM4E/Final.lean`: `CM4E.Final.hg₂` (via `LSG.Bridge.isAlgebraic_g₂`, which proves `g₂ = 4` from the
-Γ-formula for `ϖ`), `CM4E.Final.hS` and `CM4E.Final.hT` (Schneider's theorem, `LSG.Schneider.period_transcendental`,
-`LSG.Bridge.irrational_varpi_div_pi_of`). `LSG.LemniscateIndep.varpi = CM4E.varpi` holds by `rfl`. The final forms
-`CM4E.Final.two_three`, `fourExpAt_Qi`, `two_three_varpi`, `fourExpAt_varpi` assume **only `hW`**; `CM4E.Final.mx`
-assumes `hW` and the four inputs about `E_ρ` and the two curves (`hg₂'`, `hg₃'`, `hΓ`, `hM`).
+| theorem | statement | assumes |
+|---|---|---|
+| `CM4E.Final.two_three` | `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic | `hW : Thm11Kappa lemniscatic 4` |
+| `CM4E.Final.fourExpAt_Qi` | `FourExpAt (cϖ/π)` for `c = (p + qi)/D ≠ 0` | `hW : Thm11Kappa lemniscatic 4` |
+| `CM4E.Final.two_three_varpi` | `2^ϖ` and `3^ϖ` are not both algebraic | `hW : MainNat.Thm11KappaNat` |
+| `CM4E.Final.fourExpAt_varpi` | `FourExpAt (cϖ)` for `c = D/(p + qi) ≠ 0` | `hW : MainNat.Thm11KappaNat` |
+| `CM4E.Final.mx` | Theorem MX, `K`-form, for `K = ℚ(i, √3)`, `β ∈ Kˣ` | `hW : MX.Thm11KappaMX`, `hg₂'`, `hg₃'`, `hΓ`, `hM` |
+
+`FourExpAt t` (`CM4E/Defs.lean`): for `ℚ`-linearly independent `a, b` with `e^a, e^b` algebraic, `e^{ta}` and `e^{tb}`
+are not both algebraic. The determinations of `α^t, β^t` are thus tied to the chosen logarithms. The two
+parametrisations `tExp p q D = ((p + qi)/D)·ϖ/π` and `tN p q D = D·ϖ/(p + qi)` both cover all of `ℚ(i)ˣ`.
+
+Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharged in `Final.lean`:
+* `g₂(ϖℤ[i])` is algebraic (`Final.hg₂`; `g₂ = 4` from the Γ-formula for `ϖ`); `g₃(ϖℤ[i]) = 0` (`g₃_lemniscatic`);
+* `ϖ/π ∉ ℚ` (`Final.hS`) and `ϖ` transcendental (`Final.hT`): Schneider's theorem.
+
+## 3. What is assumed: explicit hypotheses, never global axioms
 
 | name | content | where stated | why it is believed |
 |---|---|---|---|
-| `hW : Thm11Kappa lemniscatic 4` | Waldschmidt's κ-refined hyperplane theorem (W88 §5d, (5.4)) for `G = G_m⁴ × E`, where `E` is the curve of the lattice `ϖℤ[i]` | `CM4E/Waldschmidt.lean` (statement and source discussion) | Published: W88 = Waldschmidt, CUP 1988, 375–398, §5d p. 394 (Thm 1.1 with (1.2) replaced by (5.4)). Its proof rests on W88 Thm 4.1, whose auxiliary-function step for `W ≠ 0`, `κ > 0` is completed by Lemma U (paper, Appendix A; two internal referees). Fidelity of the Lean statement to the source: `REFEREE_HYP.md` (CORRECT, no encoding bug, no falsification found). |
-| `hg₂ : IsAlgebraic ℚ lemniscatic.g₂` | `g₂(ϖℤ[i])` is algebraic | argument of `main` | **Proved** (`CM4E.Final.hg₂`, from lean_lsg: `g₂ = 4`). `g₃ = 0` is proved here (`CM4E.g₃_lemniscatic`). |
-| `hS : Irrational (varpi / π)` | `ϖ/π ∉ ℚ` | argument of `main` | **Proved** (`CM4E.Final.hS`, from lean_lsg: Schneider, `ϖ/π` transcendental). |
-| `hW : Thm11KappaNat` | the same theorem (W88 §5d, (5.4)), for `G″ = G_m⁸ × Q″`, where `Q″ = (E_i^♮)⁴/U` is the anti-affine quotient of the paper's proof of Theorem MG♮ (`K = ℚ(i, √2)`, `n = 4`) | `CM4E/MainNat.lean` (model `gmQ`, its docstring lists the soundness facts) | Same source as above. The encoding of `G″` (coordinates, periods via Legendre `ϖη(ϖ) = π`, and the subgroup list "every nonzero subgroup of `Q″` contains the `G_a`-fibre") is a hand-written model, **not** derived in Lean. Its fidelity rests on the paper's MG♮ proof (`../schanuel/five_exp/pilot_epi2_mix/REFEREE_MGF_2.md` #1–2) and `REFEREE_HYP_NAT.md` (CORRECT, cosmetic caveats only: every soundness fact re-derived independently, `ker φ` checked exactly, Legendre/η checked numerically to 40 digits). Both hypotheses have the identical form `HyperplaneKappa G` for a `GroupModel G`. |
-| `hT : Transcendental ℚ (varpi : ℂ)` | `ϖ` is transcendental | argument of `MainNat.main` | **Proved** (`CM4E.Final.hT`, from lean_lsg: Schneider 1937, a nonzero period of a lattice with algebraic `g₂, g₃` is transcendental). |
-| `hW : Thm11KappaMX` | the same theorem (W88 §5d, (5.4)), for `G″ = G_a × G_ℓ = (E_i^♮ × E_ρ^♮ × G_a²)⁴/U` of the paper's proof of Theorem MX (`K = ℚ(i, √3)`, `n = 4`, `d₀ = 1`, `d₁ = 0`, `d₂ = 9`) | `CM4E/MX.lean` (model `gmX`, soundness facts 1–6 in its docstring) | Same source. Hand-written model, **not** derived in Lean: the coordinates `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))` on `E^♮` (`LogNat`), the quasi-periods (Legendre), `lam` = `ℚ`-span of images of `Λ(G⁴)`, and `sub` = "every nonzero algebraic subgroup has an algebraic tangent vector outside `ker Ψ″`" (short proof in the docstring). Fidelity: `REFEREE_HYP_MX.md` (CORRECT, cosmetic caveats only: `LogNat` = `Λ(E^♮)`, η values and `g₂ = 0`, `g₃ = 4` checked numerically, `perX` is all of `ℚ ⊗ Ker exp` (rank 16), `sub` and Lemma K re-proved, `(d₀, d₁, d₂) = (1, 0, 9)` maximal). `ζ` is defined in Lean as the standard series, with a proof that the series converges locally uniformly. |
-| `hg₂, hg₂', hg₃'` | `g₂(ϖℤ[i])`, `g₂, g₃(Ω_ρℤ[ρ])` algebraic | arguments of `MX.main` | `g₂(ϖℤ[i])`: **proved** (`CM4E.Final.mx` discharges it). `g₂ = 0`, `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`: true (40-digit check in `REFEREE_HYP_MX.md`), not proved in Lean. |
-| `hΓ`, `hM` | `ϖΩ_ρ/π ∉ ℚ̄`, `Ω_ρ/ϖ ∉ ℚ̄` | arguments of `MX.main` | True: Wüstholz 1989 (a period of `E_i` and a quasi-period of `E_ρ`, resp. periods of non-isogenous curves, are `ℚ̄`-independent; derivations in `REFEREE_HYP_MX.md`). `hΓ` is Corollary Γ of the paper. |
+| `hW : Thm11Kappa lemniscatic 4` | W88 Thm 1.1 with (1.2) replaced by (5.4) (§5d, p. 394) for `G = G_m⁴ × E`, `E` the curve of `ϖℤ[i]` | `CM4E/Waldschmidt.lean` (model `gmE`) | Published. Its proof rests on W88 Thm 4.1, whose auxiliary-function step for `W ≠ 0`, `κ > 0` is completed by Lemma U (paper, Appendix A). Fidelity: [`reviews/REFEREE_HYP.md`](reviews/REFEREE_HYP.md) (CORRECT). |
+| `hW : Thm11KappaNat` | the same theorem for `G″ = G_m⁸ × Q″`, `Q″ = (E_i^♮)⁴/U` from the paper's proof of Theorem MG♮ (`K = ℚ(i, √2)`, `n = 4`) | `CM4E/MainNat.lean` (model `gmQ`, soundness facts in its docstring) | Same source. The model (coordinates, periods via Legendre, the subgroup list) is hand-written, not derived in Lean. Fidelity: [`reviews/REFEREE_HYP_NAT.md`](reviews/REFEREE_HYP_NAT.md) (CORRECT, cosmetic caveats only). |
+| `hW : Thm11KappaMX` | the same theorem for `G″ = G_a × G_ℓ = (E_i^♮ × E_ρ^♮ × G_a²)⁴/U` from the paper's proof of Theorem MX (`K = ℚ(i, √3)`, `n = 4`, `(d₀, d₁, d₂) = (1, 0, 9)`) | `CM4E/MX.lean` (model `gmX`, soundness facts 1–6 in its docstring) | Same source. Hand-written model. Fidelity: [`reviews/REFEREE_HYP_MX.md`](reviews/REFEREE_HYP_MX.md) (CORRECT, cosmetic caveats only). |
+| `hg₂'`, `hg₃'` | `g₂`, `g₃` of `Ω_ρℤ[ρ]` are algebraic | arguments of `MX.main` | True: `g₂ = 0`, `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit check in `reviews/REFEREE_HYP_MX.md`); not proved in Lean. |
+| `hΓ`, `hM` | `ϖΩ_ρ/π ∉ ℚ̄`, `Ω_ρ/ϖ ∉ ℚ̄` | arguments of `MX.main` | Wüstholz's analytic subgroup theorem (1989): a period of `E_i` and a quasi-period of `E_ρ`, resp. periods of non-isogenous curves, are `ℚ̄`-linearly independent (derivations in `reviews/REFEREE_HYP_MX.md`). |
 
-**The single point of failure** is the κ-term in W88 Thm 4.1 / §5d. Without it, the instance used in `MainQi.main` would need
-`6 > 6` (and `MainNat.main` would need `12 > 14 − 0`, false). An expert check of W88 §§6–7 together with Lemma U is the most valuable outside review. (`MX.main` needs `12 > 18 − 0`
-without κ, also false.)
-That check should explicitly cover the non-semiabelian case: `Q″` is a non-split extension of an abelian surface by
-`G_a`. This is inside W88's stated scope, but it is used only by `MainNat`; `MainQi` (`G_m⁴ × E`) is semiabelian.
-It should also cover `d₀ > 0`: `gmX` (`MX.main`) is the only model with a `G_a` factor (`d₀ = 1`), so it relies on the
-Gel'fond (`G_a`) part of W88's proof, where the paper's Appendix A notes that the case `δ = τ` needs `b > 1`. The regimes
-to check are thus: `W ≠ 0`, `κ > 0`, non-semiabelian `G₂` (`MainNat`, `MX`), and `d₀ > 0` (`MX`).
-W88 scans: `../schanuel/five_exp/ref/w88_pages/`.
+All three `hW` have the same form `HyperplaneKappa G` for a `GroupModel G` (`CM4E/Waldschmidt.lean`). A model is
+*sound* if its logarithms, periods and subgroup family are true of the group; soundness is checked by the reviews, not
+by Lean.
 
-## 3. What to read to trust a statement
+Two further points about what the statements rely on:
+* `MX.main` itself (not only its hypothesis `hW`) is stated with hand-coded quasi-periods (`etaLem`, `etaR`, `etaRho`)
+  and the coordinate convention `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))` in `LogNat`. `ζ` is the standard series
+  (`CM4E.Ext.Weierstrass.zeta`, with `ζ' = −℘` proved). The quasi-period values were checked numerically against this
+  `ζ` in `reviews/REFEREE_HYP_MX.md`.
+* `HyperplaneKappa gmE` also covers configurations with `κ = 5`, outside the range `2N ≥ d₁ + 2d₀ + κ` of Lemma U. By
+  the argument of the paper-vs-Lean review (2026-10-30), `V` is then forced to be rational, so the conclusion holds
+  trivially; this argument is not formalised. For `gmQ` and `gmX` Lemma U's
+  range covers every configuration.
 
-* `CM4E/Defs.lean`: the target statements, in elementary terms (`FourExpAt t`).
-* `CM4E/Waldschmidt.lean`: the hypothesis `Thm11Kappa`.
-* `CM4E/Lattice.lean`: the period pair `(ϖ, iϖ)` (Mathlib's `PeriodPair`), with `ϖ` given by the Γ-formula.
+All three Lean proofs follow the paper's §5d derivations (paper Remarks 15, 20, 26), which apply the paper's
+Theorem 11 (W88 Thm 1.1 with (5.4)).
 
-## 4. Coverage: every result of the paper
+**The single point of failure** is the κ-term in W88 Thm 4.1 / §5d. Without it, the instance used in `MainQi.main` would
+need `6 > 6`, `MainNat.main` would need `12 > 14`, and `MX.main` would need `12 > 18`, all false. An expert check of
+W88 §§6–7 together with Lemma U is the most valuable outside review. It should cover the regimes used here: `W ≠ 0`,
+`κ > 0`, a non-semiabelian `G₂` (`MainNat`, `MX`), and `d₀ > 0` (`MX`, which relies on the Gel'fond part of W88's
+proof; the paper's Appendix A notes that the case `δ = τ` needs `b > 1` there). Note also that W88's §5d proof
+applies Thm 4.1 twice: to `G` itself, and again to an auxiliary subgroup given by W88 Lemma 5.1. Lemma U's condition
+has been checked only for the first application, so every `hW` rests on W88 §5d as published (paper, §2, after
+Theorem 11).
 
-✔ = proved in Lean, conditionally on §2 where stated · ◐ = partial · ✗ = not formalised yet.
+## 4. What to read to trust a statement
+
+* `CM4E/Defs.lean`: the elementary definitions (`FourExpAt`, `logAlg`, `varpi`, `omegaRho`).
+* `CM4E/Waldschmidt.lean`: the hypothesis form `HyperplaneKappa` and the model `gmE`.
+* `CM4E/Lattice.lean`: the period pair `(ϖ, iϖ)` (Mathlib's `PeriodPair`) with `ϖ` given by the Γ-formula.
+* `CM4E/Final.lean`: the final statements.
+
+## 5. Coverage: every result of the paper
+
+✔ = proved in Lean, conditionally on §3 · ◐ = partial · ✗ = not formalised.
 
 | paper result | Lean | status / what is missing |
 |---|---|---|
-| Theorem 1(b) (4E at `cΩ/π`) | `CM4E.MainQi.main`, `CM4E.MainQi.fourExpAt_Qi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)^×`, conditional on `hW` only (`CM4E.Final.fourExpAt_Qi`). Missing: general algebraic `c` (larger `K`, quotient `A''` of dimension `n/2`), `Ω_ρ` and other CM periods |
-| Example `2^{ϖ/π}, 3^{ϖ/π}` | `CM4E.TwoThree.two_three`, `CM4E.Final.two_three` | ✔ conditional on `hW` only |
-| Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | `CM4E.MainNat.main`, `CM4E.MainNat.two_three_varpi`, `CM4E.Final.fourExpAt_varpi`, `CM4E.Final.two_three_varpi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)^×`, conditional on `hW : Thm11KappaNat` only; headline `2^ϖ, 3^ϖ` ✔. Missing: general algebraic `c`, `Ω_ρ`. The Legendre relation enters through the model `gmQ`, not through a Lean proof |
-| Theorem MG, Cor. MG2 (K-version) | — | ✗ (only the `FourExpAt` form above) |
-| Cor. MG1, Cor. MG3 | — | ✗ need the K-version of MG (`π ∉ 𝓛`); MG1 no longer uses Chudnovsky (paper Revision 6: only `e^{bπΩ} ∈ ℚ̄`, `Ω ∉ ℚ̄𝓛`, `Ω/π ∉ ℚ̄`); MG3 needs Baker |
-| Theorem MG♮, Cor. MG♮2 | — | ◐ only the `FourExpAt` form at `t = cϖ`, `c ∈ ℚ(i)` (Theorem 1(a) row) |
-| Affine MG, Cor. (i)–(iii) | — | ✗ (proof sketch in the paper) |
-| General form, elliptic 4E | — | ✗ (proof sketch in the paper) |
-| Theorem M (both proofs), Cor. M1–Mη | — | ✗ (needs `G = E × G_m × G_a` hypothesis; second proof needs Wüstholz) |
-| Theorem MX, Prop. D, MX1, Cor. Γ | `CM4E.MX.main`, `CM4E.Final.mx` | ◐ ✔ Proposition D, restricted to `v ∈ Ψ(Λ(G))` (the case Theorem MX uses), in the form `z(X) + z(Y) + a ∈ Kϖ + KΩ_ρ` for `K = ℚ(i, √3)`, `β ∈ Kˣ` (conditional on `hW : Thm11KappaMX`, `hg₂, hg₂', hg₃'`, `hΓ`, `hM`), via the §5d derivation of the paper's Remark "The count" (`12 > 18 − κ`, `κ ≥ 8`). Missing: general `β ∈ ℚ̄ˣ` (larger `K`), the step `a = 0`, `z(X) ∈ ℚ(i)ϖ` (Bertrand–Masser/Wüstholz, Masser's theorem on CM periods) and Cor. MX1. Case-table arithmetic ✔ (`CaseCheck.mx_no_obstruction`), Lemma L ✔ (`LemmaL`) |
-| Theorem MX′, Cor. 15 (degree-2) | — | ✗ |
-| Lemma K | — | ✗ (pure algebra) |
-| MG/MG♮ case tables | `CaseCheck.mg_no_obstruction`, `CaseCheck.mgn_no_obstruction` | ✔ arithmetic layer only (the subgroup classification is not formalised) |
-| Lemma U (Appendix A) | — | ✗ Not needed as a separate hypothesis: it is part of the proof of W88 Thm 4.1, which `hW` assumes |
-| Consistency checks, partner lemma, §5 heuristics | — | not formalised (not theorems) |
+| Theorem 1(b) (4E at `cΩ/π`) | `MainQi.fourExpAt_Qi`, `Final.fourExpAt_Qi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)ˣ`. Missing: general algebraic `c`, other CM periods |
+| Example `2^{ϖ/π}, 3^{ϖ/π}` | `TwoThree.two_three`, `Final.two_three` | ✔ |
+| Theorem 1(a) (4E at `cΩ`; `2^ϖ, 3^ϖ`) | `MainNat.main`, `MainNat.two_three_varpi`, `Final.fourExpAt_varpi`, `Final.two_three_varpi` | ◐ ✔ for `Ω = ϖ`, `c ∈ ℚ(i)ˣ`; `2^ϖ, 3^ϖ` ✔. Missing: general `c`, `Ω_ρ` |
+| Theorem MG, Cor. MG2 (`K`-version) | — | ✗ (only the `FourExpAt` form above) |
+| Cor. MG1, Cor. MG3 | — | ✗ (need the `K`-version of MG; MG3 needs Baker) |
+| Theorem MG♮, Cor. MG♮2 | — | ◐ only the `FourExpAt` form at `t = cϖ`, `c ∈ ℚ(i)` |
+| Affine MG; general form, elliptic 4E | — | ✗ (proof sketches in the paper) |
+| Theorem M, Cor. M1–Mη | — | ✗ |
+| Theorem MX, Prop. D, Cor. MX1, Cor. Γ | `MX.main`, `Final.mx` | ◐ ✔ Proposition D for `v ∈ Ψ(Λ(G))`, i.e. `z(X) + z(Y) + a ∈ Kϖ + KΩ_ρ`, for `K = ℚ(i, √3)`, `β ∈ Kˣ`, via the paper's §5d count (`12 > 18 − κ`, `κ ≥ 8`). Missing: general `β ∈ ℚ̄ˣ`, the step to `a = 0`, `z(X) ∈ ℚ(i)ϖ` (Bertrand–Masser/Wüstholz, Masser), Cor. MX1 |
+| Theorem MX′, degree-two corollary | — | ✗ |
+| Lemma K | — | ✗ |
+| Case tables of MG, MG♮, MX (Thm 4.1 route) | `CaseCheck.*` | ✔ arithmetic layer only; not used by the theorems above, which take the §5d route |
+| Step 1 of Prop. D (algebra) | `LemmaL.*` | ✔; not used by `MX.main` |
+| Lemma U (Appendix A) | — | not a separate hypothesis: part of the proof of W88 Thm 4.1, which `hW` assumes |
 
-## 5. Relation to `lean_lsg/`
+## 6. Vendored code
 
-`../lean_lsg/` (library `LSG`) is a Lake path dependency of this project (it in turn depends on StrongSix,
-`../schanuel/six_exp/lean`). It already supplies `hg₂`, `hS`, `hT` (`CM4E/Final.lean`). It is formalising W88 Thm 4.1
-itself (Stage 2). The remaining plan is one bridge from W88 Thm 1.1 + (5.4) for a genuine algebraic group to
-`HyperplaneKappa` of its model; that discharges `hW` for `gmE`, `gmQ` and `gmX`, modulo each model's soundness
-(hand-written, refereed in `REFEREE_HYP*.md`).
+`CM4E/Ext/` (32 files, 6,518 lines) is a renamed verbatim copy of the needed part of the author's sibling project
+`lean_lsg`: Weierstrass `ζ`/`σ`, Legendre's relation, `g₂(ϖℤ[i]) = 4`, and Schneider's theorem. Details and source
+commit: [`CM4E/Ext/PROVENANCE.md`](CM4E/Ext/PROVENANCE.md). The project depends on nothing but Mathlib.
 
-**Publication note.** `lean_lsg`'s local git history contains an old third-party port (commit `46f0cd8`, since deleted
-from the tree). Publishing `lean_lsg`, and hence a self-contained `lean_mstar`, needs a fresh history for `lean_lsg`.
-Nothing has been pushed.
+## 7. Reviews and provenance
 
-## 6. Provenance
-
-Written by AI models (Claude, Anthropic) under the direction of the author. All review so far is by AI referees
-(`REFEREE_HYP.md`, `REFEREE_HYP_NAT.md`, `REFEREE_HYP_MX.md` and the paper's referee reports); no human expert has reviewed the definitions or proofs.
+Written by AI models (Claude, Anthropic) under the direction of the author. All review so far is by AI referees: the
+three fidelity reports in [`reviews/`](reviews/) (scripts and outputs in `reviews/checks/`) and the paper's own referee
+reports. No human expert has reviewed the definitions or proofs.

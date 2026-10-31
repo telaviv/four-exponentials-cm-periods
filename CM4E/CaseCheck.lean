@@ -1,6 +1,6 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 
@@ -13,13 +13,14 @@ application the paper lists all connected subgroups of an explicit group `G''` b
 invariants and shows that none is an obstruction. This file formalises **that arithmetic**, for
 every `n`, exactly as tabulated in the paper:
 
-* `MX`  : `G'' = G_a × G_ℓ` (paper §5, Step 3–4; `MX_DIRECT.md` §§4–6), `κ = 2n`;
+* `MX`  : `G'' = G_a × G_ℓ` (paper, proof of Proposition D, Steps 3–4), `κ = 2n`;
 * `MG`  : `G'' = G_m^{2n} × A''` (paper §3, Theorem MG), `κ = n`, `n = 2m`;
 * `MGn` : `G'' = G_m^{2n} × Q''` (paper §3, Theorem MG♮), `κ = n`, `n = 2m`.
 
-What is **not** formalised here (blueprint nodes): that the listed types exhaust the connected
-subgroups (Lemma S / its MG analogues), the bounds `b ≤ n` (Lemma K), the lower bounds for `λ`
-(Lemma L and its consequence), and Theorem 4.1 itself. Each type below records only the invariants
+What is **not** formalised here: that the listed types exhaust the connected subgroups (the paper's subgroup
+classifications), the bounds `b ≤ n` (Lemma K), the lower bounds for `λ` (Step 1 of Proposition D and its MG
+analogues), and Theorem 4.1 itself. The main theorems of this project do not use this file: they go through
+W88 §5d instead (`TRUST.md`). It certifies the arithmetic of the paper's Theorem 4.1 route. Each type below records only the invariants
 `(dim G', whether π₀(G') = G_a, r = dim Ψ''(T_{G'}), λ-lower bound)` that those lemmas supply.
 -/
 
@@ -33,7 +34,8 @@ def Obstruction (lhs codimV weight r : ℕ) : Prop :=
 
 /-! ## Theorem MX: `G'' = G_a × G_ℓ`, `d = 2n+2`, `d₀ = 1`, `d₁ = 0`, `d₂ = 2n+1`, `κ = 2n` -/
 
-/-- The five types of connected subgroups of `G_a × G_ℓ` (paper, table in Step 3). `b = dim B`. -/
+/-- The connected subgroups of `G_a × G_ℓ` by type (the paper's table in Step 3, with types C and E split by
+subcase). `b = dim B`. -/
 inductive MXType
   | A (b : ℕ)          -- `G_a × π⁻¹(B)`, image `ℂ²`
   | B (b : ℕ)          -- `G_a × s(B)`, needs `φ(S) = 0` (so `b ≤ n`), image `ℂ(1,0)`
@@ -132,8 +134,8 @@ def lhs (m : ℕ) : MGType → ℕ
 
 end MGType
 
-/-- **No obstruction for Theorem MG**, for every `n = 2m ≥ 2` (`d − N = 1`, weight `2n + 2m − n`
-`= 2n` … here `d₁ + 2d₂ − κ = 4m + 2m − 2m = 4m`). -/
+/-- **No obstruction for Theorem MG**, for every `n = 2m ≥ 2` (`d − N = 1`, weight
+`d₁ + 2d₂ − κ = 4m + 2m − 2m = 4m`). -/
 theorem mg_no_obstruction (m : ℕ) (hm : 1 ≤ m) (g : MGType) (hg : g.Valid m) :
     ¬ Obstruction (g.lhs m) 1 (4 * m) g.r := by
   rintro ⟨hr, hle⟩

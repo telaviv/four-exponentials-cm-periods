@@ -1,13 +1,13 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 
 /-!
-# Lemma L (algebraic part): two parallel periods
+# Step 1 of Proposition D (algebraic part): two parallel periods
 
-Paper `pilot_thmM/paper/paper.tex`, proof of Proposition D, Step 1 (`MX_DIRECT.md` §5).
+The paper's proof of Proposition D (Theorem MX), Step 1. Not used by `MX.main`, which goes through W88 §5d.
 
 With `ϖ η_i = π` and `Ω_ρ η_ρ = 2π/√3` (Legendre on `E_i` and `E_ρ`), the vectors
 `w₁ = (ϖ, β η_ρ)` and `w₂ = (Ω_ρ, β (2/√3) η_i)` are parallel, and a multiple `s w₁` whose first

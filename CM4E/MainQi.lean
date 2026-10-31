@@ -1,11 +1,12 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import CM4E.Defs
 import CM4E.Waldschmidt
 import CM4E.Lattice
+import CM4E.Common
 
 /-!
 # Conditional main theorem: four exponentials at `t = c ϖ / π`, `c ∈ ℚ(i)`
@@ -14,7 +15,8 @@ import CM4E.Lattice
 * (H1) Waldschmidt's κ-refined hyperplane theorem for `G_m⁴ × E`, with `E` the curve of the lattice `ϖℤ[i]`
   (`Thm11Kappa lemniscatic 4`, a published theorem, stated in `CM4E/Waldschmidt.lean`);
 * (H2) the invariant `g₂` of `ϖℤ[i]` is algebraic (true: `g₂ = 4`; `g₃ = 0` is proved in `CM4E/Lattice.lean`);
-* (H3) `ϖ/π` is irrational (true: `π` and `ϖ` are algebraically independent, Chudnovsky 1976).
+* (H3) `ϖ/π` is irrational (Schneider's theorem; H2 and H3 are proved in `CM4E/Ext/` and discharged in
+  `CM4E/Final.lean`).
 
 Let `c = (p + qi)/D ≠ 0`, `t = cϖ/π`, and let `a, b` be `ℚ`-linearly independent logarithms of algebraic numbers.
 Then `e^{ta}` and `e^{tb}` are not both algebraic (`main`); i.e. `FourExpAt (cϖ/π)` (`fourExpAt_Qi`).
@@ -24,7 +26,7 @@ This is Theorem MG of the paper for `K = ℚ(i)` (`n = 2`), via W88 §5d.
 * `W ⊂ ker Ψ''` has dimension 3.
 * `Y` is spanned by six vectors: two periods (lifts of `D(2πi, 2icϖ)` and its `i`-multiple) and four
   data vectors (lifts of `(a, ta)`, `(b, tb)` and their `i`-multiples).
-* (5.4) reads `6 > (4 + 2 − κ)·1`, which holds since `κ ≥ 1`.
+* (5.4) reads `6 > (4 + 2 − κ)·1`, which holds since `κ ≥ 1` (in fact `κ = 2`).
 * A nonzero algebraic Lie subalgebra of `V` would force `t ∈ ℚ(i)`, hence `ϖ/π ∈ ℚ`.
 -/
 
@@ -74,11 +76,10 @@ lemma W_le_V (s : ℂ) : Submodule.span ℂ (Set.range wv) ≤ LinearMap.ker (ph
   rintro _ ⟨i, rfl⟩
   fin_cases i <;> simp [wv, phi_apply]
 
-lemma W_rational : RationalOverQbar (Submodule.span ℂ (Set.range wv)) := by
+lemma W_rational : (gmE lemniscatic 4).Rational (Submodule.span ℂ (Set.range wv)) := by
   refine ⟨Set.range wv, ?_, rfl⟩
   rintro _ ⟨i, rfl⟩
-  have hI : IsAlgebraic ℚ I := isAlgebraic_iff_isIntegral.mpr (Complex.isIntegral_I ℚ)
-  have hnI : IsAlgebraic ℚ (-I) := hI.neg
+  have hnI : IsAlgebraic ℚ (-I) := isAlgebraic_I.neg
   fin_cases i <;>
     refine ⟨fun j => ?_, ?_⟩ <;> (try fin_cases j) <;>
     simp [wv, hnI, isAlgebraic_zero, isAlgebraic_one, isAlgebraic_one.neg]
@@ -96,12 +97,10 @@ noncomputable def yv (p q : ℤ) (D : ℕ) (a b : ℂ) : Fin 6 → T 4 :=
     (![a, 0, t * a, 0], 0), (![0, a, 0, t * a], 0),
     (![b, 0, t * b, 0], 0), (![0, b, 0, t * b], 0)]
 
-lemma pi_ne : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr Real.pi_ne_zero
-
 lemma yv_mem_V (p q : ℤ) (D : ℕ) (hD : 0 < D) (a b : ℂ) (i : Fin 6) :
     yv p q D a b i ∈ LinearMap.ker (phi (tExp p q D)) := by
   have hD' : (D : ℂ) ≠ 0 := by exact_mod_cast hD.ne'
-  have hpi := pi_ne
+  have hpi := pi_ne_zero'
   rw [LinearMap.mem_ker, phi_apply]
   fin_cases i <;> simp [yv, tExp, per] <;> field_simp <;> ring_nf <;> simp [Complex.I_sq]
 
@@ -127,36 +126,13 @@ lemma yv_expAlg (p q : ℤ) (D : ℕ) (a b : ℂ) (ha : a ∈ logAlg) (hb : b �
 
 /-! ### Rank and period rank of `Y` -/
 
-lemma rat_smul_eq (r : ℚ) (z : ℂ) : r • z = (r : ℂ) * z := Rat.smul_def r z
-
-/-- The six generators are `ℚ`-linearly independent if `2πi, a, b` are. -/
-lemma yv_linearIndependent (p q : ℤ) (D : ℕ) (hD : 0 < D) (a b : ℂ)
-    (hind : LinearIndependent ℚ ![2 * (Real.pi : ℂ) * I, a, b]) :
-    LinearIndependent ℚ (yv p q D a b) := by
-  rw [Fintype.linearIndependent_iff]
-  intro g hg
-  have hli := Fintype.linearIndependent_iff.mp hind
-  have h0 := congrArg (fun v : T 4 => v.1 0) hg
-  have h1 := congrArg (fun v : T 4 => v.1 1) hg
-  simp [Fin.sum_univ_succ, yv, per, rat_smul_eq] at h0 h1
-  have hD' : (D : ℚ) ≠ 0 := by exact_mod_cast hD.ne'
-  have e0 := hli ![g 0 * D, g 2, g 4] (by
-    simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h0)
-  have e1 := hli ![g 1 * D, g 3, g 5] (by
-    simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h1)
-  have a0 := e0 0; have a1 := e0 1; have a2 := e0 2
-  have b0 := e1 0; have b1 := e1 1; have b2 := e1 2
-  simp [hD'] at a0 a1 a2 b0 b1 b2
-  intro i
-  fin_cases i <;> simp [a0, a1, a2, b0, b1, b2]
-
 /-- The first generator is a period: it lies in `Ω_ℚ`. -/
 lemma yv0_mem_Omega (p q : ℤ) (D : ℕ) (a b : ℂ) : yv p q D a b 0 ∈ OmegaQ lemniscatic 4 := by
   have hdecomp : yv p q D a b 0 =
       (D : ℚ) • ((Pi.single 0 (2 * Real.pi * I) : Fin 4 → ℂ), (0 : ℂ)) +
         ((0 : Fin 4 → ℂ), (((-2 * q : ℤ) : ℂ) + ((2 * p : ℤ) : ℂ) * I) * varpi) := by
     refine Prod.ext ?_ ?_
-    · funext j; fin_cases j <;> simp [yv, per, rat_smul_eq] ; ring
+    · funext j; fin_cases j <;> simp [yv, per, Rat.smul_def] ; ring
     · simp [yv]
   rw [hdecomp]
   exact Submodule.add_mem _
@@ -234,8 +210,8 @@ lemma yv_linearIndependent_ab (p q : ℤ) (D : ℕ) (hpq : p ≠ 0 ∨ q ≠ 0) 
   have h0 := congrArg (fun v : T 4 => v.1 0) hg
   have h1 := congrArg (fun v : T 4 => v.1 1) hg
   have hE := congrArg (fun v : T 4 => v.2) hg
-  simp [Fin.sum_univ_succ, yv, per, rat_smul_eq] at h0 h1 hE
-  have hv : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+  simp [Fin.sum_univ_succ, yv, per, Rat.smul_def] at h0 h1 hE
+  have hv := varpi_ne_zero'
   have hE' : ((g 0 : ℂ) * ((-2 * q : ℂ) + 2 * p * I) + (g 1 : ℂ) * ((-2 * p : ℂ) + (-2 * q) * I)) = 0 := by
     have : ((g 0 : ℂ) * ((-2 * q : ℂ) + 2 * p * I) + (g 1 : ℂ) * ((-2 * p : ℂ) + (-2 * q) * I)) * varpi = 0 := by
       linear_combination hE
@@ -260,8 +236,8 @@ lemma yv_linearIndependent_ab (p q : ℤ) (D : ℕ) (hpq : p ≠ 0 ∨ q ≠ 0) 
     have : (g 1 : ℝ) = 0 := by simpa [hpq2] using this
     exact_mod_cast this
   rw [g0] at h0; rw [g1] at h1
-  have e0 := hli ![g 2, g 4] (by simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h0)
-  have e1 := hli ![g 3, g 5] (by simp [Fin.sum_univ_succ, rat_smul_eq]; linear_combination h1)
+  have e0 := hli ![g 2, g 4] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination h0)
+  have e1 := hli ![g 3, g 5] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination h1)
   have a0 := e0 0; have a1 := e0 1; have b0 := e1 0; have b1 := e1 1
   simp at a0 a1 b0 b1
   intro i
@@ -271,7 +247,7 @@ lemma yv_linearIndependent_ab (p q : ℤ) (D : ℕ) (hpq : p ≠ 0 ∨ q ≠ 0) 
 Waldschmidt's κ-refined hyperplane theorem on `G_m⁴ × E` (`hW`), the algebraicity of `g₂` for `ϖℤ[i]` (`hg₂`;
 `g₃ = 0` is proved, `g₃_lemniscatic`), and the irrationality of `ϖ/π` (`hS`). Only `ℚ`-independence of `a, b` is
 assumed: the two period vectors are already independent through their `E`-coordinates (observation and proof of
-REFEREE_HYP.md). -/
+reviews/REFEREE_HYP.md). -/
 theorem main (hW : Thm11Kappa lemniscatic 4)
     (hg₂ : IsAlgebraic ℚ lemniscatic.g₂) (hS : Irrational (varpi / Real.pi))
     (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0)
@@ -285,11 +261,6 @@ theorem main (hW : Thm11Kappa lemniscatic 4)
     rw [finrank_span_eq_card hliY]; simp
   have : FiniteDimensional ℚ (Submodule.span ℚ (Set.range (yv p q D a b))) :=
     FiniteDimensional.span_of_finite ℚ (Set.finite_range _)
-  have hk_le : finrank ℚ ↥(Submodule.span ℚ (Set.range (yv p q D a b)) ⊓ OmegaQ lemniscatic 4) ≤ 6 := by
-    have h := Submodule.finrank_mono
-      (show Submodule.span ℚ (Set.range (yv p q D a b)) ⊓ OmegaQ lemniscatic 4 ≤
-        Submodule.span ℚ (Set.range (yv p q D a b)) from inf_le_left)
-    omega
   have hk_pos : 1 ≤ finrank ℚ ↥(Submodule.span ℚ (Set.range (yv p q D a b)) ⊓ OmegaQ lemniscatic 4) := by
     have hmem : yv p q D a b 0 ∈ Submodule.span ℚ (Set.range (yv p q D a b)) ⊓ OmegaQ lemniscatic 4 :=
       ⟨Submodule.subset_span ⟨0, rfl⟩, yv0_mem_Omega p q D a b⟩

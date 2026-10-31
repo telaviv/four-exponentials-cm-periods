@@ -1,15 +1,16 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 
 /-!
 # The published input: Waldschmidt's κ-refined hyperplane theorem on `G_m^{d₁} × E`
 
-This file only *states* a published theorem, as a `Prop` (`CM4E.Waldschmidt.Thm11Kappa`). It is used as an
-explicit hypothesis of the conditional main theorem (`CM4E/MainQi.lean`). It is *not* proved here: proving it is the
-long-term core of the project (`BLUEPRINT.md`, node N2).
+This file only *states* a published theorem, as a `Prop`: the shared form `HyperplaneKappa G` for a group model `G`,
+and its first instance `Thm11Kappa` (for `G_m^{d₁} × E`, used by `CM4E/MainQi.lean`). The other instances are
+`MainNat.Thm11KappaNat` and `MX.Thm11KappaMX`. The theorem is *not* proved here; it is the one hypothesis of the
+final theorems in `CM4E/Final.lean`.
 
 ## The source
 
@@ -51,10 +52,6 @@ abbrev T (d₁ : ℕ) := (Fin d₁ → ℂ) × ℂ
 
 /-- A vector of `T d₁` with algebraic coordinates. -/
 def AlgVec {d₁ : ℕ} (v : T d₁) : Prop := (∀ j, IsAlgebraic ℚ (v.1 j)) ∧ IsAlgebraic ℚ v.2
-
-/-- A `ℂ`-subspace is *defined over `ℚ̄`* if it is spanned by vectors with algebraic coordinates. -/
-def RationalOverQbar {d₁ : ℕ} (W : Submodule ℂ (T d₁)) : Prop :=
-  ∃ S : Set (T d₁), (∀ v ∈ S, AlgVec v) ∧ W = Submodule.span ℂ S
 
 /-- `exp_G(y) ∈ G(ℚ̄)`: the `G_m`-coordinates `e^{t_j}` are algebraic, and the `E`-coordinate is the origin
 (`z ∈ L`) or a point `(℘(z), ℘'(z))` with algebraic coordinates. -/

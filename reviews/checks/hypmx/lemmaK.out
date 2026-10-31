@@ -1,0 +1,8 @@
+Q(i) det (psi,phi) = 16  rank = 8
+   dim_Q ker psi = 4  dim_Q ker phi = 4  dim_Q (ker psi cap ker phi) = 0
+Q(rho) det (psi,phi) = 9  rank = 8
+   dim_Q ker psi = 4  dim_Q ker phi = 4  dim_Q (ker psi cap ker phi) = 0
+etaRho*Omega - 2 pi/sqrt3 = 0
+varpi*(2/sqrt3)*etaI - Omega*etaRho = 0
+Legendre rho: etaRho*(rho*Om) - conj(rho)*etaRho*Om - 2 pi i = 0
+1 + 2 rho - i sqrt3 = 0 ; eta((1+2rho)Om)/etaRho = 1 + 2 conj(rho) = -sqrt(3)*I

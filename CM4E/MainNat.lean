@@ -1,13 +1,12 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import CM4E.Defs
 import CM4E.Waldschmidt
 import CM4E.Lattice
-import CM4E.MainQi
-import CM4E.TwoThree
+import CM4E.Common
 
 /-!
 # Theorem 1(a), conditional: four exponentials at `t = cϖ`, `c ∈ ℚ(i)ˣ` (e.g. `2^ϖ`, `3^ϖ`)
@@ -27,11 +26,11 @@ This is Theorem MG♮ of the paper with `K = ℚ(i, √2)` (`n = 4`; `n = 2` is 
 * The coordinates on `T(Q'')` are `(ℓ_{τ₁}(z), ℓ_{τ₂}(z), θᵀw)`, where `ℓ_τ(z) = Σ τ(θ_j) z_j` for the two embeddings
   `τ` of `K` with `τ(i) = −i`. These vanish on `T_U` and are independent modulo it.
 
-Soundness facts used to justify the model (not checked by Lean; independently re-derived in `REFEREE_HYP_NAT.md`):
+Soundness facts used to justify the model (not checked by Lean; independently re-derived in `reviews/REFEREE_HYP_NAT.md`):
 1. the coordinates and the period formula above;
 2. the periods of `Q''` are the images of the periods of `(E^♮)⁴` (`U` is connected);
 3. every connected algebraic subgroup of `G_m⁸ × Q''` is `T_L × H` with `H = 0`, the fibre `F`, or `π⁻¹(B')`, and every
-   nonzero `H` contains `F` (paper §3, MG♮; `schanuel/five_exp/pilot_epi2_mix/REFEREE_MGF_2.md` #1–2). Products only:
+   nonzero `H` contains `F` (paper §3, proof of Theorem MG♮; re-derived in `reviews/REFEREE_HYP_NAT.md` §3). Products only:
    there are no nonzero homomorphisms between a torus and `Q''`, so Goursat gives `T_L × H`. Every nonzero `H`
    contains `F`: otherwise `H` would split `π⁻¹(B')` for some `B' ≠ 0`, but the anti-affine image of `B^♮_{S'}` has
    tangent vector `(0, 0, φ(m)) ≠ 0`, so it contains `F`;
@@ -59,13 +58,10 @@ noncomputable def θ₁ : Fin 4 → ℂ := ![1, -I, r2, -I * r2]
 /-- `τ₂(θ)`, `τ₂ : i ↦ −i, √2 ↦ −√2`. -/
 noncomputable def θ₂ : Fin 4 → ℂ := ![1, -I, -r2, I * r2]
 
-/-- The quasi-period `η((m + ni)ϖ) = (m − ni) π/ϖ` of `ϖℤ[i]`. -/
-noncomputable def etaL (m n : ℤ) : ℂ := ((m : ℂ) - n * I) * (Real.pi / varpi)
-
 /-- The image in `T(Q'')` of the period `((λ_j, η(λ_j)))_j` of `(E^♮)⁴`, `λ_j = (m_j + n_j i)ϖ`. -/
 noncomputable def perImg (m n : Fin 4 → ℤ) : Fin 3 → ℂ :=
   ![∑ j, θ₁ j * (((m j : ℂ) + n j * I) * varpi), ∑ j, θ₂ j * (((m j : ℂ) + n j * I) * varpi),
-    ∑ j, θ j * etaL (m j) (n j)]
+    ∑ j, θ j * etaLem (m j) (n j)]
 
 /-- The periods of `Q''`. -/
 def perQ : Set (Fin 3 → ℂ) := Set.range (fun mn : (Fin 4 → ℤ) × (Fin 4 → ℤ) => perImg mn.1 mn.2)
@@ -137,16 +133,9 @@ lemma finrank_WN : finrank ℂ (Submodule.span ℂ (Set.range wN)) = 9 := by
 lemma WN_le_V (s : ℂ) : Submodule.span ℂ (Set.range wN) ≤ LinearMap.ker (phiN s) := by
   rw [Submodule.span_le]
   rintro _ ⟨i, rfl⟩
-  fin_cases i <;> simp [wN, phiN_apply] <;> ring
+  fin_cases i <;> simp [wN, phiN_apply]
 
-lemma isAlgebraic_r2 : IsAlgebraic ℚ r2 := by
-  refine ⟨Polynomial.X ^ 2 - Polynomial.C 2, ?_, ?_⟩
-  · intro h
-    have := congrArg (Polynomial.coeff · 2) h
-    simp [Polynomial.coeff_C] at this
-  · simp [r2, ← Complex.ofReal_pow, Real.sq_sqrt (show (0 : ℝ) ≤ 2 by norm_num)]
-
-lemma isAlgebraic_I : IsAlgebraic ℚ I := isAlgebraic_iff_isIntegral.mpr (Complex.isIntegral_I ℚ)
+lemma isAlgebraic_r2 : IsAlgebraic ℚ r2 := by simpa [r2] using isAlgebraic_sqrt_nat 2
 
 lemma WN_rational : gmQ.Rational (Submodule.span ℂ (Set.range wN)) := by
   refine ⟨Set.range wN, ?_, rfl⟩
@@ -166,7 +155,7 @@ noncomputable def tN (p q : ℤ) (D : ℕ) : ℂ := D * varpi / ((p : ℂ) + q *
 noncomputable def lam0 (p q : ℤ) : ℂ := (((-2 * q : ℤ) : ℂ) + ((-2 * p : ℤ) : ℂ) * I) * varpi
 
 /-- `η(λ₀)`. -/
-noncomputable def eta0 (p q : ℤ) : ℂ := etaL (-2 * q) (-2 * p)
+noncomputable def eta0 (p q : ℤ) : ℂ := etaLem (-2 * q) (-2 * p)
 
 /-- Index of slot `h` in the first `G_m`-block. -/
 def idx1 (h : Fin 4) : Fin 8 := ⟨h, by omega⟩
@@ -189,11 +178,11 @@ noncomputable def yN (p q : ℤ) (D : ℕ) (a b : ℂ) : Fin 12 → TN :=
 
 lemma phiN_perV (s : ℂ) (p q : ℤ) (D : ℕ) (h : Fin 4) :
     phiN s (perV p q D h) = θ h * eta0 p q - s * (θ h * (2 * Real.pi * I * D)) := by
-  fin_cases h <;> simp [phiN_apply, perV, idx1, θ, Pi.single_apply] <;> ring
+  fin_cases h <;> simp [phiN_apply, perV, idx1, θ]
 
 lemma phiN_dataV (s t x : ℂ) (h : Fin 4) :
     phiN s (dataV t x h) = θ h * x - s * (θ h * (t * x)) := by
-  fin_cases h <;> simp [phiN_apply, dataV, idx1, idx2, θ, Pi.single_apply] <;> ring
+  fin_cases h <;> simp [phiN_apply, dataV, idx1, idx2, θ]
 
 lemma hpq_ne (p q : ℤ) (hpq : p ≠ 0 ∨ q ≠ 0) : ((p : ℂ) + q * I) ≠ 0 := by
   intro h
@@ -207,9 +196,9 @@ lemma hpq_ne (p q : ℤ) (hpq : p ≠ 0 ∨ q ≠ 0) : ((p : ℂ) + q * I) ≠ 0
 lemma eta0_eq (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) :
     eta0 p q = (tN p q D)⁻¹ * (2 * Real.pi * I * D) := by
   have hD' : (D : ℂ) ≠ 0 := by exact_mod_cast hD.ne'
-  have hv : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+  have hv := varpi_ne_zero'
   have hc := hpq_ne p q hpq
-  simp only [eta0, etaL, tN]
+  simp only [eta0, etaLem, tN]
   push_cast
   field_simp
   ring_nf
@@ -218,7 +207,7 @@ lemma eta0_eq (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) :
 
 lemma tN_ne (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) : tN p q D ≠ 0 := by
   have hD' : (D : ℂ) ≠ 0 := by exact_mod_cast hD.ne'
-  have hv : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+  have hv := varpi_ne_zero'
   simp only [tN]
   exact div_ne_zero (mul_ne_zero hD' hv) (hpq_ne p q hpq)
 
@@ -231,17 +220,16 @@ lemma yN_mem_V (p q : ℤ) (D : ℕ) (hD : 0 < D) (hpq : p ≠ 0 ∨ q ≠ 0) (a
     first
     | (rw [he]; ring)
     | (field_simp; ring)
-    | skip
 
 lemma perImg_single (p q : ℤ) (h : Fin 4) :
     perImg (Pi.single h (-2 * q)) (Pi.single h (-2 * p)) =
       ![θ₁ h * lam0 p q, θ₂ h * lam0 p q, θ h * eta0 p q] := by
   funext k
   fin_cases k <;> fin_cases h <;>
-    simp [perImg, lam0, eta0, etaL, Fin.sum_univ_four, Pi.single_apply]
+    simp [perImg, lam0, eta0, etaLem, Fin.sum_univ_four, Pi.single_apply]
 
 lemma zero_mem_perQ : (0 : Fin 3 → ℂ) ∈ perQ :=
-  ⟨(0, 0), by funext k; fin_cases k <;> simp [perImg, etaL]⟩
+  ⟨(0, 0), by funext k; fin_cases k <;> simp [perImg, etaLem]⟩
 
 lemma yN_lam (p q : ℤ) (D : ℕ) (a b : ℂ) (ha : a ∈ logAlg) (hb : b ∈ logAlg)
     (hta : IsAlgebraic ℚ (Complex.exp (tN p q D * a)))
@@ -258,7 +246,7 @@ lemma yN_lam (p q : ℤ) (D : ℕ) (a b : ℂ) (ha : a ∈ logAlg) (hb : b ∈ l
     first
     | exact hper _
     | exact zero_mem_perQ
-    | (fin_cases j <;> simp [Pi.single_apply, idx1, idx2, hexp, h1] <;>
+    | (fin_cases j <;> simp [idx1, idx2, hexp, h1] <;>
         first | exact ha | exact hb | exact hta | exact htb)
 
 /-! ## Rank, period rank, and the final contradiction -/
@@ -269,17 +257,17 @@ lemma yN_linearIndependent (p q : ℤ) (D : ℕ) (hD : 0 < D) (a b : ℂ)
   intro g hg
   have hli := Fintype.linearIndependent_iff.mp hind
   have hD' : (D : ℂ) ≠ 0 := by exact_mod_cast hD.ne'
-  have hpi : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr Real.pi_ne_zero
+  have hpi := pi_ne_zero'
   have e4 := congrArg (fun v : TN => v.1 4) hg
   have e5 := congrArg (fun v : TN => v.1 5) hg
   have e6 := congrArg (fun v : TN => v.1 6) hg
   have e7 := congrArg (fun v : TN => v.1 7) hg
-  simp [Fin.sum_univ_succ, yN, perV, dataV, idx1, idx2, Pi.single_apply, MainQi.rat_smul_eq]
+  simp [Fin.sum_univ_succ, yN, perV, dataV, idx1, idx2, Rat.smul_def]
     at e4 e5 e6 e7
-  have c4 := hli ![g 4, g 8] (by simp [Fin.sum_univ_succ, MainQi.rat_smul_eq]; linear_combination e4)
-  have c5 := hli ![g 5, g 9] (by simp [Fin.sum_univ_succ, MainQi.rat_smul_eq]; linear_combination e5)
-  have c6 := hli ![g 6, g 10] (by simp [Fin.sum_univ_succ, MainQi.rat_smul_eq]; linear_combination e6)
-  have c7 := hli ![g 7, g 11] (by simp [Fin.sum_univ_succ, MainQi.rat_smul_eq]; linear_combination e7)
+  have c4 := hli ![g 4, g 8] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination e4)
+  have c5 := hli ![g 5, g 9] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination e5)
+  have c6 := hli ![g 6, g 10] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination e6)
+  have c7 := hli ![g 7, g 11] (by simp [Fin.sum_univ_succ, Rat.smul_def]; linear_combination e7)
   have g4 : g 4 = 0 := by simpa using c4 0
   have g8 : g 8 = 0 := by simpa using c4 1
   have g5 : g 5 = 0 := by simpa using c5 0
@@ -292,7 +280,7 @@ lemma yN_linearIndependent (p q : ℤ) (D : ℕ) (hD : 0 < D) (a b : ℂ)
   have e1 := congrArg (fun v : TN => v.1 1) hg
   have e2 := congrArg (fun v : TN => v.1 2) hg
   have e3 := congrArg (fun v : TN => v.1 3) hg
-  simp [Fin.sum_univ_succ, yN, perV, dataV, idx1, idx2, Pi.single_apply, MainQi.rat_smul_eq,
+  simp [Fin.sum_univ_succ, yN, perV, dataV, idx1, idx2, Rat.smul_def,
     g4, g5, g6, g7, g8, g9, g10, g11, hD', hpi, Complex.I_ne_zero] at e0 e1 e2 e3
   intro i
   fin_cases i <;> simp_all
@@ -304,33 +292,14 @@ lemma perV_mem_per (p q : ℤ) (D : ℕ) (h : Fin 4) : perV p q D h ∈ gmQ.per 
     refine Prod.ext ?_ ?_
     · funext j
       by_cases hj : j = idx1 h
-      · subst hj; simp [perV, MainQi.rat_smul_eq]; ring
-      · simp [perV, Pi.single_apply, hj]
+      · subst hj; simp [perV, Rat.smul_def]; ring
+      · simp [perV, hj]
     · simp [perV]
   rw [hdec]
   exact Submodule.add_mem _
     (Submodule.smul_mem _ _ (Submodule.subset_span (Or.inl ⟨idx1 h, rfl⟩)))
     (Submodule.subset_span (Or.inr ⟨_, ⟨(Pi.single h (-2 * q), Pi.single h (-2 * p)),
       perImg_single p q h⟩, rfl⟩))
-
-/-- `x + iy + √2 u + i√2 v = 0` with rational coefficients forces all of them to vanish. -/
-lemma theta_inj (x y u v : ℚ) (h : (x : ℂ) + I * y + r2 * u + I * r2 * v = 0) :
-    x = 0 ∧ y = 0 ∧ u = 0 ∧ v = 0 := by
-  have hre := congrArg Complex.re h
-  have him := congrArg Complex.im h
-  simp [r2] at hre him
-  have key : ∀ a b : ℚ, (a : ℝ) + Real.sqrt 2 * b = 0 → a = 0 ∧ b = 0 := by
-    intro a b hab
-    by_cases hb : b = 0
-    · subst hb; simp at hab; exact ⟨by exact_mod_cast hab, rfl⟩
-    · exfalso
-      have hb' : (b : ℝ) ≠ 0 := by exact_mod_cast hb
-      exact irrational_sqrt_two ⟨-a / b, by push_cast; field_simp; linarith⟩
-  obtain ⟨hx, hu⟩ := key x u (by linarith)
-  obtain ⟨hy, hv⟩ := key y v (by linarith)
-  exact ⟨hx, hy, hu, hv⟩
-
-lemma mem_alg {z : ℂ} : z ∈ algebraicClosure ℚ ℂ ↔ IsAlgebraic ℚ z := mem_algebraicClosure_iff
 
 lemma key_contraN (hT : Transcendental ℚ (varpi : ℂ)) (p q : ℤ) (D : ℕ) (hD : 0 < D)
     (hpq : p ≠ 0 ∨ q ≠ 0) (l : Fin 8 → ℚ) (hl0 : l ≠ 0)
@@ -342,30 +311,25 @@ lemma key_contraN (hT : Transcendental ℚ (varpi : ℂ)) (p q : ℤ) (D : ℕ) 
   have ht := tN_ne p q D hD hpq
   have hBA : B = (tN p q D)⁻¹ * A := by linear_combination h
   by_cases hA0 : A = 0
-  · obtain ⟨h0, h1, h2, h3⟩ := theta_inj _ _ _ _ hA0
+  · obtain ⟨h0, h1, h2, h3⟩ := quad_inj irrational_sqrt_two _ _ _ _ hA0
     rw [hA0, mul_zero] at hBA
-    obtain ⟨h4, h5, h6, h7⟩ := theta_inj _ _ _ _ hBA
+    obtain ⟨h4, h5, h6, h7⟩ := quad_inj irrational_sqrt_two _ _ _ _ hBA
     exact hl0 (by funext j; fin_cases j <;> simp [h0, h1, h2, h3, h4, h5, h6, h7])
   · have hB0 : B ≠ 0 := by rw [hBA]; exact mul_ne_zero (inv_ne_zero ht) hA0
     have hD' : (D : ℂ) ≠ 0 := by exact_mod_cast hD.ne'
     have hc := hpq_ne p q hpq
-    have hv0 : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+    have hv0 := varpi_ne_zero'
     have hv : (varpi : ℂ) = ((p : ℂ) + q * I) * A / (D * B) := by
       rw [hBA]; simp only [tN]; field_simp
     apply hT
-    rw [← mem_alg, hv]
-    have hr : r2 ∈ algebraicClosure ℚ ℂ := mem_alg.mpr isAlgebraic_r2
-    have hI : I ∈ algebraicClosure ℚ ℂ := mem_alg.mpr isAlgebraic_I
+    rw [← mem_algebraicClosure_iff, hv]
+    have hI : I ∈ algebraicClosure ℚ ℂ := mem_algebraicClosure_iff.mpr isAlgebraic_I
     have hq : ∀ r : ℚ, (r : ℂ) ∈ algebraicClosure ℚ ℂ := fun r =>
-      mem_alg.mpr (isAlgebraic_algebraMap r)
+      mem_algebraicClosure_iff.mpr (isAlgebraic_algebraMap r)
     have hz : ∀ r : ℤ, (r : ℂ) ∈ algebraicClosure ℚ ℂ := fun r => by exact_mod_cast hq r
     have hn : (D : ℂ) ∈ algebraicClosure ℚ ℂ := by exact_mod_cast hq D
-    have hAm : A ∈ algebraicClosure ℚ ℂ :=
-      add_mem (add_mem (add_mem (hq _) (mul_mem hI (hq _))) (mul_mem hr (hq _)))
-        (mul_mem (mul_mem hI hr) (hq _))
-    have hBm : B ∈ algebraicClosure ℚ ℂ :=
-      add_mem (add_mem (add_mem (hq _) (mul_mem hI (hq _))) (mul_mem hr (hq _)))
-        (mul_mem (mul_mem hI hr) (hq _))
+    have hAm : A ∈ algebraicClosure ℚ ℂ := quad_mem_alg isAlgebraic_r2 _ _ _ _
+    have hBm : B ∈ algebraicClosure ℚ ℂ := quad_mem_alg isAlgebraic_r2 _ _ _ _
     exact div_mem (mul_mem (add_mem (hz p) (mul_mem (hz q) hI)) hAm) (mul_mem hn hBm)
 
 /-- **Conditional Theorem 1(a) for `c ∈ ℚ(i)ˣ`**: four exponentials at `t = Dϖ/(p + qi)`. Hypotheses: W88 §5d
@@ -389,11 +353,6 @@ theorem main (hW : Thm11KappaNat) (hg₂ : IsAlgebraic ℚ lemniscatic.g₂)
       convert this using 1
       funext h; fin_cases h <;> rfl
     simpa using hf.fintype_card_le_finrank
-  have hk_le : finrank ℚ ↥(Submodule.span ℚ (Set.range (yN p q D a b)) ⊓ gmQ.per) ≤ 12 := by
-    have := Submodule.finrank_mono
-      (show Submodule.span ℚ (Set.range (yN p q D a b)) ⊓ gmQ.per ≤
-        Submodule.span ℚ (Set.range (yN p q D a b)) from inf_le_left)
-    omega
   obtain ⟨S, ⟨L, hsub, hfib, rfl⟩, hne, hle⟩ := hW hg₂ g₃_lemniscatic_isAlgebraic
     (LinearMap.ker (phiN (tN p q D)⁻¹)) (Submodule.span ℂ (Set.range wN)) 12 (yN p q D a b)
     (by rw [finrank_ker_phiN, finrank_TN]) (WN_le_V _) WN_rational
@@ -430,19 +389,9 @@ theorem two_three_varpi (hW : Thm11KappaNat) (hg₂ : IsAlgebraic ℚ lemniscati
     ¬ (IsAlgebraic ℚ (Complex.exp ((varpi : ℂ) * Complex.log 2)) ∧
         IsAlgebraic ℚ (Complex.exp ((varpi : ℂ) * Complex.log 3))) := by
   have ht : tN 1 0 1 = (varpi : ℂ) := by simp [tN]
-  have halg : ∀ n : ℕ, IsAlgebraic ℚ (n : ℂ) := fun n =>
-    ⟨Polynomial.X - Polynomial.C (n : ℚ), Polynomial.X_sub_C_ne_zero _, by simp⟩
-  have h2 : Complex.log 2 ∈ logAlg := by
-    change IsAlgebraic ℚ (Complex.exp (Complex.log 2))
-    rw [Complex.exp_log (by norm_num)]; exact_mod_cast halg 2
-  have h3 : Complex.log 3 ∈ logAlg := by
-    change IsAlgebraic ℚ (Complex.exp (Complex.log 3))
-    rw [Complex.exp_log (by norm_num)]; exact_mod_cast halg 3
   rw [← ht]
-  have hind : LinearIndependent ℚ ![Complex.log 2, Complex.log 3] := by
-    have := TwoThree.linearIndependent_two_three.comp Fin.succ (Fin.succ_injective _)
-    convert this using 1
-    funext i; fin_cases i <;> rfl
-  exact main hW hg₂ hT 1 0 1 one_pos (Or.inl one_ne_zero) _ _ h2 h3 hind
+  exact main hW hg₂ hT 1 0 1 one_pos (Or.inl one_ne_zero) (Complex.log 2) (Complex.log 3)
+    (by simpa using log_mem_logAlg 2 two_ne_zero) (by simpa using log_mem_logAlg 3 three_ne_zero)
+    linearIndependent_two_three
 
 end CM4E.MainNat

@@ -1,0 +1,1221 @@
+\documentclass[11pt]{amsart}
+\usepackage{amssymb,amsmath,amsthm,mathtools}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{statement}[theorem]{Statement}
+
+\newcommand{\Qb}{\overline{\mathbb{Q}}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Ga}{\mathbb{G}_{\mathrm a}}
+\newcommand{\Gm}{\mathbb{G}_{\mathrm m}}
+\newcommand{\Lg}{\mathcal{L}}
+\newcommand{\Lt}{\widetilde{\mathcal{L}}}
+\newcommand{\vp}{\varpi}
+
+\title[Four exponentials at CM periods]{Four exponentials at CM periods, and a bilinear statement\\ for two CM elliptic curves}
+\author{Draft --- not for circulation}
+\date{30 October 2026 (draft)}
+
+\begin{document}
+
+\begin{abstract}
+Let $\Omega$ be a nonzero period of an elliptic curve with complex multiplication, defined over $\Qb$. We prove the four
+exponentials conjecture at $t=c\,\Omega$ and at $t=c\,\Omega/\pi$ (and hence at their inverses) for every $c\in\Qb^\times$:
+for instance, $2^{\vp}$ and
+$3^{\vp}$ are not both algebraic, and neither are $2^{\vp/\pi}$ and $3^{\vp/\pi}$, where $\vp$ is the real period of
+$y^2=4x^3-4x$. We also show that one of $e^{\pi^2}$, $e^{\pi\Omega}$, $e^{\pi^2/\Omega}$ is transcendental. These follow from
+dimension bounds of four-exponentials shape on $\Gm^2\times E$ and $\Gm^2\times E^\natural$. A second application of the
+same mechanism, to two non-isogenous CM curves, gives a bilinear statement: if $u$ is a non-torsion elliptic logarithm
+on $y^2=4x^3-4x$, $\Omega_\rho$ a period of $y^2=4x^3-4$, and $a,t$ are algebraic, then
+$\vp\,\Omega_\rho\,(\zeta(u)+t)/(\pi(u+a))$ is transcendental. The proofs of these results apply Waldschmidt's algebraic
+subgroup theorem with period term (1988), in the $K$-version of Roy and Waldschmidt, directly to explicit quotient groups
+whose connected algebraic subgroups we list. The period term comes from a period of $\Gm\times E$ (resp.\ $\Gm\times
+E^\natural$) lying on the relevant line, and in the two-curve case from the Legendre relations of both curves. We state precisely
+what the proofs use from the literature, and write out the one step of Waldschmidt's auxiliary-function construction
+(multiplicities along a subspace) that is only indicated in print. We also record a single-curve theorem
+(``Theorem M'') with a second proof by Laurent's identity and W\"ustholz's analytic subgroup theorem.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $\Qb$ be the algebraic closure of $\Q$ in $\C$, $\Lg=\{z\in\C: e^z\in\Qb^\times\}$ and $\Lt=\Qb+\Qb\Lg$. For an
+elliptic curve $E\colon y^2=4x^3-g_2x-g_3$ with $g_2,g_3\in\Qb$ we write $\wp,\zeta$ for its Weierstrass functions,
+$\Lambda_E$ for its period lattice, $\eta(\lambda)=\zeta(z+\lambda)-\zeta(z)$ for the quasi-periods, and
+$\Lg_E=\{u\in\C: u\in\Lambda_E \text{ or } \wp(u)\in\Qb\}$. We use two curves throughout:
+\begin{align*}
+E_i&\colon y^2=4x^3-4x, & \Lambda&=\vp\,\Z[i], & \vp&=\tfrac{\Gamma(1/4)^2}{2\sqrt{2\pi}}, & \eta(\vp)&=\tfrac{\pi}{\vp};\\
+E_\rho&\colon y^2=4x^3-4, & \Lambda&=\Omega_\rho\Z[\rho], & \Omega_\rho&=\tfrac{\Gamma(1/3)^3}{2^{4/3}\pi}, & \eta(\Omega_\rho)&=\tfrac{2\pi}{\sqrt3\,\Omega_\rho}.
+\end{align*}
+(The quasi-periods follow from the Legendre relation and $\zeta(iz)=-i\zeta(z)$, $\zeta(\rho z)=\bar\rho\zeta(z)$. The real
+periods are Beta integrals, $\vp=\int_1^\infty(x^3-x)^{-1/2}dx=\tfrac12B(\tfrac14,\tfrac12)$ and
+$\Omega_\rho=\int_1^\infty(x^3-1)^{-1/2}dx=\tfrac13B(\tfrac16,\tfrac12)$, and the $\Gamma$-forms follow from the reflection and
+duplication formulas; these are instances of the Chowla--Selberg formula \cite{Gr78}.)
+
+For a CM curve $E$ let $E^\natural$ be its universal vector extension and $\Lambda(E^\natural)$ the logarithms of its
+algebraic points, written in coordinates $(z,w)$ (base, and conjugate-eigen fibre; \S\ref{sec:MX}). For $E_i$, $E_\rho$
+the fibre coordinate can be normalised so that $X=(u,\zeta(u))\in\Lambda(E^\natural)$ for every $u\in\Lg_E\setminus\Lambda_E$,
+and in general $w(X)-\zeta^*(z(X))\in\Qb$ for $X\in\Lambda(E^\natural)$ with $z(X)\notin\Lambda_E$, where
+$\zeta^*=\zeta-\kappa_1\,\mathrm{id}$ and $\eta^*=\eta-\kappa_1\,\mathrm{id}$ are the conjugate-eigen versions of $\zeta$ and $\eta$
+($\kappa_1\in\Qb$, $\kappa_1=0$ for $E_i,E_\rho$; \S\ref{sec:MX}).
+
+\subsection*{Four exponentials at CM periods}
+The four exponentials conjecture asserts that if $\log\alpha,\log\beta$ are linearly independent over $\Q$ and
+$t\notin\Q$, then $\alpha^t=e^{t\log\alpha}$ and $\beta^t=e^{t\log\beta}$ are not both algebraic. It is known for algebraic $t$ (Gel'fond--Schneider)
+and in several conjugation-generic situations (Diaz \cite{Di04}; Waldschmidt \cite{W07}). We know of no fixed
+transcendental $t$ for which it was known for all pairs, including real pairs such as $(2,3)$ \cite{W22}.
+
+\begin{theorem}\label{thm:A}
+Let $E/\Qb$ have complex multiplication, let $\Omega\neq0$ be a period of $E$, $c\in\Qb^\times$ and
+$\alpha,\beta\in\Qb^\times$. Fix logarithms $\log\alpha$, $\log\beta$ and put $\alpha^z=e^{z\log\alpha}$,
+$\beta^z=e^{z\log\beta}$.
+\begin{itemize}
+\item[(a)] If $\log\alpha,\log\beta$ are linearly independent over $\Q$, then $\alpha^{c\Omega}$ and $\beta^{c\Omega}$ are
+not both algebraic.
+\item[(b)] If $\log\alpha,\log\beta$ are linearly independent over $\Q$, then $\alpha^{c\Omega/\pi}$ and
+$\beta^{c\Omega/\pi}$ are not both algebraic.
+\end{itemize}
+\end{theorem}
+
+For example (with the real logarithms), $2^{\vp}$ and $3^{\vp}$ are not both algebraic; nor are $2^{\vp/\pi}$ and $3^{\vp/\pi}$, nor $2^{\Omega_\rho}$
+and $3^{\Omega_\rho}$. Since the four exponentials statement is symmetric under $t\leftrightarrow1/t$ (if $\alpha^{1/t}$,
+$\beta^{1/t}$ are algebraic, apply the statement at $t$ to them), the same holds at $t\in\Qb^\times/\Omega$ and
+$t\in\Qb^\times\pi/\Omega$. Theorem~\ref{thm:A} consists of Corollaries~\ref{cor:MGn2}
+and~\ref{cor:MG2} of Theorems~\ref{thm:MGn} and~\ref{thm:MG} (\S\ref{sec:MG}). These are dimension bounds that also
+allow elliptic logarithms or fibre values in the second row. Another consequence is:
+
+\begin{corollary}\label{cor:MG1intro}
+For every CM curve with period $\Omega$, at least one of $e^{\pi^2}$, $e^{\pi\Omega}$, $e^{\pi^2/\Omega}$ is transcendental.
+On $y^2=4x^3-4x$: one of $e^{\pi^2}\approx19333.69$, $e^{\pi\vp}\approx3779.84$, $e^{\pi^2/\vp}\approx43.12$ is
+transcendental.
+\end{corollary}
+
+Part of Theorem~\ref{thm:A} also follows from the six exponentials theorem and complex conjugation (Diaz \cite{Di04};
+Waldschmidt \cite[Cor.~2.7]{W07}): for $t\in\R\cup i\R$ and pairs with $\log\alpha,\log\beta,\overline{\log\beta}$ linearly
+independent over $\Q$ (e.g.\ $(2,1+2i)$), and, exchanging the roles, for pairs with $\log\alpha,\log\beta\in\R\cup i\R$ at
+any $t$ with $1,t,\bar t$ linearly independent over $\Q$. Since every $t$ in Theorem~\ref{thm:A} is an algebraic
+multiple of a real number, these arguments together already cover every pair at $t\notin\R\cup i\R$ (see the overlap
+paragraph after Corollary~\ref{cor:MG2}). They do not apply to real or purely imaginary $t$ --- such as $t=\vp$,
+$\vp/\pi$, $\Omega_\rho$ --- with pairs whose logarithms span a conjugation-stable space, such as $(2,3)$, which is where
+our examples lie, nor to Corollary~\ref{cor:MG1intro}.
+
+\subsection*{Two CM curves}
+The same mechanism, applied to two non-isogenous CM curves, gives a statement with no logarithm of $\Gm$ at all (and
+a twisted variant, Theorem~\ref{thm:MXP} in \S\ref{sec:MXP}). Applied to periods, it also gives two statements of degree
+two about periods of the two curves (Corollary~\ref{cor:deg2}): $\pi,\vp,\Omega_\rho,\vp\Omega_\rho$ are linearly independent
+over $\Qb$, and so are $1,\vp,\Omega_\rho,\vp\Omega_\rho/\pi$. These are not consequences of the analytic subgroup theorem,
+and we flag them as the most delicate claims of the paper.
+
+\begin{theorem}[Theorem MX]\label{thm:MX}
+Let $X\in\Lambda(E_i^\natural)$, $Y\in\Lambda(E_\rho^\natural)$, $a,t\in\Qb$ and $\beta\in\Qb^\times$. If
+\[
+\bigl(z(X)+z(Y)+a\bigr)\cdot\beta\,\eta(\Omega_\rho)\;=\;\bigl(w(X)+w(Y)+t\bigr)\cdot\vp ,
+\]
+then $a=0$, $z(X)\in\Q(i)\vp$ and $z(Y)\in\Q(\rho)\Omega_\rho$; in particular $\exp_{E_i}(z(X))$ and $\exp_{E_\rho}(z(Y))$ are
+torsion points. In particular, for $u\in\Lg_{E_i}\setminus\Lambda$ and $u'\in\Lg_{E_\rho}\setminus\Lambda_\rho$ not both torsion,
+$(u+u'+a)\,\beta\,\eta(\Omega_\rho)\neq(\zeta_i(u)+\zeta_\rho(u')+t)\,\vp$.
+An analogous statement holds for any two non-isogenous CM elliptic curves (Remark~\ref{rem:general}).
+\end{theorem}
+
+\begin{corollary}\label{cor:MX1}
+For $u\in\Lg_{E_i}\setminus\Q(i)\vp$ and $a,t\in\Qb$,
+\[
+\frac{\vp\,\Omega_\rho\,(\zeta_i(u)+t)}{\pi\,(u+a)}\notin\Qb,\qquad\text{equivalently}\qquad
+\frac{\zeta_i(u)+t}{u+a}\notin \Qb\cdot\frac{\pi^{5/2}}{\Gamma(1/4)^2\,\Gamma(1/3)^3}.
+\]
+Symmetrically for non-torsion $u'\in\Lg_{E_\rho}$ with $\zeta_\rho$.
+\end{corollary}
+
+For example, for the point with $\wp(u)=2$ one has $u=0.72694593546890819853\ldots$ and
+$\vp\Omega_\rho\zeta(u)/(\pi u)=3.76379062156897182773\ldots$ (computed independently twice, by theta functions and by
+the Laurent series of $\zeta$; an illustration only). The case $X=Y=0$ of Theorem~\ref{thm:MX} gives:
+
+\begin{corollary}\label{cor:gamma}
+$\Gamma(1/4)^2\,\Gamma(1/3)^3/\pi^{5/2}$ is transcendental.
+\end{corollary}
+
+This is immediate from W\"ustholz's theorem (Remark~\ref{rem:gamma}), and probably also from the Wolfart--W\"ustholz theorem
+on Beta values \cite{WW85} (not checked); we found it stated nowhere, but do not claim it as new. Algebraic independence of $\pi,\Gamma(1/4),\Gamma(1/3)$ is open, so Corollary~\ref{cor:MX1} does not follow from
+known algebraic independence results.
+
+\medskip
+The single-curve version of the same count gives the following theorem, which turns out to be classical in substance.
+
+\begin{theorem}[Theorem M]\label{thm:M}
+Let $E/\Qb$ have complex multiplication by $k$, and let $\Omega\neq0$ be a period. If $u\in\Qb\Lg_E$ and $\ell\in\Lt$
+satisfy $i\pi\, u=\Omega\,\ell$, then $u=s\Omega$ and $\ell=s\,i\pi$ for some $s\in\Qb$; if $u\in\Lg_E$ then $s\in k$.
+\end{theorem}
+
+\begin{corollary}\label{cor:M}
+On $E_i$ (and analogously on every CM curve):
+(M1) $\wp(c\vp/\pi)\notin\Qb$ for $c\in\Qb^\times$;
+(M2) $\wp(\vp\log\alpha/\pi)\notin\Qb$ for $\alpha\in\Qb^\times$ not a root of unity;
+(M3) at least one of $e^{\pi^2}$, $\wp(\pi\vp)$ is transcendental; more precisely, if $e^{\pi^2}\in\Qb$ then
+$\wp(c\pi\Omega)\notin\Qb$ for every $c\in\Qb^\times$ and every period $\Omega$ of every CM curve;
+(M3$'$) for $\alpha\in\Qb\setminus\{0,1\}$ and any branch, one of $e^{i\pi\log\alpha}$, $\wp(\vp\log\alpha)$ is transcendental;
+(M$\eta$) $\eta(\vp)\,u\notin\Lt$ for $u\in\Lg_{E_i}\setminus\Q(i)\vp$.
+\end{corollary}
+
+\noindent\emph{Novelty, honestly.} With $\ell\in\Lg$, Theorem~\ref{thm:M} is the CM case, with one row of Waldschmidt's matrix a period of
+$E\times\Gm$, of his Conjecture~42 in \cite{W06} (four exponentials for $E\times\Gm$). Its special case
+$\ell\in\Qb+\Qb\cdot\pi i$, $u\in\Lg_E$, follows in one line from Laurent's \cite[Cor.~3, p.~146]{La82}: for any CM
+lattice, a period $\omega\ne0$ and $u\notin\Q\Lambda_E$ with $\wp(u)\in\Qb$, the numbers
+$1,\omega,\eta(\omega),2\pi i,\omega H(u),2\pi iu/\omega$ are $\Qb$-linearly independent, where $H=\zeta-\gamma z$ and
+$\gamma=0$ when $g_2g_3=0$. (M1) is one line from it ($2\pi iu/\Omega=2ic$), and so is (M$\eta$) modulo
+$\Qb+\Qb\vp+\Qb\eta(\vp)+\Qb\pi i$. The remaining items of Corollary~\ref{cor:M} (which only use $u\in\Lg_E$) follow quickly from
+Laurent's identity and the analytic subgroup theorem (\S\ref{sec:M2}); we found none of them stated in print (Abe \cite{Abe20} claimed (M1); the preprint was
+withdrawn). Masser's theorem \cite{Ma76} ($1,\omega,\eta,2\pi i,\log\sigma$ are $\Qb$-linearly independent on a CM curve, for
+$\sigma\in\Qb^\times$ not a root of unity) is
+linear and gives none of these; nor do the algebraic independence results of Brownawell--Kubota \cite{BK77}, which have
+six-exponentials strength, or the third-kind results surveyed in \cite{W19} (Wüstholz's linear independence of
+$1,\omega,\eta,\lambda(u_i,\omega)$). Theorem~\ref{thm:A}, Corollary~\ref{cor:MG1intro}, Theorem~\ref{thm:MX} and
+Corollary~\ref{cor:MX1} we found nowhere; the four exponentials problem is listed as open, with no known case of this
+kind, in \cite[p.~27]{SMF84} and \cite{W22}. For a recent unrefereed preprint, partly Lean-checked relative to stated
+classical inputs, on CM periods of a different kind (irrationality exponent $2$ for real periods of CM curves over $\Q$, and $\mu(\vp^n)=O(n\log 2n)$), see \cite{ChCh26}. For Theorem~\ref{thm:A} the closest published result is \cite[Thm.~4.2]{W05} (\S\ref{sec:MG}). The nearest published statement we know
+is Waldschmidt's \cite[Thm.~4.3]{W05}: a bilinear statement for two elliptic curves (non-isogenous, or equal with
+$k$-independent first column), but for $2\times9$ matrices
+of elliptic logarithms, without quasi-periods and without a $2\times2$ case. His ``Further variations''
+\cite{W05b} concerns $2\times2$ minors with entries in $\Lt$ only (no elliptic functions). Laurent \cite{La82} never
+mixes two curves; Corollary~\ref{cor:MX1} is the cross-curve analogue of his Cor.~3, with $\eta(\Omega_\rho)$ in place
+of $\eta(\vp)$. Sources we could not consult are listed in \S\ref{sec:status}.
+
+\medskip
+\noindent\emph{Why MX is different.} After multiplying by $\pi$, every relation in Theorem~\ref{thm:M} with $u\in\Lg_E$ becomes a
+$\Qb$-linear relation among periods of $1$-motives, because of Laurent's identity (\ref{eq:laurent}); this is why the
+analytic subgroup theorem proves it too. The hypothesis of Theorem~\ref{thm:MX} instead contains the products
+$\Omega_\rho\,\zeta_i(u)$ and $\eta(\vp)\,u'$, each pairing a period of one curve with a logarithm of the other. No CM
+identity linearises these; by the period conjecture they are genuine degree-two periods (\S\ref{sec:3E}). The extra
+strength comes from a second true degree-two period relation (the Legendre relation of the second curve), which the
+count sees as a second period on the line.
+
+\section{The subgroup theorem with period term, and the Roy--Waldschmidt count}\label{sec:RW}
+
+Let $G$ be a commutative algebraic group over $\Qb$ of positive dimension, $T_G(\C)$ its tangent space with the
+$\Qb$-structure from $G$, $\Omega(G)=\ker\exp_G$ and $\Lambda(G)=\exp_G^{-1}(G(\Qb))$. For a number field $K\subset\C$,
+$\Omega_K(G),\Lambda_K(G)$ are their $K$-spans. Let $d_0(G)$ (resp.\ $d_1(G)$) be the largest $d$ with a surjection
+$G\to\Ga^d$ (resp.\ $\Gm^d$) over $\Qb$, and $\alpha(G)=2\dim G-2d_0(G)-d_1(G)$. Fix a basis $\beta_1,\dots,\beta_n$ of
+$K/\Q$ and $p_\beta\colon T_{G^n}=T_G^n\to T_G$, $(z_j)\mapsto\sum\beta_jz_j$. Let $H$ be the largest connected algebraic
+subgroup of $G^n$ defined over $\Qb$ with $p_\beta(T_H)=0$ and put $\alpha_K(G)=\alpha(G^n/H)/n$ \cite[p.~360]{RW93}.
+$S_K(G)$ is the set of subspaces $p_\beta(T_{G'})$, $G'\subset G^n$ an algebraic subgroup defined over $\Qb$; they are
+$\Qb$-rational.
+
+\begin{theorem}[{\cite[Th\'eor\`eme, p.~363]{RW93}}]\label{thm:RW}
+Let $\mathcal E$ be a finite-dimensional $\C$-space with a $\Qb$-structure, $\Psi\colon T_G(\C)\to\mathcal E$ a
+$\Qb$-rational linear map, $W\subset V\subset\mathcal E$ with $W$ rational, and $\kappa=\dim_K(V\cap\Psi(\Omega_K(G)))$.
+If (i) $V$ contains no nonzero $\Psi(S)$ with $S\in S_K(G)$, then
+\[
+\dim_K\bigl(V\cap\Psi(\Lambda_K(G))\bigr)\le(\alpha_K(G)-\kappa)\dim_\C(V/W).
+\]
+\end{theorem}
+
+\noindent By \cite[Remarque 1]{RW93}, (i) holds when $V$ has no nonzero $\Qb$-rational point (and then $W=0$), since every
+$\Psi(S)$ is rational. We use only this case. Theorem~\ref{thm:RW} is used below only for the first proof of
+Theorem~\ref{thm:M} and in the sketch of \S\ref{sec:MXA}. Theorems~\ref{thm:MG}, \ref{thm:MGn} and~\ref{thm:MX} are proved
+from the following theorem directly; the sketch of Theorem~\ref{thm:MXP} and the second derivations of
+Remarks~\ref{rem:MG5d}, \ref{rem:MGn5d} and~\ref{rem:count} use its hyperplane consequence, Theorem~\ref{thm:W88k} below.
+
+\begin{theorem}[{\cite[Thm.~4.1, pp.~385--386]{W88}}]\label{thm:W88}
+Let $G=\Ga^{d_0}\times\Gm^{d_1}\times G_2$ be a connected commutative algebraic group over $\Qb$ of dimension
+$d=d_0+d_1+d_2\ge1$, with projections $\pi_0,\pi_1$ onto the first two factors ($d_0,d_1$ need not be maximal). Let
+$V\subset T_G(\C)$ be a subspace of dimension $N<d$, $W\subset V$ a subspace defined over $\Qb$, and $Y\subset V$ a
+finitely generated subgroup with $\Gamma=\exp_GY\subset G(\Qb)$; put $\kappa=\mathrm{rk}_\Z(Y\cap\ker\exp_G)$. Then there
+is a connected algebraic subgroup $G'\neq G$ defined over $\Qb$ such that, with $\delta=\dim G/G'$,
+$\delta_0=\dim\Ga^{d_0}/\pi_0(G')$, $\delta_1=\dim\Gm^{d_1}/\pi_1(G')$, $\delta_2=\delta-\delta_0-\delta_1$,
+$\lambda=\mathrm{rk}_\Z\,\Gamma/(\Gamma\cap G')$ and $\tau=\dim W/(W\cap T_{G'})$, one has $\delta>\tau$ and
+\[
+(\lambda+\delta_1+2\delta_2)(d-N)\le(\delta-\tau)(d_1+2d_2-\kappa).
+\]
+\end{theorem}
+
+\noindent ($G'=0$ is allowed.) The proof \cite[\S\S6--7]{W88} combines an auxiliary function
+\cite[Prop.~6.1]{W88} with Philippon's zero estimate \cite{Ph86}. Prop.~6.1 asks for a polynomial that vanishes with
+multiplicity $\ge T$ along $W$ at the points of $\exp_G(Y(S))$, with the saving $\kappa$ in the parameters. The
+$\kappa$-saving is proved in \cite[Prop.~2.1 and 2.4]{W83} (an auxiliary function constructed with periods), for $W=0$
+and $b=1$ \cite[p.~396]{W88}; for the rest W88 refers to \cite{W83} and to Bertrand \cite[App.~I, Lemme~7 and its
+Corollaire, with Lemme~1]{W79} (cited in \cite[p.~396]{W88} as ``Lemma~7''). All our
+applications use both $W\ne0$ and $\kappa>0$. We write out the multiplicity step in Appendix~\ref{app:U} (Lemma~\ref{lem:U}).
+It holds under the condition $2N\ge d_1+2d_0+\kappa$, which is satisfied in all the applications in \S\S\ref{sec:MG}
+and~\ref{sec:MX} (for Theorem~\ref{thm:MG}: $5n-2\ge3n$; Theorem~\ref{thm:MGn}: $5n\ge3n$; Theorem~\ref{thm:MX}:
+$4n+2\ge2n+2$; Theorem~\ref{thm:MXP}: $4n+2\ge2n$; Theorem~\ref{thm:MGaff}: $5n+2\ge3n+4$).
+
+\smallskip
+We use one piece of linear algebra repeatedly.
+
+\begin{lemma}\label{lem:K}
+Let $k\subset K$ be an imaginary quadratic field inside a number field of degree $n$, $\theta_1,\dots,\theta_n$ a basis of
+$K/\Q$, and on $k^n$ put $\psi(m)=\sum\theta_jm_j$, $\phi(m)=\sum\theta_j\bar m_j$. Then $(\psi,\phi)\colon k^n\to K\times K$
+is a $\Q$-linear bijection; $\ker\psi$ and $\ker\phi$ are $k$-subspaces of dimension $n/2$, and $\ker\psi\cap\ker\phi=0$.
+\end{lemma}
+
+\begin{proof}
+$k^n\cong K\otimes_\Q k$ via $m\mapsto\sum\theta_j\otimes m_j$, and $K\otimes_\Q k\cong K\times K$ via
+$x\otimes y\mapsto(xy,x\bar y)$; the composite is $(\psi,\phi)$. $\psi$ is $k$-linear and $\phi$ is $k$-semilinear, and
+both are onto $K$, which has $k$-dimension $n/2$.
+\end{proof}
+
+\medskip\noindent\textbf{Where Theorem~\ref{thm:RW} is proved, and the dependence.} The proof \cite[pp.~363--364]{RW93}
+has two steps.
+\begin{itemize}
+\item[(b)] (Reduction, fully written.) With $\Psi_\beta=\Psi\circ p_\beta$, let $H$ be the largest connected subgroup with
+$T_H\subset\ker\Psi_\beta$, $G'=G^n/H$, $\Psi'\colon T_{G'}\to\mathcal E$ the induced map, $V'=\Psi'^{-1}(V)$,
+$W'=\Psi'^{-1}(W)$. Then $\dim_\Q(V'\cap\Lambda(G'))=n\dim_K(V\cap\Psi(\Lambda_K))$ and
+$\dim_\Q(V'\cap\Omega(G'))=n\kappa$, and the theorem follows from case (a) for $G'$ and $\alpha(G')\le n\alpha_K(G)$.
+\item[(a)] (Case $K=\Q$, $\Psi=\mathrm{id}$.) \emph{Statement R}: if $V\subset T_G(\C)$ contains no nonzero Lie algebra of
+an algebraic subgroup of $G$ defined over $\Qb$, and $W\subset V$ is $\Qb$-rational, then
+\[
+\dim_\Q(V\cap\Lambda(G))\le\bigl(\alpha(G)-\dim_\Q(V\cap\Omega(G))\bigr)\dim_\C(V/W).
+\]
+RW93 derive (i)$\Rightarrow$(iii) here ``de mani\`ere purement formelle'' from Theorem~4.1 of Waldschmidt \cite{W88}
+(the algebraic subgroup theorem with the period rank $\kappa=\mathrm{rk}(Y\cap\ker\exp_G)$; we checked its statement on
+pp.~385--386), by applying Roy's categorical Proposition~2.1 of \cite{R1} to the category $\mathcal G_w$ and the functions
+$a',b,c,d,r$ of \cite[\S6]{R1}. Their Remark~2 says that Statement R with the $\kappa$-term was known when
+$\dim V=\dim G-1$ (citing \cite[Thm.~1.1]{W88}) or with $\kappa$ replaced by $0$ (\cite[\S6, Remark (i)]{R1}), and is proved
+in general ``en raffinant les arguments du \S6 de [R1] (en travaillant avec la fonction $a'$ au lieu de $a''$)''.
+\end{itemize}
+Step (b) also uses case (a) for $\ker\Psi'$, to see that $\Psi'$ is injective on $\Lambda(G')$; this also follows from
+W\"ustholz's analytic subgroup theorem \cite{Wu89}.
+
+\smallskip\noindent\textbf{The dependence, stated precisely.} When $V'=\Psi'^{-1}(V)$ is a \textbf{hyperplane} of
+$T_{G'}$ (as in all our applications), Statement R with the $\kappa$-term is in substance the following refinement of
+\cite[Thm.~1.1]{W88}, proved in \cite[\S5d, p.~394]{W88}.
+
+\begin{theorem}[{\cite[Thm.~1.1, pp.~375--376, under (5.4) of \S5d, p.~394]{W88}}]\label{thm:W88k}
+Let $G=\Ga^{d_0}\times\Gm^{d_1}\times G_2$ be a connected commutative algebraic group over $\Qb$ of dimension $d\ge1$, with
+$d_0$, $d_1$ maximal and $d_2=d-d_0-d_1$. Let $V$ be a hyperplane of $T_G(\C)$, $W\subset V$ a subspace of dimension
+$t\ge0$ defined over $\Qb$, and $Y=\Z y_1+\dots+\Z y_m\subset V$ a subgroup of rank $m$ with $\exp_GY\subset G(\Qb)$. Put
+$\kappa=\mathrm{rk}_\Z(Y\cap\ker\exp_G)$. If
+\[
+m>(d_1+2d_2-\kappa)(d-1-t),\tag{5.4}
+\]
+then $V$ contains a nonzero algebraic Lie subalgebra of $T_G(\C)$ defined over $\Qb$, that is, $T_{G'}\subset V$ for some
+connected algebraic subgroup $G'\ne0$ of $G$ defined over $\Qb$.
+\end{theorem}
+
+\noindent The printed Theorem~1.1 has the hypothesis $m>(d_1+2d_2)(d-1-t)$, without $\kappa$; \cite[\S5d]{W88} proves it
+under the weaker hypothesis (5.4) (p.~394 prints $\kappa=\ell-m$, a misprint for $m-\ell$, cf.\ Lemma~5.2 there). The case
+$W=0$ ($t=0$) of Theorem~\ref{thm:W88k} is also printed as \cite[Thm.~5.1, p.~352]{W05}, where it is attributed to
+\cite[Thm.~1.1]{W88} and to \cite[Thm.~4.1]{W90}. The proof in \cite[\S5d]{W88} applies Theorem~\ref{thm:W88} (in the form
+\cite[Cor.~5.3]{W88}) to $G$ with $N=d-1$, and then again to an auxiliary subgroup $G'$ given by \cite[Lemma~5.1]{W88}.
+The condition of Lemma~\ref{lem:U} below covers the first application in the cases listed above; we have not checked it
+for the second. So every use of Theorem~\ref{thm:W88k} rests on \cite[\S5d]{W88} as published.
+
+For Theorems~\ref{thm:MG}, \ref{thm:MGn} and~\ref{thm:MX} the main proofs bypass Statement R: \S\S\ref{sec:MG}, \ref{sec:MX}
+apply Theorem~\ref{thm:W88} to explicit quotient groups and exclude every connected algebraic subgroup. Each of the three
+also has a second derivation from Theorem~\ref{thm:W88k}, with a two-line subgroup exclusion (Remarks~\ref{rem:MG5d},
+\ref{rem:MGn5d} and~\ref{rem:count}). The sketch of Theorem~\ref{thm:MXP} uses Theorem~\ref{thm:W88k} (a full case check
+against Theorem~\ref{thm:W88} is only mentioned there). For Theorem~\ref{thm:M}, the cases (M1), (M3) were checked against
+Theorem~\ref{thm:W88} in the same way, and the second proof (\S\ref{sec:M2}) avoids \cite{RW93} for $u\in\Lg_E$; only
+$u\in\Qb\Lg_E$ uses Theorem~\ref{thm:RW} as stated.
+
+\medskip\noindent\textbf{Weights used.} $\alpha_K(\Ga)=0$, $\alpha_K(\Gm)=1$, and for an elliptic curve $\alpha_K(E)=1$ if
+$E$ has CM by $k$ and $K\supseteq k$, else $2$ \cite[Lemme, p.~361]{RW93}; $\alpha_K$ is additive on products
+\cite[(2)]{RW93}. For the universal vector extension $E^\natural$ of a CM curve and $K\supseteq k$ we need:
+
+\begin{lemma}\label{lem:natural}
+$\alpha_K(E^\natural)=2+2/n$.
+\end{lemma}
+
+\begin{proof}
+Use coordinates on $T(E^\natural)=H^1_{\mathrm{dR}}(E)^\vee$ in which $\mathcal O=\mathrm{End}(E)$ acts by its identity
+character on the base coordinate and by the conjugate character on the fibre coordinate (the eigenline of
+$H^1_{\mathrm{dR}}$ for $\bar a$ is spanned by $x\,dx/y+c\,dx/y$ with $c\in\Qb$, so these coordinates are rational). Let
+$H\subset(E^\natural)^n$ be connected with $p_\beta(T_H)=0$, with abelian image $B\subset E^n$. Then $B=B_U$ for a
+$k$-subspace $U\subset k^n$ on which both $u\mapsto\sum\beta_ju_j$ (base) and $u\mapsto\sum\beta_j\bar u_j$ (fibre) vanish.
+The map $k^n\to K\times K$, $u\mapsto(\sum\beta_ju_j,\sum\beta_j\bar u_j)$ is injective (it is the
+composite $k^n\cong K\otimes_\Q k\cong K\times K$, $x\otimes y\mapsto(xy,x\bar y)$), so $B=0$. Hence $H$ lies in the
+fibre $\Ga^n$, and the largest such $H$ is the rational hyperplane $\sum\beta_jt_j=0$, of dimension $n-1$. The quotient
+has dimension $n+1$ and admits no surjection to $\Ga$ or $\Gm$ (it is a non-split extension of $E^n$ by $\Ga$), so
+$\alpha=2(n+1)$ and $\alpha_K=2+2/n$.
+\end{proof}
+
+\section{Four exponentials at CM periods}\label{sec:MG}
+
+Throughout this section $E/\Qb$ has complex multiplication by $k$, $\Omega\neq0$ is a period of $E$, and for a number
+field $K$ we write $K\Lg$, $K\Lg_E$ for the $K$-spans of $\Lg$ and $\Lg_E$. By Baker's theorem
+$K\Lg\cong K\otimes_\Q\Lg$, so elements of $\Lg$ that are $\Q$-linearly independent are $K$-linearly independent.
+
+\begin{theorem}[Theorem MG]\label{thm:MG}
+Let $c\in\Qb^\times$ and $s=c\,\Omega/\pi$. For every number field $K\supseteq k$,
+\[
+\mathcal S_K:=\{x\in K\Lg:\ s\,x\in K\Lg+K\Lg_E\}\quad\text{satisfies}\quad \dim_K\mathcal S_K\le2 ,
+\]
+and $2\pi i\in\mathcal S_K$ (since $s\cdot2\pi i=2ic\,\Omega\in K\Lg_E$ when $ic\in K$).
+\end{theorem}
+
+\begin{proof}
+Enlarging $K$ does not change the conclusion (by Baker, $K$-independence in $K\Lg$ is preserved under base change), so
+assume $K\supseteq k(i,c)$; $n=[K:\Q]$ is even (the count below closes for every such $n$). Let $G=\Gm\times\Gm\times E$ with coordinates
+$(x,y,z)$, $\Psi(x,y,z)=(x,y+z)$, $V=\C(1,s)$. Fix a basis $\theta_1,\dots,\theta_n$ of $K/\Q$, put
+$p_\theta\colon T_{G^n}\to T_G$, $(x_j)\mapsto\sum\theta_jx_j$, and $\Phi=\Psi\circ p_\theta$.
+
+\emph{The group.} Connected algebraic subgroups of $\Gm^{2n}\times E^n$ are products $T_L\times B_S$ of a subtorus
+(given by a subspace $L\subset\Q^{2n}$) and an abelian subvariety (given by a $k$-subspace $S\subset k^n$). Such a
+subgroup has tangent space in $\ker\Phi$ iff $L=0$ and $\psi(S)=0$, where $\psi(m)=\sum\theta_jm_j$; by
+Lemma~\ref{lem:K}, $\ker\psi$ has $k$-dimension $n/2$. Put $U=B_{\ker\psi}$ and
+$G''=G^n/U=\Gm^{2n}\times A''$, $A''=E^n/U$, of dimension $n/2$. Then $d_0=0$, $d_1=2n$, $d_2=n/2$, $d=5n/2$. The induced
+map $\Psi''$ is onto $\C^2$, $V''=\Psi''^{-1}(V)$ is a hyperplane, and $W''=\ker\Psi''\subset V''$ is $\Qb$-rational of
+dimension $d-2$. For a connected $G'\subset G''$ put $r'=\dim\Psi''(T_{G'})$; then $\tau=\delta+r'-2$, so only $r'\le1$
+can satisfy $\delta>\tau$, and $\delta-\tau=2-r'$.
+
+\emph{The data.} $w=(2\pi i,2ic\Omega)\in\Psi(\Omega_K(G))$. Suppose $x_1,x_2\in\mathcal S_K$ with $2\pi i,x_1,x_2$
+$K$-independent, and put $v_j=(x_j,sx_j)\in V\cap\Psi(\Lambda_K(G))$. Let $Y''$ be generated by the images in $T_{G''}$
+of elements of $\Lambda(G^n)$ with $\Phi$-images $D\theta_hw$ (taken in $\Omega(G^n)$, $D$ a common denominator),
+$\theta_hv_1$, $\theta_hv_2$ ($h=1,\dots,n$). Then $\mathrm{rk}\,Y''=3n$, $\Gamma=\exp Y''\subset G''(\Qb)$, and
+$\kappa=n$: a period in $Y''$ has first coordinate in $2\pi iK$, so its $v$-parts vanish. The inequality of
+Theorem~\ref{thm:W88} reads $\lambda+\delta_1+2\delta_2\le(2-r')\cdot2n$.
+
+\emph{No obstruction.}
+\begin{itemize}
+\item $G'=0$: $\lambda=2n$, so the left side is $2n+2n+n=5n>4n$.
+\item $r'=1$ with image $\C(0,1)$ (this covers every $G'$ with an abelian part, since $\psi$ does not vanish on any
+nonzero abelian subvariety of $A''$): an element of $Y''$ lying in $T_{G'}+\Omega(G'')$ has first coordinate in
+$2\pi iK$, so $\mathrm{rk}(Y''\cap(T_{G'}+\Omega(G'')))\le n$ and $\lambda\ge2n$; the left side is $\ge3n>2n$.
+\item $r'=1$ with image a line $\C(p,q)\neq\C(0,1)$: then $G'=T_L$ with $\dim L\le n$. Two $K$-independent data in
+$T_{G'}+\Omega(G'')$ would put $x_1,x_2$ in a $K$-space of dimension $\le2$ containing $2\pi i$ (namely
+$K\cdot2\pi i+K\pi^2/\Omega$ if $q=0$, and $K\cdot2\pi i+K\cdot p\,\Omega/(sp-1)$ otherwise, using $s\notin K$), against
+the $K$-independence of $2\pi i,x_1,x_2$. So $\lambda\ge n$, $\delta_1\ge n$, $\delta_2=n/2$, and the left side is
+$\ge3n>2n$.
+\item $r'=0$ forces $G'=0$.
+\end{itemize}
+So no connected $G'\ne G''$ satisfies the conclusion of Theorem~\ref{thm:W88}, a contradiction.
+\end{proof}
+
+\noindent\emph{Controls.} If $E$ has no CM then $U=0$, $d_2=n$, and $G'=0$ satisfies the inequality ($6n\le6n$); so
+does $G'=0$ with $\kappa$ deleted ($5n\le6n$), with only one datum, or with $k\not\subset K$. If $s\in K$ (a rational line) the
+full subtorus over $V$ satisfies it with equality; replacing $E$ by $\Gm$ makes $s$ algebraic, and then the statement is
+false ($s=2$, $x=\log2$).
+
+\begin{corollary}[MG2: four exponentials at $t\in\Qb^\times\Omega/\pi$]\label{cor:MG2}
+Let $t\in\Qb^\times\cdot\Omega/\pi$ and $\alpha,\beta\in\Qb^\times$ with $\log\alpha,\log\beta$ linearly independent over
+$\Q$. Then $\alpha^t=e^{t\log\alpha}$ and $\beta^t=e^{t\log\beta}$ are not both algebraic. If moreover $\log\alpha,\log\beta,2\pi i$
+are linearly independent over $\Q$, then $t\log\alpha$ and $t\log\beta$ are not both in $\Qb\Lg+\Qb\Lg_E$. For example,
+$2^{\vp/\pi}$ and $3^{\vp/\pi}$ are not both algebraic.
+\end{corollary}
+
+\begin{proof}
+If $\log\alpha,\log\beta,2\pi i$ are $\Q$-independent, take $x_1=\log\alpha$, $x_2=\log\beta$ in Theorem~\ref{thm:MG}:
+with $2\pi i$ they are three $\Q$-independent logarithms, hence $K$-independent. Otherwise
+$m\log\beta=a\log\alpha+2\pi i\,b$ with integers $m\ne0$, $b\ne0$. If $\alpha^t$ and $\beta^t$ are algebraic, so is
+$e^{2\pi ibt}=(\beta^t)^m(\alpha^t)^{-a}$, i.e.\ $2\pi ibt=2ib\,c\,\Omega\in\Lg$ (with $t=c\Omega/\pi$). Then
+$\Omega\in\Qb\Lg$, which the analytic subgroup theorem \cite{Wu89} excludes (on $\Gm\times E$, the smallest algebraic
+subgroup whose tangent space contains $(\ell,\Omega)$ is $\Gm\times E$). (Remark~\ref{rem:MG5d} gives a proof that needs
+no such step.)
+\end{proof}
+
+\noindent The determinations matter: $\log\alpha=\log2$ and $\log\beta=\log2+2\pi i$ are $\Q$-independent, and for the
+determinations $e^{t\log2}$ of both powers the statement would say $2^t\notin\Qb$, a one-exponential statement that we do
+not prove.
+
+\begin{remark}[Second derivation via \S5d]\label{rem:MG5d}
+Theorem~\ref{thm:W88k} gives Theorem~\ref{thm:MG} with a shorter subgroup analysis, and the first sentence of
+Corollary~\ref{cor:MG2} without the case distinction. Keep $G''=\Gm^{2n}\times A''$, $\Psi''$, $V''=\Psi''^{-1}(V)$ and
+$W''=\ker\Psi''$ from the proof of Theorem~\ref{thm:MG}: $d=5n/2$, $d_0=0$, $d_1=2n$, $d_2=n/2$, and $W''$ is
+$\Qb$-rational of dimension $t=d-2$, so $d-1-t=1$. Let $Y''$ be generated by the $3n$ lifts of $D\theta_hw$,
+$\theta_hv_1$, $\theta_hv_2$ ($h=1,\dots,n$). The $n$ period lifts lie in $Y''\cap\ker\exp$, so $\kappa\ge n$ (in fact
+$\kappa=n$), and (5.4) reads $3n>(2n+n-\kappa)\cdot1$, i.e.\ $3n>2n$.
+
+\emph{The rank $m=3n$.} For the data of Theorem~\ref{thm:MG} ($2\pi i,x_1,x_2$ $K$-independent) the first coordinates of
+the $\Psi''$-images $D\theta_h\cdot2\pi i$, $\theta_hx_j$ are $\Q$-independent. For the data of Corollary~\ref{cor:MG2}
+($x_j=\log\alpha_j$, $sx_j=t\log\alpha_j\in\Lg$) only the $\Q$-independence of $\log\alpha,\log\beta$ is needed. Take the
+period lifts with toric part $(2\pi iD e_h,0)$ and $E^n$-part $m^{(h)}\Omega\in\Lambda_E^n$, where
+$\psi(m^{(h)})=2icD\theta_h$ (possible by Lemma~\ref{lem:K}, as $ic\in K$; $D$ a common denominator), and the data lifts toric, $(x_je_h,\ sx_je_h)$. The linear form induced
+by $\theta^{\mathsf T}z$ on $T_{A''}$ takes the $\Q$-independent values $2icD\theta_h\Omega$ on the period lifts and $0$ on the
+data lifts, so a $\Q$-relation among the $3n$ lifts involves only the data lifts; their first-block coordinates $x_je_h$
+are $\Q$-independent.
+
+\emph{No subgroup in $V''$.} Theorem~\ref{thm:W88k} gives a connected $G'\ne0$ with $T_{G'}\subset V''$, and $G'=T_L\times
+B_S$. If $B_S\ne0$, then $T_{G'}$ contains a vector $(0,b)$ with $\theta^{\mathsf T}b\ne0$ (since $\psi$ does not vanish on any
+nonzero abelian subvariety of $A''$), whose image $(0,\theta^{\mathsf T}b)$ is not on $V=\C(1,s)$. If $B_S=0$, then $L\ne0$, and
+for $0\ne l=(l_1,l_2)\in L$ the image $(\theta^{\mathsf T}l_1,\theta^{\mathsf T}l_2)\in K^2\setminus0$ lies on $\C(1,s)$; so
+$\theta^{\mathsf T}l_1\ne0$ and $s\in K$, which is false ($\Omega/\pi\notin\Qb$ \cite{Ma75}).
+
+For $K=\Q(i)$, $n=2$, $\theta=(1,i)$: $A''\cong E$ via $(z_1,z_2)\mapsto z_1+iz_2$, so $G''=\Gm^4\times E$, $d=5$, $t=3$,
+$m=6$, $\kappa=2$, and (5.4) is $6>6-\kappa$. This route uses neither the $K$-independence of $2\pi i,\log\alpha,\log\beta$
+nor W\"ustholz's theorem: it proves the first sentence of Corollary~\ref{cor:MG2} directly, also when $2\pi i$ lies in the
+$\Q$-span of $\log\alpha,\log\beta$. Its subgroup exclusion uses only $s\notin K$. It rests on Theorem~\ref{thm:W88k} as
+published, where the main proof rests on Theorem~\ref{thm:W88} and Lemma~\ref{lem:U}.
+\end{remark}
+
+\begin{corollary}[MG1]\label{cor:MG1}
+For every CM curve $E$, every period $\Omega$ and all $a,b,c\in\Qb^\times$, at least one of
+$e^{a\pi^2}$, $e^{b\pi\Omega}$, $e^{c\pi^2/\Omega}$ is transcendental. On $E_i$: one of $e^{\pi^2}$, $e^{\pi\vp}$,
+$e^{\pi\eta(\vp)}$ is transcendental.
+\end{corollary}
+
+\begin{proof}
+Take $s=\Omega/\pi$ (up to $\Qb^\times$), $x_1=\pi^2$, $x_2=\pi^2/\Omega$: if all three exponentials are algebraic then
+$x_1,x_2\in\Qb\Lg$ and $sx_1=\pi\Omega$, $sx_2=\pi$ lie in $\Qb\Lg$. The numbers $2\pi i,\pi^2,\pi^2/\Omega$ are
+$\Qb$-independent. A relation without the $\pi^2/\Omega$ term contradicts the transcendence of $\pi$. Otherwise
+$\pi/\Omega=a_1+b_1\pi$ with $a_1,b_1\in\Qb$. If $b_1=0$ then $\Omega/\pi\in\Qb$, which is false. If $b_1\ne0$ then
+$\pi\Omega=(\pi-a_1\Omega)/b_1$; since $\pi\Omega\in\Qb\Lg$ (as $e^{b\pi\Omega}\in\Qb$) and $\pi\in\Qb\Lg$, this gives
+$a_1\Omega\in\Qb\Lg$, so $a_1=0$ because $\Omega\notin\Qb\Lg$ (proof of Corollary~\ref{cor:MG2}); then $\Omega=1/b_1\in\Qb$,
+which is false. (Chudnovsky's algebraic independence of $\pi$ and $\Omega$ \cite{Ch84} would give this at once, but is not
+needed.) On $E_i$, $\pi/\vp=\eta(\vp)$.
+\end{proof}
+
+\noindent For a general CM curve, $\eta(\Omega)=\kappa_1\Omega+\kappa_2\pi/\Omega$ with $\kappa_1,\kappa_2\in\Qb$ and $\kappa_2\ne0$ (Legendre);
+$\kappa_1=0$ when $j(E)\in\{0,1728\}$. Since $\pi\Omega,\pi\eta\in\Qb\Lg$ imply $\pi^2/\Omega=(\pi\eta-\kappa_1\pi\Omega)/\kappa_2\in\Qb\Lg$,
+the statement ``one of $e^{\pi^2}$, $e^{\pi\Omega}$, $e^{\pi\eta}$ is transcendental'' holds for every CM period as well.
+
+\begin{corollary}[MG3]\label{cor:MG3}
+If $e^{\pi^2}$ and $e^{c\pi\Omega}$ ($c\in\Qb^\times$) are algebraic, then $\alpha^{\Omega/\pi}\notin\Qb$, for every determination,
+for every $\alpha\in\Qb^\times$ such that $2\pi i,\pi^2,\log\alpha$ are linearly independent over $\Q$.
+\end{corollary}
+
+\begin{proof}
+With $s=\Omega/\pi$, take $x_1=\pi^2$ (then $sx_1=\pi\Omega\in\Qb\Lg$) and $x_2=\log\alpha$ (then $sx_2\in\Lg$ if
+$\alpha^{\Omega/\pi}\in\Qb$). These are $\Q$-independent logarithms together with $2\pi i$, hence $K$-independent, and
+Theorem~\ref{thm:MG} gives a contradiction. The hypothesis is needed: for $c=1$ and $\alpha=e^{\pi^2}$ ($\log\alpha=\pi^2$) one has
+$\alpha^{\Omega/\pi}=e^{\pi\Omega}\in\Qb$. (Corollary~\ref{cor:MG3} is also the case $\beta=e^{\pi^2}$ of the second sentence of
+Corollary~\ref{cor:MG2}.)
+\end{proof}
+
+\noindent\emph{Overlap with known results.} Waldschmidt's \cite[Cor.~2.7]{W07} (after Diaz \cite{Di04}) says: if
+$x_1,x_2\in\R\cup i\R$ are linearly independent over $\Q$ and $y_1,y_2,\bar y_2$ are linearly independent over $\Q$, then one of the four numbers
+$e^{x_iy_j}$ is transcendental. With $x=(1,t)$ it gives Corollaries~\ref{cor:MG2} and~\ref{cor:MGn2} for $t\in\R\cup
+i\R$ and pairs with $\log\alpha,\log\beta,\overline{\log\beta}$ $\Q$-independent (e.g.\ $(2,1+2i)$). With the roles
+exchanged, $x=(\log\alpha,\log\beta)$ and $y=(1,t,\bar t)$, it gives them for pairs with logarithms in $\R\cup i\R$
+(e.g.\ $(2,3)$) whenever $1,t,\bar t$ are $\Q$-independent, e.g.\ $t=e^{i\pi/5}\vp/\pi$. Rescaling widens the
+first orientation to every $t$ in our classes. Such a $t$ is $\gamma r$ with $\gamma\in\Qb^\times$ and $r\in\R$
+($\bar E$ has CM by the same field, so $\bar\Omega\in\Qb^\times\Omega$; and $\pi$ is real). If $\alpha^t,\beta^t\in\Qb$,
+then $y=(\log\alpha,\log\beta)$ satisfies $y_j,\ ry_j=\gamma^{-1}ty_j\in\Lt$, and the $\Lt$-version \cite[Thm.~4.1]{W07} at the real
+point $r$ excludes every pair with $\log\alpha,\log\beta,\overline{\log\beta}$ linearly independent (over $\Qb$, which
+for logarithms is the same as over $\Q$ by Baker's theorem), whatever the argument of $t$. The remaining pairs have a
+conjugation-stable $\Q$-span of logarithms, which has a basis in $\R\cup i\R$. For them the second orientation applies as
+soon as $t\notin\R\cup i\R$: then $1,t,\bar t$ are $\Q$-independent, because $r$ is transcendental and $\bar\gamma/\gamma\notin\Q$.
+So at $t\notin\R\cup i\R$ Corollaries~\ref{cor:MG2} and~\ref{cor:MGn2} are already known. What remains new is real or
+purely imaginary $t$ (as for $\vp$, $\vp/\pi$, $\Omega_\rho$) with a conjugation-stable span of logarithms (such as
+$(2,3)$, or $(5,(1+2i)/(1-2i))$); Corollary~\ref{cor:MG1}; and the dimension statements themselves. We found no case of the
+four exponentials conjecture at a fixed transcendental $t$ of this kind in \cite{W22} or \cite[p.~27]{SMF84}. The
+closest published theorem is Waldschmidt's \cite[Thm.~4.2]{W05}, a mixed statement on $\Ga\times\Gm\times E$ without CM
+whose second row consists of elliptic logarithms; it needs seven columns (one of six numbers $\ell_1u_j-\ell_ju_1$ is
+transcendental) in general, and five columns (one of four) in its period-column case. CM and the mixing map bring the count down to two
+data with ordinary logarithms.
+
+\subsection{The fibre twin}
+Let $E^\natural$ be read on its conjugate-eigen fibre coordinate $w$ (\S\ref{sec:MX}), with $\eta^*=\eta^*(\Omega)$. By
+Legendre and $\eta^*(a\lambda)=\bar a\eta^*(\lambda)$, $\Omega\eta^*\in\Qb^\times\pi$ for every CM curve. Call
+\emph{fibre values} the $w$-coordinates of $\Lambda(E^\natural)$ (that is, $\zeta^*(u)+\Qb$ for $u\in\Lg_E\setminus\Lambda_E$,
+$\eta^*(\lambda)+\Qb$ at lattice points).
+
+\begin{theorem}[Theorem MG$^\natural$]\label{thm:MGn}
+Let $c\in\Qb^\times$ and $s=c\,\eta^*/\pi\in\Qb^\times/\Omega$. For every number field $K\supseteq k$,
+$\dim_K\{x\in K\Lg:\ s\,x\in K\Lg+K\cdot(\text{fibre values})\}\le2$.
+\end{theorem}
+
+\begin{proof}
+As in the proof of Theorem~\ref{thm:MG} we may enlarge $K$; we take $K\supseteq k(i,c)$ with $n=[K:\Q]\ge4$ (for $n=2$
+the count below does not close). Let $G=\Gm\times\Gm\times E^\natural$, $\Psi(x,y,X)=(x,\,y+w(X))$, $V=\C(1,s)$, and
+$\theta$, $p_\theta$, $\Phi=\Psi\circ p_\theta$ as before.
+
+\emph{The group.} There are no nonzero homomorphisms between tori and connected subgroups of $(E^\natural)^n$ in either
+direction, so connected subgroups of $\Gm^{2n}\times(E^\natural)^n$ are products. A connected $H\subset(E^\natural)^n$ over
+$B_S$ contains the canonical lift $B_S^\natural$ (since $\mathrm{Hom}(B_S^\natural,\Ga)=0$), whose tangent space is
+$\{(\sigma(M)z,\bar\sigma(M)w)\}$; so $\theta^{\mathsf T}w$ vanishes on $T_H$ only if $\phi(S)=0$. Hence the largest
+connected $U$ with $T_U\subset\ker\Phi$ is $U=B^\natural_{\ker\phi}+\{\theta^{\mathsf T}w=0\}$, and $G''=\Gm^{2n}\times Q''$ with
+$Q''=(E^\natural)^n/U$, an extension of $A''=E^n/B_{\ker\phi}$ (dimension $n/2$) by $\Ga$ (coordinate
+$\sigma=\theta^{\mathsf T}w$). Over an abelian subvariety $B'\ne0$ of $A''$, coming from $S'\supsetneq\ker\phi$, we have
+$\phi(S')\neq0$, so the image of $B_{S'}^\natural$ contains the fibre. Thus $Q''$ has no splitting over any $B'\ne0$, and its
+connected subgroups are $0$, the fibre $F$, and the $\pi^{-1}(B')$ (dimension $\le n/2+1$). $Q''$ is a quotient of an
+anti-affine group, so $\mathrm{Hom}(Q'',\Ga)=0$: $d_0=0$, $d_1=2n$, $G_2=Q''$, $d_2=n/2+1$. The induced map is
+$\Psi''(t_1,t_2,q)=(\theta^{\mathsf T}t_1,\theta^{\mathsf T}t_2+\sigma(q))$, $V''$ is a hyperplane, $W''=\ker\Psi''$, and
+$\tau=\delta+r'-2$ as before.
+
+\emph{The data.} The period datum is $(2\pi i,2ic\eta^*)\in\Psi(\Omega_K(G))$ (using $ic\in K$ and that $\phi$ is onto
+$K$). With $x_1,x_2$ as in Theorem~\ref{thm:MG}, $\mathrm{rk}\,Y''=3n$ and $\kappa=n$ (a period of $G''$ has first coordinate
+in $2\pi iK$). The inequality reads $\lambda+\delta_1+2\delta_2\le(2-r')(2n+2)$.
+
+\emph{No obstruction.} Every $G'$ is $T_L\times H$ with $H\in\{0,F,\pi^{-1}(B')\}$, and $H\ne0$ forces
+$\C(0,1)\subset\Psi''(T_{G'})$.
+\begin{itemize}
+\item $G'=0$: $\lambda=2n$, and the left side is $2n+2n+(n+2)=5n+2>4n+4$.
+\item Image $\C(0,1)$ ($H\ne0$, or $L$ in the second block; $l=\dim L\le n$, $h=\dim H\le n/2+1$): elements of $Y''$ in
+$T_{G'}+\Omega(G'')$ have first coordinate in $2\pi iK$, so $\lambda\ge2n$, and the left side is
+$\ge2n+(2n-l)+2(n/2+1-h)\ge3n>2n+2$.
+\item $H=0$ and image a line $\C(1,q)$, $q\in K$: a datum $X$ in $T_{G'}+\Omega(G'')$ satisfies
+$X(s-q)\in K\cdot2\pi i+K\cdot2\pi is$, so $X\in K\cdot2\pi i+K\cdot2\pi i/(s-q)$ (here $s\notin K$ because $\Omega$ is
+transcendental). So $\lambda\ge n$, and the left side is $\ge n+n+(n+2)=3n+2>2n+2$.
+\item $r'=0$ forces $G'=0$; $r'=2$ fails $\delta>\tau$.
+\end{itemize}
+The minimum margin is $n-2$.
+\end{proof}
+
+\begin{corollary}[MG$^\natural$2: four exponentials at $t\in\Qb^\times\Omega$]\label{cor:MGn2}
+If $\log\alpha,\log\beta$ are linearly independent over $\Q$ and $c\in\Qb^\times$, then $\alpha^{c\Omega}=e^{c\Omega\log\alpha}$
+and $\beta^{c\Omega}=e^{c\Omega\log\beta}$ are not both algebraic. For example, $2^{\vp}$ and $3^{\vp}$ (real logarithms) are
+not both algebraic.
+\end{corollary}
+
+\begin{proof}
+Put $x_j=c\Omega\log\alpha_j$ (with $\alpha_1=\alpha$, $\alpha_2=\beta$). If $\alpha^{c\Omega},\beta^{c\Omega}$ are
+algebraic then $x_j\in\Lg$, and $sx_j\in\Qb\log\alpha_j\subset\Qb\Lg$. A $K$-relation among $2\pi i,x_1,x_2$ without the
+$2\pi i$ term contradicts Baker; one with it gives $0\ne\ell\in\Qb\Lg\cap\Qb^\times\eta^*$, impossible by the analytic
+subgroup theorem on $\Gm^r\times E^\natural$ \cite{Wu89}. (Remark~\ref{rem:MGn5d} gives a proof that needs no such step.)
+\end{proof}
+
+\begin{remark}[Second derivation via \S5d]\label{rem:MGn5d}
+As in Remark~\ref{rem:MG5d}, keep $G''=\Gm^{2n}\times Q''$, $\Psi''$, $V''$ and $W''=\ker\Psi''$ from the proof of
+Theorem~\ref{thm:MGn}: $d=5n/2+1$, $d_0=0$, $d_1=2n$, $d_2=n/2+1$, $t=d-2$. With the $3n$ lifts of $D\theta_hw$,
+$\theta_hv_1$, $\theta_hv_2$ one has $m=3n$ and $\kappa\ge n$ (in fact $\kappa=n$), and (5.4) reads
+$3n>(2n+n+2-\kappa)\cdot1$, i.e.\ $3n>2n+2$. It holds as soon as $\kappa\ge3$, so for every admissible $n\ge4$ (at $n=2$ it
+would read $6>6$). For $K=\Q(i,\sqrt2)$, $n=4$: $G''=\Gm^8\times Q''$, $d=11$, $t=9$, $m=12$, $\kappa=4$, and (5.4) is
+$12>14-\kappa$.
+
+\emph{The rank.} For the data of Theorem~\ref{thm:MGn} it follows from the first coordinates, as in
+Remark~\ref{rem:MG5d}. For Corollary~\ref{cor:MGn2} take $s=1/(c\Omega)\in\Qb^\times\eta^*/\pi$, so that
+$sx_j=\log\alpha_j\in\Lg$, and take the data lifts toric, $(x_je_h,\ \log\alpha_j\,e_h)$. Take the period lifts with toric
+part $(2\pi iDe_h,0)$; the second coordinate $D\theta_h\cdot2\pi is$ of their image is then carried by the fibre
+coordinate $\sigma$ of $Q''$. So $\sigma$ separates the period lifts from the data lifts, and the first-block coordinates
+$x_je_h$ of the data lifts are $\Q$-independent as soon as $\log\alpha,\log\beta$ are.
+
+\emph{No subgroup in $V''$.} A connected $G'\ne0$ with $T_{G'}\subset V''$ is $T_L\times H$ with $H\in\{0,F,\pi^{-1}(B')\}$. If
+$H\ne0$, then $F\subset H$, and $T_F$ contains a vector with image $(0,1)\notin V$. If $H=0$, then $L\ne0$ and, as in
+Remark~\ref{rem:MG5d}, a nonzero $l\in L$ gives $s\in K$, which is false since $s\in\Qb^\times/\Omega$ and $\Omega$ is
+transcendental.
+
+So this route, too, needs only the $\Q$-independence of $\log\alpha,\log\beta$ and no W\"ustholz step. It rests on
+Theorem~\ref{thm:W88k} as published.
+\end{remark}
+
+\noindent By the symmetry $t\leftrightarrow1/t$, Corollaries~\ref{cor:MG2} and~\ref{cor:MGn2} give the four exponentials
+conjecture at every $t\in\Qb^\times\Omega/\pi\cup\Qb^\times\pi/\Omega$ and at every $t\in\Qb^\times\Omega\cup\Qb^\times/\Omega$,
+for every
+CM period $\Omega$.
+
+\subsection{The affine version and strong four exponentials}\label{sec:MGaff}
+Adding one factor $\Ga$ to each coordinate of $\Psi$ (so $G=\Ga^2\times\Gm^2\times E$ with coordinates $(a,a',x,y,z)$ and
+$\Psi(a,a',x,y,z)=(x+a,\,y+z+a')$) gives the following statement. In the quotient
+$G''=\Ga^2\times\Gm^{2n}\times A''$ one has $d_0=2$, which does not enter the left-hand side of Theorem~\ref{thm:W88}. The
+only new subgroups are $\Ga$-lines $\{(\mu a,a)\}$ with $\mu\notin K$, which are excluded with margin $n$. So the count is
+the same as for Theorem~\ref{thm:MG}; Lemma~\ref{lem:U} applies since $5n+2\ge3n+4$. This was checked at proof-sketch level
+by both internal referees of Theorem~\ref{thm:MG} and by a third; the subgroup list is not written out here. The base change
+in $K$ now uses Baker's inhomogeneous theorem.
+
+\begin{theorem}[Affine MG; proof sketch]\label{thm:MGaff}
+With $E$, $\Omega$, $c$, $s=c\Omega/\pi$ and $K$ as in Theorem~\ref{thm:MG},
+\[
+\dim_K\{x\in K+K\Lg:\ s\,x\in K+K\Lg+K\Lg_E\}\le2 .
+\]
+\end{theorem}
+
+\begin{corollary}[proof sketch]\label{cor:MGaff}
+\begin{itemize}
+\item[(i)] For $a,b,c\in\Qb^\times$, one of $e^{a\pi^2}$, $e^{b\pi\Omega}$, $e^{c\Omega/\pi}$ is transcendental.
+\item[(ii)] For $\alpha\in\Qb^\times$ not a root of unity, $e^{\Omega/\pi}$ and $\alpha^{\Omega/\pi}$ (any determination) are not
+both algebraic.
+\item[(iii)] (Strong four exponentials at ratio $t\in\Qb^\times\Omega/\pi$.) If $y_1,y_2$ are linearly independent over
+$\Qb$, then $y_1$, $y_2$, $ty_1$, $ty_2$ are not all in $\Lt=\Qb+\Qb\Lg$. By $y\mapsto ty$ the same holds at
+$t\in\Qb^\times\pi/\Omega$. (The strong statement is invariant under $t\mapsto ct$, $c\in\Qb^\times$, and $\Qb^\times\Omega/\pi$ contains
+a real number. So this is a statement at real $t$, where the $\Lt$-version of the conjugation argument
+\cite[Thm.~4.1]{W07} applies when $y_1,y_2,\bar y_2$ are $\Qb$-independent. The new content is the remaining $y$.)
+\end{itemize}
+\end{corollary}
+
+\begin{proof}[Sketch]
+(i) Take $x_1=1$ ($s\cdot1\in\Qb\Lg$ if $e^{c\Omega/\pi}$ is algebraic, with $s$ adjusted by a constant) and $x_2=\pi^2$. With $2\pi i$
+these are $K$-independent, because $1,\pi,\pi^2$ are $\Qb$-independent (Lindemann). (ii) Take $x_1=1$ and $x_2=\log\alpha$;
+then $1,2\pi i,\log\alpha$ are $K$-independent by Baker's theorem. (iii) Take $K$ containing all the coefficients. Then
+$y_1,y_2\in T_K:=\{x\in K+K\Lg:\ sx\in K+K\Lg+K\Lg_E\}$, which has dimension $\le2$ and contains $2\pi i$. Since $y_1,y_2$ are
+$K$-independent, $2\pi i\in Ky_1+Ky_2$. Then $2ic\Omega=s\cdot2\pi i\in\Lt$, which contradicts the analytic subgroup theorem
+($\Omega\notin\Qb+\Qb\Lg$).
+\end{proof}
+
+\subsection{The general form, and elliptic four exponentials}\label{sec:MGgen}
+Theorems~\ref{thm:MG} and~\ref{thm:MGn} are the cases $\sigma_1=\sigma_3=\Gm$ of the following count. Let
+$\sigma_1,\sigma_2,\sigma_3$ be ``slots'': $\Gm$ (period $2\pi i$), the base of a CM curve (period $\Omega$), or the fibre of
+the universal vector extension of a CM curve (period $\eta^*$). In the count of Theorem~\ref{thm:W88} the first two have
+weight $1$ per factor and a fibre slot has weight $1+2/n$. Write $\Lambda_K(\sigma)$ for the
+$K$-span of the corresponding logarithms ($\Lg$, $\Lg_E$, or fibre values). Let $p_j$ be the period of $\sigma_j$,
+$r=p_2/p_1$, and take $\Psi$ reading $\sigma_1$ into the first coordinate and $\sigma_2+\sigma_3$ into the second.
+
+\begin{theorem}[General form; proof sketch]\label{thm:MGgen}
+Assume:
+\begin{itemize}
+\item $\sigma_1,\sigma_2$ are not of the same kind on isogenous groups (so $r\notin\Qb$);
+\item if $\sigma_2$ and $\sigma_3$ are of the same kind on isogenous groups, they are merged into one slot;
+\item (allowing $r\in\Qb^\times p_2/p_1$) $K$ contains this constant, the CM fields, and the Legendre and isogeny constants,
+and $[K:\Q]\ge2f+2$, where $f$ is the number of fibre slots;
+\item $\sigma_1,\sigma_3$ are not both fibre slots.
+\end{itemize}
+Then
+\[
+\dim_K\{\lambda\in\Lambda_K(\sigma_1):\ r\lambda\in\Lambda_K(\sigma_2)+\Lambda_K(\sigma_3)\}\le2 .
+\]
+\end{theorem}
+
+\noindent The count is that of Theorem~\ref{thm:MG}, with the threshold $n>2f$ coming from $G'=0$ ($5n+2f>4n+4f$). An
+internal referee checked all $27$ slot-kind triples by an exact integer case check. The load-bearing step (a bound on the
+data in subtori with image a $K$-line) was done by hand, and the subgroup lists are not written out in this paper. The
+excluded case is ``four exponentials for quasi-logarithms'': $\sigma_1,\sigma_3$ fibre slots of isogenous curves (for
+non-isogenous curves we have not written it out). It has mixed subgroups whose fibre slope $\mu$ is algebraic but possibly
+outside $K$, and it needs the $K(\mu)$-linear independence of $K$-independent fibre values, which we have not proved. When $\sigma_1=\sigma_3$ is the base of a CM
+curve $E$, Theorem~\ref{thm:MGgen} is an elliptic analogue of four exponentials:
+
+\begin{corollary}[Elliptic four exponentials at CM slopes; proof sketch]\label{cor:ell4E}
+Let $E$ have CM, with period $\Omega$, and let $t$ be one of $\pi/\Omega^2$, $\Omega'/\Omega$, $\eta^*(\Omega')/\Omega$, where $\Omega'$ is
+a period of a CM curve $E'$ not isogenous to $E$, all up to $\Qb^\times$. If $u_1,u_2\in\Lg_E$ and $\Omega$ are linearly
+independent over $k$, then $tu_1$ and $tu_2$ do not both lie in $\Qb\Lg_E+\Qb\Lambda(\sigma_2)$. Here $\Lambda(\sigma_2)$ is the
+set of fibre values of $E$ (for $t=\pi/\Omega^2$), $\Lg_{E'}$ (for $t=\Omega'/\Omega$), or the set of fibre values of $E'$ (for
+$t=\eta^*(\Omega')/\Omega$). In particular $tu_1,tu_2$ are not both elliptic logarithms of algebraic points of $E$.
+\end{corollary}
+
+\section{Theorem M}\label{sec:M}
+
+\subsection{First proof (the count)}
+Let $G=E\times\Gm\times\Ga$, $\Psi(e,t,a)=(e,t+a)$, $V=\C(\Omega,i\pi)$, $W=0$, and $K\supseteq k$ containing the
+algebraic coefficients involved. Then $\alpha_K(G)=1+1+0=2$; $\Psi(\Omega_K(G))=K\Omega\times K\cdot2\pi i$ since
+$K\Lambda_E=K\Omega$ for CM; so $\kappa=1$. Condition (i): $V$ has a nonzero rational point iff $\Omega/\pi\in\Qb$, which is
+false (Masser \cite{Ma75}; cf.\ \cite[Thm.~26]{W06}; also Schneider). Theorem~\ref{thm:RW} gives
+$\dim_K(V\cap\Psi(\Lambda_K))\le1$, and the period $(\Omega,i\pi)$ lies in it. If $i\pi u=\Omega\ell$ then
+$(u,\ell)\in V\cap\Psi(\Lambda_K)$, so $(u,\ell)=s(\Omega,i\pi)$ with $s\in K$. If $u\in\Lg_E$, Masser's theorem
+(\cite[Thm.~27]{W06}: elements of $\Lg_E$ that are $k$-independent are $\Qb$-independent) gives $s\in k$. \qed
+
+\smallskip\noindent\emph{Controls.} If $E$ has no CM, $\alpha_K(E)=2$ and the count ties (no conclusion). Replacing $E$ by
+$\Gm$ ($\Omega\to2\pi i$) makes $V$ rational, so (i) fails --- as it must, since $u=2\ell$ solves $i\pi u=2\pi i\ell$. For
+$e^{\pi^2}$ itself ($G=\Ga\times\Gm^2$, $V=\C(1,i\pi)$) one finds $\kappa=0$ and an exact tie.
+
+\subsection{Second proof for $u\in\Lg_E$ (Laurent's identity and W\"ustholz)}\label{sec:M2}
+We treat $u\in\Lg_E$, which covers every item of Corollary~\ref{cor:M}; a version for $u\in\Qb\Lg_E$ would need several
+points $P_j$ and is not written out here.
+Let $\Lambda_E=\Omega\,\Z[\alpha]$ (a sublattice of finite index suffices), and write Masser's relation \cite{Ma75} as
+$\eta(\alpha\Omega)=\bar\alpha\eta(\Omega)+c\,\Omega$ with $c\in\Qb$. Legendre's relation gives
+$(\alpha-\bar\alpha)\eta(\Omega)-c\Omega=2\pi i/\Omega$, and $f(z)=\zeta(\alpha z)-\bar\alpha\zeta(z)-cz$ is an elliptic
+function defined over $\Qb$. With the third-kind period $\lambda(u,\Omega)=\Omega\zeta(u)-\eta(\Omega)u$ one obtains, for
+$u\in\Lg_E$ not a pole of $f$,
+\begin{equation}\label{eq:laurent}
+\frac{2\pi i\,u}{\Omega}=\bar\alpha\,\lambda(u,\Omega)-\lambda(\alpha u,\Omega)+\Omega f(u),\qquad f(u)\in\Qb .
+\end{equation}
+On $E_i$ this reads $2\eta(\vp)u=i\lambda(iu,\vp)-\lambda(u,\vp)$ (cf.\ \cite[\S9, p.~160]{La82}, where the general CM
+form is derived; the display above is its case $\mu=i$). Hence $i\pi u=\Omega\ell$ with
+$\ell\in\Lt$ is a $\Qb$-linear relation among $1$, logarithms of algebraic numbers, $\Omega$, $\lambda(u,\Omega)$ and
+$\lambda(\alpha u,\Omega)$. These are coordinates of a point of $\Lambda(\mathcal G)$ for
+$\mathcal G=G_P\times G_{\alpha P}\times\Gm^r\times\Ga$, where $G_P$ is the extension of $E$ by $\Gm$ attached to
+$P=\exp_E(u)$ (Serre \cite{Se79}) --- add a factor $E^\natural$ when algebraic constants enter. By the analytic subgroup theorem \cite{Wu89}, the
+smallest algebraic subgroup $B$ whose tangent space contains this point lies in the hyperplane defined by the relation.
+$B$ surjects onto the diagonal of $E\times E$, and over it the toric part carries the extension classes
+$[a+b\alpha]P$ for characters $(a,b)$; these vanish only for $a=b=0$ when $P$ is not torsion. So $B$ contains both fibre
+tori, on which the relation has nonzero coefficients --- a contradiction. Hence $P$ is torsion, which is the trivial
+case. \qed
+
+\subsection{The corollaries}
+(M1): $u=c\vp/\pi$, $\ell=ic$ gives $s=c/\pi\notin\Qb$. (M2): $\ell=i\log\alpha$ gives $\log\alpha\in\Qb\pi$, so
+$\alpha=(-1)^{-is}$ with $s$ algebraic, a root of unity by Gel'fond--Schneider. (M3): if $e^{\pi^2}\in\Qb$ then
+$\ell=ic\pi^2\in\Lt$ and $u=c\pi\Omega$ give $s=c\pi\notin\Qb$. (M3$'$): $u=\vp\log\alpha$, $\ell=i\pi\log\alpha$ give
+$\log\alpha\in\Qb^\times$, contradicting Hermite--Lindemann; (M3) is the case $\alpha=-1$, using $\wp(iz)=-\wp(z)$. (M$\eta$):
+$\eta(\vp)=\pi/\vp$. On a general CM curve $\eta(\Omega)=\kappa_1\Omega+\kappa_2\pi/\Omega$ with $\kappa_2\ne0$, and the
+statement becomes $(\eta-\kappa_1\Omega)u\notin\Lt$.
+
+\section{Theorem MX}\label{sec:MX}
+
+\subsection{Set-up}
+For a CM curve $E$ let $E^\natural$ be its universal vector extension, with base coordinate $z$ and conjugate-eigen
+fibre coordinate $w$ as in Lemma~\ref{lem:natural}. In these coordinates the periods are $(\lambda,\eta^*(\lambda))$,
+$\lambda\in\Lambda_E$, where $\eta^*(\lambda)=\eta(\lambda)-\kappa_1\lambda$ satisfies $\eta^*(a\lambda)=\bar a\,\eta^*(\lambda)$;
+the logarithms of points of $E^\natural(\Qb)$ are $(u,\zeta^*(u)+t)$ with $u\in\Lg_E$, $t\in\Qb$ and
+$\zeta^*=\zeta-\kappa_1\,\mathrm{id}$. On $E_i$ and $E_\rho$, $\kappa_1=0$. Since the characters $a\mapsto a,\bar a$ of $k$
+are $K$-independent for $K\supseteq k$,
+\begin{equation}\label{eq:split}
+\Omega_K(E^\natural)=K\lambda_0\times K\eta^*(\lambda_0)\qquad(\Lambda_E\otimes\Q=k\lambda_0).
+\end{equation}
+
+\subsection{Proof of Theorem~\ref{thm:MX}}
+Let $G=E_i^\natural\times E_\rho^\natural\times\Ga^2$, let $K\supseteq\Q(i,\sqrt{-3},\beta)$ be a number field, $n=[K:\Q]$
+(so $4\mid n$), and let
+\[
+\Psi(x_i,x_\rho,a_1,a_2)=\bigl(z(x_i)+z(x_\rho)+a_1,\;w(x_i)+w(x_\rho)+a_2\bigr),\qquad V=\C\,w_1,
+\]
+with $w_1=(\vp,\beta\eta_\rho)$, $\eta_i=\eta(\vp)=\pi/\vp$, $\eta_\rho=\eta(\Omega_\rho)=2\pi/(\sqrt3\,\Omega_\rho)$, and
+$w_2=(\Omega_\rho,\beta\tfrac{2}{\sqrt3}\eta_i)$. By (\ref{eq:split}), $w_1,w_2\in\Psi(\Omega_K(G))$ and
+\[
+\Psi(\Omega_K(G))=P:=(K\vp+K\Omega_\rho)\times(K\eta_i+K\eta_\rho);
+\]
+$w_1\parallel w_2$ because $\vp\cdot\tfrac{2}{\sqrt3}\eta_i=\tfrac{2\pi}{\sqrt3}=\Omega_\rho\eta_\rho$, and $w_1,w_2$ are $K$-independent
+since $\Omega_\rho/\vp\notin\Qb$ (periods of non-isogenous curves are $\Qb$-independent \cite{Wu89}).
+
+\begin{proposition}\label{prop:D}
+$V\cap\Psi(\Lambda_K(G))=Kw_1+Kw_2$.
+\end{proposition}
+
+Granting Proposition~\ref{prop:D}: the point $(X,Y,a,t)$ lies in $\Lambda(G)$ and the hypothesis says that its image
+lies on $V$, so $z(X)+z(Y)+a=x\vp+x'\Omega_\rho$ with $x,x'\in K$. By the linear independence of $1$ and elliptic
+logarithms on non-isogenous curves (W\"ustholz \cite{Wu89}), $a=0$, $z(X)=x\vp$, $z(Y)=x'\Omega_\rho$, and by
+Masser's theorem \cite{Ma75} $x\in\Q(i)$, $x'\in\Q(\rho)$. \qed
+
+\smallskip
+\noindent\emph{Proof of Proposition~\ref{prop:D}.} Suppose $v\in V\cap\Psi(\Lambda_K(G))$ with $v\notin Kw_1+Kw_2$.
+
+\emph{Step 1: an elementary lemma.} For $L\in\{0,\ \C(1,0),\ \C(0,1)\}$ we have $V\cap(L+P)=Kw_1+Kw_2$. Indeed, if
+$sw_1\in L+P$ with $L\ne\C(1,0)$ then $s\vp\in K\vp+K\Omega_\rho$, so $s\in K+K\Omega_\rho/\vp$ and $(\Omega_\rho/\vp)w_1=w_2$;
+if $L=\C(1,0)$ then $s\beta\eta_\rho\in K\eta_i+K\eta_\rho$, so $s\in K+K\eta_i/\eta_\rho$ and
+$(\eta_i/\eta_\rho)w_1=(\pi/\eta_\rho,\beta\eta_i)=\tfrac{\sqrt3}{2}w_2$.
+
+\emph{Step 2: the group.} Fix a basis $\theta_1,\dots,\theta_n$ of $K/\Q$, let $p_\theta\colon T_{G^n}\to T_G$,
+$(x_j)\mapsto\sum\theta_jx_j$, and $\Phi=\Psi\circ p_\theta$. Write the coordinates of $T_{G^n}$ as
+$z_i,w_i,z_\rho,w_\rho,a_1,a_2\in\C^n$ and let $U\subset G^n$ be the vector subgroup
+$\{z_i=z_\rho=0,\ \theta^{\mathsf T}a_1=0,\ \theta^{\mathsf T}(w_i+w_\rho+a_2)=0\}$, of dimension $4n-2$, defined over $\Qb$, with
+$T_U\subset\ker\Phi$. Then $G'':=G^n/U=\Ga\times G_\ell$, where $G_\ell$ is the extension of $A=E_i^n\times E_\rho^n$ by
+$\Ga$ obtained from the universal vector extension of $A$ by pushing out along $(w_i,w_\rho)\mapsto\theta^{\mathsf T}w_i+\theta^{\mathsf T}w_\rho$.
+In the coordinates $s_1=\theta^{\mathsf T}a_1$, $z_i$, $z_\rho$, $s_2=\theta^{\mathsf T}(w_i+w_\rho+a_2)$ the map induced by
+$\Phi$ is
+\[
+\Psi''(s_1,z_i,z_\rho,s_2)=\bigl(\theta^{\mathsf T}z_i+\theta^{\mathsf T}z_\rho+s_1,\;s_2\bigr).
+\]
+We apply \cite[Thm.~4.1]{W88} (Theorem~\ref{thm:W88}) to $G''$ with $d=2n+2$, $d_0=1$ ($\pi_0=s_1$), $d_1=0$,
+$G_2=G_\ell$, $d_2=2n+1$; $V''=\Psi''^{-1}(V)$, a hyperplane, so $N=2n+1$; $W''=\ker\Psi''$, rational of dimension
+$2n$; and $Y''$ generated by the images of $3n$ elements of $\Lambda(G^n)$ whose $\Phi$-images are $D\theta_hw_1$,
+$D\theta_hw_2$ (taken in $\Omega(G^n)$, $D$ a common denominator) and $\theta_hv$, $h=1,\dots,n$. Since $U$ is a vector
+group, $\Omega(G'')$ is the image of $\Omega(G^n)$, so $\Psi''(\Omega(G''))\subset P$. By Step~1 with $L=0$,
+$\kappa=\mathrm{rk}(Y''\cap\Omega(G''))=2n$, and $\Gamma=\exp Y''$ has rank $n$. The inequality of
+Theorem~\ref{thm:W88} becomes
+\begin{equation}\label{eq:star}
+\lambda+2\delta_2\le(\delta-\tau)(2n+2),
+\end{equation}
+and, with $r=\dim\Psi''(T_{G'})$, one has $\tau=\delta+r-2$; so an obstruction must have $r\le1$.
+
+\emph{Step 3: the subgroups of $G''$.} Abelian subvarieties of $A$ are $B=B_i\times B_\rho$ ($E_i,E_\rho$ are
+non-isogenous), and $B_i\subset E_i^n$ corresponds to a $\Q(i)$-subspace $S_i\subset\Q(i)^n$ with $T_{B_i}=\C\,\sigma(S_i)$,
+$\dim B_i=\dim S_i$; likewise for $E_\rho$. With $\psi,\phi$ as in Lemma~\ref{lem:K} (for $k=\Q(i)$ and for $k=\Q(\rho)$), $\ker\psi\cap\ker\phi=0$ and each
+kernel has $k$-dimension $n/2$. Because $[a]$ acts on $T(E^\natural)$ by $\mathrm{diag}(a,\bar a)$ and $\mathrm{Hom}(E^\natural,\Ga)=0$ (the universal vector extension is anti-affine; \cite{MM74}),
+the image in $G_\ell$ of the universal extension of $B$ is a splitting $s(B)\cong B$ (with tangent space
+$T_B\times0$) if $\phi(S_i)=\phi(S_\rho)=0$, and is $\pi^{-1}(B)$, a non-split extension, otherwise (a splitting would give a nonzero homomorphism from a quotient of $(E_i^\natural)^{b_i}\times(E_\rho^\natural)^{b_\rho}$ to $\Ga$). A connected subgroup over $B$ either contains the fibre or is a splitting, and a splitting is unique since $\mathrm{Hom}(B,\Ga)=0$. It follows that the
+connected algebraic subgroups of $G''=\Ga\times G_\ell$ are exactly
+\begin{center}
+\begin{tabular}{llll}
+type & $G'$ & condition & $\Psi''(T_{G'})$\\\hline
+A & $\Ga\times\pi^{-1}(B)$ & --- & $\C^2$\\
+B & $\Ga\times s(B)$ & $\phi(S)=0$ & $\C(1,0)$\\
+C & $0\times\pi^{-1}(B)$ & --- & $\C(0,1)$ if $\psi(S)=0$, else $\C^2$\\
+D & $0\times s(B)$ & $\phi(S)=0$ & $0$ if $B=0$, else $\C(1,0)$\\
+E & $\{(\mu\,\mathrm{pr}_F(g),g):g\in s(B)\times F\}$, $\mu\ne0$ & $\phi(S)=0$ & $\C(\mu,1)$ if $B=0$, else $\C^2$
+\end{tabular}
+\end{center}
+(with $\phi(S)=0$ meaning $\phi(S_i)=\phi(S_\rho)=0$, and similarly for $\psi$). In type E, $F\cong\Ga$ is the fibre of
+$G_\ell\to A$ (coordinate $s_2$), $\pi^{-1}(B)=s(B)\times F$, and $\mathrm{pr}_F$ is the projection to $F$; so $G'$ is the
+graph of $\mu\,\mathrm{pr}_F$ into the first factor $\Ga$ (coordinate $s_1$), and for $B=0$ it is $\{s_1=\mu s_2\}$. In every case allowed by the conditions,
+$b=\dim B\le n$.
+
+\emph{Step 4: no obstruction.} If $\Psi''(T_{G'})\in\{0,\C(1,0),\C(0,1)\}$ then $\lambda=n$: if
+$\exp(\sum c_h\tilde y_h)\in G'$ for the lifts $\tilde y_h$ of $\theta_hv$, then $xv\in L+P$ with $x=\sum c_h\theta_h\in K$, so
+$x=0$ by Step~1. With $\delta_0=0$ for types A, B, E and $\delta_0=1$ for C, D, inequality (\ref{eq:star}) reads:
+$5n+2\le4n+4$ for $G'=0$; $5n+2-2b\le2n+2$ for types B and D ($B\neq0$); $5n-2b\le2n+2$ for type C with $r=1$; and
+$\lambda+4n+2\le2n+2$ for type E with $B=0$. Since $b\le n$, none of these holds for $n\ge3$, and types with $r=2$ fail
+$\delta>\tau$. So no connected $G'\ne G''$ satisfies the conclusion of Theorem~\ref{thm:W88}, a contradiction. \qed
+
+\begin{remark}[The count]\label{rem:count}
+Theorem~\ref{thm:RW} predicts Proposition~\ref{prop:D}: with $\kappa=2$ and $\alpha_K(G)=2(2+2/n)$
+(Lemma~\ref{lem:natural}) it gives $\dim_K(V\cap\Psi(\Lambda_K(G)))\le2+4/n$, which is $<3$ only for $n>4$; with the
+weight $\alpha(G'')/n=(4n+2)/n$ one gets $2+2/n<3$ for $n\ge3$, which is the threshold of Step~4.
+
+A second derivation of Proposition~\ref{prop:D} applies Theorem~\ref{thm:W88k} to $(G'',V'',W'',Y'')$: $d=2n+2$,
+$d_0=1$, $d_1=0$, $d_2=2n+1$, $t=\dim W''=2n$, $m=3n$, $\kappa=2n$, and (5.4) reads $3n>(4n+2-2n)\cdot1$, i.e.\
+$3n>2n+2$ (for $K=\Q(i,\sqrt3)$, $n=4$: $12>18-\kappa=10$). It remains to see that no connected $G'\ne0$ has
+$T_{G'}\subset V''$. First, $T_{G'}\not\subset\ker\Psi''$. If $G'$ meets the kernel $\Ga\times F$ of $G''\to A$ in a
+subgroup of positive dimension, $T_{G'}$ contains a vector $(c,0,0,d)\ne0$, whose image is $(c,d)$. Otherwise $G'$ is
+finite over its image $B$ in $A$, and $B\ne0$. Then $G'$ is an abelian variety, so $G'\subset0\times G_\ell$
+($\mathrm{Hom}(B,\Ga)=0$) is a splitting $s(B)$; by Step~3 this forces $\phi(S)=0$, and then $\psi\ne0$ on $S$
+(Lemma~\ref{lem:K}), so $\Psi''(T_{G'})=\C(1,0)$. Since $T_{G'}$ is $\Qb$-rational, it contains a $\Qb$-rational $x$ with
+$\Psi''(x)\ne0$. If $T_{G'}\subset V''$, then $\Psi''(x)\in V$ is a nonzero $\Qb$-rational point of $V=\C w_1$, so
+$\vp/(\beta\eta_\rho)\in\Qb$. This contradicts $\vp/\eta_\rho\notin\Qb$, which is W\"ustholz's theorem \cite{Wu89} (a
+period of $E_i$ and a quasi-period of $E_\rho$ are $\Qb$-linearly independent). The same exclusion can be read off the
+table in Step~3. Unlike Step~4, this derivation uses $\vp/\eta_\rho\notin\Qb$, and it rests on Theorem~\ref{thm:W88k} as
+published.
+\end{remark}
+
+\smallskip
+Corollary~\ref{cor:MX1} is the case $X=(u,\zeta_i(u))$, $Y=0$ (the logarithm of the origin), resp.\ $X=0$; the value $0$
+of the ratio is excluded separately, since $1,u,\zeta(u)$ are $\Qb$-linearly independent for non-torsion $u$ on a CM
+curve \cite{La80}; it also follows from \cite{Wu89} applied on $E^\natural\times\Ga$. Note that the base and fibre coordinates of a single logarithm cannot be chosen independently:
+$w(X)-\zeta^*(z(X))\in\Qb$.
+
+\begin{remark}[Other pairs of curves]\label{rem:general}
+Let $E,E'$ be non-isogenous CM curves with lattices $\omega\Z[\alpha]$, $\omega'\Z[\alpha']$ (up to finite index), so that
+$(\alpha-\bar\alpha)\,\omega\,\eta^*(\omega)=2\pi i=(\alpha'-\bar\alpha')\,\omega'\eta^*(\omega')$. With
+$V=\C(\omega,\beta\eta^*(\omega'))$ the vectors $w_1=(\omega,\beta\eta^*(\omega'))$ and
+$w_2=\bigl(\omega',\beta\frac{\alpha-\bar\alpha}{\alpha'-\bar\alpha'}\eta^*(\omega)\bigr)$ are parallel, and the same proof gives: if
+$X\in\Lambda(E^\natural)$, $Y\in\Lambda(E'^\natural)$ and $(z(X)+z(Y)+a)\beta\eta^*(\omega')=(w(X)+w(Y)+t)\omega$, then $a=0$
+and $z(X)\in k\omega$, $z(Y)\in k'\omega'$.
+\end{remark}
+
+\begin{remark}\label{rem:gamma}
+By the explicit formulas for $\vp$ and $\Omega_\rho$, $\vp\Omega_\rho/\pi\in\Qb^\times\cdot\Gamma(1/4)^2\Gamma(1/3)^3/\pi^{5/2}$, and
+$\vp/\eta_\rho=\tfrac{\sqrt3}{2\pi}\vp\Omega_\rho$. If $\vp/\eta_\rho=c\in\Qb$, then $X=Y=0$, $a=1$, $t=\beta/c$ satisfy the
+hypothesis of Theorem~\ref{thm:MX} with $a\ne0$; so Corollary~\ref{cor:gamma} is the case $X=Y=0$. It also follows
+directly from W\"ustholz's theorem \cite{Wu89} (a period of $E_i$ and a quasi-period of $E_\rho$ are $\Qb$-linearly
+independent).
+\end{remark}
+
+\subsection{Controls}
+(1) If either curve has no CM there is no relation making two periods parallel, so $\kappa$ drops to $n$ in Step~2 and
+$G'=0$ satisfies the inequality of Theorem~\ref{thm:W88} ($5n+2\le6n+4$): no conclusion. The same happens if only one
+Legendre relation is used. If the fibre action were $\mathrm{diag}(a,a)$ instead of $\mathrm{diag}(a,\bar a)$, subgroups
+of type D with image $0$ would satisfy it; and for a rational line $V=\C(\mu,1)$ with true data on it ($\kappa=0$) the
+type E line does. So the conjugate character, the second Legendre relation and the irrationality of $V$ are all used. (2) With the same curve twice, the antidiagonal of $E^\natural\times E^\natural$ lies in $\ker\Psi$
+and the count collapses to the one-curve cell, which only gives $(\zeta(u)+t)/(u+a)\neq\pi/\vp^2$ --- a weak form of
+Chudnovsky's theorem \cite{Ch84}. (3) Data on the period plane satisfy the relation only trivially.
+
+\subsection{A twisted variant}\label{sec:MXP}
+Exchanging the roles of base and fibre on $E_\rho$ gives a second statement of the same kind. Let
+$G=E_i^\natural\times E_\rho^\natural\times\Ga^2$ and
+\[
+\Psi'(X_i,X_\rho,a_1,a_2)=\bigl(z(X_i)+w(X_\rho)+a_1,\;w(X_i)+z(X_\rho)+a_2\bigr),\qquad V'=\C\,w_1',\quad
+w_1'=(\vp,\beta\Omega_\rho).
+\]
+With $w_2'=(\eta_\rho,\tfrac{2\beta}{\sqrt3}\eta_i)$ one has $w_2'=(\eta_\rho/\vp)\,w_1'$ by the two Legendre relations, and for
+$K\supseteq\Q(i,\sqrt{-3},\beta)$ both lie in $\Psi'(\Omega_K(G))=(K\vp+K\eta_\rho)\times(K\eta_i+K\Omega_\rho)$.
+
+\begin{theorem}[Theorem MX$'$]\label{thm:MXP}
+Let $X\in\Lambda(E_i^\natural)$, $Y\in\Lambda(E_\rho^\natural)$, $a,b\in\Qb$ and $\beta\in\Qb^\times$. If
+\[
+\bigl(z(X)+w(Y)+a\bigr)\cdot\beta\,\Omega_\rho=\bigl(w(X)+z(Y)+b\bigr)\cdot\vp ,
+\]
+then $z(X)=z(Y)=0$ and both sides vanish.
+\end{theorem}
+
+\begin{proof}[Proof (sketch)]
+\emph{Proposition D$'$: for $K\supseteq\Q(i,\sqrt{-3},\beta)$ of degree $n\ge8$, $V'\cap\Psi'(\Lambda_K(G))=Kw_1'+Kw_2'$.}
+With $\theta$, $p_\theta$ and $\Phi'=\Psi'\circ p_\theta$ as before, a canonical lift $B^\natural$ of an abelian
+subvariety $B_{S_i}\times B_{S_\rho}$ has tangent space in $\ker\Phi'$ only if $\psi(S_\bullet)=\phi(S_\bullet)=0$, i.e.\
+$B=0$ (Lemma~\ref{lem:K}). So the largest connected subgroup $U'$ with $T_{U'}\subset\ker\Phi'$ is the vector subgroup
+$\{\theta^{\mathsf T}(w_\rho+a_1)=0,\ \theta^{\mathsf T}(w_i+a_2)=0\}$, and $G''=G^n/U'$ is the pushout of
+$(E_i^n\times E_\rho^n)^\natural$ along $(w_i,w_\rho)\mapsto(\theta^{\mathsf T}w_i,\theta^{\mathsf T}w_\rho)$, an extension of
+$E_i^n\times E_\rho^n$ by $\Ga^2$ of dimension $2n+2$. It is a quotient of an anti-affine group, so
+$\mathrm{Hom}(G'',\Ga)=\mathrm{Hom}(G'',\Gm)=0$: $d_0=d_1=0$, $d_2=2n+2$. With the lifts of $D\theta_hw_1'$,
+$D\theta_hw_2'$ and $\theta_hv$ for a hypothetical $v\notin Kw_1'+Kw_2'$ one has $m=3n$ and $\kappa=2n$. The
+$\kappa$-refined Theorem~1.1 of \cite[\S5d]{W88} (Theorem~\ref{thm:W88k}) applies: $m>(d_1+2d_2-\kappa)(d-1-t)$ reads $3n>2n+4$, i.e.\ $n>4$,
+hence $n\ge8$ since $4\mid n$. Its remaining hypothesis holds because $\Psi''(T_{G'})$ would be a $\Qb$-rational subspace of
+$V'$, which has no $\Qb$-rational point ($\Omega_\rho/\vp\notin\Qb$), so $T_{G'}\subset\ker\Psi''$ and $G'=0$ by the
+maximality of $U'$. (A full case check against Theorem~\ref{thm:W88}, with the analogue of Step~1 of the proof of
+Theorem~\ref{thm:MX}, gives the same threshold.)
+
+\emph{Conclusion.} By D$'$, $z(X)+w(Y)+a=x\vp+x'\eta_\rho$ and $w(X)+z(Y)+b=x\beta\Omega_\rho+x'\tfrac{2\beta}{\sqrt3}\eta_i$
+with $x,x'\in K$. The analytic subgroup theorem gives $z(X)=p\vp$, $z(Y)=q\Omega_\rho$ with $p\in\Q(i)$, $q\in\Q(\rho)$;
+then $\zeta_i(p\vp)\in\bar p\,\eta_i+\Qb$ and $\zeta_\rho(q\Omega_\rho)\in\bar q\,\eta_\rho+\Qb$, and the $\Qb$-independence of
+$1,\vp,\eta_\rho$ and of $1,\eta_i,\Omega_\rho$ gives $x=p$, $x'=\bar q$, $q=p\beta$, $\bar p=\tfrac{2\beta}{\sqrt3}\bar q$, and
+vanishing constant terms. If $p\ne0$ this gives $\sqrt3|p|^2=2|q|^2$ with $|p|^2,|q|^2\in\Q_{>0}$, which is impossible.
+\end{proof}
+
+\begin{corollary}\label{cor:MXP}
+For every nonzero $u\in\Lg_{E_i}$ (off the lattice) and $a,b\in\Qb$:
+$(\zeta_i(u)+b)/(u+a)\notin\Qb^\times\cdot\Omega_\rho/\vp=\Qb^\times\cdot\Gamma(1/3)^3/(\sqrt\pi\,\Gamma(1/4)^2)$.
+\end{corollary}
+
+\noindent Together with Corollary~\ref{cor:MX1}, the ratio $(\zeta_i(u)+t)/(u+a)$ avoids both $\Qb\,\pi/(\vp\Omega_\rho)$ and
+$\Qb^\times\Omega_\rho/\vp$.
+
+\subsection{Two degree-two period statements}\label{sec:deg2}
+Propositions~\ref{prop:D} and~D$'$ also apply to data that are periods plus algebraic constants. This gives statements
+about products of periods of the two curves.
+
+\begin{corollary}\label{cor:deg2}
+\begin{itemize}
+\item[(i)] The numbers $\pi,\ \vp,\ \Omega_\rho,\ \vp\Omega_\rho$ are linearly independent over $\Qb$; equivalently, so are
+$\pi,\eta_i,\eta_\rho,\eta_i\eta_\rho$.
+\item[(ii)] The numbers $1,\ \vp,\ \Omega_\rho,\ \vp\Omega_\rho/\pi$ are linearly independent over $\Qb$; equivalently, so are
+$\pi,\vp,\eta_\rho,\vp\eta_\rho$.
+\end{itemize}
+\end{corollary}
+
+\begin{proof}
+The equivalences follow by multiplying a relation by $\eta_i\eta_\rho/\pi$, resp.\ by $\eta_\rho$, and using
+$\vp\eta_i=\pi$, $\Omega_\rho\eta_\rho=2\pi/\sqrt3$. We use that $1,\pi,\vp,\eta_i,\Omega_\rho,\eta_\rho$ are linearly
+independent over $\Qb$ (analytic subgroup theorem \cite{Wu89} on $E_i^\natural\times E_\rho^\natural\times\Gm\times\Ga$).
+
+(i) A relation with zero coefficient on $\vp\Omega_\rho$ is excluded by that independence, so suppose
+$\pi=A\vp\Omega_\rho+B\vp+C\Omega_\rho$ with $A\ne0$. Take $\beta=A$, $X=(\vp,\eta_i)\in\Lambda(E_i^\natural)$, $Y=0$, $a=C/A$,
+$b=-B$ in Theorem~\ref{thm:MXP}: the left side is $(\vp+C/A)A\Omega_\rho=\pi-B\vp$ and the right side is
+$(\eta_i-B)\vp=\pi-B\vp$. So the hypothesis holds, and Theorem~\ref{thm:MXP} gives $z(X)=0$, whereas $z(X)=\vp$.
+
+(ii) Suppose $\vp\Omega_\rho/\pi=a+b\vp+c\Omega_\rho$ (a relation with zero left-hand coefficient is excluded by the
+independence above). If $c=0$, dividing by $\vp$ and using $\pi/\vp=\eta_i$, $\Omega_\rho=2\pi/(\sqrt3\eta_\rho)$ gives
+$\Omega_\rho=a\eta_i+b\pi$. If $b=0$, multiplying by $\eta_\rho$ gives $\tfrac{2}{\sqrt3}\vp=a\eta_\rho+\tfrac{2c}{\sqrt3}\pi$. Both
+contradict the independence above, so $b,c\ne0$. Put $t=-1/c$, $\beta=-\sqrt3\,b/(2c)$, $a_1=a/b$, and take
+$X=(\vp,\eta_i+t)\in\Lambda(E_i^\natural)$, $Y=0$. Then $v=(\vp+a_1,\eta_i+t)\in\Psi(\Lambda(G))$ lies on
+$V=\C(\vp,\beta\eta_\rho)$: expanding $(\vp+a_1)\beta\eta_\rho=(\eta_i+t)\vp$ with $\vp\eta_i=\pi$ and
+$\eta_\rho=2\pi/(\sqrt3\Omega_\rho)$ gives exactly the assumed relation. Proposition~\ref{prop:D} gives
+$v=x(\vp,\beta\eta_\rho)+x'(\Omega_\rho,\tfrac{2\beta}{\sqrt3}\eta_i)$ with $x,x'\in K$. The first coordinate and the
+independence of $1,\vp,\Omega_\rho$ give $a_1=0$, $x=1$, $x'=0$; then $\eta_i+t=\beta\eta_\rho$, contradicting the
+independence of $1,\eta_i,\eta_\rho$.
+\end{proof}
+
+\noindent Both statements are genuinely of degree two: rewriting with the Legendre relations always leaves a product
+of periods of the two different curves, so they are not consequences of the analytic subgroup theorem. They are
+predicted by the period conjecture (by Chowla--Selberg \cite{Gr78} they concern $\pi$, $\Gamma(1/4)$, $\Gamma(1/3)$, whose algebraic
+independence is open), and they do not follow from known algebraic independence results. They have the shape of a
+nonvanishing $2\times2$ determinant of periods, like the theorem of Barr\'e-Sirieix, Diaz, Gramain and Philibert \cite{BDGP96} in the form
+\cite[Cor.~41]{W06}. We
+found them nowhere in print; they are the most delicate claims of the paper and we flag them for an expert check.
+Neither statement contains the constant $1$ together with $\vp\Omega_\rho$, so they do not give $\vp\Omega_\rho\notin\Qb$. For
+$E_i,E_\rho$, that statement is the CM case of Waldschmidt's conjecture \cite[slide~2]{W03s} that $\omega_1\omega_2^*-\omega_1^*\omega_2$ is
+transcendental for non-isogenous curves, since $\vp\cdot\rho\Omega_\rho-\Omega_\rho\cdot i\vp=(\rho-i)\vp\Omega_\rho$. We do not
+claim it.
+
+\subsection{The abelian-surface analogue}\label{sec:MXA}
+A simple CM abelian surface $A$ has two eigen-pairs of periods with $P_1P_4,\ P_2P_3\in\pi\,\Qb^\times$ (Riemann's bilinear
+relations). For $A=\mathrm{Jac}(y^2=x^5+1)$, $P_a=(1-\zeta_5^a)B(\tfrac a5,\tfrac12-\tfrac a5)/5$, and the reflection
+formula gives these relations exactly. With $G=A^\natural\times\Ga^2$, $\Psi=(z_1+z_2+a_1,\,w_3+w_4+a_2)$ and
+$V=\C(P_1,\beta P_3)$, the same argument (with $\alpha_K(A^\natural)=4+4/n$) shows: for non-torsion $P\in A(\Qb)$ with
+logarithm $v$, $(z_1(v)+z_2(v)+a)\beta P_3\neq(w_3(v)+w_4(v)+t)P_1$. We state this only as a proof sketch; the steps not
+written out are: the computation $\alpha_K(A^\natural)=4+4/n$ (no abelian part in $H$, since the four coordinates carry
+four distinct characters of $\Q(\zeta_5)$); condition (i) via W\"ustholz on $A^\natural$, which uses that $A^\natural$ has
+no proper algebraic subgroup surjecting onto $A$; the description of $\Lambda(A^\natural)$; and the final deduction that
+$v$ is torsion. This sketch uses Theorem~\ref{thm:RW}. The direct argument of \S\ref{sec:MX} should carry over with the same
+numbers ($G''=\Ga\times G_\ell$ of dimension $2n+2$, abelian subvarieties given by $\Q(\zeta_5)$-subspaces and four
+conditions from the four embeddings), but we have not written it out.
+
+\section{Single-partner limits for $e^{\pi^2}$}\label{sec:3E}
+
+The three exponentials conjecture asks that $\lambda_1\lambda_2=\gamma\lambda_3$ with $\lambda_j\in\Lg$, $\gamma\in\Qb^\times$
+force $\lambda_3=0$; $e^{\pi^2}\notin\Qb$ is the instance $\lambda_1=\lambda_2=i\pi$. In the count above, a configuration
+of rank-one shape gives a theorem only if $\kappa$ exceeds what the true data need. For lines with a single
+coordinate per factor, $\kappa\le1$, and one CM factor supplies exactly one unit of weight. On the period side,
+Laurent's identity (\ref{eq:laurent}) and its abelian analogue show that these configurations are linearisable:
+multiplying by $\pi$ turns them into linear relations among $1$-periods, decided by the analytic subgroup theorem.
+
+To get $\kappa=2$ on a line one needs two independent periods with parallel images, i.e.\ a true \emph{homogeneous}
+degree-two relation $p_ap_d=p_bp_c$ among periods. The CM Legendre relations $(\alpha-\bar\alpha)\,\omega\,\eta^*(\omega)=2\pi i$
+of two non-isogenous CM curves provide one; so do two eigen-pairs of a CM abelian variety. The multiplicative group
+cannot take part: its only period is $2\pi i$, and the corresponding relation would pair $2\pi i$ with $1$, which is not a
+period (for $E^\natural\times\Gm$ with $\Gm$ added to either coordinate, parallel periods force a $\Qb$-linear relation
+among $1,\omega,\eta^*$, so $\kappa\le1$). Under the hypothesis $e^{\pi^2}\in\Qb$ the number $\pi^2$ is a logarithm,
+not a period, so it adds data, not $\kappa$. This is why Theorem~\ref{thm:MX} exists while the same count cannot reach
+$e^{\pi^2}$. The $\Gm$-analogue of Theorem~\ref{thm:MX} (replace $\Omega_\rho$ by $i\pi$ and the $E_i$-data by logarithms)
+is $i\pi\cdot\log\beta=\gamma\log\alpha$, an open case of the conjecture.
+
+With two partners the mechanism does reach $e^{\pi^2}$: Corollary~\ref{cor:MG1} (one of $e^{\pi^2}$, $e^{\pi\Omega}$,
+$e^{\pi^2/\Omega}$) uses $\pi^2$ and $\pi^2/\Omega$ as data and the period $(2\pi i,2ic\Omega)$ for $\kappa$. In the
+configurations we enumerated (lines in $\C^2$, at most three factors per coordinate; not refereed), no single-partner
+disjunction ``one of $e^{\pi^2}$, $X$'' appears beyond (M3) and the known strong-six partners $e^{c/\pi}$, $e^{c\pi^3}$ (from
+the strong six exponentials theorem \cite[Cor.~2]{Roy92} with $x=(1,\pi)$ and $y=(1/\pi,1,\pi)$, resp.\ $y=(1,\pi,\pi^2)$).
+
+Within the monomial model (heuristic; not refereed), a slack count explains this (proof sketch). On a line $V=\C(1,r)$,
+each slot contributes monomials: its period, plus the constant $1$ for $\Ga$ and for the fibre. So $\Ga$ gives $\{1\}$,
+$\Gm$ gives $\{\pi\}$, the base of $E$ gives $\{\Omega\}$, and the fibre of $E^\natural$ gives $\{\pi/\Omega,1\}$. Their weights in the
+count are $0$, $1$, $1$, $1+2/n$, and the true relations are homogeneous for the grading $\deg\pi=2$,
+$\deg(\text{1-period})=1$. A line count is then a matching between the monomials of the two coordinates. The hypothesis
+$e^{\pi^2}\in\Qb$ adds the monomial $\pi^2$ (degree $4$) to the $\Gm$-slots, and a partner hypothesis adds one monomial
+$m_X$. A single-partner
+disjunction needs the partner to sit opposite $\pi^2$, so $m_X=\pi^2r^{\pm1}$, or the $e^{\pi^2}$-edges alone to fill the
+slack. Running through the cases leaves exactly $m_X=\pi\cdot p$ with $p$ a period of the slot carrying the partner, i.e.\
+$\wp(c\pi\Omega)$ (the case (M3)), together with the strong-six partners $e^{c/\pi}$ and $e^{c\pi^3}$. An exhaustive
+enumeration in a bounded range (at most four slots per coordinate) confirms this. On lines of type MX the slope has
+degree $0$, so a $\Gm$-slot can never be matched; $e^{\pi^2}$ can enter such a count only together with a second hypothesis.
+
+\section{Consistency checks}\label{sec:checks}
+The main results are consequences of a published theorem (completed by Lemma~\ref{lem:U} in the case used) applied to
+explicit groups, so an error would most likely sit in the bookkeeping. We checked that the same bookkeeping does not
+prove false statements, and that it gives no conclusion in the control configurations below, where it should not.
+\begin{itemize}
+\item \emph{Rational lines.} If $V$ contains a $\Qb$-rational point, the statement is false (e.g.\ $\Gm$ in place of $E$,
+$s=2$, $x=\log2$). In each configuration we checked (MG, MG$^\natural$, MX) the count finds an obstruction, typically a
+subtorus or a $\Ga$-line; for MG and MG$^\natural$ it occurs at equality in the inequality of Theorem~\ref{thm:W88}.
+\item \emph{No CM, wrong field, one Legendre relation, wrong coordinates.} An obstruction appears (the trivial subgroup,
+or a type-D subgroup) in each of these cases: a non-CM curve; $k\not\subset K$; only one Legendre relation on an MX-type
+line; for MX, $\mathrm{diag}(a,a)$ in place of $\mathrm{diag}(a,\bar a)$ on $T(E^\natural)$; for MG$^\natural$, a non-eigen fibre
+coordinate. So no conclusion is claimed in these cases. (For MG$^\natural$ the conjugation itself is not load-bearing;
+what matters is that $\Psi$ reads an eigen-coordinate.)
+\item \emph{Pure periods.} Data consisting of periods alone are true, so they test the period term by itself. In all the
+configurations we built (semi-abelian $G$ with $V$ a hyperplane containing a corank-one sublattice of periods,
+$\Gm^{d_1}\times E^g$, the groups of \S\S\ref{sec:MG}, \ref{sec:MX}), an obstruction exists.
+\item \emph{Sharpness of the period term.} For the graph of complex multiplication in $E\times E$ ($\kappa=2$), the
+diagonal in $\Gm^2$ ($\kappa=1$), and the Weil-restricted graph of complex multiplication with maximal $\kappa=n$, the
+obstruction occurs exactly at equality. A period term larger by one would prove false statements there. The
+applications in \S\S\ref{sec:MG}, \ref{sec:MX} use $\kappa=\mathrm{rk}(V''\cap\ker\exp)$ exactly. This is calibration evidence,
+not a proof of \cite[Prop.~6.1]{W88}.
+\item \emph{$\Gm$ alone} [proved]. For $G=\Gm^r$ the period space $\Psi(\Omega_K)$ is $2\pi i$ times a $K$-rational
+subspace. So a line $V=\C(1,s)$ meets it only if $s\in K$, where the statement is false and the method is silent. With a
+logarithm in place of the elliptic period ($\kappa=0$), the same count reproduces the six exponentials theorem (a
+calibration).
+\item \emph{Special exponents.} Values of $t$ that make one power algebraic ($2^t=3$, $2^t=1$) are not known to lie
+outside $\Qb^\times\Omega/\pi$. They lie inside only under degree-two relations such as $\pi\log3\in\Qb\,\Omega\log2$ or
+$\Omega\log2\in\Qb\pi^2$, which are conjecturally false. If they did lie inside, the resulting consequences of
+Corollary~\ref{cor:MG2} would be conjecturally true and would contradict no known result.
+\end{itemize}
+
+\section{Status and sources not consulted}\label{sec:status}
+
+Theorems~\ref{thm:MG}, \ref{thm:MGn}, \ref{thm:MX} and~\ref{thm:MXP} (hence Theorem~\ref{thm:A} and the corollaries)
+rest on the following.
+\begin{itemize}
+\item Theorem~\ref{thm:W88} \cite[Thm.~4.1]{W88}. Its proof \cite[\S\S6--7]{W88} uses:
+\begin{itemize}
+\item the auxiliary function with periods and the $\kappa$-saving \cite[Prop.~2.1, 2.4]{W83};
+\item multiplicities along $W$ (Lemma~\ref{lem:U}; a proof sketch, checked by two independent internal referees, not
+peer-reviewed). Its published inputs are \cite[Prop.~2.1, Lemma~2.2]{W83}, Serre's embedding and height bound
+\cite{Se79}, Bertrand's \cite[App.~I, Lemme~7 and its Corollaire, with Lemme~1]{W79} (cited in \cite[p.~396]{W88} as
+``Lemma~7''), and the lower bound of \cite[p.~640]{W83};
+\item Philippon's zero estimate \cite{Ph86};
+\item a complete system of addition laws of one fixed bidegree for the projective embedding of $G_2$. This exists for
+any quasi-projective commutative group variety by an elementary argument (Remark~\ref{rem:addition}); for abelian
+varieties see also Lange--Ruppert \cite{LR85}. (Serre's appendix \cite{Se79} gives the compactification with its
+$G$-action, but not addition laws; cf.\ also \cite{FW84}, which we have not checked.)
+\end{itemize}
+\item For the sketch of Theorem~\ref{thm:MXP} and the second derivations (Remarks~\ref{rem:MG5d}, \ref{rem:MGn5d},
+\ref{rem:count}): Theorem~\ref{thm:W88k}, as published in \cite[\S5d]{W88}.
+\item Legendre's relation; W\"ustholz's analytic subgroup theorem \cite{Wu89}; Masser \cite{Ma75}; Baker;
+the transcendence of $\Omega$ and of $\Omega/\pi$ (Schneider, Masser
+\cite{Ma75}).
+\item Standard facts on CM abelian varieties and universal vector extensions.
+\end{itemize}
+For $u\in\Lg_E$ (all of Corollary~\ref{cor:M}), Theorem~\ref{thm:M} follows from Laurent's identity and the analytic
+subgroup theorem; for $u\in\Qb\Lg_E$ it rests on Statement R (in the hyperplane case, which is Theorem~\ref{thm:W88k}
+in substance).
+Extensions to CM abelian varieties (four exponentials at Beta values such as $\Gamma(1/5)^2/\Gamma(2/5)$) and a mechanism using
+first-kind period relations of CM abelian varieties, as well as strong four exponentials at all CM slopes
+$\Qb^\times\{\Omega^{\pm1},(\Omega/\pi)^{\pm1}\}$, are treated separately. What most needs an expert read: Lemma~\ref{lem:U} (the one step of \cite[Prop.~6.1]{W88} that is only indicated in
+print); the subgroup classifications in \S\S\ref{sec:MG} and~\ref{sec:MX}; and the degree-two statements of
+Corollary~\ref{cor:deg2}, which say more about $\pi$, $\Gamma(1/4)$, $\Gamma(1/3)$ than any known algebraic-independence
+result. Corollary~\ref{cor:deg2}(i) rests on Theorem~\ref{thm:MXP}, whose write-up has had one internal check.
+The claim that MX is not a
+linearisation, and the discussion in \S\ref{sec:3E}, are heuristic (they use the period conjecture). Sources we
+could not consult, any of which might contain these statements: Bertrand \cite{Be83} (the source of the $K$-structure used
+in \cite{RW93}); Waldschmidt \cite{W90} (the general form of Theorem~\ref{thm:W88}); Baker--W\"ustholz \cite[\S6.2]{BW07};
+Bertrand--Laurent \cite{BL81}; Faltings--W\"ustholz \cite{FW84};
+Roy \cite{R1}; MathSciNet
+citation searches. Numerical values above were computed with mpmath at 50--60 digits; they illustrate and prove nothing.
+
+\appendix
+\section{Multiplicities along $W$ in the auxiliary function}\label{app:U}
+
+We use the notation of \cite[\S6]{W88}. $G=\Ga^{d_0}\times\Gm^{d_1}\times G_2$ over a number field $K_0$ with $d_2\ge1$ and
+$G_2$ embedded in $\mathbb P_M$ by Serre's embedding (coordinates $\psi_0,\dots,\psi_M$, entire of order $\le2$;
+$\xi=\psi/\psi_0$). $V\subset T_G$ has dimension $N<d$, $W\subset V$ is $K_0$-rational of dimension $t$, $y_1,\dots,y_m\in V$
+with $\exp_G(y_j)\in G(K_0)$, $Y(S)=\{\sum h_jy_j: 0\le h_j\le S\}$, $0\le\kappa\le\mathrm{rk}_\Z(V\cap\ker\exp_G)$, and
+$\Delta^{d-N}=C\,S^{d_1+2d_2-\kappa}(\log S)^{bd_0}$, $T(\log S)^a=D_0(\log S)^b=D_1S=D_2S^2=\Delta$.
+
+\begin{lemma}\label{lem:U}
+Assume $2N\ge d_1+2d_0+\kappa$, $d_2\ge1$, $a,b\ge1$. For $\nu$ large and $S\ge S_0(\nu)$ there is a polynomial
+$P_S\in K_0[U,V,W]$ of degree $\le D_0$ in $U$, $\le D_1$ in $V$, homogeneous of degree $\le D_2$ in $W$, not vanishing
+identically on $G$, which vanishes with multiplicity $\ge T$ along $W$ at every point of $\exp_G(Y(S))$. Hence
+\cite[Prop.~6.1]{W88} holds under these assumptions.
+\end{lemma}
+
+\begin{proof}[Sketch]
+\emph{Step 1} is \cite[Prop.~2.1 and p.~640]{W83} unchanged. With $r=\nu^2S$, $R=\nu^3S$, it gives a nonzero
+$Q_S\in\Z[U,V,W]$ of degrees $\le D_i/\nu$ and coefficients $\le e^{\Delta/\nu}$ with $|Q_S(\lambda,\mu,\psi)(z)|\le
+e^{-\nu^6\Delta}$ for $z\in V$, $|z|\le\nu^2S$. The hypothesis $2N\ge d_1+2d_0+\kappa$ is the condition
+$U\ge r^2\log(R/r)$ of Prop.~2.1 (printed with $-\kappa$ on p.~641, a misprint). No condition along $W$ enters the linear
+system, so the saving $r^{\kappa}$ in the hypothesis of \cite[Prop.~2.1, p.~633]{W83} is untouched. We also use the lower bound
+$\max_i|\psi_i(t+z)|\ge e^{-c(\nu S)^2}$ for $t\in Y(\nu S)\cap\mathcal T$ and $|z|\le\rho$, where $Y=\mathcal T+F$ with $F$
+finite (\cite[p.~640]{W83}, \cite[Lemme~1.2.2]{W79}; the $\psi_i$ have no common zero \cite[Prop.~8]{Se79}). In Step~2 it
+bounds the scalar $\mu_j(z)$ in $E^{(j)}(\xi(\gamma),\xi(z))=\mu_j(z)\psi(t+z)$. (The polynomial variables $U,V,W$ below
+are not the subspaces $V,W$.)
+
+\emph{Step 2} (derivatives). Fix $t\in Y(\nu S)\cap\mathcal T$, $\gamma=\exp_G(t)$, and an addition law $E^{(j)}$ of the
+embedding with $E^{(j)}(\xi(\gamma),\xi(0))\ne0$. For $z=\sum s_iw_i\in W$ small put
+$F_t(s)=Q_S(\lambda(\gamma)+\lambda(z),\mu(\gamma)\mu(z),E^{(j)}(\xi(\gamma),\xi(z)))$. By homogeneity, $F_t$ is a unit
+times $Q_S(\lambda,\mu,\psi)(t+z)/\psi_0(t+z)^{D^\circ}$, so it has the same order along $W$. Its Taylor coefficients
+$\theta'$ of order $<T$ satisfy $|\theta'|\le e^{-\nu^6\Delta+c\nu\Delta}$ (Cauchy). They are polynomials, with no
+denominator depending on $\gamma$, in the coefficients of $Q_S$, the coordinates of $\gamma$, and the Taylor coefficients
+of $\lambda,\mu,\xi$ along $W$ at the origin. The latter are $K_0$-rational with house and denominator
+$\le c^{|\tau|+1}(|\tau|!)^{c}$: by Bertrand's Corollaire to his Lemme~7 \cite[App.~I, p.~177]{W79} the coordinates of the
+exponential map have finite arithmetic functional order, every point being regular, and his Lemme~1 \cite[App.~I,
+pp.~166--167]{W79} turns this into such bounds for derivatives (\cite[p.~396]{W88} cites this as ``Lemma~7''). Since
+$|\tau|<T$ and $T\log T\le c\Delta$ (as $a\ge1$ and $\log\Delta\le c\log S$), Serre's height bounds for $\gamma$ then give
+$h(\theta')\le c\nu\Delta$ with $c$ independent of $\nu$. Liouville's inequality forces $\theta'=0$ once $\nu^5$ exceeds a constant. (Dividing by a
+power of $E_0^{(j)}(\xi(\gamma),\xi(0))$ instead would cost a height $T(\nu S)^2$, which is too large.)
+
+\emph{Step 3} (translation). Write $Y(S)\subset(Y(\nu S)\cap\mathcal T)+F'$ with $F'$ finite. For $f\in F'$ take the
+product over the addition laws $E^{(j)}$ with $E^{(j)}(\cdot,\xi(-\exp f))\not\equiv0$ of $Q_S$ translated by $-\exp f$;
+then take the product over $f\in F'$. Translations commute with invariant derivations, and each factor is a unit times
+the translate on a dense open set, so the product vanishes with multiplicity $\ge T$ along $W$ on $\exp_G(Y(S))$. It is
+not identically zero on $G$, and its degrees are $\le D_i$ once $\nu$ exceeds (number of laws)$\cdot$(bidegree)$\cdot|F'|$.
+No norm to $\Q$ is taken, since \cite[Prop.~6.1]{W88} allows $\Qb$-coefficients.
+
+The exponent $b\ge1$ changes only the number of unknowns, which is compensated exactly by the factor $(\log S)^{bd_0}$ of
+$\Delta^{d-N}$, and lowers the height term $(D_0/\nu)\log S$. In the proof of \cite[Thm.~4.1]{W88}, $b>1$ is used only in
+the case $\delta=\tau$, which requires $d_0\ge1$ (Theorem~\ref{thm:MX}).
+\end{proof}
+
+\begin{remark}[Addition laws]\label{rem:addition}
+Let $G_2\subset\mathbb P_M$ be locally closed over $K_0$, and $X=G_2\times G_2\subset\mathbb P_M\times\mathbb P_M$. The local
+ring of $X$ at a point $p$ is a quotient of that of $\mathbb P_M\times\mathbb P_M$, whose elements are ratios of
+bihomogeneous forms of equal bidegree. Clearing denominators, near $p$ the group law $X\to G_2\subset\mathbb P_M$ is given
+by bihomogeneous forms $(A_0,\dots,A_M)$ of one bidegree, not all zero at $p$. By quasi-compactness finitely many such
+systems suffice, and multiplying each by suitable monomials $x_i^ay_l^b$ gives a complete system of addition laws of one
+bidegree $(\beta,\beta)$, with coefficients in a finite extension of $K_0$. (This replaces $K_0$ by a finite extension in
+Step~2, which only changes $[K_0:\Q]$ in the Liouville inequality.) Step~2 uses these laws only on
+$G_2(K_0)\times\exp(\text{a neighbourhood of }0\text{ in }W)$, and Step~3 only with a fixed second argument.
+\end{remark}
+
+\begin{thebibliography}{99}
+\bibitem{Abe20} Y. Abe, A transcendence result on elliptic functions using functions of two variables,
+arXiv:2005.01211 (2020; withdrawn 2021).
+\bibitem{BDGP96} K. Barr\'e-Sirieix, G. Diaz, F. Gramain, G. Philibert, Une preuve de la conjecture de Mahler--Manin,
+Invent.\ Math.\ 124 (1996), 1--9.
+\bibitem{BL81} D. Bertrand, M. Laurent, Propri\'et\'es de transcendance de nombres li\'es aux fonctions th\^eta, C. R.
+Acad.\ Sci.\ Paris S\'er.\ I 292 (1981), 747--749.
+\bibitem{ChCh26} G. V. Chudnovsky, D. V. Chudnovsky, Irrationality exponents of real CM elliptic periods and powers of the
+lemniscate period, arXiv:2610.31112 (2026), with Lean files.
+\bibitem{Ch84} G. V. Chudnovsky, \emph{Contributions to the Theory of Transcendental Numbers}, Math.\ Surveys Monogr.\ 19,
+Amer.\ Math.\ Soc., 1984.
+\bibitem{Di04} G. Diaz, Utilisation de la conjugaison complexe dans l'\'etude de la transcendance de valeurs de la
+fonction exponentielle usuelle, J. Th\'eor.\ Nombres Bordeaux 16 (2004), 535--553.
+\bibitem{Gr78} B. H. Gross, On the periods of abelian integrals and a formula of Chowla and Selberg, with an appendix by
+D. E. Rohrlich, Invent.\ Math.\ 45 (1978), 193--211.
+\bibitem{FW84} G. Faltings, G. W\"ustholz, Einbettungen kommutativer algebraischer Gruppen und einige ihrer
+Eigenschaften, J. reine angew.\ Math.\ 354 (1984), 175--205.
+\bibitem{LR85} H. Lange, W. Ruppert, Complete systems of addition laws on abelian varieties, Invent.\ Math.\ 79
+(1985), 603--610.
+\bibitem{Ma76} D. W. Masser, A note on a paper of Franklin, Acta Arith.\ 31 (1976), 143--152.
+\bibitem{Ph86} P. Philippon, Lemmes de z\'eros dans les groupes alg\'ebriques commutatifs, Bull.\ Soc.\ Math.\ France 114
+(1986), 355--383.
+\bibitem{BK77} W. D. Brownawell, K. K. Kubota, The algebraic independence of Weierstrass functions and some related
+numbers, Acta Arith.\ 33 (1977), 111--149.
+\bibitem{BW07} A. Baker, G. W\"ustholz, \emph{Logarithmic Forms and Diophantine Geometry}, New Math.\ Monogr.\ 9,
+Cambridge Univ.\ Press, 2007.
+\bibitem{Be83} D. Bertrand, Endomorphismes de groupes alg\'ebriques; applications arithm\'etiques, in \emph{Approximations
+diophantiennes et nombres transcendants} (Luminy 1982), Progr.\ Math.\ 31, Birkh\"auser, 1983, 1--45.
+\bibitem{La80} M. Laurent, Ind\'ependance lin\'eaire de valeurs de fonctions doublement quasi-p\'eriodiques, C. R. Acad.\
+Sci.\ Paris S\'er.~A 290 (1980), 397--399.
+\bibitem{La82} M. Laurent, Transcendance de p\'eriodes d'int\'egrales elliptiques II, J. reine angew.\ Math.\ 333 (1982),
+144--161.
+\bibitem{Ma75} D. W. Masser, \emph{Elliptic Functions and Transcendence}, Lecture Notes in Math.\ 437, Springer, 1975.
+\bibitem{R1} D. Roy, Transcendance et questions de r\'epartition dans les groupes alg\'ebriques, in \emph{Approximations
+diophantiennes et nombres transcendants} (Luminy 1990), de Gruyter, 1992, 249--274.
+\bibitem{Roy92} D. Roy, Matrices whose coefficients are linear forms in logarithms, J. Number Theory 41 (1992), 22--47.
+\bibitem{RW93} D. Roy, M. Waldschmidt, Autour du th\'eor\`eme du sous-groupe alg\'ebrique, Canad.\ Math.\ Bull.\ 36
+(1993), 358--367.
+\bibitem{W88} M. Waldschmidt, On the transcendence methods of Gel'fond and Schneider in several variables, in \emph{New
+Advances in Transcendence Theory} (Durham 1986), Cambridge Univ.\ Press, 1988, 375--398.
+\bibitem{MM74} B. Mazur, W. Messing, \emph{Universal Extensions and One Dimensional Crystalline Cohomology}, Lecture
+Notes in Math.\ 370, Springer, 1974.
+\bibitem{SMF84} D. Bertrand et al., Les nombres transcendants, M\'em.\ Soc.\ Math.\ France (2) 13 (1984).
+\bibitem{Se79} J.-P. Serre, Quelques propri\'et\'es des groupes alg\'ebriques commutatifs, Appendice~II in \cite{W79},
+191--202.
+\bibitem{W79} M. Waldschmidt, \emph{Nombres transcendants et groupes alg\'ebriques}, Ast\'erisque 69--70 (1979), with
+appendices by D. Bertrand and J.-P. Serre.
+\bibitem{W83} M. Waldschmidt, Sous-groupes analytiques de groupes alg\'ebriques, Ann.\ of Math.\ 117 (1983), 627--657.
+\bibitem{W05b} M. Waldschmidt, Further variations on the six exponentials theorem, Hardy-Ramanujan J.\ 28 (2005), 1--9.
+\bibitem{W05} M. Waldschmidt, Variations on the six exponentials theorem, in \emph{Algebra and Number Theory}
+(Hyderabad 2003), Hindustan Book Agency, 2005, 338--355.
+\bibitem{W06} M. Waldschmidt, Elliptic functions and transcendence, in \emph{Surveys in Number Theory}, Dev.\ Math.\ 17,
+Springer, 2008, 143--188.
+\bibitem{W07} M. Waldschmidt, The role of complex conjugation in transcendental number theory, in \emph{Diophantine
+Equations} (DION 2005, Mumbai), ed.\ N. Saradha, Tata Inst.\ Fund.\ Res.\ Stud.\ Math.\ 20, Narosa, New Delhi, 2008,
+297--308.
+\bibitem{W22} M. Waldschmidt, The four exponentials problem and Schanuel's conjecture, in \emph{Mathematics Going
+Forward}, Lecture Notes in Math.\ 2313, Springer, Cham, 2023, 579--592.
+\bibitem{W90} M. Waldschmidt, Dependence of logarithms of algebraic points, in \emph{Number Theory, Vol.~II} (Budapest
+1987), Colloq.\ Math.\ Soc.\ J\'anos Bolyai 51, North-Holland, 1990, 1013--1035.
+\bibitem{W03s} M. Waldschmidt, Dependence of logarithms on commutative algebraic groups, slides, Hyderabad, December 2003.
+\bibitem{W19} M. Waldschmidt, Third kind elliptic integrals and transcendence, appendix to C. Bertolin, Third kind
+elliptic integrals and 1-motives, J. Pure Appl.\ Algebra 224 (2020), no.~10, 106396; arXiv:1905.07247.
+\bibitem{WW85} J. Wolfart, G. W\"ustholz, Der \"Uberlagerungsradius gewisser algebraischer Kurven und die Werte der
+Betafunktion an rationalen Stellen, Math.\ Ann.\ 273 (1985), 1--15.
+\bibitem{Wu89} G. W\"ustholz, Algebraische Punkte auf analytischen Untergruppen algebraischer Gruppen, Ann.\ of Math.\ 129
+(1989), 501--517.
+\end{thebibliography}
+
+\end{document}

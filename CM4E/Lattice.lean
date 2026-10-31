@@ -1,6 +1,6 @@
 /-
-Copyright (c) 2026. All rights reserved.
-Released under Apache 2.0 license.
+Copyright (c) 2026 Shawn Krisman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
 import CM4E.Defs
@@ -9,8 +9,9 @@ import CM4E.Defs
 # The lemniscatic lattice `ϖ ℤ[i]`
 
 `CM4E.lemniscatic : PeriodPair` is the period pair `(ϖ, iϖ)` (Mathlib's `PeriodPair`, with its Weierstrass `℘`).
-Its curve is `y² = 4x³ − 4x`, i.e. `g₂ = 4`, `g₃ = 0`. That identification (the Γ-value formula for `ϖ`) is not proved
-here; the conditional main theorem only uses that `g₂` and `g₃` are algebraic, as an explicit hypothesis.
+Its curve is `y² = 4x³ − 4x`, i.e. `g₂ = 4`, `g₃ = 0`. Here `g₃ = 0` is proved (`g₃_lemniscatic`); `g₂ = 4` is proved in
+`CM4E/Ext/LemniscateIndep/` and used in `CM4E/Final.lean`. `etaLem` records the quasi-periods used by the group
+models.
 -/
 
 open Complex Real
@@ -24,6 +25,12 @@ lemma varpi_pos : 0 < varpi := by
   positivity
 
 lemma varpi_ne_zero : varpi ≠ 0 := varpi_pos.ne'
+
+lemma varpi_ne_zero' : (varpi : ℂ) ≠ 0 := by exact_mod_cast varpi_ne_zero
+
+/-- The quasi-period `η((m + ni)ϖ) = (m − ni) π/ϖ` of `ϖℤ[i]` (Legendre's relation `ϖ η(ϖ) = π` and
+`η(iλ) = −iη(λ)`). It enters the group models `gmQ`, `gmX` as a stated soundness fact, not as a Lean proof. -/
+noncomputable def etaLem (m n : ℤ) : ℂ := ((m : ℂ) - n * I) * (Real.pi / varpi)
 
 /-- `ϖ` and `iϖ` are linearly independent over `ℝ`. -/
 lemma linearIndependent_varpi : LinearIndependent ℝ ![(varpi : ℂ), I * varpi] := by

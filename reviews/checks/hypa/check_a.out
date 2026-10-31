@@ -1,0 +1,49 @@
+=== N = 5, g = 2 ===
+holomorphic dx/y^k for k = [3, 4]  (count 2 = g: True)
+CM type (eigencharacters zeta^m of [zeta]^* on holomorphic forms): [1, 2]; -Phi = [3, 4]; disjoint & cover: True
+stabiliser of Phi in (Z/N)^x: [1]  (trivial => primitive => A simple, End^0 = Q(zeta_N))
+Koblitz-Ogus label Phi_(1,1): [1, 2]  (= Phi: True)
+loop closed: |y_end - y_start| = 0.0
+ s=0: kappa=m=1, form dx/y^4: P_s = (6.565375988332914717604773 - 9.03646481143698619229659j)
+       int_gamma = (6.565375988332914717604773 - 9.03646481143698619229659j)   |diff| = 6.223e-61  ok=True
+       [zeta^1]gamma: |int - zeta^(m e) P| = 2.4892e-60 ok=True
+       [zeta^2]gamma: |int - zeta^(m e) P| = 3.2987e-60 ok=True
+       zeta^(-k) == zeta^m : True
+ s=1: kappa=m=2, form dx/y^3: P_s = (7.645211909641687796794505 - 2.48407993131697488641914j)
+       int_gamma = (7.645211909641687796794505 - 2.48407993131697488641914j)   |diff| = 1.3915e-60  ok=True
+       [zeta^1]gamma: |int - zeta^(m e) P| = 3.3512e-60 ok=True
+       [zeta^2]gamma: |int - zeta^(m e) P| = 5.2864e-60 ok=True
+       zeta^(-k) == zeta^m : True
+singular values of the 5 x 4 real period matrix: ['17.6608', '17.6608', '12.7102', '12.7102'] (rank 2g = 4 iff smallest > 0)
+P_(s0)/pi = (2.08982408360004227560213809222 - 2.87639608563233650707491125404j)
+findpoly(B(1/N,1/N)/pi, deg 8, coeff 1e6): None  (None expected)
+=== N = 7, g = 3 ===
+holomorphic dx/y^k for k = [4, 5, 6]  (count 3 = g: True)
+CM type (eigencharacters zeta^m of [zeta]^* on holomorphic forms): [1, 2, 3]; -Phi = [4, 5, 6]; disjoint & cover: True
+stabiliser of Phi in (Z/N)^x: [1]  (trivial => primitive => A simple, End^0 = Q(zeta_N))
+Koblitz-Ogus label Phi_(1,1): [1, 2, 3]  (= Phi: True)
+loop closed: |y_end - y_start| = 0.0
+ s=0: kappa=m=1, form dx/y^6: P_s = (5.126416614436591307360948 - 10.64511378762150002199939j)
+       int_gamma = (5.126416614436591307360948 - 10.64511378762150002199939j)   |diff| = 1.3915e-60  ok=True
+       [zeta^1]gamma: |int - zeta^(m e) P| = 3.7853e-60 ok=True
+       [zeta^2]gamma: |int - zeta^(m e) P| = 3.9358e-60 ok=True
+       zeta^(-k) == zeta^m : True
+ s=1: kappa=m=2, form dx/y^5: P_s = (7.778645710428166155682787 - 6.203262955610724384130252j)
+       int_gamma = (7.778645710428166155682787 - 6.203262955610724384130252j)   |diff| = 1.3915e-60  ok=True
+       [zeta^1]gamma: |int - zeta^(m e) P| = 3.7853e-60 ok=True
+       [zeta^2]gamma: |int - zeta^(m e) P| = 2.5658e-60 ok=True
+       zeta^(-k) == zeta^m : True
+ s=2: kappa=m=3, form dx/y^4: P_s = (7.348645782325698495214075 - 1.677280445420538920952904j)
+       int_gamma = (7.348645782325698495214075 - 1.677280445420538920952904j)   |diff| = 1.8734e-60  ok=True
+       [zeta^1]gamma: |int - zeta^(m e) P| = 2.5658e-60 ok=True
+       [zeta^2]gamma: |int - zeta^(m e) P| = 2.8687e-60 ok=True
+       zeta^(-k) == zeta^m : True
+singular values of the 7 x 6 real period matrix: ['22.1042', '22.1042', '18.6134', '18.6134', '14.1016', '14.1016'] (rank 2g = 6 iff smallest > 0)
+P_(s0)/pi = (1.6317890890720048854243242535 - 3.38844495815130049477452727298j)
+findpoly(B(1/N,1/N)/pi, deg 8, coeff 1e6): None  (None expected)
+=== side identities ===
+B(1/5,1/5) - Gamma(1/5)^2/Gamma(2/5) = -1.2446e-60
+Gamma(4/5)^2/Gamma(3/5) * B(1/5,1/5)/pi = 2.75276384094234707641441916382; sin(2pi/5)/sin(pi/5)^2 = 2.75276384094234707641441916382; diff 3.1115e-61
+B(1/7,1/7) - Gamma(1/7)^2/Gamma(2/7) = 1.2446e-60
+N=5: P_1 * P_(N-1) / pi = (6.340376775301023814109596 + 6.045372637384262821944459e-62j) vs closed form 4 sin(2pi/N)/(1-2/N) = 6.340376775301023814109596, diff (1.2446e-60 + 6.0454e-62j)
+N=7: P_1 * P_(N-1) / pi = (4.378256301820966928767289 + 4.229906982743844339854574e-61j) vs closed form 4 sin(2pi/N)/(1-2/N) = 4.378256301820966928767289, diff (6.223e-61 + 4.2299e-61j)

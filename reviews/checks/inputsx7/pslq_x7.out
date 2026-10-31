@@ -1,0 +1,14 @@
+   realprecision = 616 significant digits (600 digits displayed)
+relation_R residual |P1 P2 - mu' P3 Om| = 1.6119137333629194620 E-614
+mu - sin(3pi/7)/sin(pi/7) = 1.2758315595570880495 E-616
+j=1  int - B(j/7,j/7) = -9.403954806578300064 E-38
+j=2  int - B(j/7,j/7) = 0.E-37
+j=3  int - B(j/7,j/7) = 0.E-37
+Q: 1,B11,B22,B33,B12                   n= 5 digits= 120  max|coef| of LLL vector = 4.53 e21   residual = 4.31 e-87
+Q(cos2pi/7)                            n=15 digits= 300  max|coef| of LLL vector = 1.70 e16   residual = 5.86 e-231
+Q(sqrt7)                               n=10 digits= 200  max|coef| of LLL vector = 4.88 e16   residual = 3.82 e-153
+Q(cos2pi/7,sqrt7)                      n=30 digits= 500  max|coef| of LLL vector = 1.59 e13   residual = 5.52 e-389
+Q(cos2pi/7,7^(1/4))                    n=60 digits= 600  max|coef| of LLL vector = 1.90 e8   residual = 3.04 e-485
+Q(cos2pi/7) with pi                    n=18 digits= 400  max|coef| of LLL vector = 6.72 e17   residual = 2.05 e-306
+control: B11B22, B12B33 over Q(c) [true] n= 6 digits= 120  max|coef| of LLL vector = 2.00   residual = 2.97 e-615
+control: Om_49a1 vs B12 over Q(c) [true] n= 6 digits= 120  max|coef| of LLL vector = 4.00   residual = 2.48 e-616

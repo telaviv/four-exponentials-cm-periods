@@ -20,6 +20,10 @@ With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real 
   `℘(cϖ/π) ∉ ℚ̄` for algebraic `c ≠ 0`.
 * `CM4E.Final.mg_K_varpi`, `mgn_K_varpi`: the `K`-dimension forms of Theorems MG and MG♮ (`dim_K S_K ≤ 2`).
 * `CM4E.Final.thmS_varpi`, `mg1_varpi`, `mg3_varpi`: Theorem S of the companion paper, Corollaries MG1, MG3.
+* Companion paper [II], CM abelian varieties (`CM4E/AbVar/`): `AbVar.x7c` (**`1, B(2/7,2/7), B(3/7,3/7),
+  B(3/7,3/7)/B(1/7,1/7)` are `ℚ̄`-linearly independent**), `AbVar.thmX7` (Theorem X at level seven),
+  `AbVar.two_three_beta5'` (**`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/Γ(2/5)`**), Theorem A for `B(1/5,1/5)`,
+  `B(1/7,1/7)`.
 
 Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
 for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`
@@ -40,6 +44,7 @@ is assumed, why it is believed, and which paper results are covered: [TRUST.md](
 | `CM4E/Gen/` | the general proofs: Theorem 1 for every algebraic `c` (`Frame`, `MG`, `MGn`, `Instances`), adapted number-field bases, Theorem MX (`MXGen`), MX′ and deg2 (`MXP`, `Deg2`), Theorem S and MG1/MG3 (`Frame2`, `SMG`, `MG13`), Theorem M (`FrameM`, `ThmM`, `ThmMCor`), `K`-forms of MG, MG♮ (`MGK`, `MGnK`) |
 | `CM4E/Final.lean` | the final statements, with all inputs except W88 discharged |
 | `CM4E/CaseCheck.lean`, `CM4E/LemmaL.lean` | arithmetic of the paper's Theorem 4.1 case tables; Step 1 of Prop. D |
+| `CM4E/AbVar/` | CM abelian varieties: adapted bases over `ℚ(ζ_N)`, Beta values at level 7, Theorem X7 (`FrameX`, `X7`), Theorem A (`ThmA`, `ThmAn`) |
 | `CM4E/Ext/` | Weierstrass `ζ`/`σ`, `g₂(ϖℤ[i]) = 4`, Schneider's theorem (vendored; see `CM4E/Ext/PROVENANCE.md`) |
 | `Axioms.lean` | axiom audit of the main declarations |
 | `reviews/` | fidelity reviews of the hypothesis models, with their check scripts |
@@ -60,8 +65,8 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 * Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
   of the group models.
 * Theorem 1 for every CM curve (more `CMLattice` instances); Baker's reduction for the `K`-forms; (M2) via
-  Gel'fond–Schneider; Hermite–Lindemann from the vendored Schneider–Lang criterion; the companion paper's Theorems A
-  and X (they need a modelled CM abelian variety, see `TRUST.md` §8).
+  Gel'fond–Schneider; Hermite–Lindemann from the vendored Schneider–Lang criterion; for the companion paper: the
+  torsion step of Theorem X, Cor. X7 (a), (b) (need abelian integrals), Cor. A2 and the `K`-forms (`TRUST.md` §8).
 
 ## License and provenance
 

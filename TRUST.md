@@ -156,17 +156,46 @@ reports. No human expert has reviewed the definitions or proofs.
 | result of [II] | Lean | status |
 |---|---|---|
 | Theorem S, Theorems SMG, SMG♮ | `Gen.thmS`, `Gen.smg_false`, `Gen.smgn_false`, `Final.thmS_varpi`, `Final.thmS_omegaRho` | ✔ for CM lattices given as `CMLattice` (`ϖℤ[i]`, `Ω_ρℤ[ρ]`); SMG/SMG♮ with second rows in `𝓛̃` (elliptic logarithms / fibre values in the second row are not formalised) |
-| Theorem A (MG-A, MG♮-A), Cor. A2 | — | ✗ not formalised: needs a modelled CM abelian variety |
-| Theorem X, Prop. 15, Theorem X7, Cor. X7 | — | ✗ not formalised: needs a modelled CM abelian variety (the genus-3 Jacobian of `y⁷ = x(1 − x)`, with Beta-value periods) |
+| Theorem A, MG-A (families `cP/π`, `cπ/P`) | `AbVar.fourExpAt_A` (generic), `AbVar.fourExpAt_beta5`, `AbVar.fourExpAt_beta7`, `AbVar.fourExpAt_pi_div_beta5`, `AbVar.two_three_beta5` | ✔ for the first-kind eigen-periods `P = (1 − ζ_N)B(1/N, 1/N)` of `y⁵ = x(1 − x)` and `y⁷ = x(1 − x)` (`FourExpAt (cB/π)`, `FourExpAt (cπ/B(1/5,1/5))`; `2^t, 3^t` at `t = Γ(1/5)²/(πΓ(2/5))`); other eigen-periods need their own period data (an instance of the generic model) |
+| Theorem A, MG♮-A (families `cP`, `c/P`) | `AbVar.fourExpAt_An` (generic), `AbVar.fourExpAt_beta5'`, `AbVar.two_three_beta5'` | ✔ for `y⁵ = x(1 − x)`: `FourExpAt (cB(1/5, 1/5))`, and **`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/Γ(2/5)`** (the paper's example); the relation `B(1/5,1/5)B(4/5,4/5) ∈ πℚ̄ˣ` is proved (`AbVar.beta5_mul`) |
+| `K`-dimension forms of MG-A, MG♮-A; Cor. A2 (one of `e^{π²}, e^{πP}, e^{π²/P}`) | — | ✗ (the `K`-forms as for `Gen.mg_K`; Cor. A2 needs an abelian-variety version of Theorem SMG on the frame `gmF2`) |
+| Theorem X7 (`y⁷ = x(1 − x)` with `E` of CM by `ℚ(√−7)`) | `AbVar.propX7_K`, `AbVar.propX7`, `AbVar.thmX7` | ◐ Proposition X (first coordinate, `K`-form) and Theorem X7's conclusion `q₁ = q₂ = 0`, `z_j(v_j) ∈ ℚ̄P_j`, `u ∈ ℚ̄Ω` ✔; the torsion step (`exp v_j` torsion) is not formalised; logarithms of `A` enter as the parameter `LA` (see below) |
+| Cor. X7 (c): `1, B(2/7,2/7), B(3/7,3/7), B(3/7,3/7)/B(1/7,1/7)` are `ℚ̄`-independent | `AbVar.x7c` | ✔ (only periods; `LA = ∅`) |
+| Cor. X7 (a), (b) | — | ✗ as stated (they are about abelian integrals `∫_O^Q dx/y^k`, not definable here); they are instances of `thmX7` for `LA` the set of Abel–Jacobi triples |
+| Theorem X (general first-kind relations), Prop. 15 in general | — | ✗ only the level-seven instance; the relation `P₁P₂ = μ'P₃Ω` is proved there from the Beta cocycle and reflection (`AbVar.relation_R`), no Deligne/Koblitz–Ogus input |
 
-**What a model of a CM abelian variety would require** (for Theorems A and X; a task for `lean_lsg` or a later project).
-The group models here only need, for each factor, a tangent space with its `ℚ̄`-structure, a lattice of periods and the
-list of connected algebraic subgroups. For a CM abelian variety `A` of dimension `g` with CM by a field `F` this means:
-an explicit period lattice in `ℂ^g` in eigen-coordinates (for the Jacobian of `y⁷ = x(1 − x)`: the periods of the
-eigen-differentials `dx/y^{7−j}`, which are Beta values `B(j/7, j/7)` times algebraic numbers and roots of unity), the
-`ℚ̄`-rationality of these coordinates, the description of `Λ(A)` (logarithms of algebraic points, e.g. via abelian
-integrals `∫_O^Q dx/y^k`), the abelian subvarieties of products `A^n × E^m` as `F`-subspaces (for simple `A` and
-non-isogenous factors), and, for Theorem X, the first-kind period relation used as the `κ`-term (Beta cocycle and
-reflection, with `B(1/7, 2/7) ∈ ℚ̄ˣΩ_E` by Chowla–Selberg). None of this is in Mathlib; the soundness of such a model
-would rest on classical facts about Fermat-curve Jacobians (Rohrlich, Gross, Koblitz–Ogus), each of which would need
-to be stated and refereed as carefully as the elliptic models here.
+**The CM-abelian models** (`CM4E/AbVar/`). The group `G''` of each proof is written, up to isogeny, as a product of
+copies of `A` (and `E`, `G_a`, `G_m`) in explicit eigen-coordinates; the paper's quotient `A^n/B_{ker ψ}` is isogenous to
+`A^r` via CM quotient maps adapted to the slot, so no quotient appears in Lean. The models and their hypotheses:
+
+| name | group | where | review |
+|---|---|---|---|
+| `AbVar.Thm11KappaX7 LA` | `A^{3r} × E^{3r} × G_a²`, `A = Jac(y⁷ = x(1 − x))`, `E` with lattice `B(1/7,2/7)ℤ[α]`, `α = (−1+√−7)/2`; frame `gmFX` (`d₂ = dim G''`, conservative) | `CM4E/AbVar/X7.lean`, `FrameX.lean` | [`reviews/REFEREE_HYP_X7.md`](reviews/REFEREE_HYP_X7.md) (CORRECT WITH NOTES): period triple checked on one explicit cycle to `10⁻⁶⁰`, CM action, `g₂, g₃` of `E` algebraic (`j = −3375`) |
+| `AbVar.Thm11KappaA N g κ P s₀` | `G_m^{2n} × A^r` (first-kind slot `s₀`), frame `gmF` | `CM4E/AbVar/ThmA.lean` | [`reviews/REFEREE_HYP_A.md`](reviews/REFEREE_HYP_A.md) (CORRECT WITH NOTES): instances `N = 5, 7` checked on one cycle to `10⁻⁶⁰`, Jacobians simple of type `{1,2}`, `{1,2,3}` |
+| `AbVar.Thm11KappaAn N g κ P P̄` | `G_m^{2n} × Q''`, `Q'' = (A^♮)^r/W'` (second-kind slot `ζ ↦ ζ^{N−1}`), frame `gmF` | `CM4E/AbVar/ThmAn.lean` | [`reviews/REFEREE_HYP_AN.md`](reviews/REFEREE_HYP_AN.md) |
+
+The generic hypotheses `Thm11KappaA`, `Thm11KappaAn` are W88 instances only when their parameters come from a real CM
+abelian variety; they are claimed for the stated instances. Named classical inputs (explicit hypotheses):
+
+| name | content | why it is believed |
+|---|---|---|
+| `AbVar.WuestholzBeta7` | `1, P₁, P₂, P₃, Ω` (`P_j = (1 − ζ₇^j)B(j/7,j/7)`, `Ω = B(1/7,2/7)`) are `ℚ̄`-linearly independent | Wüstholz 1989 on `G_a × A × E` (distinct eigen-slots); [`reviews/REFEREE_INPUTS_X7.md`](reviews/REFEREE_INPUTS_X7.md): TRUE AS STATED (PARI `lindep` at 600 digits finds nothing) |
+| `AbVar.WuestholzX7 LA` | slot splitting of `z₁(v) + u + q = cP₁ + c'Ω` and `z₃(v') + z₂(v) + q = cP₃ + c'P₂` | Wüstholz 1989 on `G_a × A² × E²`, `G_a × A³`; same review: TRUE for every `LA ⊂ LA_A` |
+| `AbVar.WuestholzA5`, `AbVar.WuestholzA7` | `P/π ∉ ℚ̄` for `P = (1 − ζ_N)B(1/N, 1/N)`, `N = 5, 7` | Wüstholz on `G_m × A`; `reviews/REFEREE_HYP_A.md`: CORRECT |
+| `AbVar.WuestholzB5` | `P̄/π ∉ ℚ̄` for the second-kind period `P̄ = (1 − ζ₅⁴)B(4/5, 4/5)` | Wüstholz on `G_m × A^♮`; `reviews/REFEREE_HYP_AN.md` |
+
+The classical facts that the Beta expressions are the periods of the stated cycles (Weil, Rohrlich's appendix to Gross
+1978) and that `B(1/7,2/7)ℤ[α]` is the lattice of a curve with algebraic invariants (Chowla–Selberg) are **soundness
+facts** of the models, checked numerically in the reviews, not Lean hypotheses and not proved in Lean.
+
+**The parameter `LA`.** Lean has no Jacobians, so the logarithms of `A` enter `thmX7` as a set `LA ⊂ ℂ³`. The intended
+instantiation is any subset of `LA_A = {(z₁(v), z₂(v), z₃(v)) : exp_A(v) ∈ A(ℚ̄)}`, where `z_s(v) = ∫_v dx/y^{7−s}` are the
+Abel–Jacobi eigen-coordinates in which the period triple `perT = (P₁, P₂, P₃)` of the cycle `γ` is written (coherent
+triples of one point). `thmX7` is proved for every `LA`; for a set not of this form the hypotheses `Thm11KappaX7 LA` and
+`WuestholzX7 LA` can be false (e.g. `WuestholzX7 {(1, 0, 0)}` is false), and the theorem is then vacuous rather than
+wrong. `x7c` uses `LA = ∅`, for which `Thm11KappaX7` needs no such reading.
+
+**What is still missing** for the rest of [II]: definitions of `Λ(A)` (abelian integrals on a Riemann surface) to state
+Cor. X7 (a), (b) literally; the torsion step (`End⁰(A) = F` and the analytic subgroup theorem on `A²`); general
+first-kind relations (Deligne's theorem in the form stated by Koblitz–Ogus) for Theorem X beyond level seven; period
+data for other Beta values (each a new instance and review); and the `K`-forms and Cor. A2 (on `gmF2`, as in `CM4E/Gen/`).

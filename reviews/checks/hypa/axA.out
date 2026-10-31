@@ -1,0 +1,12 @@
+'CM4E.AbVar.fourExpAt_A' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.fourExpAt_beta5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.fourExpAt_beta7' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.two_three_beta5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.fourExpAt_pi_div_beta5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CM4E.AbVar.fourExpAt_inv' depends on axioms: [propext, Classical.choice, Quot.sound]
+CM4E.AbVar.two_three_beta5 : CM4E.AbVar.Thm11KappaA 5 2 (fun s => ↑s + 1) CM4E.AbVar.perA5 0 →
+  CM4E.AbVar.WuestholzA5 →
+    ¬(IsAlgebraic ℚ (Complex.exp ((1 / 5).betaIntegral (1 / 5) / ↑Real.pi * Complex.log 2)) ∧
+        IsAlgebraic ℚ (Complex.exp ((1 / 5).betaIntegral (1 / 5) / ↑Real.pi * Complex.log 3)))
+CM4E.AbVar.Thm11KappaA : ℕ → (g : ℕ) → (Fin g → ℕ) → (Fin g → ℂ) → Fin g → Prop
+exit 0

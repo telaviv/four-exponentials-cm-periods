@@ -25,4 +25,6 @@ import CM4E.Gen.Deg2
 import CM4E.Gen.FrameM
 import CM4E.Gen.ThmM
 import CM4E.Gen.ThmMCor
+import CM4E.Gen.MGK
+import CM4E.Gen.MGnK
 import CM4E.Final

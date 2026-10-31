@@ -153,8 +153,17 @@ section Main
 def genG (p : ι → TF ι Q) (dl : Fin 2 → ι → TF ι Q) : Fin 3 × ι → TF ι Q :=
   fun q => ![p q.2, dl 0 q.2, dl 1 q.2] q.1
 
-/-- **The frame-2 contradiction** (W88 §5d for `G_m^{2n} × G₂`). -/
-theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+/-- `θᵀl ∈ K = span_ℚ θ` for rational `l`. -/
+lemma dot_rat_mem_span (θ : ι → ℂ) (l : ι → ℚ) :
+    dotL θ (fun h => ((l h : ℚ) : ℂ)) ∈ Submodule.span ℚ (Set.range θ) := by
+  rw [dotL_apply]
+  refine Submodule.sum_mem _ fun h _ => ?_
+  rw [show θ h * ((l h : ℚ) : ℂ) = l h • θ h by rw [Rat.smul_def]; ring]
+  exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨h, rfl⟩)
+
+/-- **The frame-2 contradiction** (W88 §5d for `G_m^{2n} × G₂`), with independence of `2πi, y₁, y₂` assumed only over
+`K = span_ℚ θ`. -/
+theorem frame2_false_K [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
     (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
     (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) (hW : HyperplaneKappa (gmF2 θ algQ lamS perS μ lam d₂))
     (hd₂ : d₂ < Fintype.card ι)
@@ -165,7 +174,8 @@ theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIn
     (hpΨ : ∀ h, PsiG θ μ lam (p h) = (θ h * (2 * Real.pi * I), s * (θ h * (2 * Real.pi * I))))
     (y : Fin 2 → ℂ) (dl : Fin 2 → ι → TF ι Q) (hdl : ∀ k h, dl k h ∈ Submodule.span ℚ lamS)
     (hdΨ : ∀ k h, PsiG θ μ lam (dl k h) = (θ h * y k, s * (θ h * y k)))
-    (hind3 : ∀ a₀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ →
+    (hind3 : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Submodule.span ℚ (Set.range θ) → a₁ ∈ Submodule.span ℚ (Set.range θ) →
+      a₂ ∈ Submodule.span ℚ (Set.range θ) →
       a₀ * (2 * Real.pi * I) + a₁ * y 0 + a₂ * y 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False := by
   have hcard : 0 < Fintype.card ι := lt_of_le_of_lt (Nat.zero_le _) hd₂
   obtain ⟨i0⟩ : Nonempty ι := Fintype.card_pos_iff.mp hcard
@@ -188,8 +198,6 @@ theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIn
       rw [map_rat_smul, Prod.smul_fst, Rat.smul_def], hΨ1, Fintype.sum_prod_type, Fin.sum_univ_three] at e
     simp only [Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
       Matrix.head_cons, Matrix.tail_cons] at e
-    have hq : ∀ l : ι → ℚ, dotL θ (fun h => ((l h : ℚ) : ℂ)) ∈ algebraicClosure ℚ ℂ :=
-      dot_rat_mem_alg hθalg
     have hrel : dotL θ (fun h => ((g (0, h) : ℚ) : ℂ)) * (2 * Real.pi * I) +
         dotL θ (fun h => ((g (1, h) : ℚ) : ℂ)) * y 0 + dotL θ (fun h => ((g (2, h) : ℚ) : ℂ)) * y 1 = 0 := by
       simp only [dotL_apply, Finset.sum_mul]
@@ -197,8 +205,8 @@ theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIn
       congr 1
       · congr 1 <;> exact Finset.sum_congr rfl fun h _ => by ring
       · exact Finset.sum_congr rfl fun h _ => by ring
-    obtain ⟨a0, a1, a2⟩ := hind3 _ _ _ (mem_algebraicClosure_iff.mp (hq _))
-      (mem_algebraicClosure_iff.mp (hq _)) (mem_algebraicClosure_iff.mp (hq _)) hrel
+    obtain ⟨a0, a1, a2⟩ := hind3 _ _ _ (dot_rat_mem_span θ _) (dot_rat_mem_span θ _) (dot_rat_mem_span θ _)
+      hrel
     have z0 := dot_rat_eq_zero hθ _ a0
     have z1 := dot_rat_eq_zero hθ _ a1
     have z2 := dot_rat_eq_zero hθ _ a2
@@ -315,6 +323,31 @@ theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIn
       have : s = P.2 / P.1 := by field_simp; linear_combination -hxV
       rw [this, ← mem_algebraicClosure_iff]
       exact div_mem (mem_algebraicClosure_iff.mpr h2) (mem_algebraicClosure_iff.mpr h1)
+
+/-- **The frame-2 contradiction** with `2πi, y₁, y₂` independent over `ℚ̄`. -/
+theorem frame2_false [FiniteDimensional ℂ Q] (θ : ι → ℂ) (hθ : LinearIndependent ℚ θ)
+    (hθalg : ∀ j, IsAlgebraic ℚ (θ j)) (algQ : Q → Prop) (lamS perS : Set (TF ι Q))
+    (μ lam : Q →ₗ[ℂ] ℂ) (d₂ : ℕ) (hW : HyperplaneKappa (gmF2 θ algQ lamS perS μ lam d₂))
+    (hd₂ : d₂ < Fintype.card ι)
+    (halg0 : algQ 0) (hμ : ∀ q, algQ q → IsAlgebraic ℚ (μ q)) (hlamA : ∀ q, algQ q → IsAlgebraic ℚ (lam q))
+    (T : Set Q) (hTalg : ∀ q ∈ T, algQ q) (hT : Submodule.span ℂ T = ⊤)
+    (s : ℂ) (hs : Transcendental ℚ s)
+    (p : ι → TF ι Q) (hpl : ∀ h, p h ∈ Submodule.span ℚ lamS) (hpp : ∀ h, p h ∈ Submodule.span ℚ perS)
+    (hpΨ : ∀ h, PsiG θ μ lam (p h) = (θ h * (2 * Real.pi * I), s * (θ h * (2 * Real.pi * I))))
+    (y : Fin 2 → ℂ) (dl : Fin 2 → ι → TF ι Q) (hdl : ∀ k h, dl k h ∈ Submodule.span ℚ lamS)
+    (hdΨ : ∀ k h, PsiG θ μ lam (dl k h) = (θ h * y k, s * (θ h * y k)))
+    (hind3 : ∀ a₀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ →
+      a₀ * (2 * Real.pi * I) + a₁ * y 0 + a₂ * y 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False := by
+  have hK : ∀ a ∈ Submodule.span ℚ (Set.range θ), IsAlgebraic ℚ a := by
+    intro a ha
+    obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun ℚ).mp ha
+    rw [← mem_algebraicClosure_iff]
+    exact sum_mem fun j _ => by
+      rw [Rat.smul_def]
+      exact mul_mem (mem_algebraicClosure_iff.mpr (isAlgebraic_algebraMap (c j)))
+        (mem_algebraicClosure_iff.mpr (hθalg j))
+  exact frame2_false_K θ hθ hθalg algQ lamS perS μ lam d₂ hW hd₂ halg0 hμ hlamA T hTalg hT s hs p hpl hpp hpΨ y dl
+    hdl hdΨ fun a₀ a₁ a₂ h₀ h₁ h₂ => hind3 a₀ a₁ a₂ (hK _ h₀) (hK _ h₁) (hK _ h₂)
 
 end Main
 

@@ -70,3 +70,8 @@ import CM4E
 #print axioms CM4E.Final.m3_varpi
 #print axioms CM4E.Final.m3'_varpi
 #print axioms CM4E.Final.meta_varpi
+#print axioms CM4E.Gen.frame2_false_K
+#print axioms CM4E.Gen.mg_K
+#print axioms CM4E.Gen.mgn_K
+#print axioms CM4E.Final.mg_K_varpi
+#print axioms CM4E.Final.mgn_K_varpi

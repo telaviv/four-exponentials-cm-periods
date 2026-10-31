@@ -15,6 +15,7 @@ import CM4E.Gen.SMG
 import CM4E.Gen.MG13
 import CM4E.Gen.Deg2
 import CM4E.Gen.ThmMCor
+import CM4E.Gen.MGnK
 
 /-!
 # The main theorems with every hypothesis except W88 discharged
@@ -289,5 +290,32 @@ theorem meta_varpi (hW : Gen.Thm11KappaM Gen.latI) (hMa : Gen.MasserCM) (u : ℂ
     (hnot : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) : (Real.pi / varpi : ℂ) * u ∉ Gen.Ltilde :=
   Gen.meta_I hW hg₂ g₃_lemniscatic_isAlgebraic
     (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u hu hnot
+
+/-! ## `K`-dimension forms of Theorems MG and MG♮ -/
+
+/-- **Theorem MG, `K`-form, for `Ω = ϖ`**: for `s = cϖ/π` and a number field `K = span_ℚ θ ∋ i, c`, there are no
+`x₁, x₂ ∈ K𝓛` with `sx₁, sx₂ ∈ K𝓛 + K𝓛_E` and `2πi, x₁, x₂` linearly independent over `K` (`dim_K S_K ≤ 2`). Assumes
+only W88 §5d (`Gen.Thm11KappaMGK Gen.latI`). -/
+theorem mg_K_varpi (hW : Gen.Thm11KappaMGK Gen.latI) {r : ℕ} {b : Fin r → ℂ} (hb : Gen.IsAdaptedFieldBasis I b)
+    (c : ℂ) (hcK : c ∈ Gen.Kspan I b) (hc0 : c ≠ 0) (hIK : I ∈ Gen.Kspan I b)
+    (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ Gen.KLog (Gen.Kspan I b))
+    (hsx : ∀ k, ∃ y ∈ Gen.KLog (Gen.Kspan I b), ∃ e ∈ Gen.KLogE (Gen.Kspan I b) lemniscatic,
+      c * varpi / Real.pi * x k = y + e)
+    (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
+      a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
+  Gen.mg_K Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
+    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hb c hcK hc0 hIK x hx hsx hind
+
+/-- **Theorem MG♮, `K`-form, for `Ω = ϖ`**: for `s = 1/(cϖ)` and `K = span_ℚ θ ∋ c` with `[K : ℚ] ≥ 4`, there are no
+`x₁, x₂ ∈ K𝓛` with `sx₁, sx₂ ∈ K𝓛 + K·(fibre values)` and `2πi, x₁, x₂` linearly independent over `K`. Assumes only
+W88 §5d (`Gen.Thm11KappaMGnK Gen.latI`). -/
+theorem mgn_K_varpi (hW : Gen.Thm11KappaMGnK Gen.latI) {r : ℕ} {b : Fin r → ℂ}
+    (hb : Gen.IsAdaptedFieldBasis I b) (hr : 2 ≤ r) (c : ℂ) (hcK : c ∈ Gen.Kspan I b) (hc0 : c ≠ 0)
+    (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ Gen.KLog (Gen.Kspan I b))
+    (hsx : ∀ k, ∃ y ∈ Gen.KLog (Gen.Kspan I b), ∃ e ∈ Gen.KFib (Gen.Kspan I b) Gen.latI,
+      (c * varpi)⁻¹ * x k = y + e)
+    (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
+      a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
+  Gen.mgn_K Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT hb hr c hcK hc0 x hx hsx hind
 
 end CM4E.Final

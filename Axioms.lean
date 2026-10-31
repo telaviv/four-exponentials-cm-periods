@@ -113,3 +113,8 @@ import CM4E
 #print axioms CM4E.Bridge.mg1_varpi
 #print axioms CM4E.Bridge.mg3_varpi
 #print axioms CM4E.Bridge.mg1_varpi_abc
+#print axioms CM4E.Unconditional.hypStdCMAt
+#print axioms CM4E.Unconditional.fourExpAt_varpi_div_pi_all
+#print axioms CM4E.Unconditional.fourExpAt_omegaRho_div_pi_all
+#print axioms CM4E.Unconditional.mg1_varpi_abc
+#print axioms CM4E.Unconditional.mg3_varpi

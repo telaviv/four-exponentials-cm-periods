@@ -210,3 +210,10 @@ import CM4E
 #print axioms CM4E.AbVar.wuestholzA7_of
 #print axioms CM4E.AbVar.transcendental_div_pi_of_thm11KappaAn
 #print axioms CM4E.AbVar.wuestholzB5_of
+#print axioms CM4E.Bridge.thm11KappaA5_uncond
+#print axioms CM4E.Bridge.thm11KappaAK5_uncond
+#print axioms CM4E.Bridge.wuestholzA5_uncond
+#print axioms CM4E.Bridge.fourExpAt_beta5_uncond
+#print axioms CM4E.Bridge.fourExpAt_pi_div_beta5_uncond
+#print axioms CM4E.Bridge.two_three_beta5_uncond
+#print axioms CM4E.Bridge.corA2_beta5_uncond

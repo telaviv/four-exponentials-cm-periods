@@ -4292,7 +4292,11 @@ $2^{\vp/\pi},3^{\vp/\pi}$ are not both algebraic); Theorem~\ref{thm:A} at the cl
 $t\in\Qb^\times B(\frac15,\frac15)/\pi$ and $\Qb^\times\pi/B(\frac15,\frac15)$ (in particular $2^t,3^t$ are not both
 algebraic at $t=\Gamma(\frac15)^2/(\pi\Gamma(\frac25))$, \texttt{Bridge.two\_three\_beta5\_uncond}), and the transcendence
 of $B(\frac15,\frac15)/\pi$, from \texttt{lean\_lsg}'s hyperplane statement for $\Ga^{d_0}\times\Gm^{d_1}\times A^r$, $A$
-the Jacobian of $y^5=x(1-x)$, on toric-injective hyperplanes (\texttt{CM4E/Bridge/AbVar.lean}); by the same route,
+the Jacobian of $y^5=x(1-x)$, for toric-injective hyperplanes $V$ and data whose $A$-components are periods, which is all
+that these proofs use (\texttt{CM4E/Bridge/AbVar.lean}; Lean presents $A$ by its period lattice in the coordinates
+$\int dX/Y$, $\int X\,dX/Y$ on the model $Y^2=4X^5+1$ and computes these periods as Beta values; the identification of this
+torus with the Jacobian is classical and not formalised, and the final statements, about explicit numbers, do not depend
+on it); by the same route,
 the $K$-form of Theorem~\ref{thm:MGA} at $P=(1-\zeta_5)B(\frac15,\frac15)$ with $z_\sigma(\Lambda(A))$ replaced by $\Z P$
 (\texttt{Bridge.mgA5\_K\_uncond}); the $K$-forms of Theorems~\ref{thm:MG} and~\ref{thm:MGn} at $\vp$, for the
 $K$ stated in their status lines; Theorems SMG and SMG$^\natural$ at $\vp$ with second rows in $\Lt$; Theorem~\ref{thm:M}

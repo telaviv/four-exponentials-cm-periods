@@ -217,3 +217,4 @@ import CM4E
 #print axioms CM4E.Bridge.fourExpAt_pi_div_beta5_uncond
 #print axioms CM4E.Bridge.two_three_beta5_uncond
 #print axioms CM4E.Bridge.corA2_beta5_uncond
+#print axioms CM4E.Bridge.mgA5_K_uncond

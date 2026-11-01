@@ -1644,7 +1644,8 @@ and $2\pi i\in\mathcal S_K$.
 \end{theorem}
 
 \Status \LabC; two internal referees (correct with fixes,
-applied; exact independent enumerations for $g=1,\dots,6$).
+applied; exact independent enumerations for $g=1,\dots,6$). For $P=(1-\zeta_5)B(\frac15,\frac15)$ on the Jacobian of
+$y^5=x(1-x)$, with $z_\sigma(\Lambda(A))$ replaced by $\Z P$: \LabA{} (\texttt{Bridge.mgA5\_K\_uncond}).
 
 \begin{proof}
 Let $n=[K:\Q]$ (a multiple of $2g$), $G=\Gm\times\Gm\times A$ with coordinates $(x,y,z)$, $\Psi(x,y,z)=(x,\,y+z_\sigma(z))$,
@@ -4291,7 +4292,9 @@ $2^{\vp/\pi},3^{\vp/\pi}$ are not both algebraic); Theorem~\ref{thm:A} at the cl
 $t\in\Qb^\times B(\frac15,\frac15)/\pi$ and $\Qb^\times\pi/B(\frac15,\frac15)$ (in particular $2^t,3^t$ are not both
 algebraic at $t=\Gamma(\frac15)^2/(\pi\Gamma(\frac25))$, \texttt{Bridge.two\_three\_beta5\_uncond}), and the transcendence
 of $B(\frac15,\frac15)/\pi$, from \texttt{lean\_lsg}'s hyperplane statement for $\Ga^{d_0}\times\Gm^{d_1}\times A^r$, $A$
-the Jacobian of $y^5=x(1-x)$, on toric-injective hyperplanes (\texttt{CM4E/Bridge/AbVar.lean}); the $K$-forms of Theorems~\ref{thm:MG} and~\ref{thm:MGn} at $\vp$, for the
+the Jacobian of $y^5=x(1-x)$, on toric-injective hyperplanes (\texttt{CM4E/Bridge/AbVar.lean}); by the same route,
+the $K$-form of Theorem~\ref{thm:MGA} at $P=(1-\zeta_5)B(\frac15,\frac15)$ with $z_\sigma(\Lambda(A))$ replaced by $\Z P$
+(\texttt{Bridge.mgA5\_K\_uncond}); the $K$-forms of Theorems~\ref{thm:MG} and~\ref{thm:MGn} at $\vp$, for the
 $K$ stated in their status lines; Theorems SMG and SMG$^\natural$ at $\vp$ with second rows in $\Lt$; Theorem~\ref{thm:M}
 for $\Omega\in\Qb^\times\vp$ (first conclusion) with (M1) and (M3); Theorem~\ref{thm:SE}(3) (SE$_0$) for $E=E_i$, every
 $c\in\Qb^\times$ and every nonzero period of $E_i$ (\texttt{Bridge.thmSE0\_varpi}, \texttt{Bridge.thmSE0\_paper}; no form of
@@ -4327,7 +4330,8 @@ Proposition~\ref{prop:Dp} to Theorem~\ref{thm:MXP} (Masser's and W\"ustholz's th
 \emph{Results with label (c) checked in Lean conditionally} on Theorem~\ref{thm:W88k} for CM abelian varieties of dimension
 $2$ and $3$ and their vector extensions (these instances are not formalised): the $K$-forms of Theorems~\ref{thm:MGA}
 and~\ref{thm:MGnA} for the stated instances (the first-kind eigen-periods $(1-\zeta_N)B(\frac1N,\frac1N)$ of
-$y^N=x(1-x)$, $N=5,7$, resp.\ the second-kind eigen-period of $y^5=x(1-x)$), for every number field $K\supseteq\Q(\zeta_N,i,c)$;
+$y^N=x(1-x)$, $N=5,7$, resp.\ the second-kind eigen-period of $y^5=x(1-x)$), for every number field $K\supseteq\Q(\zeta_N,i,c)$
+(for $N=5$ with logarithms of $A$ in $z_\sigma(\Lambda(A))$; the part with $\Z P$ in its place has label (a), above);
 Theorem~\ref{thm:A} at the classes $t\in\Qb^\times B(\frac15,\frac15)$ and $\Qb^\times B(\frac17,\frac17)/\pi$ (including
 $t=\Gamma(\frac15)^2/\Gamma(\frac25)$ with $(\alpha,\beta)=(2,3)$), but not at $\Qb^\times/B(\frac15,\frac15)$ (the classes
 $\Qb^\times B(\frac15,\frac15)/\pi$, $\Qb^\times\pi/B(\frac15,\frac15)$ have label (a), above). These Beta-value instances assume only the subgroup-theorem hypotheses

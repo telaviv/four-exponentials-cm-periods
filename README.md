@@ -1,7 +1,9 @@
-# lean_mstar: four exponentials at CM periods, in Lean 4
+# four-exponentials-cm-periods: four exponentials at CM periods, in Lean 4
 
-Lean 4 + Mathlib certificate for the applications in the paper *A proof of the Roy–Waldschmidt theorem with period
-term, with explicit consequences at CM and Beta periods* (draft; snapshot in [`paper/`](paper/); results are cited by its numbering).
+Lean 4 + Mathlib certificate (library `CM4E`) for four exponentials statements at CM and Beta periods. Results are cited by
+the numbering of the extended draft in [`paper/`](paper/), which is unrefereed. Two shorter papers carry its content, both
+unposted: the short paper *Four exponentials at CM and Beta periods*, and the Theorem R paper *The Roy–Waldschmidt theorem with
+period term and inner weight: a written proof from Waldschmidt's subgroup theorem*.
 
 ## Results
 
@@ -44,8 +46,9 @@ With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real 
   `Bridge.fourExpAt_beta5'_uncond`, `Bridge.fourExpAt_div_beta5_uncond`, `Bridge.fourExpAt_beta5_uncond`,
   `Bridge.fourExpAt_pi_div_beta5_uncond`, and `Bridge.corA2_beta5_uncond` (only the named input `NotLtildeA`).
 
-Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
-for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`
+The conditional theorems assume **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with
+(5.4)), for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom, and it is
+discharged in the unconditional results above. The `Ω_ρ`
 and MX results also assume that `g₃` of `Ω_ρℤ[ρ]` is algebraic (`g₂ = 0` is proved), and some corollaries use named classical inputs
 (Wüstholz, Masser, Laurent, Baker, Hermite–Lindemann). Everything else is proved, including `g₂(ϖℤ[i]) = 4` and Schneider's theorem. What
 is assumed, why it is believed, and which paper results are covered: [TRUST.md](TRUST.md).

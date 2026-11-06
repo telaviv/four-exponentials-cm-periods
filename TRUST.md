@@ -1,7 +1,8 @@
 # TRUST: what the Lean certificate proves, and what it assumes
 
-Project: `lean_mstar` (Lean 4.35, Mathlib v4.35.0; library `CM4E`). Paper: *A proof of the Roy–Waldschmidt theorem with period term, with explicit consequences at
-CM and Beta periods* (draft; snapshot in [`paper/`](paper/)); results are cited by its numbering. W88 below is M. Waldschmidt,
+Project: `four-exponentials-cm-periods` (Lean 4.35, Mathlib v4.35.0; library `CM4E`). Results are cited by the numbering of the
+extended draft in [`paper/`](paper/), *A proof of the Roy–Waldschmidt theorem with period term, with explicit consequences at CM
+and Beta periods* (unrefereed); the short paper *Four exponentials at CM and Beta periods* uses its own numbering. W88 below is M. Waldschmidt,
 *On the transcendence methods of Gel'fond and Schneider in several variables*, in: A. Baker (ed.), New Advances in
 Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 
@@ -88,6 +89,9 @@ Inputs that are **proved** (in `lean_lsg` and `CM4E/Lattice.lean`) and discharge
 
 ## 3. What is assumed: explicit hypotheses, never global axioms
 
+Each hypothesis is listed here as it is stated in Lean, with the reason for believing it apart from Lean. §1a says which of them
+are now proved in `lean_lsg`.
+
 | name | content | where stated | why it is believed |
 |---|---|---|---|
 | `hW : Thm11Kappa lemniscatic 4` | W88 Thm 1.1 with (1.2) replaced by (5.4) (§5d, p. 394) for `G = G_m⁴ × E`, `E` the curve of `ϖℤ[i]` | `CM4E/Waldschmidt.lean` (model `gmE`) | Published. Its proof rests on W88 Thm 4.1, whose auxiliary-function step for `W ≠ 0`, `κ > 0` is completed by Lemma U (paper, Appendix A). Fidelity: [`reviews/REFEREE_HYP.md`](reviews/REFEREE_HYP.md) (CORRECT). |
@@ -130,15 +134,20 @@ Two further points about what the statements rely on:
 All Lean proofs follow the paper's §5d derivations (paper Remarks 5.3, 5.6, 7.2), which apply the paper's
 Theorem 2.5 (W88 Thm 1.1 with (5.4)).
 
-**The single point of failure** is the κ-term in W88 Thm 4.1 / §5d. Without it, the instance used in `MainQi.main` would
+**Everything depends on the κ-term** in W88 Thm 4.1 / §5d. Without it, the instance used in `MainQi.main` would
 need `6 > 6`, the MG♮ instances `3n > 3n + 2`, the MX instances `3n > 4n + 2`, the MX′ instances `3n > 4n + 4` and the
-Theorem M instances `n + 1 > 2n`, all false. An expert check of
-W88 §§6–7 together with Lemma U is the most valuable outside review. It should cover the regimes used here: `W ≠ 0`,
-`κ > 0`, a non-semiabelian `G₂` (`MainNat`, `MX`), and `d₀ > 0` (`MX`, SMG♮ and Theorem M with `d₀ = 1`, SMG with `d₀ = 2`, which rely on the Gel'fond part of W88's
-proof; the paper's Appendix A notes that the case `δ = τ` needs `b > 1` there). Note also that W88's §5d proof
-applies Thm 4.1 twice: to `G` itself, and again to an auxiliary subgroup given by W88 Lemma 5.1. Lemma U's condition
-has been checked only for the first application, so every `hW` rests on W88 §5d as published (paper, §2.1, after
-Theorem 2.5).
+Theorem M instances `n + 1 > 2n`, all false.
+
+*Hypotheses proved in `lean_lsg` (the unconditional tier of §1a).* Here the κ-term is a Lean theorem. `lean_lsg` proves Thm 4.1
+for these groups, under (NR) and the restrictions in its `TRUST.md`, and derives §5d from it, including W88 Lemma 5.1 and the
+second application of Thm 4.1 to the auxiliary subgroup. So these `hW` do not rest on W88 as published. What remains to trust is
+that the Lean statements and group models say what they claim (the fidelity reviews here and in `lean_lsg`).
+
+*Hypotheses still assumed (the conditional tier of §1a).* Each of these `hW` rests on W88 §5d as published. An expert check of
+W88 §§6–7 together with Lemma U is the most valuable outside review of them. It should cover `W ≠ 0`, `κ > 0`, a non-semiabelian
+`G₂`, and `d₀ > 0`, which relies on the Gel'fond part of W88's proof (the paper's Appendix A notes that the case `δ = τ` needs
+`b > 1` there). W88's §5d proof applies Thm 4.1 twice: to `G` itself, and again to an auxiliary subgroup given by W88 Lemma 5.1.
+Lemma U's condition has been checked only for the first application (paper, §2.1, after Theorem 2.5).
 
 ## 4. What to read to trust a statement
 

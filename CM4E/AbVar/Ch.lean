@@ -8,7 +8,7 @@ import CM4E.AbVar.Basis
 /-!
 # (Ch): Dedekind independence of characters, and a common adapted basis
 
-Paper [II], §`sec:setting`, (Ch): for a CM field `F = ℚ(α)` with distinct embeddings `σ_s` (`s < g`), the vectors
+Paper, §`sec:setting`, (Ch): for a CM field `F = ℚ(α)` with distinct embeddings `σ_s` (`s < g`), the vectors
 `(σ_s(x))_s`, `x ∈ F`, span `K^g` over any field `K ⊇ σ_s(F)`. With `κ_s = σ_s(α)` (distinct roots of the minimal
 polynomial of `α`) and the `ℚ`-basis `1, α, …, α^{d−1}` of `F` this says: the rows `(κ_s^e)_{e<d}` are `K`-linearly
 independent, so every `t ∈ K^g` is `Σ_e c_e (κ_s^e)_s` with `c ∈ K^d`.

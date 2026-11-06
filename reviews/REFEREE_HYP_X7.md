@@ -6,7 +6,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
 * In full: `CM4E/AbVar/Fermat7.lean`, `CM4E/AbVar/FrameX.lean`, `CM4E/AbVar/X7.lean`.
 * For context: `CM4E/Waldschmidt.lean`, `CM4E/AbVar/Basis.lean` (`thetaD`, `KspanD`, `IsAdaptedBasisD`, `coordsD`),
   `CM4E/Gen/ThmM.lean` (`LogE`), `TRUST.md`.
-* Paper: `schanuel/five_exp/paper2/paper2.tex`, §`sec:X` (set-up, Prop. `prop:X` l. 614, Theorem X l. 618, proof of the
+* Paper: draft [II], §`sec:X` (set-up, Prop. `prop:X` l. 614, Theorem X l. 618, proof of the
   proposition and of the theorem), §`sec:X7` (l. 726–789: Theorem X7 l. 750, Cor. X7 l. 761), Cor. `cor:X7intro` (l. 126).
 * Format and baseline: `reviews/REFEREE_HYP_MXP.md`.
 

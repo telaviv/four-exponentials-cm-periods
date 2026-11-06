@@ -7,7 +7,7 @@ import CM4E.AbVar.Basis
 import CM4E.AbVar.FrameX
 
 /-!
-# Theorem X in generic form: the W88 step (paper [II], §`sec:X`, proof of Proposition `prop:X`)
+# Theorem X in generic form: the W88 step (paper, §`sec:X`, proof of Proposition `prop:X`)
 
 **Data.** A simple CM abelian variety `A` (CM field `F = ℚ(α)`, `[F : ℚ] = 2g`, CM type `σ_0, …, σ_{g−1}`) is recorded by
 `CMAV`: its eigen-coordinates `z_s` (`s < g`), the conjugates `κ_s = σ_s(α)` (so `z_s([α^e]v) = κ_s^e z_s(v)`), the
@@ -120,7 +120,7 @@ given on one record need different `s`). For non-distinct slots the model is uns
 def Thm11KappaXA : Prop :=
   ∀ (r : Fin 4 → ℕ) (b : (j : Fin 4) → Fin (r j) → ℂ), IsAdaptedX S b → HyperplaneKappa (gmXA S b)
 
-/-- **Named input (Wüstholz 1989; paper [II], (W)).** `1, P_a, P_b, P_c, P_d` are `ℚ̄`-linearly independent, for
+/-- **Named input (Wüstholz 1989; the paper, (W)).** `1, P_a, P_b, P_c, P_d` are `ℚ̄`-linearly independent, for
 distinct first-kind slots of simple CM abelian varieties over `ℚ̄` (two slots are equal iff the varieties are isogenous
 and the embeddings correspond); `reviews/REFEREE_INPUTS_XA.md`. -/
 def WuestholzXA : Prop :=

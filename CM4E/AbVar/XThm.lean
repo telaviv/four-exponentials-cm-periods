@@ -8,7 +8,7 @@ import CM4E.AbVar.Ch
 import CM4E.AbVar.X7
 
 /-!
-# Proposition 15 and Theorem X (paper [II], §`sec:X`), generic form
+# Proposition 15 and Theorem X (paper, §`sec:X`), generic form
 
 **Set-up** (`XSetup`). The isogeny classes among the slots are `AV : Fin m → CMAV`, each taken once; slot `j`
 (`a, b, c, d = 0, 1, 2, 3`) is the eigen-coordinate `sl j` of `AV (cls j)`. The slots are pairwise distinct
@@ -93,7 +93,7 @@ def zQbar (S : FKSlot) : Set ℂ :=
   {x | ∃ (N : ℕ) (c : Fin N → ℂ) (ℓ : Fin N → Fin S.A.g → ℂ), (∀ k, IsAlgebraic ℚ (c k)) ∧
     (∀ k, ℓ k ∈ insert S.A.P S.A.LA) ∧ x = ∑ k, c k * ℓ k S.s}
 
-/-- **Named input (Wüstholz 1989; slot splitting, paper [II] proof of Theorem X).** A relation
+/-- **Named input (Wüstholz 1989; slot splitting, the paper proof of Theorem X).** A relation
 `x + x' + q = cP_a + c'P_d` (resp. with slots `c, b`) with `x ∈ ℚ̄z_a(Λ(A_a))`, `x' ∈ ℚ̄z_d(Λ(A_d))` and `q, c, c'`
 algebraic splits slot by slot. True (`reviews/REFEREE_INPUTS_XA.md`) when the two slots of each pair are distinct up to
 isogeny, each `A` is a simple CM abelian variety over `ℚ̄`, `P` is the eigen-coordinate vector of a nonzero cycle and
@@ -304,7 +304,7 @@ theorem propX15_sup (hX : ∀ i, (X.AV i).Good) (hWB : WuestholzXA X.slot)
   · simp only [v, Psi, hz, hco]; simp
   · simp only [v, Psi, hz, hco]; simp; ring
 
-/-- **Proposition 15** (paper [II], `prop:X`): `V ∩ Ψ(Λ_K(G)) = Kw + Kw'`. -/
+/-- **Proposition 15** (paper, `prop:X`): `V ∩ Ψ(Λ_K(G)) = Kw + Kw'`. -/
 theorem propX15 (hX : ∀ i, (X.AV i).Good) (hW : Thm11KappaXA X.slot) (hWB : WuestholzXA X.slot)
     (K : IntermediateField ℚ ℂ) [FiniteDimensional ℚ K] (hK5 : 5 ≤ finrank ℚ K) (hκK : ∀ i s, (X.AV i).κ s ∈ K)
     (μ : ℂ) (hμK : μ ∈ K) (hμ0 : μ ≠ 0) (hR : X.per 0 * X.per 1 = μ * X.per 2 * X.per 3)
@@ -342,7 +342,7 @@ lemma exists_field (F : Finset ℂ) (hF : ∀ x ∈ F, IsAlgebraic ℚ x) :
   have := IntermediateField.finrank_le_of_le_right hle
   omega
 
-/-- **Theorem X** (paper [II], `thm:X`, generic; without the torsion clause): for pairwise distinct first-kind slots with the relation
+/-- **Theorem X** (paper, `thm:X`, generic; without the torsion clause): for pairwise distinct first-kind slots with the relation
 `P_aP_b = μP_cP_d` (`μ ∈ ℚ̄ˣ`), `β ∈ ℚ̄ˣ`, data `z_j(v_j) ∈ ℚ̄ z_j(Λ(A_j))` and `q₁, q₂ ∈ ℚ̄` with
 `(z_a(v_a) + z_d(v_d) + q₁)·βP_c = (z_c(v_c) + z_b(v_b) + q₂)·P_a`, one has `q₁ = q₂ = 0` and `z_j(v_j) ∈ ℚ̄P_j`. Assumes
 W88 for the block groups (`hW`), and Wüstholz's theorem in the forms `WuestholzXA`, `WuestholzSplitXA`. -/

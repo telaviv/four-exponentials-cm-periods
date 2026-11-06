@@ -9,7 +9,7 @@ import CM4E.AbVar.FrameX
 # The frame of Theorem SE: one period family, two data families
 
 Same group and same map as `CM4E/AbVar/FrameX.lean`: `G'' = G₂ × G_a²` with two linear forms `μ₁, μ₂` on `Q = T(G₂)` and
-`Ψ''(q, s₁, s₂) = (μ₁(q) + s₁, μ₂(q) + s₂)`. Theorem SE (paper addition seed 2, §1) needs **one** period family
+`Ψ''(q, s₁, s₂) = (μ₁(q) + s₁, μ₂(q) + s₂)`. Theorem SE (the paper, Theorem 6.12(1)) needs **one** period family
 `w = Ω(1, σ)` and **two** data families `v_j = (x_j, σx_j)`, so `m = 3n` and `κ ≥ n` (Theorem X has two period families
 and one data family, `κ ≥ 2n`).
 

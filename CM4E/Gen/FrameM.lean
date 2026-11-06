@@ -8,7 +8,7 @@ import CM4E.Gen.Frame
 /-!
 # A third frame: `Ψ''(q, y, s) = (μ(q), θᵀy + s)` on `G₂ × G_m^n × G_a`
 
-The group of the first proof of Theorem M (paper [I], §`sec:M`) after the `K`-structure is made explicit:
+The group of the first proof of Theorem M (paper, §`sec:M`) after the `K`-structure is made explicit:
 `G'' = G₂ × G_m^n × G_a` with tangent space `Q × ℂ^n × ℂ`, a linear form `μ` on `Q = T(G₂)` and
 `Ψ''(q, y, s) = (μ(q), θᵀy + s)`. Here `G_a` is a direct factor, so `d₀ = 1` and `d₂ = dim G₂`; `d₁ = n`.
 

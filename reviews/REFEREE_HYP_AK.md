@@ -14,7 +14,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
   - `CM4E/Gen/MGK.lean` (`KLog`), `CM4E/Gen/SMG.lean` (`Ltilde`), `CM4E/Gen/MG13.lean` (`mem_Ltilde_of_log`,
     `pi_mem_Ltilde`), `CM4E/Gen/ThmMCor.lean` (`alg_mem_Ltilde`);
   - TRUST.md §8 and the Lemma U paragraph.
-* Paper [II] (`schanuel/five_exp/paper2/paper2.tex`):
+* Paper [II] (draft [II]):
   - thm:A and cor:A2intro (l. 84–111);
   - §`sec:tool` with (S1), (P), (Ch), (W), (F1)–(F4) (l. 261–413);
   - thm:MGA with its proof (l. 415–463), thm:MGnA with its proof (l. 473–509), the proof of thm:A (l. 511–538);

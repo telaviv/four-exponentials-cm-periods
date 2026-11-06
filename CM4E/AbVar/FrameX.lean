@@ -8,7 +8,7 @@ import CM4E.Gen.Frame2
 /-!
 # The frame of Theorem X: `Ψ''(q, s₁, s₂) = (μ₁(q) + s₁, μ₂(q) + s₂)` on `G₂ × G_a²`
 
-The group of paper [II], proof of Proposition `prop:X`, is `G'' = A'' × G_a²` with two linear forms `μ₁, μ₂` on
+The group of the paper, proof of Proposition `prop:X`, is `G'' = A'' × G_a²` with two linear forms `μ₁, μ₂` on
 `Q = T(A'')` (the slot forms feeding the two target coordinates) and `Ψ'' = (μ₁ + q₁, μ₂ + q₂)`. The model `gmFX` takes
 `d₁ = 0` and `d₂ = dim Q + 2 = dim G''` (the paper puts `G_a²` in `d₀`; counting it in `d₂` only weakens the
 hypothesis), and the uniform subgroup condition.

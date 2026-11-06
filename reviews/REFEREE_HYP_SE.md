@@ -18,8 +18,8 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
   - in `lean_lsg`: `LSG/W88/Statement.lean`, `LSG/W88/K5dNonIsog.lean`, `LSG/W88/MStarCopyStd.lean`, and the header of
     `LSG/W88/K5dMain.lean`.
 * Paper:
-  - `schanuel/five_exp/pilot_harvest1/PAPER_ADDITION_2_SE.md` §1;
-  - `schanuel/five_exp/paper_cm/paper.tex` §4.3 (l. 1540–1646: Theorem 4.12 = `thm:SE`, Cor. `cor:SE4`, Lemma `lem:SE0`,
+  - the first draft of Theorem SE §1;
+  - the merged draft §4.3 (l. 1540–1646: Theorem 4.12 = `thm:SE`, Cor. `cor:SE4`, Lemma `lem:SE0`,
     the proof, and the Example);
   - `paper.tex` §4.1 (l. 470–502: `d₀ = 2`, (NR)).
 * Baselines, whose findings are not repeated here:

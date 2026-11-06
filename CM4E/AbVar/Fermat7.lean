@@ -7,13 +7,13 @@ import Mathlib
 /-!
 # The level-seven numbers: `ζ₇`, Beta values, and the first-kind relation
 
-Data of paper [II], §`sec:X7`, for the curve `C : y⁷ = x(1 − x)` (genus 3; `A = Jac(C)` has CM by `F = ℚ(ζ₇)` with
+Data of the paper, §`sec:X7`, for the curve `C : y⁷ = x(1 − x)` (genus 3; `A = Jac(C)` has CM by `F = ℚ(ζ₇)` with
 type `{1, 2, 3}`) and the CM elliptic curve `E` with CM by `ℚ(√−7)`:
 * `zeta7 = e^{2πi/7}`; `alpha7 = ζ + ζ² + ζ⁴ = (−1 + √−7)/2` (`alpha7_sq : α² + α + 2 = 0`, `alpha7_im_ne : Im α ≠ 0`);
   `zeta_pow_three/four/five`: `ζ³, ζ⁴, ζ⁵` in the `k`-basis `1, ζ, ζ²` of `F` (`k = ℚ(α)`);
 * `betaG a b = Γ(a)Γ(b)/Γ(a + b)` (`= B(a, b)`, `betaG_eq_betaIntegral`);
 * `perA j = (1 − ζ^j) B(j/7, j/7)` (`j = 1, 2, 3`): the integrals of `dx/y^{7−j}` over one fixed cycle `γ` of `C`
-  (paper [II]); `omega7 = B(1/7, 2/7)`, a period of `E` up to `ℚ̄ˣ` (Chowla–Selberg);
+  (paper); `omega7 = B(1/7, 2/7)`, a period of `E` up to `ℚ̄ˣ` (Chowla–Selberg);
 * **the first-kind relation** `perA 1 · perA 2 = mu7' · perA 3 · omega7` with `mu7'` algebraic (`relation_R`), proved
   from the Beta cocycle and Euler's reflection formula: `μ = Γ(1/7)Γ(6/7)/(Γ(3/7)Γ(4/7)) = sin(3π/7)/sin(π/7) =
   1 + ζ + ζ⁶`.
@@ -37,9 +37,6 @@ lemma zeta7_pow_seven : zeta7 ^ 7 = 1 := zeta7_prim.pow_eq_one
 lemma zeta7_sum : 1 + zeta7 + zeta7 ^ 2 + zeta7 ^ 3 + zeta7 ^ 4 + zeta7 ^ 5 + zeta7 ^ 6 = 0 := by
   have := zeta7_prim.geom_sum_eq_zero (by norm_num)
   simpa [Finset.sum_range_succ] using this
-
-lemma zeta7_pow_mod (m : ℕ) : zeta7 ^ m = zeta7 ^ (m % 7) := by
-  conv_lhs => rw [← Nat.div_add_mod m 7, pow_add, pow_mul, zeta7_pow_seven, one_pow, one_mul]
 
 lemma isAlgebraic_zeta7 : IsAlgebraic ℚ zeta7 :=
   ⟨X ^ 7 - 1, by

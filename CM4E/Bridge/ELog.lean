@@ -5,7 +5,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 import CM4E.Gen.ThmM
 import CM4E.Gen.Instances
-import CM4E.Ext.Weierstrass.Addition
+import LSG.Weierstrass.Addition
 
 /-!
 # Arithmetic of elliptic logarithms
@@ -13,13 +13,13 @@ import CM4E.Ext.Weierstrass.Addition
 `Gen.LogE P u` (`u ∈ Λ`, or `℘(u)`, `℘'(u)` algebraic) is the `E`-coordinate condition of the logarithms of algebraic
 points. For the bridges of the models with elliptic logarithms (`gmMGK`, `gmM`) two facts are needed:
 
-* `logE_add`, `logESubgroup`: if `g₂` is algebraic, the elliptic logarithms of algebraic points form an additive
-  subgroup of `ℂ` (the addition and duplication formulas of `CM4E/Ext/Weierstrass/Addition.lean`);
+* `logE_neg`, `logE_add`: if `g₂` is algebraic, the elliptic logarithms of algebraic points are closed under negation
+  and addition (the addition and duplication formulas of `LSG.Weierstrass`);
 * `CMMulLogE L`: `LogE` is stable under multiplication by `α`. Proved for `ϖℤ[i]` (`℘(iz) = −℘(z)`,
   `℘'(iz) = i℘'(z)`) and `Ω_ρℤ[ρ]` (`℘(ρz) = ρ℘(z)`, `℘'(ρz) = ℘'(z)`) by reindexing the lattice sums.
 -/
 
-open Complex CM4E.Gen CM4E.Ext.Weierstrass
+open Complex CM4E.Gen LSG.Weierstrass
 open scoped PeriodPair
 
 namespace CM4E.Bridge
@@ -83,13 +83,6 @@ lemma logE_add (hg₂ : IsAlgebraic ℚ P.g₂) {z w : ℂ} (hz : LogE P z) (hw 
   rw [derivWeierstrassP_add P hzL hwL hs hd]
   rw [alg_mem] at hz1 hz2 hm hp ⊢
   exact sub_mem (mul_mem (neg_mem hm) (sub_mem hp hz1)) hz2
-
-/-- The elliptic logarithms of algebraic points, as an additive subgroup of `ℂ` (`g₂` algebraic). -/
-def logESubgroup (hg₂ : IsAlgebraic ℚ P.g₂) : AddSubgroup ℂ where
-  carrier := {u | LogE P u}
-  add_mem' := logE_add P hg₂
-  zero_mem' := Or.inl P.lattice.zero_mem
-  neg_mem' := logE_neg P
 
 /-- Complex multiplication on elliptic logarithms of algebraic points. -/
 def CMMulLogE (L : CMLattice) : Prop := ∀ u, LogE L.pp u → LogE L.pp (L.α * u)

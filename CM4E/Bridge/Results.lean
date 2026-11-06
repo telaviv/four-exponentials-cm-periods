@@ -7,7 +7,7 @@ import CM4E.Final
 import CM4E.Bridge.SMG
 
 /-!
-# Results conditional only on the standard-model hypothesis `HypStdCM`
+# Results conditional only on the standard-model hypothesis `HypStdCMAt`
 
 `HypStdCMAt L d` (`CM4E/Bridge/Std.lean`) is W88 §5d for `G_a^d × G_m^{d₁} × E^r` (`E` the curve of `L`), to be supplied by `lean_lsg` from
 its proved Theorem 4.1. Through the bridges `thm11KappaMG_of_std`, `thm11KappaSMG_of_std` (all proved), Theorem 1(b) for
@@ -29,24 +29,24 @@ lemma int_I : ∃ a c : ℤ, (Gen.latI.α) ^ 2 = a + c * Gen.latI.α :=
 lemma int_rho : ∃ a c : ℤ, (Gen.latRho.α) ^ 2 = a + c * Gen.latRho.α :=
   ⟨-1, -1, by have h := Gen.latRho.hquad; simp only [Gen.latRho] at h ⊢; rw [h]; push_cast; ring⟩
 
-/-- **Theorem 1(b) for `Ω = ϖ` and every algebraic `c ≠ 0`**, from `HypStdCM`. -/
+/-- **Theorem 1(b) for `Ω = ϖ` and every algebraic `c ≠ 0`**, from `HypStdCMAt`. -/
 theorem fourExpAt_varpi_div_pi_all (hS : HypStdCMAt lemniscatic 0) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     FourExpAt (c * varpi / Real.pi) :=
   Final.fourExpAt_varpi_div_pi_all (thm11KappaMG_of_std Gen.latI hS int_I) c hc hc0
 
-/-- **Theorem 1(b) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**, from `HypStdCM` and `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
+/-- **Theorem 1(b) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**, from `HypStdCMAt` and `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`. -/
 theorem fourExpAt_omegaRho_div_pi_all (hS : HypStdCMAt MX.equianharmonic 0)
     (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : FourExpAt (c * omegaRho / Real.pi) :=
   Final.fourExpAt_omegaRho_div_pi_all (thm11KappaMG_of_std Gen.latRho hS int_rho) hg₃' c hc hc0
 
-/-- **Corollary MG1 for `ϖ`**, from `HypStdCM` and `Gen.NotLtilde Gen.latI`. -/
+/-- **Corollary MG1 for `ϖ`**, from `HypStdCMAt` and `Gen.NotLtilde Gen.latI`. -/
 theorem mg1_varpi (hS : HypStdCMAt lemniscatic 2) (hNot : Gen.NotLtilde Gen.latI) :
     ¬ (IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (Real.pi * varpi)) ∧
       IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2 / varpi))) :=
   Final.mg1_varpi (thm11KappaSMG_of_std Gen.latI hS int_I) hNot
 
-/-- **Corollary MG3 for `ϖ`**, from `HypStdCM` and Baker's theorem. -/
+/-- **Corollary MG3 for `ϖ`**, from `HypStdCMAt` and Baker's theorem. -/
 theorem mg3_varpi (hS : HypStdCMAt lemniscatic 2) (hBaker : Gen.Baker3) (c : ℂ) (hc : IsAlgebraic ℚ c)
     (hc0 : c ≠ 0) (hπ2 : IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)))
     (hπω : IsAlgebraic ℚ (Complex.exp (c * Real.pi * varpi))) (x : ℂ) (hx : IsAlgebraic ℚ (Complex.exp x))
@@ -61,6 +61,6 @@ theorem mg1_varpi_abc (hS : HypStdCMAt lemniscatic 2) (hNot : Gen.NotLtilde Gen.
     ¬ (IsAlgebraic ℚ (Complex.exp (a * Real.pi ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (b * Real.pi * varpi)) ∧
       IsAlgebraic ℚ (Complex.exp (c * Real.pi ^ 2 / varpi))) :=
   Gen.mg1 Gen.latI (thm11KappaSMG_of_std Gen.latI hS int_I) Final.hg₂ g₃_lemniscatic_isAlgebraic Final.hT
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot a b c ha ha0 hb hb0 hc hc0
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot a b c ha ha0 hb hb0 hc hc0
 
 end CM4E.Bridge

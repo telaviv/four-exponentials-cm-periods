@@ -13,7 +13,7 @@ import LSG.W88.K5dMain
 /-!
 # Unconditional results: W88 discharged by `lean_lsg`
 
-The sibling project `lean_lsg` (Lake path dependency `../lean_lsg`) proves Waldschmidt's subgroup theorem with period
+The sibling project `lean_lsg` (a Lake dependency) proves Waldschmidt's subgroup theorem with period
 term (W88, Thm 4.1, under (NR)) for `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m` (`LSG.W88.theorem41Abelian`) and deduces from it
 the §5d statement for `G_m^{d₁} × E`, verbatim our hypothesis `Thm11Kappa` (`LSG.W88.thm11Kappa`, stated for a verbatim
 copy `LSG.W88.MStarCopy.Thm11Kappa` of `CM4E.Waldschmidt.Thm11Kappa`; the two unfold to the same term). Hence the
@@ -50,13 +50,13 @@ With the arithmetic of elliptic logarithms (`CM4E/Bridge/ELog.lean`: addition la
   (only `hg₃'`);
 * `mgn_K_varpi`: the `K`-form of Theorem MG♮;
 * `mx_K`, `mx`, `mx1`, `deg2_ii`: Theorem MX (`K`-form and full), Cor. MX1, deg2 (ii), with their named inputs;
-* `thmS_varpi`, `thmS_omegaRho`: **Theorem S** of paper [II], assuming only `Gen.NotLtilde` (Wüstholz) (and `hg₃'`).
+* `thmS_varpi`, `thmS_omegaRho`: **Theorem S** of the paper, assuming only `Gen.NotLtilde` (Wüstholz) (and `hg₃'`).
 * `mxP_K`, `deg2_i`: Proposition D′ (Theorem MX′) and deg2 (i), with their named inputs (`Bridge.thm11KappaMXP_uncond`).
 
 `lean_lsg` also proves the §5d statement for `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m` with pairwise equal or non-isogenous
 curves (`LSG.W88.hypStd_of_pair`); with the bridge of `CM4E/Bridge/SE.lean`, assuming only `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`:
 
-* `thmSE_varpi_omegaRho`: **Theorem SE (SE)** (paper addition seed 2) for `E_i`, `E_ρ`: for `t = cΩ_ρ/ϖ` (`c ∈ ℚ̄ˣ`) and
+* `thmSE_varpi_omegaRho`: **Theorem SE (SE)** (the paper, Theorem 6.12(1)) for `E_i`, `E_ρ`: for `t = cΩ_ρ/ϖ` (`c ∈ ℚ̄ˣ`) and
   `u₁, u₂ ∈ 𝓛̃_{E_i}` with `ϖ, u₁, u₂` `ℚ̄`-independent, `tu₁, tu₂` are not both in `ℚ̄ + ℚ̄𝓛_{E_i} + ℚ̄𝓛_{E_ρ}`
   (`Bridge.thmSE_of_nonIsog` is the statement for any two non-isogenous CM lattices);
 * `transcendental_omegaRho_div_varpi`: `Ω_ρ/ϖ ∉ ℚ̄` (the hypothesis `hM` of `mx_K`, `mxP_K`).
@@ -236,7 +236,7 @@ theorem mx1 (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (hΓ : Transcenden
     (hWu : Gen.WuestholzMX) (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ)
     (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
     (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
-    Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
+    Transcendental ℚ ((varpi : ℂ) * omegaRho * (LSG.Weierstrass.zeta lemniscatic u + t) /
       (Real.pi * (u + a))) :=
   Final.mx1 Bridge.thm11KappaMXG_uncond hg₃' hΓ hWu hMa hLa u hwp hwp' hu' a t ha ht
 
@@ -249,7 +249,7 @@ theorem deg2_ii (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     c0 = 0 ∧ c1 = 0 ∧ c2 = 0 ∧ c3 = 0 :=
   Final.deg2_ii Bridge.thm11KappaMXG_uncond hg₃' hΓ h6 c0 c1 c2 c3 h0 h1 h2 h3 hrel
 
-/-- **Theorem S for `Ω = ϖ`** (paper [II]): for `t ∈ ℚ̄ˣϖ ∪ ℚ̄ˣ/ϖ ∪ ℚ̄ˣϖ/π ∪ ℚ̄ˣπ/ϖ` and `ℚ̄`-independent `y₁, y₂`, the
+/-- **Theorem S for `Ω = ϖ`** (paper): for `t ∈ ℚ̄ˣϖ ∪ ℚ̄ˣ/ϖ ∪ ℚ̄ˣϖ/π ∪ ℚ̄ˣπ/ϖ` and `ℚ̄`-independent `y₁, y₂`, the
 numbers `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃ = ℚ̄ + ℚ̄𝓛`; assuming only `Gen.NotLtilde Gen.latI` (Wüstholz). -/
 theorem thmS_varpi (hNot : Gen.NotLtilde Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) (t : ℂ)
     (ht : t = c * varpi ∨ t = c / varpi ∨ t = c * varpi / Real.pi ∨ t = c * Real.pi / varpi)
@@ -291,7 +291,7 @@ theorem transcendental_omegaRho_div_varpi (hg₃' : IsAlgebraic ℚ MX.equianhar
     Transcendental ℚ ((omegaRho : ℂ) / varpi) :=
   Bridge.transcendental_omegaRho_div_varpi_of hg₃'
 
-/-- **Theorem SE (SE) for `E_i` and `E_ρ`** (paper addition seed 2, Theorem `thm:SE` (1)), assuming only
+/-- **Theorem SE (SE) for `E_i` and `E_ρ`** (the paper, Theorem 6.12(1)), assuming only
 `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`: for `c ∈ ℚ̄ˣ`, `t = cΩ_ρ/ϖ` and `u₁, u₂ ∈ 𝓛̃_{E_i} = ℚ̄ + ℚ̄𝓛_{E_i}` with `ϖ, u₁, u₂` linearly
 independent over `ℚ̄`, the numbers `tu₁, tu₂` are not both in `ℚ̄ + ℚ̄𝓛_{E_i} + ℚ̄𝓛_{E_ρ}`. -/
 theorem thmSE_varpi_omegaRho (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃) (c : ℂ) (hc : IsAlgebraic ℚ c)

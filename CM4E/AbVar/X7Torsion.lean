@@ -6,7 +6,7 @@ import Mathlib
 import CM4E.AbVar.X7
 
 /-!
-# Theorem X7: the torsion step, and Corollary X7 (a), (b) for the parameter `LA` (paper [II])
+# Theorem X7: the torsion step, and Corollary X7 (a), (b) for the parameter `LA` (paper)
 
 **Torsion.** A point `exp_A(v)` is torsion iff `v ∈ ℚ ⊗ Ω(A) = F γ`, i.e. iff its eigen-coordinate triple is
 `(σ_{s+1}(x) P_{s+1})_s` for some `x ∈ F = ℚ(ζ)`; with `x = Σ_e q_e ζ^e` (`q_e ∈ ℚ`) this is `TorsionTriple v`. For `E`,
@@ -33,7 +33,7 @@ def TorsionX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
   (∀ v ∈ LA, ∀ s : Fin 3, ∀ c : ℂ, IsAlgebraic ℚ c → v s = c * perA ((s : ℕ) + 1) → TorsionTriple v) ∧
     (∀ u : ℂ, LogE E7 u → ∀ c : ℂ, IsAlgebraic ℚ c → u = c * omega7 → ∃ p q : ℚ, u = (p + q * alpha7) * omega7)
 
-/-- **Theorem X7** (paper [II], `thm:X7`): under its hypothesis, `q₁ = q₂ = 0` and `exp(v₁), exp(v₂), exp(v₃)`,
+/-- **Theorem X7** (paper, `thm:X7`): under its hypothesis, `q₁ = q₂ = 0` and `exp(v₁), exp(v₂), exp(v₃)`,
 `exp_E(u)` are torsion points. -/
 theorem thmX7_torsion (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
     (hTo : TorsionX7 LA) (v₁ v₂ v₃ : Fin 3 → ℂ) (hv₁ : v₁ ∈ LA) (hv₂ : v₂ ∈ LA) (hv₃ : v₃ ∈ LA) (u : ℂ)
@@ -46,7 +46,7 @@ theorem thmX7_torsion (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : C
   exact ⟨e1, e2, hTo.1 v₁ hv₁ 0 c₁ hc₁ (by simpa using h₁), hTo.1 v₂ hv₂ 1 c₂ hc₂ (by simpa using h₂),
     hTo.1 v₃ hv₃ 2 c₃ hc₃ (by simpa using h₃), hTo.2 u hu c₄ hc₄ h₄⟩
 
-/-- **Corollary X7 (a)** for `LA` (paper [II], `cor:X7`(a)): if `v ∈ LA` is not a torsion triple, then
+/-- **Corollary X7 (a)** for `LA` (paper, `cor:X7`(a)): if `v ∈ LA` is not a torsion triple, then
 `z₂(v)/z₁(v) ∉ ℚ̄ˣ·P₃/P₁`, i.e. `z₂(v) ≠ c z₁(v) P₃/P₁` for every `c ∈ ℚ̄ˣ`. (Uses that `0 ∈ LA`, the logarithm of `O`.) -/
 theorem x7a (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
     (hTo : TorsionX7 LA) (h0 : (0 : Fin 3 → ℂ) ∈ LA) (v : Fin 3 → ℂ) (hv : v ∈ LA) (hnt : ¬ TorsionTriple v)
@@ -57,7 +57,7 @@ theorem x7a (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelbe
     isAlgebraic_zero isAlgebraic_zero hc hc0 (by rw [h]; simp only [Pi.zero_apply]; field_simp; ring)
   exact hnt ht
 
-/-- **Corollary X7 (b)** for `LA` (paper [II], `cor:X7`(b)): for `u ∈ 𝓛_E` with `exp_E(u)` not torsion and `v ∈ LA`,
+/-- **Corollary X7 (b)** for `LA` (paper, `cor:X7`(b)): for `u ∈ 𝓛_E` with `exp_E(u)` not torsion and `v ∈ LA`,
 `z₃(v)/u ∉ ℚ̄ˣ·P₃/P₁`. -/
 theorem x7b (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
     (hTo : TorsionX7 LA) (h0 : (0 : Fin 3 → ℂ) ∈ LA) (v : Fin 3 → ℂ) (hv : v ∈ LA) (u : ℂ) (hu : LogE E7 u)
@@ -114,14 +114,14 @@ def LAJ : Set (Fin 3 → ℂ) := Submodule.span ℚ (Set.range AJPath.triple)
 
 lemma zero_mem_LAJ : (0 : Fin 3 → ℂ) ∈ LAJ := Submodule.zero_mem _
 
-/-- **Corollary X7 (a)** (paper [II]): for `O, Q ∈ C(ℚ̄)` (off the branch points) with `Q − O` of infinite order,
+/-- **Corollary X7 (a)** (paper): for `O, Q ∈ C(ℚ̄)` (off the branch points) with `Q − O` of infinite order,
 `∫_O^Q dx/y⁶ ≠ 0` and `∫_O^Q dx/y⁵ / ∫_O^Q dx/y⁶ ∉ ℚ̄·B(3/7,3/7)/B(1/7,1/7)` (stated with `P₃/P₁ ∈ ℚ(ζ)ˣ·B(3/7,3/7)/B(1/7,1/7)`). -/
 theorem x7a_AJ (hW : Thm11KappaX7 LAJ) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LAJ) (hTo : TorsionX7 LAJ)
     (γ : AJPath) (hnt : ¬ TorsionTriple γ.triple) :
     γ.triple 0 ≠ 0 ∧ ∀ c : ℂ, IsAlgebraic ℚ c → γ.triple 1 / γ.triple 0 ≠ c * (perA 3 / perA 1) :=
   x7a_full LAJ hW hCS hWB hWX hTo zero_mem_LAJ γ.triple (Submodule.subset_span ⟨γ, rfl⟩) hnt
 
-/-- **Corollary X7 (b)** (paper [II]): for `O, Q ∈ C(ℚ̄)` and `u ∈ 𝓛_E` with `exp_E(u)` of infinite order,
+/-- **Corollary X7 (b)** (paper): for `O, Q ∈ C(ℚ̄)` and `u ∈ 𝓛_E` with `exp_E(u)` of infinite order,
 `∫_O^Q dx/y⁴ / u ∉ ℚ̄ˣ·P₃/P₁`. -/
 theorem x7b_AJ (hW : Thm11KappaX7 LAJ) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LAJ) (hTo : TorsionX7 LAJ)
     (γ : AJPath) (u : ℂ) (hu : LogE E7 u) (hnt : ¬ ∃ p q : ℚ, u = (p + q * alpha7) * omega7) (c : ℂ)

@@ -10,7 +10,7 @@ import CM4E.Defs
 
 `CM4E.lemniscatic : PeriodPair` is the period pair `(ϖ, iϖ)` (Mathlib's `PeriodPair`, with its Weierstrass `℘`).
 Its curve is `y² = 4x³ − 4x`, i.e. `g₂ = 4`, `g₃ = 0`. Here `g₃ = 0` is proved (`g₃_lemniscatic`); `g₂ = 4` is proved in
-`CM4E/Ext/LemniscateIndep/` and used in `CM4E/Final.lean`. `etaLem` records the quasi-periods used by the group
+`LSG.LemniscateIndep` and used in `CM4E/Final.lean`. `etaLem` records the quasi-periods used by the group
 models.
 -/
 

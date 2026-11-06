@@ -8,14 +8,14 @@ import CM4E.Gen.MG13
 import CM4E.Gen.ThmMCor
 
 /-!
-# Corollary A2 (paper [II], `cor:A2`)
+# Corollary A2 (paper, `cor:A2`)
 
 For a first-kind eigen-period `P` of a simple CM abelian variety and `a, b, c ∈ ℚ̄ˣ`, at least one of `e^{aπ²}`,
 `e^{bπP}`, `e^{cπ²/P}` is transcendental (`corA2`). The paper's proof: Theorem MG-A (`K`-form, `mgA_K` with `LA = ∅` and
 constant `1`) at `s = P/π` with data `x₁ = π²`, `x₂ = π²/P` (`sx₁ = πP`, `sx₂ = π`); the `K`-independence of
 `2πi, π², π²/P` comes from the transcendence of `π` (proved, `Gen.transcendental_pi`) and
 `P ∉ 𝓛̃ = ℚ̄ + ℚ̄𝓛` (which also gives `P/π ∉ ℚ̄`) (a named input, `NotLtildeA`, the abelian analogue of `Gen.NotLtilde`; Wüstholz 1989 on
-`G_a × G_m^m × A`). This is the argument that removes Chudnovsky's theorem (paper [II], Remark `rem:noChud`).
+`G_a × G_m^m × A`). This is the argument that removes Chudnovsky's theorem (paper, Remark `rem:noChud`).
 
 Instance: `P = (1 − ζ₅)B(1/5, 1/5)` (`corA2_beta5`, stated for `B(1/5, 1/5)` itself).
 -/

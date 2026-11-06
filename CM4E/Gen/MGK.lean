@@ -8,7 +8,7 @@ import CM4E.Gen.SMG
 import CM4E.Gen.ThmM
 
 /-!
-# Theorem MG in its `K`-dimension form (paper [I], `thm:MG`)
+# Theorem MG in its `K`-dimension form (paper, `thm:MG`)
 
 For a CM lattice `ω ℤ[α]`, `c ∈ ℚ̄ˣ`, `s = cω/π` and a number field `K ⊇ k(i, c)`,
 `S_K = {x ∈ K𝓛 : sx ∈ K𝓛 + K𝓛_E}` has `dim_K S_K ≤ 2`; since `2πi ∈ S_K`, this says that there are no

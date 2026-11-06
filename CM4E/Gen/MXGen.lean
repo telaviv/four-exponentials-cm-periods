@@ -8,7 +8,7 @@ import CM4E.Gen.CMLattice
 import CM4E.Gen.BasisExists
 import CM4E.MX
 import CM4E.Gen.Instances
-import CM4E.Ext.SchneiderMain
+import LSG.SchneiderMain
 
 /-!
 # Theorem MX, `K`-form, for every `β ∈ ℚ̄ˣ`
@@ -549,7 +549,7 @@ def MasserCM : Prop :=
 def LaurentZeta : Prop :=
   ∀ u : ℂ, u ∉ lemniscatic.lattice → IsAlgebraic ℚ (lemniscatic.weierstrassP u) →
     IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u) → (¬ ∃ p q : ℚ, u = (p + q * I) * varpi) →
-    Transcendental ℚ (CM4E.Ext.Weierstrass.zeta lemniscatic u)
+    Transcendental ℚ (LSG.Weierstrass.zeta lemniscatic u)
 
 lemma transcendental_omegaRho_div_varpi (hWu : WuestholzMX) : Transcendental ℚ ((omegaRho : ℂ) / varpi) := by
   intro halg
@@ -595,21 +595,21 @@ theorem mx1 (hW : Thm11KappaMXG) (hg₂ : IsAlgebraic ℚ lemniscatic.g₂)
     (hLa : LaurentZeta) (u : ℂ)
     (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
     (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
-    Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
+    Transcendental ℚ ((varpi : ℂ) * omegaRho * (LSG.Weierstrass.zeta lemniscatic u + t) /
       (Real.pi * (u + a))) := by
   intro halg
   have hu : u ∉ lemniscatic.lattice := by
     intro hl
     obtain ⟨m, n, hmn⟩ := PeriodPair.mem_lattice.mp hl
     exact hu' ⟨m, n, by rw [← hmn]; simp [lemniscatic]; ring⟩
-  set ζu := CM4E.Ext.Weierstrass.zeta lemniscatic u
+  set ζu := LSG.Weierstrass.zeta lemniscatic u
   have hv := varpi_ne_zero'
   have hO := omegaRho_ne_zero
   have hpi : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr Real.pi_ne_zero
   have hua : u + a ≠ 0 := by
     intro h0
     have hu_eq : u = -a := by linear_combination h0
-    exact CM4E.Ext.Schneider.wp_transcendental hg₂ hg₃ (hu_eq ▸ ha.neg) hu hwp
+    exact LSG.Schneider.wp_transcendental hg₂ hg₃ (hu_eq ▸ ha.neg) hu hwp
   obtain ⟨q, hqdef⟩ : ∃ q : ℂ, q = (varpi : ℂ) * omegaRho * (ζu + t) / (Real.pi * (u + a)) := ⟨_, rfl⟩
   rw [← hqdef] at halg
   by_cases hq0 : q = 0
@@ -621,7 +621,7 @@ theorem mx1 (hW : Thm11KappaMXG) (hg₂ : IsAlgebraic ℚ lemniscatic.g₂)
         · exact h'
       · exact absurd h (mul_ne_zero hpi hua)
     apply hLa u hu hwp hwp' hu'
-    have : CM4E.Ext.Weierstrass.zeta lemniscatic u = -t := by linear_combination hz
+    have : LSG.Weierstrass.zeta lemniscatic u = -t := by linear_combination hz
     rw [this]; exact ht.neg
   · have hβ : IsAlgebraic ℚ (q * r3 / 2) := by
       rw [← mem_algebraicClosure_iff]

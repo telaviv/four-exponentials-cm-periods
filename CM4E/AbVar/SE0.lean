@@ -11,8 +11,7 @@ import CM4E.Bridge.Vec
 /-!
 # Theorem SE, part (SE₀): strong elliptic four exponentials at `t = cη/Ω`
 
-Paper addition seed 2 (`schanuel/five_exp/pilot_harvest1/PAPER_ADDITION_2_SE.md`, §1, Theorem `thm:SE` (3); now
-Theorem 4.12(3) of `paper_cm/paper.tex` §4.3): let `E` be a CM curve over `ℚ̄`, `Ω` a nonzero period, `η = η*(Ω)` the
+The paper, Theorem `thm:SE` (3) (Theorem 6.12(3)): let `E` be a CM curve over `ℚ̄`, `Ω` a nonzero period, `η = η*(Ω)` the
 conjugate-eigen quasi-period, `c ∈ ℚ̄ˣ` and `t = cη/Ω`. If `u₁, u₂ ∈ 𝓛̃_E = ℚ̄ + ℚ̄𝓛_E` and `Ω, u₁, u₂` are linearly
 independent over `ℚ̄`, then `tu₁, tu₂` are not both in `ℚ̄𝓛_E + ℚ̄·Fib_E`, where `Fib_E` is the set of fibre coordinates
 of logarithms of `E^♮(ℚ̄)` (it contains `ℚ̄`, the values `ζ*(u)`, `u ∈ 𝓛_E`, and `η`).
@@ -75,9 +74,6 @@ def QbarLFib (L : CMLattice) : Set ℂ :=
 lemma algebraic_mem_FibE (L : CMLattice) {w : ℂ} (hw : IsAlgebraic ℚ w) : w ∈ FibE L :=
   ⟨0, Or.inl ⟨0, 0, by simp, by simpa [etaL] using hw⟩⟩
 
-lemma eta_mem_FibE (L : CMLattice) : L.η₀ ∈ FibE L :=
-  ⟨L.ω, Or.inl ⟨1, 0, by simp [L.hω₁], by simp [etaL, isAlgebraic_zero]⟩⟩
-
 /-- `𝓛̃_E ⊂ ℚ̄𝓛_E + ℚ̄·Fib_E` (`ℚ̄ ⊂ Fib_E`). -/
 lemma LtildeE_subset_QbarLFib (L : CMLattice) : LtildeE L.pp ⊆ QbarLFib L := by
   rintro z ⟨N, β₀, β, v, hβ₀, hβ, hv, rfl⟩
@@ -125,7 +121,7 @@ lemma logNat_of_logE (L : CMLattice) {v : ℂ} (h : LogE L.pp v) : ∃ w, LogNat
     exact ⟨etaL L a b, Or.inl ⟨a, b, hab.symm, by simp [isAlgebraic_zero]⟩⟩
   · rcases h with h | ⟨h1, h2⟩
     · exact absurd h hv
-    · exact ⟨CM4E.Ext.Weierstrass.zeta L.pp v, Or.inr ⟨hv, h1, h2, by simp [isAlgebraic_zero]⟩⟩
+    · exact ⟨LSG.Weierstrass.zeta L.pp v, Or.inr ⟨hv, h1, h2, by simp [isAlgebraic_zero]⟩⟩
 
 lemma isAlgebraic_conj_α (L : CMLattice) : IsAlgebraic ℚ (starRingEnd ℂ L.α) := by
   rw [L.conj_α]
@@ -255,7 +251,7 @@ lemma aSE2_zero_b2 (γ : Fin r → ℂ) (i : Fin r) : aSE2 0 γ (b2 i) = 0 := by
 
 /-! ## Theorem SE₀ -/
 
-/-- **Theorem SE, part (SE₀)** (paper addition seed 2, Theorem `thm:SE` (3); `paper_cm` Theorem 4.12(3)), for a CM
+/-- **Theorem SE, part (SE₀)** (the paper, Theorem 6.12(3)), for a CM
 lattice `L` with `κ₁ = 0`: for `c ∈ ℚ̄ˣ`, `t = c·η₀/Ω` (`Ω = L.ω`, `η₀ = η*(Ω)`) and `u₁, u₂ ∈ 𝓛̃_{E_L}` with
 `Ω, u₁, u₂` linearly independent over `ℚ̄`, the numbers `tu₁, tu₂` are not both in `ℚ̄𝓛_{E_L} + ℚ̄·Fib_{E_L}`.
 Hypotheses: W88 §5d for `G_a × E^r × E^r × (E^r)^♮_γ` (`hW`), `κ₁ = 0`, algebraic invariants, complex multiplication on

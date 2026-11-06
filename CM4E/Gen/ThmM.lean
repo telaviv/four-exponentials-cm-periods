@@ -9,7 +9,7 @@ import CM4E.Gen.MG
 import CM4E.Gen.SMG
 
 /-!
-# Theorem M (paper [I], §`sec:M`, first proof)
+# Theorem M (paper, §`sec:M`, first proof)
 
 Let `L = ω ℤ[α]` be a CM lattice with algebraic `g₂, g₃`, `Ω = cω` (`c ∈ ℚ̄ˣ`). If `u ∈ ℚ̄𝓛_E`, `ℓ ∈ 𝓛̃` and
 `iπu = Ωℓ`, then `u = sΩ` and `ℓ = s·iπ` with `s ∈ ℚ̄` (`thmM`).

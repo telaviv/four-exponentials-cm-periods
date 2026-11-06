@@ -26,33 +26,16 @@
 \newcommand{\Fib}{\mathrm{Fib}}
 \newcommand{\cE}{\mathcal{E}}
 \newcommand{\rk}{\mathrm{rk}}
-% Rigor labels for steps and remarks ([Proved], [Lit], [Proof sketch], [Heuristic], [Numerical]).
 \newcommand{\lab}[1]{\textup{[#1]}}
-% Status labels of the main results; see "Conventions on labels" in Section 1.
-% The labels (a), (b) rest on the Lean certificate lean_mstar (../../../lean_mstar/TRUST.md, kernel-checked from the
-% standard axioms) together with: for the abelian groups and the vector-extension groups with vector part of dimension
-% r <= 1, the Lemma U fidelity report ../REFEREE_LEMMA_U_LEAN.md (2026-10-31); for the group of Proposition D' (r = 2,
-% hence also Cor. deg2 (i)), lean_lsg commit 4f27015 (Theorem41Vec2, thm11KappaMXP_uncond), which that report did NOT
-% cover; the group model gmXP was refereed in lean_mstar/reviews/REFEREE_HYP_MXP.md. To revert to the pre-merge wording
-% anyway, replace \formallabelstrue by \formallabelsfalse: every (a)/(b) label then prints as label (c) (see STATUS.md
-% for the rest of the revert).
-% Theorem SE(1) at (E_i, E_rho) carries label (b) (lean_mstar CM4E.Unconditional.thmSE_varpi_omegaRho); this label is
-% CONFIRMED by lean_mstar/reviews/REFEREE_HYP_SE.md (no FATAL, no MAJOR; lean_mstar 639bea6), see STATUS.md.
-% Theorem SE_0 (= SE(3)) on E_i carries label (a) (lean_mstar CM4E.Bridge.thmSE0_varpi, thmSE0_paper; lean_mstar
-% 5d65278), on E_rho label (b) g_3; review lean_mstar/reviews/REFEREE_HYP_SE0.md (no FATAL, no MAJOR).
-% Theorem R itself is NOT formalised (see Section 12.3).
 \newif\ifformallabels \formallabelstrue
 \newcommand{\LabC}{\lab{Proved modulo published theorems and Lemma~\ref{lem:U}}}
 \newcommand{\LabA}{\ifformallabels\lab{Proved; formally verified, standard axioms}\else\LabC\fi}
 \newcommand{\LabB}[1]{\ifformallabels\lab{Proved modulo #1; formally verified otherwise}\else\LabC\fi}
-% Fourth status label: a main result whose last step is only sketched (Theorem MX' and its corollary).
 \newcommand{\LabS}{\lab{Proof sketch}}
 \newcommand{\TierA}{\ifformallabels(a)\else(c)\fi}
 \newcommand{\TierB}{\ifformallabels(b)\else(c)\fi}
 \newcommand{\Status}{\noindent\emph{Status:} }
 
-% Title changed on referee grounds (REFEREE_R, M1) from the working title "A complete proof of the Roy--Waldschmidt
-% theorem with period term, with explicit consequences at CM and Beta periods"; see STATUS.md to revert.
 \title[The Roy--Waldschmidt theorem with period term]{A proof of the Roy--Waldschmidt theorem with period term, with
 explicit consequences at CM and Beta periods}
 \author{Draft --- not for circulation}
@@ -403,7 +386,7 @@ Symmetrically for non-torsion $u'\in\Lg_{E_\rho}$ with $\zeta_\rho$.
 \end{corollary}
 
 \Status for $u\in\Lg_{E_i}$: \LabB{the inputs of Theorem~\ref{thm:MX} and Laurent's theorem that $1,u,\zeta(u)$ are
-$\Qb$-linearly independent \cite{La80}}; the symmetric statement on $E_\rho$ is \LabC.
+$\Qb$-linearly independent \cite{La80}; also a consequence of \cite{Wu89} on $E^\natural\times\Ga$}; the symmetric statement on $E_\rho$ is \LabC.
 
 For example, for the point with $\wp(u)=2$ one has $u=0.72694593546890819853\ldots$ and
 $\vp\Omega_\rho\zeta(u)/(\pi u)=3.76379062156897182773\ldots$ (computed independently twice, by theta functions and by
@@ -702,7 +685,7 @@ connected algebraic subgroup $G'\ne0$ of $G$ defined over $\Qb$.
 \noindent Since $\alpha(G)=d_1+2d_2$ for a maximal decomposition, Theorem~\ref{thm:W88k} is the contrapositive of
 Statement~R for hyperplanes. The printed Theorem~1.1 has the hypothesis $m>(d_1+2d_2)(d-1-t)$, without $\kappa$;
 \cite[\S5d]{W88} proves it under the weaker hypothesis (5.4) (p.~394 prints $\kappa=\ell-m$, a misprint for $m-\ell$, cf.\
-Lemma~5.2 there). The case $W=0$ ($t=0$) of Theorem~\ref{thm:W88k} is also printed as \cite[Thm.~5.1, p.~352]{W05}, where it
+Lemma~5.2 there). The case $W=0$ ($t=0$) of Theorem~\ref{thm:W88k} is also printed as \cite[Thm.~5.1]{W05}, where it
 is attributed to \cite[Thm.~1.1]{W88} and to \cite[Thm.~4.1]{W90}. The proof in \cite[\S5d]{W88} applies
 Theorem~\ref{thm:W88} (in the form \cite[Cor.~5.3]{W88}) to $G$ with $N=d-1$, and then again to an auxiliary subgroup $G'$
 given by \cite[Lemma~5.1]{W88}. If Theorem~4.1 is used only through Lemma~\ref{lem:U}, condition (\ref{eq:NR}) can fail at
@@ -773,8 +756,7 @@ subgroups with Theorem~\ref{thm:W88} at every node. \S\ref{sec:struct} collects 
 peer-reviewed. The first supplied the corrections incorporated here (the linear nodes of \S\ref{sec:linear}, the Baker
 corner, the trivial decomposition in Proposition~\ref{prop:wue}, and the form of (NR$^*$)); the second checked every step
 against \cite{RW93}, \cite{W88} and \cite{W00} and found no fatal error (only the trivial case $Y=0$ in the proof of
-Lemma~\ref{lem:U0}, now added).\footnote{Internal reports
-REFEREE\_SCOPE and REFEREE\_R of this project.}
+Lemma~\ref{lem:U0}, now added).
 
 \subsection{Structure and weights}\label{sec:struct}
 
@@ -1309,9 +1291,6 @@ $P_aP_b\in\Qb^\times P_cP_d$. Together with the rule that $\pi$ corresponds to t
 $\mathbf 1_\Phi+\mathbf 1_{-\Phi}\equiv1$, the same dictionary contains $P_\sigma P_{\bar\sigma}\in\pi\Qb^\times$.
 That these are all multiplicative relations is the Rohrlich--Lang conjecture, used below only in remarks labelled
 \lab{Heuristic}.
-% NOTE (attribution): RELATIONS.md writes "Deligne's theorem in the appendix to Koblitz-Ogus"; the usual reference is
-% Koblitz-Ogus, appendix to Deligne's Corvallis paper (PSPM 33). Wording kept neutral; De82 added after REFEREE_P2_2
-% #11 (bibliographic data from memory, see ../paper2/STATUS.md).
 
 \subsection{CM elliptic curves and their universal vector extensions}\label{sec:Euniv}
 For a CM elliptic curve $E$ let $E^\natural$ be its universal vector extension, with base coordinate $z$ and conjugate-eigen
@@ -1744,9 +1723,6 @@ statement at $1/t$ (if $\alpha^t,\beta^t\in\Qb$, apply the statement at $1/t$ to
 $t\log\alpha,t\log\beta$ are $\Q$-independent). The inverses of the direct classes are $\Qb^\times\pi/P^+=\Qb^\times P^-$ and
 $\Qb^\times\pi/P^-=\Qb^\times P^+$. So all of $t\in\Qb^\times P^{\pm1}$, $\Qb^\times(P/\pi)^{\pm1}$ are covered, for $P$ of
 either kind ($1/P^+\in\Qb^\times P^-/\pi$, $1/P^-\in\Qb^\times P^+/\pi$).
-% NOTE (referee fix): an earlier version of MG_A.md said "t*2*pi*i is an algebraic multiple of an eigen-period in all
-% four families". REFEREE_MGA_2 found this false for the inverted families (there t*2*pi*i ~ pi*P, and pi*P not in
-% Qbar*L is open). We follow the corrected MG_A.md: the inverted families follow by t <-> 1/t only.
 
 \emph{Beta values.} By \S\ref{sec:setting}, $B(a/N,b/N)$ is a first-kind eigen-period up to $\Qb^\times$ if $a+b<N$ and a
 second-kind one if $a+b>N$. Of the four examples, $\Gamma(1/5)^2/(\pi\Gamma(2/5))=B(\tfrac15,\tfrac15)/\pi$ and
@@ -2773,10 +2749,6 @@ Then $q_1=q_2=0$ and $z_j(v_j)\in\Qb P_j$ for each $j$. If $v_j\in\Lambda(A_j)$,
 \Status Proposition~\ref{prop:X} and Theorem~\ref{thm:X}: \LabC{} (three internal referees, one with a blind classification of the subgroups; independent exact enumerations;
 minimum excess $n$). The deduction of Theorem~\ref{thm:X} from the proposition is the standard analytic-subgroup step, as in
 \S\ref{sec:MX} for Theorem~\ref{thm:MX}, written out below.
-% NOTE (labels): the first draft labelled the deduction Prop => Thm X as [Proof sketch]. Referee P2-1 (finding 3) checked
-% that it is complete; we rechecked it and wrote out the two steps (slot splitting; torsion, including v_j = 0). The
-% label is now uniform. REFEREE_X_2's "[Proof sketch, modulo trust point T]" only encodes that Lemma U is a sketch, which
-% "modulo Lemma U" already says. See ../paper2/STATUS.md.
 
 \noindent When several of the slots lie on the same $A$ (as in \S\ref{sec:X7}), the $v_j$ may be logarithms of different
 points: by (Ch), a single element of $\Lambda_K(A)$ has slot coordinates $z_j(v_j)$ for any prescribed $v_j$.
@@ -2993,9 +2965,6 @@ $21$, $24$. At $N=24$ there is one whose slots are two CM elliptic curves (CM by
 of a simple CM $4$-fold: $B(\tfrac1{24},\tfrac1{24})B(\tfrac1{24},\tfrac14)\in\Qb^\times
 B(\tfrac1{24},\tfrac1{12})B(\tfrac1{24},\tfrac18)$ (\lab{Proved}, Lemma~\ref{lem:rel924}). Both give instances of
 Theorem~\ref{thm:X} (\S\ref{sec:X924}).
-% NOTE: PAPER_ADDITION.md remark (ii) lists levels 7 and 24 only; RELATIONS.md section 2-3 also lists level 9 (one
-% slot E_rho). Rewritten after REFEREE_P2_2 #1: "the first relations occur at levels 7, 9, 24" was false as a statement
-% about levels (RELATIONS.md lists 15, 16, 20, 21 and omits 11); counts from paper2/checks_p2_2/ko_checks.py.
 \end{remark}
 
 \begin{remark}[Several pairs]\label{rem:several}
@@ -3367,7 +3336,7 @@ to $E$'' is defined over $\Qb$ with CM field $k'\ne k$, and $\Omega'$ is a nonze
 \subsection{Conjecture 42 at CM ratios}\label{sec:C42}
 Waldschmidt's Conjecture~42 \cite[p.~173]{W06} asks that a rank-one matrix $\left(\begin{smallmatrix}u_1&\log\alpha_1\\
 u_2&\log\alpha_2\end{smallmatrix}\right)$ with $u_j\in\Lg_E$, $\log\alpha_j\in\Lg$ have $\Q$-proportional rows; equivalently,
-the middle inequality $\delta(e^z,\wp(tz))\le1$ of Ramachandra's $\delta$-conjecture in the form of \cite[\S1]{W13}.
+the middle inequality $\delta(e^z,\wp(tz))\le1$ of Ramachandra's $\delta$-conjecture in the form of \cite[\S2(a)]{W13}.
 Theorem~\ref{thm:M} is its CM case with a period row.
 
 \begin{theorem}[Theorem C42]\label{thm:C42}
@@ -3709,8 +3678,7 @@ period of the same abelian variety; it is $\Qb$-linear only for algebraic $t$ \l
 
 \section{Credit, literature, and overlap}\label{sec:overlap}
 This section gives the position of Theorem~\ref{thm:R} (\S\ref{sec:novR}) and compares the applications with the
-literature. Theorem, corollary, conjecture, slide and page numbers cited below from \cite{SMF84,W03s,W05,W06,W07} have not
-been rechecked against the printed texts (\S\ref{sec:deps}); the arguments use only the statements as quoted.
+literature.
 
 \subsection{Theorem R}\label{sec:novR}
 \emph{Credit.} The statement of Theorem~\ref{thm:R} with the printed weight is Roy and Waldschmidt's \cite[Th\'eor\`eme,
@@ -3874,7 +3842,7 @@ $\Qb$-linearly independent, where $H=\zeta-\gamma z$ and $\gamma=0$ when $g_2g_3
 Corollary~\ref{cor:M} (which only use $u\in\Lg_E$) follow quickly from Laurent's identity and the analytic subgroup theorem
 (\S\ref{sec:M2}); we found none of them stated in print (Abe \cite{Abe20} claimed (M1); the preprint was withdrawn).
 The theorem of Masser that $1,\omega,\eta,2\pi i,\log\sigma$ are $\Qb$-linearly independent on a CM curve, for
-$\sigma\in\Qb^\times$ not a root of unity (we cite it as \cite{Ma76}, an attribution we have not rechecked), is linear and
+$\sigma\in\Qb^\times$ not a root of unity (\cite{Ma76}), is linear and
 gives none of these; nor do the algebraic independence results of
 Brownawell--Kubota \cite{BK77}, which have six-exponentials strength, or the third-kind results surveyed in \cite{W19}
 (W\"ustholz's linear independence of $1,\omega,\eta,\lambda(u_i,\omega)$).
@@ -3903,7 +3871,7 @@ for $g\ge2$ uses the inner weight. What is ours at level
 $24$ is the elementary proof of the relation (Lemma~\ref{lem:rel924}(2)), which avoids Deligne's theorem.
 
 Corollary~\ref{cor:X7intro}(b) lies in territory that Gao--Ullmo--Yafaev \cite{GUY} and Gao--Ullmo \cite{GU} describe as
-open: they write that almost nothing is known about algebraic relations among holomorphic CM periods beyond the linear ones
+open: \cite{GUY} write that almost nothing is known about algebraic relations among holomorphic CM periods beyond the linear ones
 (apart from cases reducible to the linear case, such as $\theta\theta'/\pi\notin\Qb$ \cite[Cor.~3.1]{GUY}), and ask whether
 all quadratic relations are elementary \cite[Question~1.3]{GUY}; the relation used in Theorem~\ref{thm:X} is an elementary
 quadratic relation in their sense. Corollary~\ref{cor:X7intro}(b) is therefore, with Corollary~\ref{cor:deg2}, among the
@@ -3995,7 +3963,7 @@ exponentials theorem \cite[Thm.~24]{W06} plus conjugation (Ramachandra; Diaz \ci
 one-line consequence of Corollary~\ref{thm:RW} on $E\times\Gm$ ($\alpha_K=2$, $\kappa=0$) plus conjugation. We found no trace of
 the conjugation-stable case $\dim V(\alpha,\beta)=2$ (for instance $\alpha,\beta$ real), which contains all our examples.
 Corollary~\ref{cor:C42}(b) is the inequality $\delta(e^z,\wp(tz))\le1$ of Ramachandra's $\delta$-conjecture as repaired in
-\cite[\S1]{W13}, at six CM classes of $t$; the best bounds listed there are $\delta\le3$ in general and $\delta\le2$ at the slope
+\cite[\S2(a)]{W13}, at six CM classes of $t$; the best bounds listed there are $\delta\le3$ in general and $\delta\le2$ at the slope
 of Theorem~\ref{thm:M}, with no case of $\delta\le1$. Not accessed: Waldschmidt, Acta Arith.\ 23 (1973), \S3.5, the likeliest
 place for an explicit mixed CM corollary.
 
@@ -4012,13 +3980,6 @@ accessed). The numbers in Corollary~\ref{cor:CL4} are artificial; the content is
 \emph{Theorem~\ref{thm:U}.} We found no statement of (U1)--(U4), or of the device of putting the conjugate eigenspace into
 $W$, in \cite{W88,W83,RW93} or in the work on periods of Picard curves we know (Shiga, Wolfart, Huber--W\"ustholz). Bertrand's
 \cite{Be83}, the one plausible earlier source, was not read; it must be checked before any external claim.
-
-\subsection{Other related work}
-The recent preprint \cite{ChCh26} of G.~V.\ and D.~V.\ Chudnovsky, with accompanying Lean files, concerns, according to
-its title, irrationality exponents of real CM elliptic periods and of powers of the lemniscate period $\vp$. We have not
-checked that paper or its formalisation. Irrationality exponents are not four exponentials statements. Sources we
-could not consult are listed in \S\ref{sec:deps}.
-
 
 \section{Consistency checks, status, and formal verification}\label{sec:status}
 
@@ -4221,14 +4182,10 @@ Sources we could not consult, any of which might contain these statements: Bertr
 $K$-structure used in \cite{RW93}); Waldschmidt \cite{W90} (the general form of Theorem~\ref{thm:W88}); Baker--W\"ustholz
 \cite[\S6.2]{BW07}; Bertrand--Laurent \cite{BL81}; Faltings--W\"ustholz \cite{FW84}; Roy \cite{R1} (decisive for the novelty claim on Theorem~\ref{thm:R}; an
 inter-library request is pending); Chapters~12--13 of \cite{W00} (Chapter~11 was read); Waldschmidt, Acta Arith.\ 23
-(1973) (for Theorem~\ref{thm:C42}); Tosi's published version of
+(1973) (for Theorem~\ref{thm:C42}); any published version of
 \cite{To23}; Bertrand's papers on $1$-motives; \S\S2--7 of \cite{GU}; MathSciNet/zbMATH citation lists of \cite{RW93},
-\cite{W88}, \cite{WW85}. Bibliographic data not checked against the printed sources: the theorem, corollary,
-conjecture, slide and page numbers cited from \cite{W03s,W05,W06,W07} and \cite[p.~27]{SMF84} (and the date of
-\cite{W03s}); the metadata of \cite{De82} and \cite{We76}; the page numbers of \cite{KO79}; \cite{Sh98} as the precise
-source of (S1) and of the isogeny criterion used in \S\ref{sec:conj}; the attribution to \cite{Ma76} in
-\S\ref{sec:novM}; and the metadata of \cite{An82} and \cite{Bl86}, cited for the common slope in Theorem~\ref{thm:Xk}, and of
-\cite{Ba66,Sch37,Di07,W13}, cited from memory or from our notes. Numerical values were computed with mpmath (50--60 digits unless stated otherwise); they
+\cite{W88}, \cite{WW85}. Not checked against the printed source: \cite{Sh98} as the precise source of (S1) and of the
+isogeny criterion used in \S\ref{sec:conj}. Numerical values were computed with mpmath (50--60 digits unless stated otherwise); they
 illustrate and prove nothing. The results were found with substantial use of AI tools; all checks reported here are
 internal to the project and none is peer review.
 
@@ -4341,9 +4298,9 @@ $t=\Gamma(\frac15)^2/\Gamma(\frac25)$ with $(\alpha,\beta)=(2,3)$), but not at $
 $\Qb^\times B(\frac15,\frac15)/\pi$, $\Qb^\times\pi/B(\frac15,\frac15)$ have label (a), above). These Beta-value instances assume only the subgroup-theorem hypotheses
 \texttt{Thm11KappaA} (class $\Qb^\times B(\frac17,\frac17)/\pi$; its instance $N=5$ is proved in \texttt{lean\_lsg}) and
 \texttt{Thm11KappaAn} (class $\Qb^\times B(\frac15,\frac15)$): the inputs $P/\pi\notin\Qb$ and $\bar P/\pi\notin\Qb$
-(W\"ustholz's theorem) are now derived in Lean from those hypotheses (lean\_mstar 76bcb15), and \texttt{Thm11KappaA} is stated
+(W\"ustholz's theorem) are now derived in Lean from those hypotheses, and \texttt{Thm11KappaA} is stated
 only for toric-injective hyperplanes (no nonzero period of $A^r$ alone in $V$), which is weaker than the full hyperplane
-statement (lean\_mstar ec4a5ab);
+statement;
 Proposition~\ref{prop:X} and Theorem~\ref{thm:X} in general (for any four pairwise distinct first-kind slots of simple CM
 abelian varieties with a relation (\ref{eq:R}) taken as hypothesis, as in the paper: Proposition~\ref{prop:X} for
 $[K:\Q]\ge5$, and Theorem~\ref{thm:X} without its torsion clause; (Ch) is proved in Lean; conditional on the
@@ -4509,24 +4466,22 @@ Invent.\ Math.\ 124 (1996), 1--9.
 diophantiennes et nombres transcendants} (Luminy 1982), Progr.\ Math.\ 31, Birkh\"auser, 1983, 1--45.
 \bibitem{BL81} D. Bertrand, M. Laurent, Propri\'et\'es de transcendance de nombres li\'es aux fonctions th\^eta, C. R.
 Acad.\ Sci.\ Paris S\'er.\ I 292 (1981), 747--749.
-\bibitem{SMF84} D. Bertrand et al., Les nombres transcendants, M\'em.\ Soc.\ Math.\ France (2) 13 (1984).
+\bibitem{SMF84} D. Bertrand et al., Les nombres transcendants, M\'em.\ Soc.\ Math.\ France (2) 13 (1984), 60~pp.
 \bibitem{Bl86} D. Blasius, On the critical values of Hecke $L$-series, Ann.\ of Math.\ 124 (1986), 23--63.
 \bibitem{BK77} W. D. Brownawell, K. K. Kubota, The algebraic independence of Weierstrass functions and some related
 numbers, Acta Arith.\ 33 (1977), 111--149.
 \bibitem{Ch84} G. V. Chudnovsky, \emph{Contributions to the Theory of Transcendental Numbers}, Math.\ Surveys Monogr.\ 19,
 Amer.\ Math.\ Soc., 1984.
-\bibitem{ChCh26} G. V. Chudnovsky, D. V. Chudnovsky, Irrationality exponents of real CM elliptic periods and powers of the
-lemniscate period, arXiv:2610.31112 (2026), with Lean files.
 \bibitem{De82} P. Deligne, Hodge cycles on abelian varieties (notes by J. S. Milne), in P. Deligne, J. S. Milne, A. Ogus,
 K.-Y. Shih, \emph{Hodge Cycles, Motives, and Shimura Varieties}, Lecture Notes in Math.\ 900, Springer, 1982, 9--100.
 \bibitem{Di04} G. Diaz, Utilisation de la conjugaison complexe dans l'\'etude de la transcendance de valeurs de la
 fonction exponentielle usuelle, J. Th\'eor.\ Nombres Bordeaux 16 (2004), 535--553.
-\bibitem{Di07} G. Diaz, Produits, quotients de combinaisons lin\'eaires de logarithmes, J. Th\'eor.\ Nombres Bordeaux
-19 (2007), 373--391.
+\bibitem{Di07} G. Diaz, Produits et quotients de combinaisons lin\'eaires de logarithmes de nombres alg\'ebriques:
+conjectures et r\'esultats partiels, J. Th\'eor.\ Nombres Bordeaux 19 (2007), 373--391.
 \bibitem{FW84} G. Faltings, G. W\"ustholz, Einbettungen kommutativer algebraischer Gruppen und einige ihrer
 Eigenschaften, J. reine angew.\ Math.\ 354 (1984), 175--205.
 \bibitem{GU} Z. Gao, E. Ullmo, Hodge cycles and quadratic relations between holomorphic periods on CM abelian varieties,
-J. Inst.\ Math.\ Jussieu 25 (2026), 215--249; arXiv:2411.12249.
+J. Inst.\ Math.\ Jussieu 25 (2026), no.~1, 215--249; arXiv:2411.12249.
 \bibitem{GUY} Z. Gao, E. Ullmo, A. Yafaev, Bi-$\Qb$-structures on Hermitian symmetric spaces and quadratic relations
 between CM periods, arXiv:2401.10488 (v3, 2025; accepted in Doc.\ Math.\ according to arXiv).
 \bibitem{Gr78} B. H. Gross, On the periods of abelian integrals and a formula of Chowla and Selberg, with an appendix by
@@ -4545,17 +4500,17 @@ Sci.\ Paris S\'er.~A 290 (1980), 397--399.
 \bibitem{MM74} B. Mazur, W. Messing, \emph{Universal Extensions and One Dimensional Crystalline Cohomology}, Lecture
 Notes in Math.\ 370, Springer, 1974.
 \bibitem{Ph86} P. Philippon, Lemmes de z\'eros dans les groupes alg\'ebriques commutatifs, Bull.\ Soc.\ Math.\ France 114
-(1986), 355--383.
+(1986), 355--383; errata, ibid.\ 115 (1987), 397--398.
 \bibitem{Roy92} D. Roy, Matrices whose coefficients are linear forms in logarithms, J. Number Theory 41 (1992), 22--47.
 \bibitem{R1} D. Roy, Transcendance et questions de r\'epartition dans les groupes alg\'ebriques, in \emph{Approximations
-diophantiennes et nombres transcendants} (Luminy 1990), de Gruyter, 1992, 249--274.
+diophantiennes et nombres transcendants} (Luminy 1990), ed.\ P. Philippon, de Gruyter, 1992, 249--274.
 \bibitem{RW93} D. Roy, M. Waldschmidt, Autour du th\'eor\`eme du sous-groupe alg\'ebrique, Canad.\ Math.\ Bull.\ 36
 (1993), 358--367.
 \bibitem{Sch37} Th. Schneider, Arithmetische Untersuchungen elliptischer Integrale, Math.\ Ann.\ 113 (1937), 1--13.
 \bibitem{Se79} J.-P. Serre, Quelques propri\'et\'es des groupes alg\'ebriques commutatifs, Appendice~II in \cite{W79},
 191--202.
-\bibitem{Sh98} G. Shimura, \emph{Abelian Varieties with Complex Multiplication and Modular Functions}, Princeton Univ.\
-Press, 1998.
+\bibitem{Sh98} G. Shimura, \emph{Abelian Varieties with Complex Multiplication and Modular Functions}, Princeton Math.\
+Ser.\ 46, Princeton Univ.\ Press, 1998.
 \bibitem{To23} R. Tosi, On the algebraic independence of periods of abelian varieties and their exponentials,
 arXiv:2309.02800 (2023).
 \bibitem{W79} M. Waldschmidt, \emph{Nombres transcendants et groupes alg\'ebriques}, Ast\'erisque 69--70 (1979), with
@@ -4564,16 +4519,19 @@ appendices by D. Bertrand and J.-P. Serre.
 Related to Fermat's Last Theorem}, Progr.\ Math.\ 26, Birkh\"auser, 1982, 79--88.
 \bibitem{W83} M. Waldschmidt, Sous-groupes analytiques de groupes alg\'ebriques, Ann.\ of Math.\ 117 (1983), 627--657.
 \bibitem{W88} M. Waldschmidt, On the transcendence methods of Gel'fond and Schneider in several variables, in \emph{New
-Advances in Transcendence Theory} (Durham 1986), Cambridge Univ.\ Press, 1988, 375--398.
+Advances in Transcendence Theory} (Durham 1986), ed.\ A. Baker, Cambridge Univ.\ Press, 1988, Ch.~24, 375--398.
 \bibitem{W90} M. Waldschmidt, Dependence of logarithms of algebraic points, in \emph{Number Theory, Vol.~II} (Budapest
 1987), Colloq.\ Math.\ Soc.\ J\'anos Bolyai 51, North-Holland, 1990, 1013--1035.
 \bibitem{W97} M. Waldschmidt, Approximation diophantienne dans les groupes alg\'ebriques commutatifs (I): Une version
 effective du th\'eor\`eme du sous-groupe alg\'ebrique, J. reine angew.\ Math.\ 493 (1997), 61--113.
 \bibitem{W00} M. Waldschmidt, \emph{Diophantine Approximation on Linear Algebraic Groups}, Grundlehren Math.\ Wiss.\ 326,
 Springer, 2000.
-\bibitem{W03s} M. Waldschmidt, Dependence of logarithms on commutative algebraic groups, slides, Hyderabad, December 2003.
+\bibitem{W03s} M. Waldschmidt, Dependence of logarithms on commutative algebraic groups, slides, International
+Conference on Algebra and Number Theory, Hyderabad, December 2003,
+\url{https://www.imj-prg.fr/~michel.waldschmidt/articles/pdf/Hyderabad-12-03.pdf}.
 \bibitem{W05b} M. Waldschmidt, Further variations on the six exponentials theorem, Hardy-Ramanujan J.\ 28 (2005), 1--9.
-\bibitem{Wper05} M. Waldschmidt, Transcendance de p\'eriodes: \'etat des connaissances, arXiv:math/0502582 (2005).
+\bibitem{Wper05} M. Waldschmidt, Transcendance de p\'eriodes: \'etat des connaissances, Adv.\ Math.\ (Afr.\ Diaspora
+J. Math.) 1 (2006), no.~2; arXiv:math/0502582.
 \bibitem{W05} M. Waldschmidt, Variations on the six exponentials theorem, in \emph{Algebra and Number Theory}
 (Hyderabad 2003), Hindustan Book Agency, 2005, 338--355.
 \bibitem{W06} M. Waldschmidt, Elliptic functions and transcendence, in \emph{Surveys in Number Theory}, Dev.\ Math.\ 17,

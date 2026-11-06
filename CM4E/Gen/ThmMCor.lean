@@ -8,7 +8,7 @@ import CM4E.Gen.MXGen
 import CM4E.Gen.MG13
 
 /-!
-# Theorem M: the clause `s ∈ k`, and Corollary M (paper [I], `cor:M`)
+# Theorem M: the clause `s ∈ k`, and Corollary M (paper, `cor:M`)
 
 * `thmM_I_k`: on `E_i`, if `u ∈ 𝓛_E` then `s ∈ ℚ(i)` (from Masser's theorem, the named input `MasserCM`).
 * (M1) `m1`: `℘(cω/π) ∉ ℚ̄` for `c ∈ ℚ̄ˣ`, on every CM lattice `ω ℤ[α]` with algebraic `g₂, g₃`.
@@ -50,7 +50,7 @@ lemma logNat_of_logE (P : PeriodPair) (eta : ℤ → ℤ → ℂ) {u : ℂ} (hu 
     exact ⟨eta m n, Or.inl ⟨m, n, hmn.symm, by rw [sub_self]; exact isAlgebraic_zero⟩⟩
   · rcases hu with h | ⟨h1, h2⟩
     · exact absurd h hl
-    · exact ⟨CM4E.Ext.Weierstrass.zeta P u, Or.inr ⟨hl, h1, h2, by rw [sub_self]; exact isAlgebraic_zero⟩⟩
+    · exact ⟨LSG.Weierstrass.zeta P u, Or.inr ⟨hl, h1, h2, by rw [sub_self]; exact isAlgebraic_zero⟩⟩
 
 /-- `x = sω`, `x = cω·y` with `ω ≠ 0`: `s = c·y`. -/
 private lemma coeff_eq {ω x s y : ℂ} (hω : ω ≠ 0) (h1 : x = s * (1 * ω)) (h2 : x = y * ω) : s = y := by

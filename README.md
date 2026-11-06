@@ -1,13 +1,11 @@
 # lean_mstar: four exponentials at CM periods, in Lean 4
 
 Lean 4 + Mathlib certificate for the applications in the paper *A proof of the Roy–Waldschmidt theorem with period
-term, with explicit consequences at CM and Beta periods* (draft; it contains the results of the earlier drafts "[I]"
-on CM elliptic curves and "[II]" on CM abelian varieties; snapshot in [`paper/`](paper/); results are cited by its
-numbering, and `paper/README.md` maps the old numbers).
+term, with explicit consequences at CM and Beta periods* (draft; snapshot in [`paper/`](paper/); results are cited by its numbering).
 
 ## Results
 
-**Unconditional** (W88 proved in the sibling project `lean_lsg`, a Lake path dependency):
+**Unconditional** (W88 proved in `lean_lsg`, the project's one dependency besides Mathlib):
 `CM4E.Unconditional.fourExpAt_varpi_div_pi_all` (**the four exponentials statement at `t = cϖ/π` for every algebraic
 `c ≠ 0`**; e.g. `2^{ϖ/π}` and `3^{ϖ/π}` are not both algebraic, `CM4E.Unconditional.two_three`); **Theorem M for
 `Ω = cϖ`** (`CM4E.Unconditional.thmM_varpi`) with (M1), (M3) and the `K`-form of Theorem MG; the same at `Ω_ρ` given that
@@ -65,15 +63,14 @@ is assumed, why it is believed, and which paper results are covered: [TRUST.md](
 | `CM4E/Final.lean` | the final statements, with all inputs except W88 discharged |
 | `CM4E/CaseCheck.lean`, `CM4E/LemmaL.lean` | arithmetic of the paper's Theorem 2.3 case tables; Step 1 of Proposition 7.1 (Prop. D) |
 | `CM4E/AbVar/` | CM abelian varieties: adapted bases over `ℚ(ζ_N)`, Beta values at level 7, Theorem X7 (`FrameX`, `X7`), Theorem A (`ThmA`, `ThmAn`) |
-| `CM4E/Ext/` | Weierstrass `ζ`/`σ`, `g₂(ϖℤ[i]) = 4`, Schneider's theorem (vendored; see `CM4E/Ext/PROVENANCE.md`) |
 | `Axioms.lean` | axiom audit of the main declarations |
 | `reviews/` | fidelity reviews of the hypothesis models, with their check scripts |
 | `paper/` | snapshot of the paper |
 
 ## Build
 
-The project requires the sibling checkout `../lean_lsg` (and its dependency `../schanuel/six_exp/lean`) as Lake path
-dependencies.
+The project depends on Mathlib and on `lean_lsg` (with `lean_lsg`'s own dependency `StrongSix`), both declared in
+`lakefile.toml`; `lean_lsg` must be checked out next to this folder.
 
 ```bash
 lake exe cache get
@@ -85,12 +82,10 @@ Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 
 ## Next steps
 
-* Discharge `hW`: formalise W88 Thm 4.1 / §5d (in progress in the sibling project `lean_lsg`) and prove the soundness
-  of the group models.
+* Discharge the remaining hypotheses `hW` (the abelian-variety and level-seven groups) in `lean_lsg`.
 * Theorem 1 for every CM curve (more `CMLattice` instances); `g₃(Ω_ρℤ[ρ]) = 4` (the real-period computation of
-  `CM4E/Ext/LemniscateIndep/` redone for the hexagonal lattice); MX′ and deg2 (i) once `lean_lsg` proves the full
-  vector-extension theorem; a bridge for SMG♮ (Theorem S); (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
-  vendored Schneider–Lang criterion.
+  `LSG.LemniscateIndep` redone for the hexagonal lattice); a bridge for SMG♮ (Theorem S); (M2) via Gel'fond–Schneider; Hermite–Lindemann from the
+  Schneider–Lang criterion of `lean_lsg`.
 
 ## License and provenance
 

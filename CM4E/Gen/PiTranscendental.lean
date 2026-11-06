@@ -3,15 +3,15 @@ Copyright (c) 2026 Shawn Krisman. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
-import CM4E.Ext.Interface
-import CM4E.Ext.Schneider
-import CM4E.Ext.SchneiderLang.Main
+import LSG.Interface
+import LSG.Schneider
+import LSG.SchneiderLang.Main
 
 /-!
 # Lindemann: `π` is transcendental
 
 `CM4E.Gen.transcendental_pi : Transcendental ℚ (Real.pi : ℂ)`, from the vendored Schneider–Lang criterion
-`CM4E.Ext.schneiderLang`.
+`LSG.schneiderLang`.
 
 If `π` were algebraic, so would be `πi`; over `K = ℚ(πi)` the entire functions `z` and `e^z` (order `≤ 2`,
 denominator `h = 1`) satisfy `z' = 1`, `(e^z)' = e^z`, and are algebraically independent over `K` (a polynomial
@@ -32,7 +32,7 @@ theorem algIndep_id_exp {K : Type*} [Field K] [Algebra K ℂ] (P : MvPolynomial 
     have h := congrArg Complex.re hmn
     simp only [← Complex.ofReal_natCast, ← Complex.ofReal_exp, Complex.ofReal_re] at h
     exact_mod_cast Real.exp_injective h
-  refine CM4E.Ext.Weierstrass.mvPoly_eq_zero_of_infinite_fibres P hY ?_
+  refine LSG.Weierstrass.mvPoly_eq_zero_of_infinite_fibres P hY ?_
   rintro _ ⟨n, rfl⟩
   refine Set.infinite_of_injective_forall_mem
     (f := fun k : ℤ => (n : ℂ) + k * (2 * π * I)) ?_ ?_
@@ -48,13 +48,13 @@ theorem algIndep_id_exp {K : Type*} [Field K] [Algebra K ℂ] (P : MvPolynomial 
 /-- **Lindemann (1882).** `π` is transcendental. -/
 theorem transcendental_pi : Transcendental ℚ (Real.pi : ℂ) := by
   intro halg
-  have hπI : IsAlgebraic ℚ ((Real.pi : ℂ) * I) := halg.mul CM4E.Ext.Schneider.isAlgebraic_I
+  have hπI : IsAlgebraic ℚ ((Real.pi : ℂ) * I) := halg.mul LSG.Schneider.isAlgebraic_I
   set K := IntermediateField.adjoin ℚ ({(Real.pi : ℂ) * I} : Set ℂ)
   have : FiniteDimensional ℚ K := IntermediateField.finiteDimensional_adjoin (by
     rintro x rfl
     exact hπI.isIntegral)
   have mπI : (Real.pi : ℂ) * I ∈ K := IntermediateField.subset_adjoin _ _ (by simp)
-  have hfin := CM4E.Ext.schneiderLang K 2 ![fun z => z, fun z => cexp z] (fun _ => 1) 2
+  have hfin := LSG.schneiderLang K 2 ![fun z => z, fun z => cexp z] (fun _ => 1) 2
     (by
       intro i
       fin_cases i
@@ -64,9 +64,9 @@ theorem transcendental_pi : Transcendental ℚ (Real.pi : ℂ) := by
     (by
       intro i
       fin_cases i
-      · exact ⟨1, CM4E.Ext.Schneider.norm_le_exp_sq⟩
+      · exact ⟨1, LSG.Schneider.norm_le_exp_sq⟩
       · refine ⟨1, fun z => ?_⟩
-        simpa using CM4E.Ext.Schneider.norm_cexp_le_exp_sq 1 z)
+        simpa using LSG.Schneider.norm_cexp_le_exp_sq 1 z)
     ⟨0, fun z => by simp⟩
     (by
       intro i

@@ -7,7 +7,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
 * For context: `CM4E/AbVar/FrameX.lean` (`gmFX`, `frameX_false`), `CM4E/AbVar/X7.lean` (`gmX7`, `thmX7`,
   `WuestholzX7`), `CM4E/AbVar/Basis.lean`, `CM4E/Waldschmidt.lean` (`GroupModel`, `HyperplaneKappa`), `TRUST.md`
   (the rows for Theorem X).
-* Paper: `schanuel/five_exp/paper2/paper2.tex`:
+* Paper: draft [II]:
   - §`sec:setting` (l. 309–414: (S1), (P), (Ch), (W), Lemma K′);
   - §`sec:X` (l. 589–725: set-up, Prop. `prop:X`, Theorem X, Lemmas S′ and L′, the proof of Theorem X).
 * Baseline: `reviews/REFEREE_HYP_X7.md`, whose findings on `gmFX`, the level-seven data and the count are not repeated

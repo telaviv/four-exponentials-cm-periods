@@ -9,8 +9,8 @@ import CM4E.AbVar.FrameX1
 # The frame of Theorem SE₀: one `G_a` slot and one fibre slot
 
 Same tangent space and same map as `CM4E/AbVar/FrameX1.lean`: `T(G'') = Q × ℂ × ℂ ∋ (q, s₁, s₂)` with two linear forms
-`μ₁, μ₂` on `Q` and `Ψ''(q, s₁, s₂) = (μ₁(q) + s₁, μ₂(q) + s₂)`. For Theorem SE₀ (paper addition seed 2, Theorem `thm:SE`
-(3); `paper_cm/paper.tex` Theorem 4.12(3)) the group is `G'' = G_a × G₂` with `G₂` a vector extension: `q` is the
+`μ₁, μ₂` on `Q` and `Ψ''(q, s₁, s₂) = (μ₁(q) + s₁, μ₂(q) + s₂)`. For Theorem SE₀ (the paper, Theorem `thm:SE`
+(3); the paper, Theorem 6.12(3)) the group is `G'' = G_a × G₂` with `G₂` a vector extension: `q` is the
 abelian (base) coordinate of `G₂`, `s₁` the coordinate of `G_a` and `s₂` the fibre coordinate of `G₂`. So `s₁` is in
 `d₀` and `s₂` in `d₂`: `d₂ = dim Q + 1` (in `gmFX1` both `s₁, s₂` are `G_a`-coordinates and `d₂ = dim Q`).
 

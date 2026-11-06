@@ -6,7 +6,7 @@ import Mathlib
 import CM4E.Gen.MXP
 
 /-!
-# The degree-two period statements (paper [I], Corollary `cor:deg2`)
+# The degree-two period statements (paper, Corollary `cor:deg2`)
 
 (ii) `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are linearly independent over `ℚ̄`. It follows from Theorem MX (`K`-form, `CM4E.Gen.mx_K`)
 applied to `X = (ϖ, η_i + t) ∈ Λ(E_i^♮)`, `Y = 0`, together with the `ℚ̄`-independence of `1, π, ϖ, η_i, Ω_ρ, η_ρ`

@@ -9,7 +9,7 @@ import CM4E.AbVar.FrameX
 import CM4E.Gen.ThmM
 
 /-!
-# Theorem X at level seven (paper [II], §`sec:X7`)
+# Theorem X at level seven (paper, §`sec:X7`)
 
 `A = Jac(C)`, `C : y⁷ = x(1 − x)` (CM by `F = ℚ(ζ)`, `ζ = ζ₇`, type `{1, 2, 3}`; eigen-coordinates `z₁, z₂, z₃` dual to
 `dx/y⁶, dx/y⁵, dx/y⁴`, with `z_s(γ) = perA s` for one cycle `γ`) and `E` with period lattice `Ω ℤ[α]`, `Ω = B(1/7, 2/7)`,
@@ -287,7 +287,7 @@ lemma eLift_per (m : Fin r × Fin 6 → ℚ) : eLift (r := r) m omega7 ∈ Submo
 
 /-! ## Proposition X at level seven -/
 
-/-- **Named input (Wüstholz 1989; paper [II], (W)).** `1, P₁, P₂, P₃, Ω` are linearly independent over `ℚ̄`: periods of
+/-- **Named input (Wüstholz 1989; the paper, (W)).** `1, P₁, P₂, P₃, Ω` are linearly independent over `ℚ̄`: periods of
 pairwise distinct eigen-slots (three of `A`, one of `E`) and `1`. -/
 def WuestholzBeta7 : Prop :=
   ∀ a₀ a₁ a₂ a₃ a₄ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ → IsAlgebraic ℚ a₃ →
@@ -490,7 +490,7 @@ theorem propX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSe
   exact ⟨c, c', KspanD_isAlgebraic isAlgebraic_zeta7 hb.alg hc, KspanD_isAlgebraic isAlgebraic_zeta7 hb.alg hc',
     heq⟩
 
-/-- **Named input (Wüstholz 1989; slot splitting, paper [II] proof of Theorem X).** For logarithms of `A` (or the period
+/-- **Named input (Wüstholz 1989; slot splitting, the paper proof of Theorem X).** For logarithms of `A` (or the period
 `γ`) and of `E`, a relation `z₁(v) + u + q = cP₁ + c'Ω`, resp. `z₃(v') + z₂(v) + q = cP₃ + c'P₂`, with algebraic `q, c, c'`
 splits slot by slot. It is a statement about the parameter `LA` and holds when `LA` consists of eigen-coordinate triples
 of logarithms of algebraic points of `A`. -/
@@ -502,7 +502,7 @@ def WuestholzX7 (LA : Set (Fin 3 → ℂ)) : Prop :=
       IsAlgebraic ℚ c' → v' 2 + v 1 + q = c * perA 3 + c' * perA 2 →
         q = 0 ∧ v' 2 = c * perA 3 ∧ v 1 = c' * perA 2)
 
-/-- **Theorem X7** (paper [II], `thm:X7`, first part): if `v₁, v₂, v₃` are logarithms of algebraic points of `A`
+/-- **Theorem X7** (paper, `thm:X7`, first part): if `v₁, v₂, v₃` are logarithms of algebraic points of `A`
 (eigen-coordinate triples in `LA`), `u ∈ 𝓛_E`, `q₁, q₂ ∈ ℚ̄`, `β ∈ ℚ̄ˣ` and
 `(z₁(v₁) + u + q₁)·βP₃ = (z₃(v₃) + z₂(v₂) + q₂)·P₁`, then `q₁ = q₂ = 0`, `z_j(v_j) ∈ ℚ̄P_j` and `u ∈ ℚ̄Ω`. -/
 theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (hWX : WuestholzX7 LA)
@@ -535,7 +535,7 @@ theorem thmX7 (LA : Set (Fin 3 → ℂ)) (hW : Thm11KappaX7 LA) (hCS : ChowlaSel
     hcb' h2
   exact ⟨e1, f1, ⟨c, hc, e2⟩, ⟨_, hcb', f3⟩, ⟨_, hcb, f2⟩, ⟨c', hc', e3⟩⟩
 
-/-- **Corollary X7 (c)** (paper [II], `cor:X7`(c)): `1, B(2/7, 2/7), B(3/7, 3/7), B(3/7, 3/7)/B(1/7, 1/7)` are linearly
+/-- **Corollary X7 (c)** (paper, `cor:X7`(c)): `1, B(2/7, 2/7), B(3/7, 3/7), B(3/7, 3/7)/B(1/7, 1/7)` are linearly
 independent over `ℚ̄`. Uses only the periods (`LA = ∅`): W88 §5d for `A^{3r} × E^{3r} × G_a²` and the named inputs
 `ChowlaSelberg7`, `WuestholzBeta7`. -/
 theorem x7c (hW : Thm11KappaX7 ∅) (hCS : ChowlaSelberg7) (hWB : WuestholzBeta7) (a₀ a₁ a₂ a₃ : ℂ) (h₀ : IsAlgebraic ℚ a₀)

@@ -2,7 +2,7 @@
 
 Scope: `WuestholzBeta7` and `WuestholzX7 LA` (commit 697eabb), with definitions from `CM4E/AbVar/Fermat7.lean`
 (`zeta7`, `alpha7`, `betaG`, `perA`, `omega7`, `mu7'`) and `CM4E/Gen/ThmM.lean` (`LogE`). The paper source is
-`schanuel/five_exp/paper2/paper2.tex`: §`sec:setting` ((S1), (P), (W)), §`sec:X` (slot splitting) and §`sec:X7`.
+draft [II]: §`sec:setting` ((S1), (P), (W)), §`sec:X` (slot splitting) and §`sec:X7`.
 The W88 hypothesis `Thm11KappaX7` is not in scope. No Lean file was edited and git was not run.
 Scratch files are in `reviews/checks/inputsx7/`: `pslq_x7.gp` / `.out` and `cs_49a1.gp` / `.out`.
 

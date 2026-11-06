@@ -1,9 +1,7 @@
 # TRUST: what the Lean certificate proves, and what it assumes
 
 Project: `lean_mstar` (Lean 4.35, Mathlib v4.35.0; library `CM4E`). Paper: *A proof of the Roy–Waldschmidt theorem with period term, with explicit consequences at
-CM and Beta periods* (draft; snapshot in [`paper/`](paper/)). Its applications sections contain the results of the earlier
-drafts [I] (CM elliptic curves) and [II] (CM abelian varieties); results are cited by its numbering (the map from the
-earlier numberings is in `paper/README.md`). W88 below is M. Waldschmidt,
+CM and Beta periods* (draft; snapshot in [`paper/`](paper/)); results are cited by its numbering. W88 below is M. Waldschmidt,
 *On the transcendence methods of Gel'fond and Schneider in several variables*, in: A. Baker (ed.), New Advances in
 Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 
@@ -11,11 +9,11 @@ Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 
 Every declaration depends only on Lean's standard axioms `propext`, `Classical.choice`, `Quot.sound`
 (`lake env lean Axioms.lean`, which also covers the imported `lean_lsg` declarations). There is no `sorry`, no `axiom`
-declaration and no `native_decide`, in `CM4E/` or in the vendored `CM4E/Ext/`.
+declaration and no `native_decide` in `CM4E/`.
 
 ## 1a. What is unconditional, and what each result is conditional on
 
-The sibling project `lean_lsg` (a Lake path dependency, `../lean_lsg`; see §6) proves W88 Thm 4.1 under (NR) for
+`lean_lsg` (the project's one dependency besides Mathlib; see §6) proves W88 Thm 4.1 under (NR) for
 `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m` (`LSG.W88.theorem41Abelian`) and, from it, the §5d statement for `G_m^{d₁} × E`, which
 is verbatim our `Thm11Kappa` (`LSG.W88.thm11Kappa`), and the §5d statement for the standard model of
 `G_a^{d₀} × G_m^{d₁} × E^r`, one curve repeated, for every period pair with algebraic invariants, which is verbatim our
@@ -62,7 +60,7 @@ are exactly the following; everything else (W88 included) is proved.
 | `Final.mx` | Theorem MX: `a = 0`, `z(X) ∈ ℚ(i)ϖ`, `z(Y) ∈ ℚ(ρ)Ω_ρ`, every `β ∈ ℚ̄ˣ` | the above (with `hM` derived) and `WuestholzMX`, `MasserCM` |
 | `Final.mx1` | Corollary MX1 | the above and `LaurentZeta` |
 | `Final.thmS_varpi`, `Final.thmS_omegaRho` | Theorem S, Thm. 1.6: for `t ∈ ℚ̄ˣΩ ∪ ℚ̄ˣ/Ω ∪ ℚ̄ˣΩ/π ∪ ℚ̄ˣπ/Ω` and `ℚ̄`-independent `y₁, y₂`, not all of `y₁, y₂, ty₁, ty₂` lie in `𝓛̃ = ℚ̄ + ℚ̄𝓛` (`Ω = ϖ`, `Ω_ρ`) | `hW : Gen.Thm11KappaSMG L`, `Gen.Thm11KappaSMGn L`, `Gen.NotLtilde L` (and `hg₃'` for `Ω_ρ`) |
-| `Final.mg1_varpi` | Corollary MG1: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.NotLtilde Gen.latI` (`π` transcendental is proved: `Gen.transcendental_pi`, from the vendored Schneider–Lang criterion) |
+| `Final.mg1_varpi` | Corollary MG1: one of `e^{π²}`, `e^{πϖ}`, `e^{π²/ϖ}` is transcendental | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.NotLtilde Gen.latI` (`π` transcendental is proved: `Gen.transcendental_pi`, from `lean_lsg`'s Schneider–Lang criterion) |
 | `Final.mg3_varpi` | Corollary MG3 (`α^{ϖ/π}` transcendental when `e^{π²}`, `e^{cπϖ}` are algebraic) | `hW : Gen.Thm11KappaSMG Gen.latI`, `Gen.Baker3` |
 | `Final.mg_K_varpi` | Theorem MG, `K`-form (`Ω = ϖ`): for `s = cϖ/π` and `K = span_ℚ θ ∋ i, c`, no `x₁, x₂ ∈ K𝓛` with `sx_j ∈ K𝓛 + K𝓛_E` and `2πi, x₁, x₂` `K`-independent (`dim_K S_K ≤ 2`) | `hW : Gen.Thm11KappaMGK Gen.latI` |
 | `Final.mgn_K_varpi` | Theorem MG♮, `K`-form (`Ω = ϖ`): the same with `s = 1/(cϖ)`, `sx_j ∈ K𝓛 + K·(fibre values)`, `[K : ℚ] ≥ 4` | `hW : Gen.Thm11KappaMGnK Gen.latI` |
@@ -82,7 +80,7 @@ The general-`c` theorems use, for each `c`, a number field `K ∋ c` with an ada
 proved) and the hypothesis for the group built from that `K`; this is why their `hW` quantifies over all adapted bases.
 The `ℚ(i)` versions need W88 for one fixed group only, which is a weaker assumption.
 
-Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharged in `Final.lean`:
+Inputs that are **proved** (in `lean_lsg` and `CM4E/Lattice.lean`) and discharged in `Final.lean`:
 * `g₂(ϖℤ[i])` is algebraic (`Final.hg₂`; `g₂ = 4` from the Γ-formula for `ϖ`); `g₃(ϖℤ[i]) = 0` (`g₃_lemniscatic`);
 * `ϖ/π ∉ ℚ` (`Final.hS`), `ϖ` and `ϖ/π` transcendental (`Final.hT`): Schneider's theorem; for `Ω_ρ`, Schneider's
   theorem is applied with `hg₃'`;
@@ -101,7 +99,7 @@ Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharg
 | `hW : Gen.Thm11KappaMXP` | the same theorem for the twisted group of Theorem MX′, `G″ = G^n/U'`, `G = E_i^♮ × E_ρ^♮ × G_a²` (the push-out of `(E_i^n × E_ρ^n)^♮` along `θᵀ`, an extension of `E_i^n × E_ρ^n` by `G_a²`), every adapted `K ∋ i` with `r ≥ 3` | `CM4E/Gen/MXP.lean` (model `gmXP`) | Same source; review: [`reviews/REFEREE_HYP_MXP.md`](reviews/REFEREE_HYP_MXP.md) (CORRECT). |
 | `hW : Gen.Thm11KappaM L` | the same theorem for `A″ × G_m^n × G_a` (Theorem M; `G_a` a direct factor, so `d₀ = 1`), every adapted `K` | `CM4E/Gen/ThmM.lean` (model `gmM`, on the frame `gmFM` of `CM4E/Gen/FrameM.lean`) | Same source; review: [`reviews/REFEREE_HYP_M.md`](reviews/REFEREE_HYP_M.md) (CORRECT). The paper's first proof uses Roy–Waldschmidt; Lean writes out its reduction and applies W88 §5d to a hyperplane. |
 | `hW : Gen.Thm11KappaMGK L`, `Gen.Thm11KappaMGnK L` | the same theorem for `G_m^{2n} × A″` and `G_m^{2n} × Q″` with elliptic logarithms (resp. logarithms of `(E^♮)^n`) among the data; `MGnK` is premised on `Gen.KappaOneZero L` (`ζ(αz) = ᾱζ(z)`, i.e. `κ₁ = 0`; proved for `ϖℤ[i]` and `Ω_ρℤ[ρ]` as `Gen.kappaOneZero_latI`, `Gen.kappaOneZero_latRho`) | `CM4E/Gen/MGK.lean`, `CM4E/Gen/MGnK.lean` (models `gmMGK`, `gmMGnK`, on `gmF2`) | Same source; review: [`reviews/REFEREE_HYP_MGK.md`](reviews/REFEREE_HYP_MGK.md) (CORRECT; the `κ₁ = 0` premise was added after it). |
-| `hg₃'` | `g₃` of `Ω_ρℤ[ρ]` is algebraic (`g₂ = 0` is proved: `MX.g₂_equianharmonic`, by `(ρl)⁻⁴ = ρ⁻¹l⁻⁴`; `Final.hg₂'`) | arguments | True: `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`). Not proved in Lean: it is the evaluation of the real period, `Ω_ρ/2 = g^{-1/2} ∫₀¹ dt/√(1 − t⁶)` with `g³ = g₃/4`, plus `∫₀¹ dt/√(1 − t⁶) = B(1/6, 1/2)/6` and Legendre duplication at `1/6`; the analogous `g₂ = 4` for `ϖℤ[i]` took ~600 lines (`CM4E/Ext/LemniscateIndep/`), and the square-lattice steps (`℘(iz) = −℘(z)`, the sign of `e`) would have to be redone for the hexagonal lattice. |
+| `hg₃'` | `g₃` of `Ω_ρℤ[ρ]` is algebraic (`g₂ = 0` is proved: `MX.g₂_equianharmonic`, by `(ρl)⁻⁴ = ρ⁻¹l⁻⁴`; `Final.hg₂'`) | arguments | True: `g₃ = 4` for `Ω_ρ = Γ(1/3)³/(2^{4/3}π)` (40-digit checks in `reviews/`). Not proved in Lean: it is the evaluation of the real period, `Ω_ρ/2 = g^{-1/2} ∫₀¹ dt/√(1 − t⁶)` with `g³ = g₃/4`, plus `∫₀¹ dt/√(1 − t⁶) = B(1/6, 1/2)/6` and Legendre duplication at `1/6`; the analogous `g₂ = 4` for `ϖℤ[i]` took ~600 lines (`LSG.LemniscateIndep`), and the square-lattice steps (`℘(iz) = −℘(z)`, the sign of `e`) would have to be redone for the hexagonal lattice. |
 | `hΓ` | `ϖΩ_ρ/π ∉ ℚ̄` (Corollary Γ) | argument of the MX theorems | Wüstholz's analytic subgroup theorem (1989): a period of `E_i` and a quasi-period of `E_ρ` are `ℚ̄`-linearly independent. |
 | `hM` | `Ω_ρ/ϖ ∉ ℚ̄` | argument of `Final.mx_K` | Wüstholz 1989; derived from `WuestholzMX` in `Gen.mx_full`. |
 | `Gen.WuestholzMX` | a `ℚ̄`-linear relation `z_X + z_Y + a = xϖ + x'Ω_ρ` between elliptic logarithms of `E_i`, `E_ρ` forces `a = 0`, `z_X = xϖ`, `z_Y = x'Ω_ρ` | `CM4E/Gen/MXGen.lean` | Wüstholz 1989, applied to `E_i² × E_ρ² × G_a` (argument in the docstring). |
@@ -109,7 +107,7 @@ Inputs that are **proved** (in `CM4E/Ext/` and `CM4E/Lattice.lean`) and discharg
 | `Gen.LaurentZeta` | `ζ(u)` is transcendental for non-torsion `u` on `E_i` with `℘(u), ℘'(u)` algebraic | `CM4E/Gen/MXGen.lean` | Laurent 1980 (`1, u, ζ(u)` are `ℚ̄`-independent). |
 | `Gen.NotLtilde L` | `ω ∉ 𝓛̃` and `η₀ ∉ 𝓛̃` | `CM4E/Gen/SMG.lean` | Lemma 6.1 (Wüstholz's analytic subgroup theorem). |
 | `Gen.WuestholzSix` | `1, π, ϖ, η_i, Ω_ρ, η_ρ` are `ℚ̄`-linearly independent | `CM4E/Gen/Deg2.lean` | Wüstholz 1989 on `E_i^♮ × E_ρ^♮ × G_m × G_a` (subgroup argument in `reviews/REFEREE_HYP_MXP.md`). It implies `hΓ`, so `hΓ` is redundant in `deg2_i`, `deg2_ii`. |
-| `Gen.HermiteLindemann` | `e^z` is transcendental for algebraic `z ≠ 0` | `CM4E/Gen/ThmMCor.lean` | Hermite–Lindemann (1882). Not in Mathlib; it could be derived from the vendored Schneider–Lang criterion as `transcendental_pi` is. |
+| `Gen.HermiteLindemann` | `e^z` is transcendental for algebraic `z ≠ 0` | `CM4E/Gen/ThmMCor.lean` | Hermite–Lindemann (1882). Not in Mathlib; it could be derived from `lean_lsg`'s Schneider–Lang criterion as `transcendental_pi` is. |
 | `Gen.Baker3` | three `ℚ`-independent logarithms of algebraic numbers are `ℚ̄`-independent | `CM4E/Gen/MG13.lean` | Baker 1966. |
 
 All `hW` have the same form `HyperplaneKappa G` for a `GroupModel G` (`CM4E/Waldschmidt.lean`). A model is
@@ -119,7 +117,7 @@ by Lean.
 Two further points about what the statements rely on:
 * The MX theorems themselves (not only their hypothesis `hW`) are stated with hand-coded quasi-periods (`etaLem`, `etaR`, `etaRho`)
   and the coordinate convention `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))` in `LogNat`. `ζ` is the standard series
-  (`CM4E.Ext.Weierstrass.zeta`, with `ζ' = −℘` proved). The quasi-period values were checked numerically against this
+  (`LSG.Weierstrass.zeta`, with `ζ' = −℘` proved). The quasi-period values were checked numerically against this
   `ζ` in `reviews/REFEREE_HYP_MX.md`.
 * `HyperplaneKappa gmE` also covers configurations with `κ = 5`, outside the range `2N ≥ d₁ + 2d₀ + κ` of Lemma U. By
   the argument of the paper-vs-Lean review (2026-10-30), `V` is then forced to be rational, so the conclusion holds
@@ -176,25 +174,21 @@ Theorem 2.5).
 | Step 1 of Proposition 7.1 (Prop. D) (algebra) | `LemmaL.*` | ✔; not used by the MX theorems |
 | Lemma U (Appendix A) | — | not a separate hypothesis: part of the proof of W88 Thm 4.1, which `hW` assumes |
 
-## 6. Vendored code and the `lean_lsg` dependency
+## 6. The `lean_lsg` dependency
 
-Since 2026-10-31 the project requires `lean_lsg` as a Lake **path** dependency (`../lean_lsg`, with its own path
-dependency `../schanuel/six_exp/lean`); only `CM4E/Unconditional.lean` and `CM4E/Bridge/` import it. This reverses the earlier
-self-containment (the project no longer builds from its own directory alone); the published form will use a git
-dependency. The vendored `CM4E/Ext/` below predates the dependency and duplicates part of `lean_lsg`.
-
-
-`CM4E/Ext/` (32 files, 6,518 lines) is a renamed verbatim copy of the needed part of the author's sibling project
-`lean_lsg`: Weierstrass `ζ`/`σ`, Legendre's relation, `g₂(ϖℤ[i]) = 4`, and Schneider's theorem. Details and source
-commit: [`CM4E/Ext/PROVENANCE.md`](CM4E/Ext/PROVENANCE.md). Apart from `lean_lsg`, the project depends on nothing but Mathlib.
+The project depends on Mathlib and on `lean_lsg` (library `LSG`, with its own dependency `StrongSix`), declared in
+`lakefile.toml` as a Lake path dependency; the published form will use a git dependency. `lean_lsg` supplies W88 for the
+listed groups (`CM4E/Unconditional.lean`, `CM4E/Bridge/`) and the Weierstrass `ζ`/`σ` functions, Legendre's relation,
+`g₂(ϖℤ[i]) = 4`, Schneider's theorem and the Schneider–Lang criterion (`LSG.Weierstrass`, `LSG.LemniscateIndep`,
+`LSG.Schneider`, `LSG.schneiderLang`).
 
 ## 7. Reviews and provenance
 
 Written by AI models (Claude, Anthropic) under the direction of the author. All review so far is by AI referees: the
-fidelity reports in [`reviews/`](reviews/) (scripts and outputs in `reviews/checks/`) and the paper's own referee
+fidelity reports in [`reviews/`](reviews/) (numerical scripts and outputs in `reviews/checks/`; see `reviews/README.md`) and the paper's own referee
 reports. No human expert has reviewed the definitions or proofs.
 
-## 8. The CM abelian-variety results (§§5.3, 8, 9.2 of the paper; formerly paper [II])
+## 8. The CM abelian-variety results (§§5.3, 8, 9.2 of the paper)
 
 | result | Lean | status |
 |---|---|---|

@@ -12,7 +12,7 @@ import LSG.W88.K5dNonIsog
 /-!
 # Theorem SE (strong elliptic four exponentials at a CM slope), part (SE)
 
-Paper addition seed 2 (`schanuel/five_exp/pilot_harvest1/PAPER_ADDITION_2_SE.md`, §1, Theorem `thm:SE` (SE)): let `E, E'`
+The paper, Theorem `thm:SE` (1): let `E, E'`
 be CM curves over `ℚ̄` with CM fields `k ≠ k'`, `Ω, Ω'` nonzero periods, `c ∈ ℚ̄ˣ`, `t = cΩ'/Ω`. If
 `u₁, u₂ ∈ 𝓛̃_E = ℚ̄ + ℚ̄𝓛_E` and `Ω, u₁, u₂` are linearly independent over `ℚ̄`, then `tu₁, tu₂` are not both in
 `ℚ̄ + ℚ̄𝓛_E + ℚ̄𝓛_{E'}`.
@@ -330,7 +330,7 @@ lemma Kspan_isAlgebraic {α : ℂ} (hα : IsAlgebraic ℚ α) {γ : Fin r → �
 
 /-! ## Theorem SE -/
 
-/-- **Theorem SE, part (SE)** (paper addition seed 2, Theorem `thm:SE` (1)), for two CM lattices `L, L'`:
+/-- **Theorem SE, part (SE)** (the paper, Theorem 6.12(1)), for two CM lattices `L, L'`:
 for `c ∈ ℚ̄ˣ`, `t = c·L'.ω/L.ω` and `u₁, u₂ ∈ 𝓛̃_{E_L}` with `L.ω, u₁, u₂` linearly independent over `ℚ̄`, the numbers
 `tu₁, tu₂` are not both in `ℚ̄ + ℚ̄𝓛_{E_L} + ℚ̄𝓛_{E_{L'}}`. Hypotheses: W88 §5d for `G_a² × E^r × E^r × E'^r` (`hW`),
 non-isogeny (`hni`, `hni'`), algebraic invariants, complex multiplication on elliptic logarithms (`hCM`, `hCM'`), and

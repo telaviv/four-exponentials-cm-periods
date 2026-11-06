@@ -88,10 +88,6 @@ lemma X7S_good (LA : Set (Fin 3 → ℂ)) : ∀ i, ((X7S LA).AV i).Good := by
   fin_cases i
   exacts [A7_good LA, E7AV_good]
 
-lemma X7S_per (LA : Set (Fin 3 → ℂ)) :
-    (X7S LA).per 0 = perA 1 ∧ (X7S LA).per 1 = perA 2 ∧ (X7S LA).per 2 = perA 3 ∧ (X7S LA).per 3 = omega7 := by
-  refine ⟨rfl, rfl, rfl, rfl⟩
-
 lemma wuestholzXA_X7 (LA : Set (Fin 3 → ℂ)) (hWB : WuestholzBeta7) : WuestholzXA (X7S LA).slot := by
   intro a₀ a₁ a₂ a₃ a₄ h₀ h₁ h₂ h₃ h₄ hrel
   exact hWB a₀ a₁ a₂ a₃ a₄ h₀ h₁ h₂ h₃ h₄ hrel

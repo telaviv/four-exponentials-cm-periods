@@ -9,7 +9,7 @@ import CM4E.Gen.Frame
 # A second frame: `Ψ''((x, y), q) = (θᵀx + μ(q), θᵀy + λ(q))`
 
 This generalises `CM4E/Gen/Frame.lean` to groups `G'' = G_m^{2n} × G₂` where `G₂` may contain `G_a` factors (the
-groups of the paper [II]'s Theorems SMG and SMG♮, used for Theorem S). The tangent space is again
+groups of the paper's Theorems SMG and SMG♮, used for Theorem S). The tangent space is again
 `((ι → ℂ) × (ι → ℂ)) × Q`; two linear forms `μ, λ` on `Q` feed the two coordinates of `Ψ''`.
 
 The subgroup condition is the uniform form also used for Theorem MX: a connected algebraic subgroup is `0` or has an

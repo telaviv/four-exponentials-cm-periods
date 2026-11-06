@@ -6,7 +6,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
 * Read in full: `CM4E/AbVar/ThmAn.lean`, `CM4E/AbVar/ThmA.lean`, `CM4E/Gen/Frame.lean`; the relevant parts of
   `CM4E/AbVar/Basis.lean` (`thetaD`, `KspanD`, `IsAdaptedBasisD`, `coordsD`), `CM4E/Defs.lean` (`logAlg`, `FourExpAt`) and
   `CM4E/Waldschmidt.lean` (`GroupModel`, `Rational`, `HyperplaneKappa`).
-* Paper [II] (`schanuel/five_exp/paper2/paper2.tex`): Theorem A and its examples (l. 84–102); §2 with Lemma K′, (S1),
+* Paper [II] (draft [II]): Theorem A and its examples (l. 84–102); §2 with Lemma K′, (S1),
   (P), (Ch), (W), (F1)–(F4) and the Beta dictionary (l. 261–420); Theorem MG-A, MG♮-A and the proof of Theorem A
   (l. 423–538).
 * Baseline: `REFEREE_HYP_GEN.md` (the frame `gmF`, `frame_false`, the elliptic `gmMGn`) and `REFEREE_HYP_A.md` (the
@@ -212,9 +212,7 @@ also Schneider.
 
 ## Axiom audit
 
-`checks/hypan/axAn.lean` / `axAn.out`. My first attempt hit a concurrent `lake build` from another session: the `Frame2`
-olean was missing while it was being rebuilt. I did not start a build myself. After that build finished, `ThmAn.olean`
-(01:16:04) was newer than `ThmAn.lean` (01:04:36), and the audit gives:
+`checks/hypan/axAn.lean` / `axAn.out`. The audit gives:
 * `fourExpAt_An`, `beta5_mul`, `fourExpAt_beta5'` and `two_three_beta5'` each depend only on
   [propext, Classical.choice, Quot.sound] [Proved by Lean].
 * `#check two_three_beta5'` shows exactly the hypotheses `Thm11KappaAn 5 2 (s ↦ s+1) perA5 perB5` and `WuestholzB5`.

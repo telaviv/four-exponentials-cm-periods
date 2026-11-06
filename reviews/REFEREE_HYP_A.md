@@ -7,7 +7,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
   `CM4E/Defs.lean`.
 * Read for context: `CM4E/AbVar/X7.lean` (docstring, `perT`, `gmX7`); `CM4E/AbVar/Fermat7.lean` (`zeta7`, `betaG`, `perA`);
   TRUST.md (Theorem A row).
-* Paper [II] (`schanuel/five_exp/paper2/paper2.tex`): abstract (l. 37–56); thm:A and its examples (l. 84–98);
+* Paper [II] (draft [II]): abstract (l. 37–56); thm:A and its examples (l. 84–98);
   §`sec:setting` with (S1), (P), (Ch), (W) (l. 309–367); Lemma K′; thm:MGA and its proof (l. 423–463); thm:MGnA (l. 473–509);
   the proof of thm:A (l. 511–538).
 * Baseline: `REFEREE_HYP_GEN.md` (the frame `gmF` and `frame_false`; Lemma U range analysis) and REFEREE_HYP_X7 (the model

@@ -15,7 +15,7 @@ import CM4E.Common
 * (H1) Waldschmidt's κ-refined hyperplane theorem for `G_m⁴ × E`, with `E` the curve of the lattice `ϖℤ[i]`
   (`Thm11Kappa lemniscatic 4`, a published theorem, stated in `CM4E/Waldschmidt.lean`);
 * (H2) the invariant `g₂` of `ϖℤ[i]` is algebraic (true: `g₂ = 4`; `g₃ = 0` is proved in `CM4E/Lattice.lean`);
-* (H3) `ϖ/π` is irrational (Schneider's theorem; H2 and H3 are proved in `CM4E/Ext/` and discharged in
+* (H3) `ϖ/π` is irrational (Schneider's theorem; H2 and H3 are proved in `lean_lsg` and discharged in
   `CM4E/Final.lean`).
 
 Let `c = (p + qi)/D ≠ 0`, `t = cϖ/π`, and let `a, b` be `ℚ`-linearly independent logarithms of algebraic numbers.

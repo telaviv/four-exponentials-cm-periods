@@ -1,8 +1,7 @@
 # Referee report: Theorem S in Lean (`gmF2`, `gmSMG`, `gmSMGn`, `frame2_false`, `smg_false`, `smgn_false`, `NotLtilde`, `thmS`, `Final.thmS_*`)
 
 Referee: adversarial AI reviewer (Claude), 2026-10-30. This report is the only project file I edited, apart from my
-check script and its output in `checks/hypsmg/` (`check_smg.py`, `check_smg.out`). I ran no git command. Scratch work
-(a copy of `Frame2.lean` with one hypothesis deleted) is in my session temp folder, outside the project.
+check script and its output in `checks/hypsmg/` (`check_smg.py`, `check_smg.out`). I ran no git command.
 
 Files reviewed:
 * In full: `CM4E/Gen/Frame2.lean`, `CM4E/Gen/SMG.lean`, and the Theorem S section of `CM4E/Final.lean`.
@@ -10,11 +9,10 @@ Files reviewed:
   (`Wpsi`, `Qm`, `lamM`, `algQm`, `perQm`, `Wphi`, `Qn`, `algQn`, `perQn`, `finrank_Q*_lt`), `Gen/Basis.lean`,
   `Gen/CMLattice.lean`, `Gen/Instances.lean`, the statement of `exists_adapted_basis`, TRUST.md, and the reviews
   REFEREE_HYP_GEN and REFEREE_HYP_MXG.
-* From `schanuel/five_exp/paper2/paper2.tex`: thm:S, thm:W88 and the trust-point discussion after it, §sec:S
+* From draft [II]: thm:S, thm:W88 and the trust-point discussion after it, §sec:S
   (lem:notLt, thm:SMG and its proof, lem:SMGnsub, lem:N2, the proof of Theorem S), and cor:S.
 
-Out of scope: `Gen/MG13.lean` and `Final.mg1_varpi` / `Final.mg3_varpi`. They appeared during the review (another
-session) and consume `Thm11KappaSMG`. The soundness findings below for `gmSMG` apply to them, but I did not review their
+Out of scope: `Gen/MG13.lean` and `Final.mg1_varpi` / `Final.mg3_varpi`. They appeared during the review and consume `Thm11KappaSMG`. The soundness findings below for `gmSMG` apply to them, but I did not review their
 proofs.
 
 ## Verdict: CORRECT (cosmetic items and one inherited trust note)

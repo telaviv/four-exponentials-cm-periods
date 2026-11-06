@@ -14,7 +14,7 @@ import CM4E.MX
 
 Soundness fact (not checked by Lean): `η₀` is the quasi-period `η(ω)` of the Weierstrass `ζ` of the lattice, and
 `η(αλ) = ᾱ η(λ)` (`κ₁ = 0` for these two curves). Legendre's relation `ω η₀ (α − ᾱ) = 2πi` is proved below. The
-quasi-period values were checked numerically against `CM4E.Ext.Weierstrass.zeta` (`reviews/REFEREE_HYP_MX.md`).
+quasi-period values were checked numerically against `LSG.Weierstrass.zeta` (`reviews/REFEREE_HYP_MX.md`).
 -/
 
 open Complex

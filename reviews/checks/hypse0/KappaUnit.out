@@ -1,1 +1,0 @@
-'kappaOneZero_unit' depends on axioms: [propext, Classical.choice, Quot.sound]

@@ -6,7 +6,7 @@ import Mathlib
 import CM4E.AbVar.ThmA
 
 /-!
-# Theorem MG♮-A: four exponentials at `cP` and `c/P` (paper [II], `thm:MGnA`)
+# Theorem MG♮-A: four exponentials at `cP` and `c/P` (paper, `thm:MGnA`)
 
 Second-kind slot. With `A`, `ζ = ζ_N`, `κ`, `P`, `γ` as in `CM4E/AbVar/ThmA.lean`, let `σ̄` be the embedding `ζ ↦ ζ^{N−1}`
 (complex conjugate of the identity embedding), `w` the corresponding fibre coordinate on `Lie(A^♮)`, and `P̄ = w(γ̃)` the
@@ -31,7 +31,7 @@ contains the fibre `G_a` (a splitting over a nonzero abelian subvariety `B_S` wo
 
 Instance: `y⁵ = x(1 − x)`, `P̄ = (1 − ζ₅⁴) B(4/5, 4/5)` (the period of `dx/y` over `γ`), and
 `B(1/5, 1/5) B(4/5, 4/5) ∈ πℚ̄ˣ`: **`2^t, 3^t` are not both algebraic at `t = B(1/5, 1/5) = Γ(1/5)²/Γ(2/5)`**
-(`two_three_beta5'`), the example of paper [II], Theorem A.
+(`two_three_beta5'`), the example of the paper, Theorem A.
 -/
 
 open Complex Module CM4E.Waldschmidt CM4E.Gen
@@ -210,7 +210,7 @@ lemma isAlgebraic_sin_pi_div (k N : ℕ) (hN : N ≠ 0) :
 /-- The second-kind period `P̄ = (1 − ζ₅⁴) B(4/5, 4/5)` (`∫_γ dx/y`). -/
 noncomputable def perB5 : ℂ := (1 - zetaN 5 ^ 4) * betaG (4 / 5) (4 / 5)
 
-/-- `P̄/π ∉ ℚ̄` for the second-kind period `P̄` (Wüstholz 1989; paper [II], (W)). Formerly a named input; now a
+/-- `P̄/π ∉ ℚ̄` for the second-kind period `P̄` (Wüstholz 1989; the paper, (W)). Formerly a named input; now a
 corollary of the hypothesis of Theorem MG♮-A (`wuestholzB5_of`). -/
 def WuestholzB5 : Prop := Transcendental ℚ (perB5 / Real.pi)
 
@@ -301,7 +301,7 @@ theorem fourExpAt_beta5' (hW : Thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 p
   rw [hB4']
   field_simp
 
-/-- **`2^t` and `3^t` are not both algebraic at `t = B(1/5, 1/5) = Γ(1/5)²/Γ(2/5)`** (paper [II], Theorem A). -/
+/-- **`2^t` and `3^t` are not both algebraic at `t = B(1/5, 1/5) = Γ(1/5)²/Γ(2/5)`** (paper, Theorem A). -/
 theorem two_three_beta5' (hW : Thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 perB5) :
     ¬ (IsAlgebraic ℚ (Complex.exp (betaIntegral (1 / 5) (1 / 5) * Complex.log 2)) ∧
         IsAlgebraic ℚ (Complex.exp (betaIntegral (1 / 5) (1 / 5) * Complex.log 3))) := by

@@ -8,7 +8,7 @@ import CM4E.Gen.MG
 import CM4E.Gen.MGn
 
 /-!
-# Theorem S (strong four exponentials at CM periods), from Theorems SMG and SMG♮ of [II]
+# Theorem S (strong four exponentials at CM periods), from Theorems SMG and SMG♮
 
 `𝓛̃ = ℚ̄ + ℚ̄𝓛` (`Ltilde`). Theorem S: for a CM lattice `L = ωℤ[α]`, `t ∈ ℚ̄ˣω ∪ ℚ̄ˣ/ω ∪ ℚ̄ˣω/π ∪ ℚ̄ˣπ/ω` and
 `ℚ̄`-linearly independent `y₁, y₂`, the numbers `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃`.
@@ -23,7 +23,7 @@ The data `y ∈ 𝓛̃` are split as algebraic part (in a `G_a` slot, resp. the 
 
 Soundness facts (not checked by Lean): as for `gmMG`, `gmMGn` (`reviews/REFEREE_HYP_GEN.md`), plus: the `G_a` vectors
 with algebraic entries and (for SMG♮) the fibre vectors `([0], f)`, `f ∈ ℚ̄`, are logarithms of algebraic points; and
-no nonzero connected subgroup of `G''` has tangent space in `ker Ψ''` (paper [II], proof of Theorem SMG and Lemma
+no nonzero connected subgroup of `G''` has tangent space in `ker Ψ''` (paper, proof of Theorem SMG and Lemma
 `lem:SMGnsub`: the subgroups are products `H × T_L × B`, resp. `T_L × R`, and `U` is the largest connected subgroup of
 `G^n` with tangent space in `ker Φ`).
 -/
@@ -51,9 +51,6 @@ lemma Ltilde_smul {c z : ℂ} (hc : IsAlgebraic ℚ c) (hz : z ∈ Ltilde) : c *
   obtain ⟨N, β₀, β, ℓ, h0, hβ, hℓ, rfl⟩ := hz
   refine ⟨N, c * β₀, fun k => c * β k, ℓ, hc.mul h0, fun k => hc.mul (hβ k), hℓ, ?_⟩
   rw [mul_add, Finset.mul_sum]; congr 1; congr 1; funext k; ring
-
-lemma Ltilde_neg {z : ℂ} (hz : z ∈ Ltilde) : -z ∈ Ltilde := by
-  simpa using Ltilde_smul (c := -1) (isAlgebraic_one.neg) hz
 
 /-! ## Toric lifts of `K`-combinations of logarithms -/
 
@@ -515,7 +512,7 @@ section ThmS
 
 variable (L : CMLattice)
 
-/-- **Named input ([II], Lemma `lem:notLt`; Wüstholz 1989).** The period `ω` and the quasi-period `η₀` are not in
+/-- **Named input (Lemma `lem:notLt`; Wüstholz 1989).** The period `ω` and the quasi-period `η₀` are not in
 `𝓛̃ = ℚ̄ + ℚ̄𝓛` (analytic subgroup theorem on `G_a × G_m^N × E`, resp. `× E^♮`). -/
 def NotLtilde : Prop := L.ω ∉ Ltilde ∧ L.η₀ ∉ Ltilde
 
@@ -548,7 +545,7 @@ lemma thmS_core {s P d : ℂ} (hd : IsAlgebraic ℚ d) (hd0 : d ≠ 0) (hsP : s 
     rw [this]
     exact Ltilde_smul hd.inv hmem
 
-/-- **Theorem S** ([II], Theorem S) for a CM lattice: for `t ∈ ℚ̄ˣω ∪ ℚ̄ˣ/ω ∪ ℚ̄ˣω/π ∪ ℚ̄ˣπ/ω` and `ℚ̄`-linearly
+/-- **Theorem S** for a CM lattice: for `t ∈ ℚ̄ˣω ∪ ℚ̄ˣ/ω ∪ ℚ̄ˣω/π ∪ ℚ̄ˣπ/ω` and `ℚ̄`-linearly
 independent `y₁, y₂`, the numbers `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃`. Hypotheses: W88 §5d for the groups of
 SMG and SMG♮ (`hWa`, `hWb`), `κ₁ = 0` (`hκ`), algebraic `g₂, g₃`, Schneider (`ω`, `ω/π` transcendental), and `NotLtilde L`. -/
 theorem thmS (hWa : Thm11KappaSMG L) (hWb : Thm11KappaSMGn L) (hκ : KappaOneZero L)

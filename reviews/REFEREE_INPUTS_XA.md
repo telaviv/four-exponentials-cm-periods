@@ -7,7 +7,7 @@ Scope:
 * The level-seven instance `X7S` (`CM4E/AbVar/X7Gen.lean`), compared with `WuestholzBeta7` and `WuestholzX7`
   (`CM4E/AbVar/X7.lean`).
 
-The paper source is `schanuel/five_exp/paper2/paper2.tex`: (S1), (P), (W) (lines 346–367), the set-up of §`sec:X`
+The paper source is draft [II]: (S1), (P), (W) (lines 346–367), the set-up of §`sec:X`
 (lines 592–612) and the proof of Theorem X, "slot splitting" (lines 705–720). This report builds on
 `reviews/REFEREE_INPUTS_X7.md`, which refereed the level-seven versions. The W88 hypothesis `Thm11KappaXA` is not in
 scope. No project file was edited and git was not run.

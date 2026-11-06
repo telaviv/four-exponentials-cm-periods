@@ -7,14 +7,14 @@ import CM4E.AbVar.ThmAn
 import CM4E.Gen.MGK
 
 /-!
-# The `K`-dimension forms of Theorems MG-A and MG♮-A (paper [II], `thm:MGA`, `thm:MGnA`)
+# The `K`-dimension forms of Theorems MG-A and MG♮-A (paper, `thm:MGA`, `thm:MGnA`)
 
 With `A`, `ζ = ζ_N`, `κ`, `P`, `s₀` (`κ s₀ = 1`) as in `CM4E/AbVar/ThmA.lean` and an `F`-basis `b` of a number field
 `K ∋ i, c` (`θ(j, e) = ζ^e b j`):
 * `mgA_K`: for `s = cP_{s₀}/π` there are no `x₁, x₂ ∈ K𝓛` with `sx_k ∈ K𝓛 + K·z_{s₀}(Λ(A))` and `2πi, x₁, x₂` linearly
   independent over `K` (`dim_K S_K ≤ 2`, `2πi ∈ S_K`);
 * `mgAn_K`: the same for `s = cP̄/π` and `sx_k ∈ K𝓛 + K·(σ̄-fibre values)`, with `σ̄ : ζ ↦ ζ^{N−1}` (`CM4E/AbVar/ThmAn.lean`).
-`K` is assumed to contain `F`, `i` and `c`; this is the range of `K` for which paper [II] states Theorems MG-A, MG♮-A.
+`K` is assumed to contain `F`, `i` and `c`; this is the range of `K` for which the paper states Theorems MG-A, MG♮-A.
 
 Lean has no abelian logarithms: the logarithms of `A` enter as a parameter `LA` of eigen-coordinate `g`-tuples
 `(z_s(v))_s` (for MG♮-A, `LAn` of pairs (tuple, `σ̄`-fibre value)), always together with the period `γ` (resp. `γ̃`). The

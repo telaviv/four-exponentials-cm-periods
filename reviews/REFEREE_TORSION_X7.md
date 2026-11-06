@@ -6,7 +6,7 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31. Commit 041b468.
 * In full: `CM4E/AbVar/X7Torsion.lean` (`TorsionTriple`, `TorsionX7`, `thmX7_torsion`, `x7a`, `x7b`).
 * For context: `CM4E/AbVar/X7.lean` (`perT`, `aGen`, `thmX7`, `WuestholzX7`), `CM4E/AbVar/Fermat7.lean` (`zeta7`,
   `perA`, `omega7`, `alpha7`), `CM4E/Gen/ThmM.lean` (`LogE`), `TRUST.md` l. 160–200.
-* Paper: `schanuel/five_exp/paper2/paper2.tex`, Theorem X (l. 618) and its proof, "Torsion" paragraph (l. 720–724);
+* Paper: draft [II], Theorem X (l. 618) and its proof, "Torsion" paragraph (l. 720–724);
   Theorem X7 (l. 750); Cor. X7 (l. 761) and its proof (l. 770–775); Cor. X7intro (l. 126).
 * Read first: `reviews/REFEREE_HYP_X7.md` (model, period triple, CM direction, lattice of `E`) and
   `reviews/REFEREE_INPUTS_X7.md` (`WuestholzBeta7`, `WuestholzX7`). Their facts (G1)–(G3), (AST) are used below without

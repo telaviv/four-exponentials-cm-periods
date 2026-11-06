@@ -7,7 +7,7 @@ import CM4E.Gen.SMG
 import CM4E.Gen.PiTranscendental
 
 /-!
-# Corollaries MG1 and MG3 (paper [I])
+# Corollaries MG1 and MG3 (paper)
 
 Both follow from Theorem SMG (`CM4E/Gen/SMG.lean`, slope `s = ω/π`), whose data may lie in `𝓛̃ ⊃ ℚ̄𝓛`.
 

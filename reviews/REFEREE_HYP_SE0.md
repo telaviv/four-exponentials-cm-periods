@@ -18,9 +18,9 @@ Referee: adversarial AI reviewer (Claude), 2026-10-31.
     `LamV`, `PerV`, `SubgroupDataV`, `perTanId`), `LSG/CM/{Rot,Kappa}.lean` (`CMData`, `cmData_of_zeta`),
     `LSG/W88/V5dMGnIso.lean` (`CMLat.cmD`), `INTERFACE.md` (last section).
 * Paper:
-  - `schanuel/five_exp/pilot_harvest1/PAPER_ADDITION_2_SE.md` §1 (Theorem `thm:SE`(3), Cor. `cor:SE4`, Lemma `lem:SE0`,
+  - the first draft of Theorem SE §1 (Theorem `thm:SE`(3), Cor. `cor:SE4`, Lemma `lem:SE0`,
     the proof of (SE♮, SE₀));
-  - `schanuel/five_exp/paper_cm/paper.tex` §4.3 (l. 1595–1625: Theorem 4.12, its Status line, Cor. 4.13) and the
+  - the merged draft §4.3 (l. 1595–1625: Theorem 4.12, its Status line, Cor. 4.13) and the
     definitions of `η*`, `ζ*`, `κ₁` (l. 122–128, §`sec:Euniv` l. 642–650).
 * Baselines, whose findings are not repeated here:
   - `REFEREE_HYP_SE` (sibling: `G_a` in `d₀`, the `gmFX1` count, `LtildeE`, transport pattern);

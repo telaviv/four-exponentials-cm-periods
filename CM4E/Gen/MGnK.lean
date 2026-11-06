@@ -9,7 +9,7 @@ import CM4E.MX
 import CM4E.Gen.Instances
 
 /-!
-# Theorem MG♮ in its `K`-dimension form (paper [I], `thm:MGn`)
+# Theorem MG♮ in its `K`-dimension form (paper, `thm:MGn`)
 
 For a CM lattice `ω ℤ[α]` with `κ₁ = 0` (e.g. `ϖℤ[i]`, `Ω_ρℤ[ρ]`), `c ∈ ℚ̄ˣ`, `s = 1/(cω)` (`∈ ℚ̄ˣ η*/π`) and a number
 field `K ∋ c` with `[K : ℚ] ≥ 4`, there are no `x₁, x₂ ∈ K𝓛` with `sx₁, sx₂ ∈ K𝓛 + K·(fibre values)` and
@@ -36,37 +36,37 @@ namespace CM4E.Gen
 /-- `ζ(iz) = −iζ(z)` on `ϖℤ[i]`. -/
 lemma kappaOneZero_latI : KappaOneZero latI := by
   intro z
-  show CM4E.Ext.Weierstrass.zeta lemniscatic (I * z) = starRingEnd ℂ I * CM4E.Ext.Weierstrass.zeta lemniscatic z
+  show LSG.Weierstrass.zeta lemniscatic (I * z) = starRingEnd ℂ I * LSG.Weierstrass.zeta lemniscatic z
   rw [Complex.conj_I]
-  calc CM4E.Ext.Weierstrass.zeta lemniscatic (I * z)
-      = ∑' l : lemniscatic.lattice, CM4E.Ext.Weierstrass.zetaSummand ((mulI l : lemniscatic.lattice) : ℂ) (I * z) :=
-        (mulI.tsum_eq (fun l : lemniscatic.lattice => CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) (I * z))).symm
-    _ = ∑' l : lemniscatic.lattice, -I * CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) z := by
+  calc LSG.Weierstrass.zeta lemniscatic (I * z)
+      = ∑' l : lemniscatic.lattice, LSG.Weierstrass.zetaSummand ((mulI l : lemniscatic.lattice) : ℂ) (I * z) :=
+        (mulI.tsum_eq (fun l : lemniscatic.lattice => LSG.Weierstrass.zetaSummand (l : ℂ) (I * z))).symm
+    _ = ∑' l : lemniscatic.lattice, -I * LSG.Weierstrass.zetaSummand (l : ℂ) z := by
         congr 1 with l
-        simp only [mulI, Equiv.coe_fn_mk, CM4E.Ext.Weierstrass.zetaSummand]
+        simp only [mulI, Equiv.coe_fn_mk, LSG.Weierstrass.zetaSummand]
         rw [show I * z - I * (l : ℂ) = I * (z - l) by ring]
         simp only [mul_inv, mul_pow, Complex.I_sq, Complex.inv_I, div_eq_mul_inv, neg_one_mul, inv_neg]
         ring
-    _ = -I * CM4E.Ext.Weierstrass.zeta lemniscatic z := tsum_mul_left
+    _ = -I * LSG.Weierstrass.zeta lemniscatic z := tsum_mul_left
 
 /-- `ζ(ρz) = ρ̄ζ(z)` on `Ω_ρℤ[ρ]`. -/
 lemma kappaOneZero_latRho : KappaOneZero latRho := by
   intro z
-  show CM4E.Ext.Weierstrass.zeta equianharmonic (rho * z) = starRingEnd ℂ rho * CM4E.Ext.Weierstrass.zeta equianharmonic z
+  show LSG.Weierstrass.zeta equianharmonic (rho * z) = starRingEnd ℂ rho * LSG.Weierstrass.zeta equianharmonic z
   rw [← rho_inv]
   have hρ := rho_ne_zero
-  calc CM4E.Ext.Weierstrass.zeta equianharmonic (rho * z)
+  calc LSG.Weierstrass.zeta equianharmonic (rho * z)
       = ∑' l : equianharmonic.lattice,
-          CM4E.Ext.Weierstrass.zetaSummand ((mulRho l : equianharmonic.lattice) : ℂ) (rho * z) :=
+          LSG.Weierstrass.zetaSummand ((mulRho l : equianharmonic.lattice) : ℂ) (rho * z) :=
         (mulRho.tsum_eq (fun l : equianharmonic.lattice =>
-          CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) (rho * z))).symm
-    _ = ∑' l : equianharmonic.lattice, rho⁻¹ * CM4E.Ext.Weierstrass.zetaSummand (l : ℂ) z := by
+          LSG.Weierstrass.zetaSummand (l : ℂ) (rho * z))).symm
+    _ = ∑' l : equianharmonic.lattice, rho⁻¹ * LSG.Weierstrass.zetaSummand (l : ℂ) z := by
         congr 1 with l
-        simp only [mulRho, Equiv.coe_fn_mk, CM4E.Ext.Weierstrass.zetaSummand]
+        simp only [mulRho, Equiv.coe_fn_mk, LSG.Weierstrass.zetaSummand]
         rw [show rho * z - rho * (l : ℂ) = rho * (z - l) by ring]
         simp only [mul_inv, mul_pow, div_eq_mul_inv]
         field_simp
-    _ = rho⁻¹ * CM4E.Ext.Weierstrass.zeta equianharmonic z := tsum_mul_left
+    _ = rho⁻¹ * LSG.Weierstrass.zeta equianharmonic z := tsum_mul_left
 
 /-- The quasi-period `η*((m + nα)ω) = (m + nᾱ)η₀` of a CM lattice. -/
 noncomputable def etaL (L : CMLattice) (m n : ℤ) : ℂ := ((m : ℂ) + n * starRingEnd ℂ L.α) * L.η₀

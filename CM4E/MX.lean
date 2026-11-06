@@ -7,7 +7,7 @@ import CM4E.Defs
 import CM4E.Waldschmidt
 import CM4E.Lattice
 import CM4E.Common
-import CM4E.Ext.Weierstrass.ZetaDef
+import LSG.Weierstrass.ZetaDef
 
 /-!
 # Theorem MX: the two curves, `Λ(E^♮)`, and quasi-periods
@@ -17,7 +17,7 @@ Definitions shared by the proof of Theorem MX (`CM4E/Gen/MXGen.lean`) and the ge
 * `E_ρ : y² = 4x³ − 4` with lattice `Ω_ρ ℤ[ρ]` (`equianharmonic`), `ρ = (−1 + i√3)/2`, `η(Ω_ρ) = 2π/(√3 Ω_ρ)`;
 * the quasi-periods `etaR` (and `etaLem` for `ϖℤ[i]`, in `CM4E/Lattice.lean`);
 * `LogNat`: the logarithms `Λ(E^♮)` of algebraic points of the universal vector extension, in coordinates with
-  `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))`, `ζ = CM4E.Ext.Weierstrass.zeta`.
+  `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))`, `ζ = LSG.Weierstrass.zeta`.
 -/
 
 open Complex Module CM4E.Waldschmidt
@@ -136,11 +136,11 @@ noncomputable def etaR (m n : ℤ) : ℂ := ((m : ℂ) + n * rhoBar) * etaRho
 
 /-- `(z, w) ∈ Λ(E^♮)`, for the coordinates with `exp(z, w) = (℘(z), ℘'(z), w − ζ(z))`: either `z = mω₁ + nω₂` is a
 period and `w − η(z) ∈ ℚ̄`, or `exp_E(z)` is an algebraic affine point and `w − ζ(z) ∈ ℚ̄`. Here `ζ` is
-`CM4E.Ext.Weierstrass.zeta`, the standard series, with `ζ' = −℘` proved there (`hasDerivAt_zeta`). -/
+`LSG.Weierstrass.zeta`, the standard series, with `ζ' = −℘` proved there (`hasDerivAt_zeta`). -/
 def LogNat (L : PeriodPair) (eta : ℤ → ℤ → ℂ) (z w : ℂ) : Prop :=
   (∃ m n : ℤ, z = m * L.ω₁ + n * L.ω₂ ∧ IsAlgebraic ℚ (w - eta m n)) ∨
     (z ∉ L.lattice ∧ IsAlgebraic ℚ (L.weierstrassP z) ∧ IsAlgebraic ℚ (L.derivWeierstrassP z) ∧
-      IsAlgebraic ℚ (w - CM4E.Ext.Weierstrass.zeta L z))
+      IsAlgebraic ℚ (w - LSG.Weierstrass.zeta L z))
 
 /-! ## Small facts used by the general proof (`CM4E/Gen/MXGen.lean`) -/
 

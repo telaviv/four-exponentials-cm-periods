@@ -3,8 +3,8 @@ Copyright (c) 2026 Shawn Krisman. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
-import CM4E.Ext.Bridge.Lemniscatic
-import CM4E.Ext.SchneiderMain
+import LSG.Bridge.Lemniscatic
+import LSG.SchneiderMain
 import CM4E.MainQi
 import CM4E.TwoThree
 import CM4E.MainNat
@@ -20,13 +20,13 @@ import CM4E.Gen.MGnK
 /-!
 # The main theorems with every hypothesis except W88 discharged
 
-`CM4E/Ext/` (a copy of the needed part of the sibling project `lean_lsg`; see `CM4E/Ext/PROVENANCE.md`) proves, with
+`lean_lsg` proves, with
 standard axioms only:
-* `g₂(ϖℤ[i])` is algebraic (`CM4E.Ext.Bridge.isAlgebraic_g₂`; it proves `g₂ = 4` from the Γ-formula for `ϖ`);
+* `g₂(ϖℤ[i])` is algebraic (`LSG.Bridge.isAlgebraic_g₂`; it proves `g₂ = 4` from the Γ-formula for `ϖ`);
 * Schneider's theorem: a nonzero period of a lattice with algebraic `g₂, g₃` is transcendental, and so is the period
-  divided by `π` (`CM4E.Ext.Schneider.period_transcendental`, `CM4E.Ext.Bridge.irrational_varpi_div_pi_of`).
+  divided by `π` (`LSG.Schneider.period_transcendental`, `LSG.Bridge.irrational_varpi_div_pi_of`).
 
-`CM4E.Ext.LemniscateIndep.varpi` has the same body as `CM4E.varpi`, so the two are equal by `rfl` (used implicitly
+`LSG.LemniscateIndep.varpi` has the same body as `CM4E.varpi`, so the two are equal by `rfl` (used implicitly
 below). This file feeds these facts into the conditional theorems. What remains assumed is the hyperplane hypothesis
 `hW` (W88 §5d for the relevant group model); for the `Ω_ρ` and MX results, `g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄` (`hg₃'`; `g₂ = 0` is proved, `hg₂'`);
 and the named classical inputs where used (Theorems S, MX, MX′, M; Cors. MG1, MG3, MX1, deg2, Mη, M3′): `hΓ`, `hM`,
@@ -39,17 +39,17 @@ open Complex CM4E.Waldschmidt
 namespace CM4E.Final
 
 /-- `g₂(ϖℤ[i]) ∈ ℚ̄` (`CM4E/Ext`). -/
-theorem hg₂ : IsAlgebraic ℚ lemniscatic.g₂ := CM4E.Ext.Bridge.isAlgebraic_g₂ lemniscatic rfl rfl
+theorem hg₂ : IsAlgebraic ℚ lemniscatic.g₂ := LSG.Bridge.isAlgebraic_g₂ lemniscatic rfl rfl
 
 /-- `g₂(Ω_ρℤ[ρ]) = 0` (the `ρ`-symmetry, `MX.g₂_equianharmonic`). -/
 theorem hg₂' : IsAlgebraic ℚ MX.equianharmonic.g₂ := MX.g₂_equianharmonic_isAlgebraic
 
 /-- `ϖ/π ∉ ℚ` (`CM4E/Ext`: Schneider). -/
-theorem hS : Irrational (varpi / Real.pi) := CM4E.Ext.Bridge.irrational_varpi_div_pi_of lemniscatic rfl rfl
+theorem hS : Irrational (varpi / Real.pi) := LSG.Bridge.irrational_varpi_div_pi_of lemniscatic rfl rfl
 
 /-- `ϖ` is transcendental (`CM4E/Ext`: Schneider). -/
 theorem hT : Transcendental ℚ (varpi : ℂ) :=
-  CM4E.Ext.Schneider.period_transcendental hg₂ g₃_lemniscatic_isAlgebraic lemniscatic.ω₁_mem_lattice
+  LSG.Schneider.period_transcendental hg₂ g₃_lemniscatic_isAlgebraic lemniscatic.ω₁_mem_lattice
     (by exact_mod_cast varpi_ne_zero)
 
 /-- **Theorem 1(b) for `c ∈ ℚ(i)ˣ`**: four exponentials at `t = ((p + qi)/D)·ϖ/π`, assuming only W88 §5d for
@@ -107,7 +107,7 @@ theorem mx1 (hW : Gen.Thm11KappaMXG)
     (hMa : Gen.MasserCM) (hLa : Gen.LaurentZeta) (u : ℂ)
     (hwp : IsAlgebraic ℚ (lemniscatic.weierstrassP u)) (hwp' : IsAlgebraic ℚ (lemniscatic.derivWeierstrassP u))
     (hu' : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) (a t : ℂ) (ha : IsAlgebraic ℚ a) (ht : IsAlgebraic ℚ t) :
-    Transcendental ℚ ((varpi : ℂ) * omegaRho * (CM4E.Ext.Weierstrass.zeta lemniscatic u + t) /
+    Transcendental ℚ ((varpi : ℂ) * omegaRho * (LSG.Weierstrass.zeta lemniscatic u + t) /
       (Real.pi * (u + a))) :=
   Gen.mx1 hW hg₂ g₃_lemniscatic_isAlgebraic hg₂' hg₃' hΓ hWu hMa hLa u hwp hwp' hu' a t ha ht
 
@@ -124,7 +124,7 @@ theorem fourExpAt_varpi_all (hW : Gen.Thm11KappaMGn Gen.latI) (c : ℂ) (hc : Is
 theorem fourExpAt_varpi_div_pi_all (hW : Gen.Thm11KappaMG Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c)
     (hc0 : c ≠ 0) : FourExpAt (c * varpi / Real.pi) :=
   Gen.fourExpAt_MG Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0
 
 /-- **Theorem 1(a) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**: `FourExpAt (cΩ_ρ)`, assuming W88 §5d
 (`Gen.Thm11KappaMGn Gen.latRho`) and that `g₃` of `Ω_ρ ℤ[ρ]` is algebraic. -/
@@ -132,7 +132,7 @@ theorem fourExpAt_omegaRho_all (hW : Gen.Thm11KappaMGn Gen.latRho)
     (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : FourExpAt (c * omegaRho) :=
   Gen.fourExpAt_MGn Gen.latRho hW Gen.kappaOneZero_latRho hg₂' hg₃'
-    (CM4E.Ext.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+    (LSG.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) c hc hc0
 
 /-- **Theorem 1(b) for `Ω = Ω_ρ` and every algebraic `c ≠ 0`**: `FourExpAt (cΩ_ρ/π)`, assuming W88 §5d
@@ -141,7 +141,7 @@ theorem fourExpAt_omegaRho_div_pi_all (hW : Gen.Thm11KappaMG Gen.latRho)
     (hg₃' : IsAlgebraic ℚ MX.equianharmonic.g₃)
     (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) : FourExpAt (c * omegaRho / Real.pi) :=
   Gen.fourExpAt_MG Gen.latRho hW hg₂' hg₃'
-    (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+    (LSG.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) c hc hc0
 
 /-- **`2^{Ω_ρ}` and `3^{Ω_ρ}` are not both algebraic**, assuming W88 §5d and `g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
@@ -154,7 +154,7 @@ theorem two_three_omegaRho (hW : Gen.Thm11KappaMGn Gen.latRho)
     (by simpa using log_mem_logAlg 3 three_ne_zero) linearIndependent_two_three
   simpa using h
 
-/-! ## Theorem S (paper [II]) -/
+/-! ## Theorem S (paper) -/
 
 /-- **Theorem S for `Ω = ϖ`**: for `t ∈ ℚ̄ˣϖ ∪ ℚ̄ˣ/ϖ ∪ ℚ̄ˣϖ/π ∪ ℚ̄ˣπ/ϖ` and `ℚ̄`-independent `y₁, y₂`, the numbers
 `y₁, y₂, ty₁, ty₂` are not all in `𝓛̃ = ℚ̄ + ℚ̄𝓛`. Assumes W88 §5d (`hWa`, `hWb`) and `Gen.NotLtilde Gen.latI`. -/
@@ -165,7 +165,7 @@ theorem thmS_varpi (hWa : Gen.Thm11KappaSMG Gen.latI) (hWb : Gen.Thm11KappaSMGn 
       a₁ = 0 ∧ a₂ = 0) :
     ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
   Gen.thmS Gen.latI hWa hWb Gen.kappaOneZero_latI hg₂ g₃_lemniscatic_isAlgebraic hT
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot c hc hc0 t ht y₁ y₂ hind
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot c hc hc0 t ht y₁ y₂ hind
 
 /-- **Theorem S for `Ω = Ω_ρ`**, assuming also `g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
 theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11KappaSMGn Gen.latRho)
@@ -176,9 +176,9 @@ theorem thmS_omegaRho (hWa : Gen.Thm11KappaSMG Gen.latRho) (hWb : Gen.Thm11Kappa
       a₁ = 0 ∧ a₂ = 0) :
     ¬ (y₁ ∈ Gen.Ltilde ∧ y₂ ∈ Gen.Ltilde ∧ t * y₁ ∈ Gen.Ltilde ∧ t * y₂ ∈ Gen.Ltilde) :=
   Gen.thmS Gen.latRho hWa hWb Gen.kappaOneZero_latRho hg₂' hg₃'
-    (CM4E.Ext.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+    (LSG.Schneider.period_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero)
-    (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+    (LSG.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) hNot c hc hc0 t ht y₁ y₂ hind
 
 /-! ## Corollaries MG1, MG3 -/
@@ -189,7 +189,7 @@ theorem mg1_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hNot : Gen.NotLtilde Gen.la
     ¬ (IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2)) ∧ IsAlgebraic ℚ (Complex.exp (Real.pi * varpi)) ∧
       IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2 / varpi))) := by
   have := Gen.mg1 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic hT
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot 1 1 1
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hNot 1 1 1
     isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero isAlgebraic_one one_ne_zero
   simpa [Gen.latI] using this
 
@@ -201,7 +201,7 @@ theorem mg3_varpi (hW : Gen.Thm11KappaSMG Gen.latI) (hBaker : Gen.Baker3) (c : �
     (hind : LinearIndependent ℚ ![2 * (Real.pi : ℂ) * I, (Real.pi : ℂ) ^ 2, x]) :
     Transcendental ℚ (Complex.exp (varpi / Real.pi * x)) :=
   Gen.mg3 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hBaker c hc hc0 hπ2 hπω x hx hind
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hBaker c hc hc0 hπ2 hπω x hx hind
 
 /-- **Corollary deg2 (ii)**: `1, ϖ, Ω_ρ, ϖΩ_ρ/π` are linearly independent over `ℚ̄`. Assumes W88 §5d (MX groups),
 `g₃(Ω_ρℤ[ρ]) ∈ ℚ̄`, `hΓ`, and the named input `Gen.WuestholzSix`. -/
@@ -247,7 +247,7 @@ theorem thmM_varpi (hW : Gen.Thm11KappaM Gen.latI) (c : ℂ) (hc : IsAlgebraic �
     (hu : u ∈ Gen.QbarLogE lemniscatic) (hℓ : ℓ ∈ Gen.Ltilde) (hrel : I * Real.pi * u = c * varpi * ℓ) :
     ∃ s : ℂ, IsAlgebraic ℚ s ∧ u = s * (c * varpi) ∧ ℓ = s * (I * Real.pi) :=
   Gen.thmM Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0 u ℓ hu hℓ hrel
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0 u ℓ hu hℓ hrel
 
 /-- **Theorem M for `Ω = cΩ_ρ`**, assuming also `g₃(Ω_ρ ℤ[ρ]) ∈ ℚ̄`. -/
 theorem thmM_omegaRho (hW : Gen.Thm11KappaM Gen.latRho)
@@ -257,7 +257,7 @@ theorem thmM_omegaRho (hW : Gen.Thm11KappaM Gen.latRho)
     (hrel : I * Real.pi * u = c * omegaRho * ℓ) :
     ∃ s : ℂ, IsAlgebraic ℚ s ∧ u = s * (c * omegaRho) ∧ ℓ = s * (I * Real.pi) :=
   Gen.thmM Gen.latRho hW hg₂' hg₃'
-    (CM4E.Ext.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
+    (LSG.Schneider.period_div_pi_transcendental hg₂' hg₃' MX.equianharmonic.ω₁_mem_lattice
       MX.omegaRho_ne_zero) c hc hc0 u ℓ hu hℓ hrel
 
 /-- **Theorem M on `E_i` with `s ∈ ℚ(i)`** for `u ∈ 𝓛_{E_i}`, assuming also Masser's theorem (`Gen.MasserCM`). -/
@@ -265,13 +265,13 @@ theorem thmM_varpi_k (hW : Gen.Thm11KappaM Gen.latI) (hMa : Gen.MasserCM) (u ℓ
     (hu : Gen.LogE lemniscatic u) (hℓ : ℓ ∈ Gen.Ltilde) (hrel : I * Real.pi * u = varpi * ℓ) :
     ∃ p q : ℚ, u = (p + q * I) * varpi ∧ ℓ = (p + q * I) * (I * Real.pi) :=
   Gen.thmM_I_k hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u ℓ hu hℓ hrel
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u ℓ hu hℓ hrel
 
 /-- **(M1)** `℘(cϖ/π) ∉ ℚ̄` for `c ∈ ℚ̄ˣ`, assuming only W88 §5d (`Gen.Thm11KappaM Gen.latI`). -/
 theorem m1_varpi (hW : Gen.Thm11KappaM Gen.latI) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     Transcendental ℚ (lemniscatic.weierstrassP (c * varpi / Real.pi)) :=
   Gen.m1 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) c hc hc0
 
 /-- **(M3)** If `e^{π²} ∈ ℚ̄` then `℘(cπϖ) ∉ ℚ̄` for `c ∈ ℚ̄ˣ`; in particular one of `e^{π²}`, `℘(πϖ)` is
 transcendental. Assumes only W88 §5d. -/
@@ -279,7 +279,7 @@ theorem m3_varpi (hW : Gen.Thm11KappaM Gen.latI)
     (hπ2 : IsAlgebraic ℚ (Complex.exp ((Real.pi : ℂ) ^ 2))) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     Transcendental ℚ (lemniscatic.weierstrassP (c * Real.pi * varpi)) :=
   Gen.m3 Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hπ2 c hc hc0
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hπ2 c hc hc0
 
 /-- **(M3′)** For `α = e^z ∈ ℚ̄ \ {0, 1}`, one of `e^{iπz}`, `℘(ϖz)` is transcendental. Assumes W88 §5d and
 Hermite–Lindemann (`Gen.HermiteLindemann`). -/
@@ -287,13 +287,13 @@ theorem m3'_varpi (hW : Gen.Thm11KappaM Gen.latI) (hHL : Gen.HermiteLindemann) (
     (hz : IsAlgebraic ℚ (Complex.exp z)) (hz1 : Complex.exp z ≠ 1) :
     ¬ (IsAlgebraic ℚ (Complex.exp (I * Real.pi * z)) ∧ IsAlgebraic ℚ (lemniscatic.weierstrassP (varpi * z))) :=
   Gen.m3' Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hHL z hz hz1
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hHL z hz hz1
 
 /-- **(Mη)** `η(ϖ)u ∉ 𝓛̃` for `u ∈ 𝓛_{E_i} \ ℚ(i)ϖ`. Assumes W88 §5d and Masser's theorem. -/
 theorem meta_varpi (hW : Gen.Thm11KappaM Gen.latI) (hMa : Gen.MasserCM) (u : ℂ) (hu : Gen.LogE lemniscatic u)
     (hnot : ¬ ∃ p q : ℚ, u = (p + q * I) * varpi) : (Real.pi / varpi : ℂ) * u ∉ Gen.Ltilde :=
   Gen.meta_I hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u hu hnot
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hMa u hu hnot
 
 /-! ## `K`-dimension forms of Theorems MG and MG♮ -/
 
@@ -308,7 +308,7 @@ theorem mg_K_varpi (hW : Gen.Thm11KappaMGK Gen.latI) {r : ℕ} {b : Fin r → �
     (hind : ∀ a₀ a₁ a₂ : ℂ, a₀ ∈ Gen.Kspan I b → a₁ ∈ Gen.Kspan I b → a₂ ∈ Gen.Kspan I b →
       a₀ * (2 * Real.pi * I) + a₁ * x 0 + a₂ * x 1 = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) : False :=
   Gen.mg_K Gen.latI hW hg₂ g₃_lemniscatic_isAlgebraic
-    (CM4E.Ext.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hb c hcK hc0 hIK x hx hsx hind
+    (LSG.Bridge.transcendental_varpi_div_pi lemniscatic rfl rfl) hb c hcK hc0 hIK x hx hsx hind
 
 /-- **Theorem MG♮, `K`-form, for `Ω = ϖ`**: for `s = 1/(cϖ)` and `K = span_ℚ θ ∋ c` with `[K : ℚ] ≥ 4`, there are no
 `x₁, x₂ ∈ K𝓛` with `sx₁, sx₂ ∈ K𝓛 + K·(fibre values)` and `2πi, x₁, x₂` linearly independent over `K`. Assumes only

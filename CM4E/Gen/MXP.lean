@@ -8,7 +8,7 @@ import CM4E.Gen.MXGen
 /-!
 # Proposition D′ (Theorem MX′, `K`-form)
 
-Twisted variant of Theorem MX (paper [I], §`sec:MXP`): `G = E_i^♮ × E_ρ^♮ × G_a²`,
+Twisted variant of Theorem MX (paper, §`sec:MXP`): `G = E_i^♮ × E_ρ^♮ × G_a²`,
 `Ψ'(X_i, X_ρ, a₁, a₂) = (z(X_i) + w(X_ρ) + a₁, w(X_i) + z(X_ρ) + a₂)`, `V' = ℂ(ϖ, βΩ_ρ)`. With an adapted basis `θ` of a
 number field `K ∋ i` (`n = [K : ℚ]`), the quotient `G'' = G^n / U'`, `U' = {z_i = z_ρ = 0, θᵀ(w_ρ + a₁) = θᵀ(w_i + a₂) = 0}`, is the
 push-out of `(E_i^n × E_ρ^n)^♮` along `(w_i, w_ρ) ↦ (θᵀw_i, θᵀw_ρ)`, an extension of `E_i^n × E_ρ^n` by `G_a²`.

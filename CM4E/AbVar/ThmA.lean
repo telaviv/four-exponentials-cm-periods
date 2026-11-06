@@ -11,7 +11,7 @@ import CM4E.Gen.Frame
 import CM4E.Gen.FrameW
 
 /-!
-# Theorem MG-A: four exponentials at `cP/π` and `cπ/P` for CM abelian eigen-periods (paper [II], `thm:MGA`)
+# Theorem MG-A: four exponentials at `cP/π` and `cπ/P` for CM abelian eigen-periods (paper, `thm:MGA`)
 
 Let `ζ = e^{2πi/N}`, `F = ℚ(ζ)` (`d = φ(N)`), and let `A` be a simple CM abelian variety of dimension `g` with CM by `F`,
 with eigen-coordinates `z_s` (`s < g`) on which `[ζ]` acts by `ζ^{κ s}`, and a cycle `γ` with `z_s(γ) = P s`. Fix a slot
@@ -352,7 +352,7 @@ theorem fourExpAt_A (hN : N ≠ 0) (hW : Thm11KappaA N g κ P s₀) (hg : 2 * g 
 noncomputable def perA5 (s : Fin 2) : ℂ :=
   (1 - zetaN 5 ^ ((s : ℕ) + 1)) * betaG ((((s : ℕ) + 1 : ℕ) : ℂ) / 5) ((((s : ℕ) + 1 : ℕ) : ℂ) / 5)
 
-/-- `P/π ∉ ℚ̄` for the eigen-period `P = (1 − ζ₅)B(1/5, 1/5)` (Wüstholz 1989; paper [II], (W)). Formerly a named input;
+/-- `P/π ∉ ℚ̄` for the eigen-period `P = (1 − ζ₅)B(1/5, 1/5)` (Wüstholz 1989; the paper, (W)). Formerly a named input;
 now a corollary of the hypothesis of Theorem MG-A (`wuestholzA5_of`). -/
 def WuestholzA5 : Prop := Transcendental ℚ (perA5 0 / Real.pi)
 

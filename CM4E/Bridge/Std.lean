@@ -12,8 +12,8 @@ import LSG.W88.Statement
 `gmStd d₀ d₁ Ls` is the group model, in the coordinates of `lean_lsg` (`LSG/W88/Statement.lean`), of
 `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m`: `d₁ = d₁`, `d₂ = m` (the `G_a` factor is `d₀` and does not enter (5.4)), algebraic
 vectors, logarithms `Lam Ls`, periods the `ℚ`-span of `Per Ls`, and the connected algebraic subgroups `SubgroupData`.
-`HypStd` is W88 §5d for all these groups; it is to be supplied by `lean_lsg` (the §5d deduction from its proved
-Theorem 4.1, `LSG.W88.theorem41Abelian`). The bridges of `CM4E/Bridge/` reduce the hypotheses of `CM4E/Gen/` to it.
+`HypStdCMAt` is W88 §5d for these groups with one curve repeated, proved in `lean_lsg`. The bridges of `CM4E/Bridge/` reduce
+the hypotheses of `CM4E/Gen/` to it.
 -/
 
 open Module CM4E.Waldschmidt LSG.W88
@@ -34,26 +34,10 @@ noncomputable def gmStd (d0 d1 : ℕ) {m : ℕ} (Ls : Fin m → PeriodPair) : Gr
   per := Submodule.span ℚ (Per (d0 := d0) (d1 := d1) Ls : Set (Tan d0 d1 m))
   sub := fun S => ∃ H : SubgroupData (d0 := d0) (d1 := d1) Ls, S = H.tan
 
-/-- **W88 §5d for `G_a^{d₀} × G_m^{d₁} × E₁ × ⋯ × E_m`** (curves with algebraic invariants). -/
-def HypStd : Prop :=
-  ∀ (d0 d1 m : ℕ) (Ls : Fin m → PeriodPair), (∀ j, IsAlgebraic ℚ (Ls j).g₂ ∧ IsAlgebraic ℚ (Ls j).g₃) →
-    HyperplaneKappa (gmStd d0 d1 Ls)
-
-/-- **W88 §5d for `G_a^{d₀} × G_m^{d₁} × E^r`, one curve `E` repeated** (to be supplied by `lean_lsg`, as a consequence of
-its `HypStd`). -/
-def HypStdCM (L : PeriodPair) : Prop :=
-  ∀ (d0 d1 r : ℕ), IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmStd d0 d1 (fun _ : Fin r => L))
-
-lemma hypStdCM_of_hypStd (h : HypStd) (L : PeriodPair) : HypStdCM L :=
-  fun d0 d1 r h₂ h₃ => h d0 d1 r _ (fun _ => ⟨h₂, h₃⟩)
-
-/-- The case `d₀ = d` of `HypStdCM` (the bridges use `d = 0` for Theorem MG and `d = 2` for Theorem SMG; for `d₀ = 0` every
-configuration outside (NR) is trivial, while `d₀ > 0` also needs Roy's (NR)-free linear case). -/
+/-- **W88 §5d for `G_a^d × G_m^{d₁} × E^r`, one curve `E` repeated** (proved in `lean_lsg`, `LSG.W88.hypStdCMAt`). The bridges
+use `d = 0` for Theorem MG and `d = 2` for Theorem SMG. -/
 def HypStdCMAt (L : PeriodPair) (d : ℕ) : Prop :=
   ∀ (d1 r : ℕ), IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → HyperplaneKappa (gmStd d d1 (fun _ : Fin r => L))
-
-lemma hypStdCMAt_of_hypStdCM {L : PeriodPair} (h : HypStdCM L) (d : ℕ) : HypStdCMAt L d :=
-  fun d1 r h₂ h₃ => h d d1 r h₂ h₃
 
 /-- The logarithms with every `E`-coordinate a period: an additive subgroup of `Lam Ls`. -/
 def lamPer (Ls : Fin m → PeriodPair) : AddSubgroup (Tan d0 d1 m) where

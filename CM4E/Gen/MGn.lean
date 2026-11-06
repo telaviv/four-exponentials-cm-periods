@@ -6,7 +6,7 @@ import Mathlib
 import CM4E.Gen.Frame
 import CM4E.Gen.CMLattice
 import CM4E.Gen.BasisExists
-import CM4E.Ext.Weierstrass.ZetaDef
+import LSG.Weierstrass.ZetaDef
 
 /-!
 # Theorem MG♮ / Cor. MG♮2 for every algebraic `c`: four exponentials at `t = cω`
@@ -58,7 +58,7 @@ noncomputable def gmMGn : GroupModel (TF (Fin r × Fin 2) (Qn L b)) :=
 /-- `κ₁ = 0`, in the form `ζ(αz) = ᾱζ(z)` (true when `α` is a unit, as for `ϖℤ[i]` and `Ω_ρℤ[ρ]`). It makes the
 quasi-periods conjugate-linear, so the standard `ζ` is the conjugate-eigen `ζ*` and `η₀ = η(ω)`. -/
 def KappaOneZero (L : CMLattice) : Prop :=
-  ∀ z : ℂ, CM4E.Ext.Weierstrass.zeta L.pp (L.α * z) = starRingEnd ℂ L.α * CM4E.Ext.Weierstrass.zeta L.pp z
+  ∀ z : ℂ, LSG.Weierstrass.zeta L.pp (L.α * z) = starRingEnd ℂ L.α * LSG.Weierstrass.zeta L.pp z
 
 /-- **The hypothesis for Theorem MG♮ (general `c`)**: W88 §5d for `G_m^{2n} × Q''`, for every adapted basis. Same form
 as all other hypotheses of the project (`HyperplaneKappa` of a group model). -/

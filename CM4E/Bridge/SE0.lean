@@ -435,8 +435,8 @@ theorem transcendental_eta_div_omega (L : CMLattice) (hκ : KappaOneZero L) (hg�
 
 /-! ## Theorem SE₀ -/
 
-/-- **Theorem SE, part (SE₀), for a CM lattice with `κ₁ = 0`** (paper addition seed 2, Theorem `thm:SE` (3);
-`paper_cm` Theorem 4.12(3)), with no form of W88 assumed: if `E_L` has algebraic invariants, `ζ(αz) = ᾱζ(z)`, and complex
+/-- **Theorem SE, part (SE₀), for a CM lattice with `κ₁ = 0`** (the paper, Theorem 6.12(3)),
+with no form of W88 assumed: if `E_L` has algebraic invariants, `ζ(αz) = ᾱζ(z)`, and complex
 multiplication acts on its elliptic logarithms of algebraic points, then for `c ∈ ℚ̄ˣ`, `t = c·η₀/Ω` and
 `u₁, u₂ ∈ 𝓛̃_{E_L}` with `Ω, u₁, u₂` linearly independent over `ℚ̄`, the numbers `tu₁, tu₂` are not both in
 `ℚ̄𝓛_{E_L} + ℚ̄·Fib_{E_L}`. -/
@@ -460,11 +460,11 @@ theorem thmSE0_paper (L : CMLattice) (hκ : KappaOneZero L) (hg₂ : IsAlgebraic
     (hu₂ : u₂ ∈ LtildeE L.pp)
     (hind : ∀ a₀ a₁ a₂ : ℂ, IsAlgebraic ℚ a₀ → IsAlgebraic ℚ a₁ → IsAlgebraic ℚ a₂ →
       a₀ * Ω + a₁ * u₁ + a₂ * u₂ = 0 → a₀ = 0 ∧ a₁ = 0 ∧ a₂ = 0) :
-    ¬ (c * CM4E.Ext.Weierstrass.eta L.pp Ω / Ω * u₁ ∈ QbarLFib L ∧
-      c * CM4E.Ext.Weierstrass.eta L.pp Ω / Ω * u₂ ∈ QbarLFib L) := by
+    ¬ (c * LSG.Weierstrass.eta L.pp Ω / Ω * u₁ ∈ QbarLFib L ∧
+      c * LSG.Weierstrass.eta L.pp Ω / Ω * u₂ ∈ QbarLFib L) := by
   have hω := L.ω_ne_zero
   obtain ⟨a, b, rfl⟩ := PeriodPair.mem_lattice.mp hΩ
-  have he : CM4E.Ext.Weierstrass.eta L.pp ((a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂) = etaL L a b :=
+  have he : LSG.Weierstrass.eta L.pp ((a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂) = etaL L a b :=
     eta_lattice L hκ a b
   set s : ℂ := (a : ℂ) + b * L.α with hsdef
   have hΩs : (a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂ = s * L.ω := by rw [L.hω₁, L.hω₂, hsdef]; ring
@@ -474,7 +474,7 @@ theorem thmSE0_paper (L : CMLattice) (hκ : KappaOneZero L) (hg₂ : IsAlgebraic
   have hcs : starRingEnd ℂ s = (a : ℂ) + b * starRingEnd ℂ L.α := by simp [hsdef, map_add, map_mul]
   have hcs0 : starRingEnd ℂ s ≠ 0 := by rwa [map_ne_zero]
   have hcsalg : IsAlgebraic ℚ (starRingEnd ℂ s) := LSG.CM.isAlgebraic_conj hsalg
-  have e : c * CM4E.Ext.Weierstrass.eta L.pp ((a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂) /
+  have e : c * LSG.Weierstrass.eta L.pp ((a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂) /
       ((a : ℂ) * L.pp.ω₁ + b * L.pp.ω₂) = (c * starRingEnd ℂ s / s) * L.η₀ / L.ω := by
     rw [he, hΩs, etaL, ← hcs]
     field_simp

@@ -359,7 +359,7 @@ theorem transcendental_div_of_nonIsog (P P' : PeriodPair) (hg : IsAlgebraic ℚ 
 
 /-! ## Theorem SE -/
 
-/-- **Theorem SE, part (SE), for two non-isogenous CM lattices** (paper addition seed 2, Theorem `thm:SE` (1)), with no
+/-- **Theorem SE, part (SE), for two non-isogenous CM lattices** (the paper, Theorem 6.12(1)), with no
 form of W88 assumed: if `E_L`, `E_{L'}` have algebraic invariants, are not isogenous, and complex multiplication acts on
 their elliptic logarithms of algebraic points, then for `c ∈ ℚ̄ˣ`, `t = c·L'.ω/L.ω` and `u₁, u₂ ∈ 𝓛̃_{E_L}` with
 `L.ω, u₁, u₂` linearly independent over `ℚ̄`, the numbers `tu₁, tu₂` are not both in

@@ -14,7 +14,7 @@ term, with explicit consequences at CM and Beta periods* (draft; snapshot in [`p
 (`CM4E.Unconditional.fourExpAt_varpi_all`: `FourExpAt (cϖ)` for every algebraic `c ≠ 0`; `2^ϖ, 3^ϖ` not both algebraic,
 `CM4E.Unconditional.two_three_varpi`), the `K`-form of MG♮, and Theorem MX, Cor. MX1, deg2 (ii) with their named
 inputs, and Theorem S (Theorem 1.6) (`CM4E.Unconditional.thmS_varpi`, given only Wüstholz's `NotLtilde`). Also Theorem MX′ and deg2 (i)
-(`CM4E.Unconditional.mxP_K`, `deg2_i`). Still conditional: the abelian-variety results (including the
+(`CM4E.Unconditional.mxP_K`, `deg2_i`). Also the Beta-value results at `y⁵ = x(1 − x)` listed below. Still conditional: the other abelian-variety results (including the
 generic Theorem X, `CM4E.AbVar.XSetup.thmXA`). Everything below is conditional on W88 for the stated groups; the tiers are in
 [TRUST.md](TRUST.md) §1a.
 

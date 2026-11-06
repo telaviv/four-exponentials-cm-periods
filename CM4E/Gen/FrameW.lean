@@ -7,7 +7,7 @@ import CM4E.Common
 import CM4E.Gen.Frame
 
 /-!
-# `P/π ∉ ℚ̄` from the frame hypothesis (lean_lsg ABVAR.md §1.6)
+# `P/π ∉ ℚ̄` from the frame hypothesis (`lean_lsg` `dev/ABVAR.md` §1.6)
 
 On the frame `gmF` of `CM4E/Gen/Frame.lean` (tangent space `((ι → ℂ) × (ι → ℂ)) × Q`, linear form `λ` on `Q`), the
 same W88 §5d hypothesis that drives Theorems MG-A / MG♮-A also gives `P/π ∉ ℚ̄` for the period `P` that `λ` sees.

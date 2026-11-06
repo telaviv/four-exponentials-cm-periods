@@ -12,11 +12,11 @@ import LSG.W88.AbVarMStarNK
 
 **First-kind slot.**
 
-`lean_lsg` (M1, commit 483e2b0) proves verbatim copies of `AbVar.Thm11KappaA 5 2 (·+1) perA5 0` and
+`lean_lsg` proves verbatim copies of `AbVar.Thm11KappaA 5 2 (·+1) perA5 0` and
 `AbVar.Thm11KappaAK 5 2 (·+1) perA5 0 ∅` (`LSG.W88.thm11KappaA5`, `LSG.W88.thm11KappaAK5`) from its W88 §5d theorem
 for `G_a^{d₀} × G_m^{d₁} × A^r` on toric-injective hyperplanes, with data whose `A`-components are periods
 (`LSG.W88.hyperplaneKappaAbVar`; `A` is the torus of the period lattice of `Y² = 4X⁵ + 1`, classically `Jac(y⁵ = x(1 − x))`;
-lean_lsg `REVIEW_STATEMENT_ABVAR.md`: no FATAL or MAJOR issues).
+`lean_lsg` `reviews/REVIEW_STATEMENT_ABVAR.md`: no FATAL or MAJOR issues).
 The copies use a separate `IsAdaptedBasisD` structure, repackaged here. Consequences, with no hypothesis:
 Wüstholz's input `WuestholzA5`, Theorem MG-A at `B(1/5, 1/5)/π` and at `π/B(1/5, 1/5)`, its `K`-form with `LA = ∅`, and
 the `2^t, 3^t` example.
@@ -24,7 +24,7 @@ Corollary A2 at `B(1/5, 1/5)` keeps its named input `NotLtildeA (perA5 0)`.
 
 **Second-kind slot.** `lean_lsg` also proves `AbVar.Thm11KappaAn 5 2 (·+1) perA5 perB5` and
 `AbVar.Thm11KappaAnK 5 2 (·+1) perA5 perB5 ∅` (`LSG.W88.thm11KappaAn5`, `LSG.W88.thm11KappaAnK5`), for the vector extension
-of `A` (lean_lsg `REVIEW_STATEMENT_M2.md`: no FATAL or MAJOR issues). Consequences, with no hypothesis: `WuestholzB5`,
+of `A` (`lean_lsg` `reviews/REVIEW_STATEMENT_M2.md`: no FATAL or MAJOR issues). Consequences, with no hypothesis: `WuestholzB5`,
 Theorem MG♮-A at `B(1/5, 1/5)` and at `1/B(1/5, 1/5)`, its `K`-form with `LAn = ∅`, and **`2^t, 3^t` are not both algebraic
 at `t = B(1/5, 1/5)`**.
 -/

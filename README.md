@@ -70,8 +70,8 @@ is assumed, why it is believed, and which paper results are covered: [TRUST.md](
 
 ## Build
 
-The project depends on Mathlib and on `lean_lsg` (with `lean_lsg`'s own dependency `StrongSix`), both declared in
-`lakefile.toml`; `lean_lsg` must be checked out next to this folder.
+The project depends on Mathlib and on [`lean_lsg`](https://github.com/telaviv/waldschmidt-subgroup-theorem) (library `LSG`,
+with its own dependency `StrongSix`), pinned to a commit in `lakefile.toml`; `lake` fetches them.
 
 ```bash
 lake exe cache get

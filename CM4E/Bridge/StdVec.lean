@@ -9,7 +9,7 @@ import LSG.W88.StdVec
 /-!
 # The standard model with a vector-extension factor (copy of `lean_lsg`'s `gmStdVec`)
 
-`gmStdVec d0 d1 Ls M` is this project's copy (body verbatim from `LSG.W88.MStarCopy.gmStdVec`, `lean_lsg/INTERFACE.md`,
+`gmStdVec d0 d1 Ls M` is this project's copy (body verbatim from `LSG.W88.MStarCopy.gmStdVec`, `lean_lsg` `dev/INTERFACE.md`,
 last section) of the group model of `G = G_a^{d₀} × G_m^{d₁} × G₂`, `G₂` the push-out of the universal vector extension
 `(E₁ × ⋯ × E_m)^♮` along the `r × m` matrix `M`, in the coordinates `LSG.W88.Vec.TanV d₀ d₁ m r = ℂ^{d₀} × ℂ^{d₁} × ℂ^m × ℂ^r`
 (`(a, b, z, s)`, `s = M w` for the fibre coordinates `w` of `(E^m)^♮`): `d₁ = d1`, `d₂ = m + r`, algebraic vectors
@@ -18,7 +18,7 @@ periods `span_ℚ PerV Ls M` (`0 × 2πiℤ^{d₁} × {(λ, Mη(λ))}`), and as 
 (`Γ + T_U^⊥ + T_{B̃}`).
 
 Soundness of the model (not checked by Lean): this is the statement of `lean_lsg`'s Theorem 4.1 for the class `𝒞`
-(`lean_lsg/LSG/W88/StatementVec.lean`, `VECEXT.md` §2): the coordinates, `Λ(G)`, `Ω(G)` and the classification of
+(`LSG/W88/StatementVec.lean`, `dev/VECEXT.md` §2): the coordinates, `Λ(G)`, `Ω(G)` and the classification of
 connected algebraic subgroups `T_U × (B̃ + Γ)` of `G`. Lean's `ζ` (the lattice series) equals `η` on the lattice
 (`LSG.W88.Vec.zeta_of_mem_lattice`), so `LamV` needs no case split.
 

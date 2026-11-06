@@ -38,7 +38,7 @@ import LSG.W88.V5dMGnK
 
 Soundness of the model (not checked by Lean): no new model is introduced here. Everything is reduced to the standard
 model `gmStdVec` of `CM4E/Bridge/StdVec.lean` (the statement of `lean_lsg`'s Theorem 4.1 for the push-outs of
-`(E^m)^♮`, `VECEXT.md` §2) and to the soundness of `gmESV`, stated in `CM4E/AbVar/SE0.lean`, whose `sub` field is the
+`(E^m)^♮`, `lean_lsg` `dev/VECEXT.md` §2) and to the soundness of `gmESV`, stated in `CM4E/AbVar/SE0.lean`, whose `sub` field is the
 uniform subgroup condition proved here from the subgroup data of `gmStdVec`.
 -/
 

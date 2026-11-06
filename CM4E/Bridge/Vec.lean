@@ -24,8 +24,8 @@ import CM4E.Gen.MXP
 `IsAdaptedFieldBasis` structures, repackaged here (`adaptL`). So Theorem 1(a), Theorem MG♮ and its `K`-form depend only
 on `Theorem41VecLA` (see also `CM4E/Bridge/MXG.lean`).
 
-`lean_lsg` 0ed4c24 also proves the copies outright (`LSG.W88.V5d.thm11KappaMXG_uncond`, `…MGn_uncond`, `…MGnK_uncond`,
-`…Nat_uncond`, via its Theorem 4.1 for vector extensions onto `M`; `…SMGn_uncond`, 36b7f5c); the `_uncond` theorems
+`lean_lsg` also proves the copies outright (`LSG.W88.V5d.thm11KappaMXG_uncond`, `…MGn_uncond`, `…MGnK_uncond`,
+`…Nat_uncond`, via its Theorem 4.1 for vector extensions onto `M`; `…SMGn_uncond`); the `_uncond` theorems
 below repackage them.
 -/
 
@@ -71,7 +71,7 @@ theorem thm11KappaSMGn_uncond (L : CMLattice) : Thm11KappaSMGn L :=
   fun hk h2 h3 r b hb =>
     LSG.W88.V5d.thm11KappaSMGn_uncond (adaptL L) hk h2 h3 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩
 
-/-- **`Gen.Thm11KappaMXP`, unconditionally** (lean_lsg 4f27015, via its Theorem 4.1 for `d₀ = 0`, `r ≤ 2`). -/
+/-- **`Gen.Thm11KappaMXP`, unconditionally** (`lean_lsg`, via its Theorem 4.1 for `d₀ = 0`, `r ≤ 2`). -/
 theorem thm11KappaMXP_uncond : Thm11KappaMXP :=
   fun h1 h2 h3 h4 r b hb =>
     LSG.W88.V5d.thm11KappaMXP_uncond h1 h2 h3 h4 r b ⟨hb.indep, hb.one_mem, hb.mul_mem, hb.inv_mem, hb.alg⟩

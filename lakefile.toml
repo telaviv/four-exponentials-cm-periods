@@ -20,4 +20,5 @@ name = "CM4E"
 
 [[require]]
 name = "LSG"
-path = "../lean_lsg"
+git = "https://github.com/telaviv/waldschmidt-subgroup-theorem"
+rev = "0bc67b178c438efaed3b656e1fc48403f8fe9aa7"

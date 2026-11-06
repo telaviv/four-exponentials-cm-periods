@@ -24,7 +24,7 @@ import LSG.W88.K5dNonIsog
   `K5d.abTan_rat_nonIsog`, `K5d.mul_mem_of_blockConst`); a nonzero lattice vector `z ∈ t` gives lattice vectors
   `z_E, z_{E'} ∈ t` on the two blocks, and `μ₁(z_E) = μ₂(z_E) = μ₂(z_{E'}) = 0` forces `z = 0` by the `k`-independence of
   `γ` and the `k'`-independence of `γ'` (`b_kindep`).
-* `thm11KappaSE_of_nonIsog`: `Thm11KappaSE L L'` from `LSG.W88.hypStd_of_pair` (`lean_lsg` 6ebc17f).
+* `thm11KappaSE_of_nonIsog`: `Thm11KappaSE L L'` from `LSG.W88.hypStd_of_pair` (`lean_lsg`).
 * `transcendental_div_of_nonIsog`: for non-isogenous curves with algebraic invariants, `ω'/ω ∉ ℚ̄` for nonzero periods
   `ω, ω'` (the part of Lemma SE0 that Theorem SE uses). Proof: W88 §5d on `E × E'` (`gmStd 0 0 ![E, E']`) with
   `V = W = ℂ(1, β)` and `Y = ℚ(ω, ω')` (`m = 1 > 0 = (…)·(d − 1 − t)`): `V` would contain the tangent space of a nonzero

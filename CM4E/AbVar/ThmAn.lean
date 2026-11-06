@@ -232,7 +232,7 @@ theorem fourExpAt_An (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb) (hg2 : 2 ≤
       rw [this]
       exact Submodule.sum_mem _ fun p _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨p, rfl⟩)
 
-/-- **`P̄/π ∉ ℚ̄` from the hypothesis of Theorem MG♮-A** (lean_lsg ABVAR.md §1.6, with the fibre coordinate `f` in place
+/-- **`P̄/π ∉ ℚ̄` from the hypothesis of Theorem MG♮-A** (`lean_lsg` `dev/ABVAR.md` §1.6, with the fibre coordinate `f` in place
 of `λ`). If `P̄ = απ` with `α ∈ ℚ̄`, the hyperplane `V = W = ker (f − aθᵀx − aμθᵀy)` (`a = α/(2i)`, `μ ∈ ℚ̄ ∖ K`)
 contains the period lift `(2πi e_{(0,0)}, 0; [ζ⁰]γ̃)` (fibre `b_0 P̄`), and `(5.4)` holds with `m = 1`; but `V` contains
 no `T_L × H ≠ 0` (`Gen.frameW_false`). -/

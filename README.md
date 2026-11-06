@@ -38,10 +38,11 @@ With `ϖ = Γ(1/4)²/(2√(2π))` and `Ω_ρ = Γ(1/3)³/(2^{4/3}π)`, the real 
   `AbVar.two_three_beta5'` (**`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/Γ(2/5)`**), Theorem A for `B(1/5,1/5)`,
   `B(1/7,1/7)`, the `K`-forms of MG-A, MG♮-A, Cor. A2, Theorem X7 with its torsion step, Cor. X7 (a), (b) for Abel–Jacobi
   integrals.
-* Unconditional at `y⁵ = x(1 − x)` (W88 for `G_m^{2n} × A^r` proved in `lean_lsg`; `CM4E/Bridge/AbVar.lean`):
-  `Bridge.two_three_beta5_uncond` (**`2^t, 3^t` are not both algebraic at `t = Γ(1/5)²/(πΓ(2/5))`**, with no hypothesis),
-  `Bridge.fourExpAt_beta5_uncond`, `Bridge.fourExpAt_pi_div_beta5_uncond`, and `Bridge.corA2_beta5_uncond` (only the
-  named input `NotLtildeA`).
+* Unconditional at `y⁵ = x(1 − x)` (W88 for `G_m^{2n} × A^r` and its vector extension proved in `lean_lsg`;
+  `CM4E/Bridge/AbVar.lean`): `Bridge.two_three_beta5'_uncond` (**`2^t, 3^t` are not both algebraic at
+  `t = Γ(1/5)²/Γ(2/5)`**, with no hypothesis), `Bridge.two_three_beta5_uncond` (the same at `t = Γ(1/5)²/(πΓ(2/5))`),
+  `Bridge.fourExpAt_beta5'_uncond`, `Bridge.fourExpAt_div_beta5_uncond`, `Bridge.fourExpAt_beta5_uncond`,
+  `Bridge.fourExpAt_pi_div_beta5_uncond`, and `Bridge.corA2_beta5_uncond` (only the named input `NotLtildeA`).
 
 Each theorem assumes **one published theorem**: Waldschmidt's κ-refined hyperplane theorem (W88, Thm 1.1 with (5.4)),
 for the algebraic groups of the relevant proof. It is stated as an explicit hypothesis, never as an axiom. The `Ω_ρ`

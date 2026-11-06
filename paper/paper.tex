@@ -261,7 +261,7 @@ $\alpha^t$ and $\beta^t$ are not both algebraic.
 \Status \LabC{} for $g\ge2$ (\S\ref{sec:formal} lists the
 instances checked in Lean conditionally on
 Theorem~\ref{thm:W88k} for CM abelian varieties of dimension $2$ and $3$), except at
-$t\in\Qb^\times B(\frac15,\frac15)/\pi\cup\Qb^\times\pi/B(\frac15,\frac15)$, where it is \LabA. For $g=1$ it consists of Theorem~\ref{thm:one},
+$t\in\Qb^\times B(\frac15,\frac15)^{\pm1}\cup\Qb^\times(B(\frac15,\frac15)/\pi)^{\pm1}$, where it is \LabA. For $g=1$ it consists of Theorem~\ref{thm:one},
 which has the status stated there, and its $t\leftrightarrow1/t$ extension to $t\in\Qb^\times/\Omega\cup\Qb^\times\pi/\Omega$,
 which follows in one line and is not formalised (\LabC).
 
@@ -1679,7 +1679,8 @@ and $2\pi i\in\mathcal S^\natural_K$ (as $s\cdot2\pi i=2icP_\sigma\in K\,w_\sigm
 \end{theorem}
 
 \Status \LabC; two internal referees, one of
-whom built $U$ and $Q''$ explicitly for $g=2$ ($n=8,16$) and $g=3$ ($n=12$).
+whom built $U$ and $Q''$ explicitly for $g=2$ ($n=8,16$) and $g=3$ ($n=12$). For $P=(1-\zeta_5^4)B(\frac45,\frac45)$ on the
+Jacobian of $y^5=x(1-x)$, with $w_\sigma(\Lambda(A^\natural))$ replaced by $\Z P$: \LabA{} (\texttt{Bridge.mgAn5\_K\_uncond}).
 
 \begin{proof}
 Prove it over $K'\supseteq K$ with $[K':\Q]\ge4$ and descend by Baker, as in the proof of Theorem~\ref{thm:MGn}. Let
@@ -4246,16 +4247,23 @@ longer a named input of the results below. Unconditionally, $\pi/\vp^2$ is trans
 \emph{Formally verified results} (labels (a), (b)). With no hypothesis beyond Lean's axioms (label (a)):
 Theorem~\ref{thm:one}, both parts, for $\Omega\in\Qb^\times\vp$ (every algebraic $c\neq0$; in particular $2^{\vp},3^{\vp}$ and
 $2^{\vp/\pi},3^{\vp/\pi}$ are not both algebraic); Theorem~\ref{thm:A} at the classes
-$t\in\Qb^\times B(\frac15,\frac15)/\pi$ and $\Qb^\times\pi/B(\frac15,\frac15)$ (in particular $2^t,3^t$ are not both
-algebraic at $t=\Gamma(\frac15)^2/(\pi\Gamma(\frac25))$, \texttt{Bridge.two\_three\_beta5\_uncond}), and the transcendence
-of $B(\frac15,\frac15)/\pi$, from \texttt{lean\_lsg}'s hyperplane statement for $\Ga^{d_0}\times\Gm^{d_1}\times A^r$, $A$
+$t\in\Qb^\times B(\frac15,\frac15)^{\pm1}$ and $\Qb^\times(B(\frac15,\frac15)/\pi)^{\pm1}$ (in particular $2^t,3^t$ are not
+both algebraic at $t=\Gamma(\frac15)^2/\Gamma(\frac25)$ and at $t=\Gamma(\frac15)^2/(\pi\Gamma(\frac25))$,
+\texttt{Bridge.two\_three\_beta5'\_uncond}, \texttt{Bridge.two\_three\_beta5\_uncond}), and the transcendence
+of $B(\frac15,\frac15)/\pi$ and $B(\frac45,\frac45)/\pi$, from \texttt{lean\_lsg}'s hyperplane statement for $\Ga^{d_0}\times\Gm^{d_1}\times A^r$, $A$
 the Jacobian of $y^5=x(1-x)$, for toric-injective hyperplanes $V$ and data whose $A$-components are periods, which is all
 that these proofs use (\texttt{CM4E/Bridge/AbVar.lean}; Lean presents $A$ by its period lattice in the coordinates
 $\int dX/Y$, $\int X\,dX/Y$ on the model $Y^2=4X^5+1$ and computes these periods as Beta values; the identification of this
 torus with the Jacobian is classical and not formalised, and the final statements, about explicit numbers, do not depend
 on it); by the same route,
 the $K$-form of Theorem~\ref{thm:MGA} at $P=(1-\zeta_5)B(\frac15,\frac15)$ with $z_\sigma(\Lambda(A))$ replaced by $\Z P$
-(\texttt{Bridge.mgA5\_K\_uncond}); the $K$-forms of Theorems~\ref{thm:MG} and~\ref{thm:MGn} at $\vp$, for the
+(\texttt{Bridge.mgA5\_K\_uncond}). For the classes $\Qb^\times B(\frac15,\frac15)^{\pm1}$ the hyperplane statement is
+\texttt{lean\_lsg}'s for $\Ga^{d_0}\times\Gm^{d_1}\times Q''$, $Q''$ the push-out of $r$ copies of a one-dimensional vector
+extension of $A$ (the second-kind eigenline), again for toric-injective $V$ (no nonzero period of $Q''$ alone in $V$; for
+the hyperplanes used, this follows from the $F$-independence of $b$ and the fact that the fibre character
+$\zeta\mapsto\zeta^{N-1}$ is a field embedding) and for data whose $A$-components are periods, the fibre components being
+arbitrary algebraic; by the same route, the $K$-form of Theorem~\ref{thm:MGnA} at $P=(1-\zeta_5^4)B(\frac45,\frac45)$ with
+$w_\sigma(\Lambda(A^\natural))$ replaced by $\Z P$ (\texttt{Bridge.mgAn5\_K\_uncond}). Also with label (a): the $K$-forms of Theorems~\ref{thm:MG} and~\ref{thm:MGn} at $\vp$, for the
 $K$ stated in their status lines; Theorems SMG and SMG$^\natural$ at $\vp$ with second rows in $\Lt$; Theorem~\ref{thm:M}
 for $\Omega\in\Qb^\times\vp$ (first conclusion) with (M1) and (M3); Theorem~\ref{thm:SE}(3) (SE$_0$) for $E=E_i$, every
 $c\in\Qb^\times$ and every nonzero period of $E_i$ (\texttt{Bridge.thmSE0\_varpi}, \texttt{Bridge.thmSE0\_paper}; no form of
@@ -4292,15 +4300,13 @@ Proposition~\ref{prop:Dp} to Theorem~\ref{thm:MXP} (Masser's and W\"ustholz's th
 $2$ and $3$ and their vector extensions (these instances are not formalised): the $K$-forms of Theorems~\ref{thm:MGA}
 and~\ref{thm:MGnA} for the stated instances (the first-kind eigen-periods $(1-\zeta_N)B(\frac1N,\frac1N)$ of
 $y^N=x(1-x)$, $N=5,7$, resp.\ the second-kind eigen-period of $y^5=x(1-x)$), for every number field $K\supseteq\Q(\zeta_N,i,c)$
-(for $N=5$ with logarithms of $A$ in $z_\sigma(\Lambda(A))$; the part with $\Z P$ in its place has label (a), above);
-Theorem~\ref{thm:A} at the classes $t\in\Qb^\times B(\frac15,\frac15)$ and $\Qb^\times B(\frac17,\frac17)/\pi$ (including
-$t=\Gamma(\frac15)^2/\Gamma(\frac25)$ with $(\alpha,\beta)=(2,3)$), but not at $\Qb^\times/B(\frac15,\frac15)$ (the classes
-$\Qb^\times B(\frac15,\frac15)/\pi$, $\Qb^\times\pi/B(\frac15,\frac15)$ have label (a), above). These Beta-value instances assume only the subgroup-theorem hypotheses
-\texttt{Thm11KappaA} (class $\Qb^\times B(\frac17,\frac17)/\pi$; its instance $N=5$ is proved in \texttt{lean\_lsg}) and
-\texttt{Thm11KappaAn} (class $\Qb^\times B(\frac15,\frac15)$): the inputs $P/\pi\notin\Qb$ and $\bar P/\pi\notin\Qb$
-(W\"ustholz's theorem) are now derived in Lean from those hypotheses, and \texttt{Thm11KappaA} is stated
-only for toric-injective hyperplanes (no nonzero period of $A^r$ alone in $V$), which is weaker than the full hyperplane
-statement;
+(for $N=5$ with logarithms of $A$, resp.\ $A^\natural$; the part with $\Z P$ in place of $z_\sigma(\Lambda(A))$,
+$w_\sigma(\Lambda(A^\natural))$ has label (a), above);
+Theorem~\ref{thm:A} at the class $t\in\Qb^\times B(\frac17,\frac17)/\pi$ (the classes at $B(\frac15,\frac15)$ have label (a),
+above). This Beta-value instance assumes only the subgroup-theorem hypothesis \texttt{Thm11KappaA} at $N=7$: the input
+$P/\pi\notin\Qb$ (W\"ustholz's theorem) is derived in Lean from it, and \texttt{Thm11KappaA}, \texttt{Thm11KappaAn} are stated
+only for toric-injective hyperplanes (no nonzero period of $A^r$, resp.\ $Q''$, alone in $V$), which is weaker than the full
+hyperplane statement;
 Proposition~\ref{prop:X} and Theorem~\ref{thm:X} in general (for any four pairwise distinct first-kind slots of simple CM
 abelian varieties with a relation (\ref{eq:R}) taken as hypothesis, as in the paper: Proposition~\ref{prop:X} for
 $[K:\Q]\ge5$, and Theorem~\ref{thm:X} without its torsion clause; (Ch) is proved in Lean; conditional on the

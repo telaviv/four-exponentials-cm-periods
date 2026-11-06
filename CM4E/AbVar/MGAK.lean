@@ -316,11 +316,14 @@ noncomputable def gmAnK : GroupModel (TF (Fin r × Fin N.totient) ((Fin g × Fin
     (perGen (ι := Fin r × Fin N.totient) (perAngen N g κ P Pb b)) 0 (LinearMap.snd ℂ _ ℂ)
     (finrank ℂ ((Fin g × Fin r → ℂ) × ℂ))
 
-/-- **The hypothesis for the `K`-form of MG♮-A**: W88 §5d for `G_m^{2n} × Q''`, every `F`-basis `b`. Claimed when `LAn`
+/-- **The hypothesis for the `K`-form of MG♮-A**: W88 §5d for `G_m^{2n} × Q''`, every `F`-basis `b`, restricted to the
+toric-injective hyperplanes (`TorInj`, as for `Thm11KappaAn`; this only weakens it, and the proof uses only `V''`, which
+is toric-injective by `perAn_inj`). Claimed when `LAn`
 consists of (eigen-coordinate tuple, `σ̄`-fibre value) pairs of logarithms of algebraic points of `A^♮` (normalised as
 `(P, P̄)`). -/
 def Thm11KappaAnK : Prop :=
-  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b → HyperplaneKappa (gmAnK N g κ P Pb b LAn)
+  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b →
+    HyperplaneKappaOn (gmAnK N g κ P Pb b LAn) (TorInj (gmAnK N g κ P Pb b LAn))
 
 /-- `K · (σ̄-fibre values)`. -/
 def KFibA (K : Submodule ℚ ℂ) : Set ℂ :=
@@ -355,7 +358,7 @@ lemma aLiftAn_mem (h : Fin r × Fin N.totient) {M : ℕ} (β : Fin M → ℂ) (v
 `sx_k ∈ K𝓛 + K·(σ̄-fibre values)` and `2πi, x₁, x₂` linearly independent over `K`. Hypotheses: W88 §5d (`hW`),
 `2 ≤ g`, `2g ≤ φ(N)`, `P̄/π ∉ ℚ̄`. -/
 theorem mgAn_K (hN : 2 ≤ N) (hW : Thm11KappaAnK N g κ P Pb LAn) (hg2 : 2 ≤ g) (hg : 2 * g ≤ N.totient)
-    (hT : Transcendental ℚ (Pb / Real.pi)) (hb : IsAdaptedBasisD (zetaN N) N.totient b)
+    (hκN : ∀ s, (κ s).Coprime N) (hT : Transcendental ℚ (Pb / Real.pi)) (hb : IsAdaptedBasisD (zetaN N) N.totient b)
     (c : ℂ) (hcK : c ∈ KspanD (zetaN N) N.totient b) (hc0 : c ≠ 0) (hIK : I ∈ KspanD (zetaN N) N.totient b)
     (x : Fin 2 → ℂ) (hx : ∀ k, x k ∈ KLog (KspanD (zetaN N) N.totient b))
     (hsx : ∀ k, ∃ y ∈ KLog (KspanD (zetaN N) N.totient b), ∃ e ∈ KFibA g P Pb LAn (KspanD (zetaN N) N.totient b),
@@ -424,11 +427,17 @@ theorem mgAn_K (hN : 2 ≤ N) (hW : Thm11KappaAnK N g κ P Pb LAn) (hg2 : 2 ≤ 
     simp only [Module.finrank_prod, Module.finrank_fintype_fun_eq_card, Fintype.card_prod, Fintype.card_fin,
       Module.finrank_self]
     nlinarith
-  refine frame2_false_K (thetaD (zetaN N) N.totient b) hb.indep hθalg (algAn g) (lamAnK N g κ P Pb b LAn)
+  have hPb0 : Pb ≠ 0 := fun h => hT (by rw [h, zero_div]; exact isAlgebraic_zero)
+  have hper0 : ∀ v ∈ Submodule.span ℚ (perGen (ι := Fin r × Fin N.totient) (perAngen N g κ P Pb b)), v.1 = 0 →
+      LinearMap.snd ℂ _ ℂ v.2 = s * (0 : (Fin g × Fin r → ℂ) × ℂ →ₗ[ℂ] ℂ) v.2 → v = 0 := by
+    intro v hv h1 hl
+    rw [LinearMap.zero_apply, mul_zero] at hl
+    exact Prod.ext h1 (perAn_inj κ P Pb hN hb hκN hPb0 _ (snd_mem_span_perQ _ hv) hl)
+  refine frame2_false_K_on (thetaD (zetaN N) N.totient b) hb.indep hθalg (algAn g) (lamAnK N g κ P Pb b LAn)
     (perGen (ι := Fin r × Fin N.totient) (perAngen N g κ P Pb b)) 0 (LinearMap.snd ℂ _ ℂ)
     (finrank ℂ ((Fin g × Fin r → ℂ) × ℂ)) (hW r b hb) hfin ⟨fun _ => isAlgebraic_zero, isAlgebraic_zero⟩
     (fun _ _ => isAlgebraic_zero) (fun q hq => hq.2)
-    ({(0, 1)} ∪ Set.range fun p => ((Pi.single p 1 : Fin g × Fin r → ℂ), (0 : ℂ))) ?_ ?_ s hs
+    ({(0, 1)} ∪ Set.range fun p => ((Pi.single p 1 : Fin g × Fin r → ℂ), (0 : ℂ))) ?_ ?_ s hs hper0
     (fun h => tor1 h (2 * Real.pi * I) + qv (qh h)) ?_ ?_ ?_ x
     (fun k h => tLift1 (zetaN N) b h (β k) (ℓ k) + tLift2 (zetaN N) b h (β' k) (ℓ' k) +
       aLiftAn N g κ b h (β'' k) (vw k)) ?_ ?_ hind

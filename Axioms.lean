@@ -218,3 +218,11 @@ import CM4E
 #print axioms CM4E.Bridge.two_three_beta5_uncond
 #print axioms CM4E.Bridge.corA2_beta5_uncond
 #print axioms CM4E.Bridge.mgA5_K_uncond
+#print axioms CM4E.Bridge.thm11KappaAn5_uncond
+#print axioms CM4E.Bridge.thm11KappaAnK5_uncond
+#print axioms CM4E.Bridge.wuestholzB5_uncond
+#print axioms CM4E.Bridge.fourExpAt_beta5'_uncond
+#print axioms CM4E.Bridge.fourExpAt_div_beta5_uncond
+#print axioms CM4E.Bridge.two_three_beta5'_uncond
+#print axioms CM4E.Bridge.mgAn5_K_uncond
+#print axioms CM4E.AbVar.perAn_inj

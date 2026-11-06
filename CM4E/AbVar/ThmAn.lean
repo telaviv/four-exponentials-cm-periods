@@ -53,9 +53,13 @@ def algAn (q : (Fin g × Fin r → ℂ) × ℂ) : Prop := (∀ p, IsAlgebraic �
 noncomputable def gmAn : GroupModel (TF (Fin r × Fin N.totient) ((Fin g × Fin r → ℂ) × ℂ)) :=
   gmF (algAn g) (perAngen N g κ P Pb b) (LinearMap.snd ℂ _ ℂ)
 
-/-- **The hypothesis for Theorem MG♮-A**: W88 §5d for `G_m^{2n} × Q''`, for every `F`-basis `b` of a number field. -/
+/-- **The hypothesis for Theorem MG♮-A**: W88 §5d for `G_m^{2n} × Q''`, for every `F`-basis `b` of a number field,
+restricted to the toric-injective hyperplanes (`TorInj`: no nonzero period of `Q''` alone lies in `V`). The restriction
+only weakens the hypothesis (`HyperplaneKappa.on`); the proofs use it only at `ker phiF` and `ker phiW`, which are
+toric-injective (`perAn_inj`; this needs every `κ s` prime to `N`). -/
 def Thm11KappaAn : Prop :=
-  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b → HyperplaneKappa (gmAn N g κ P Pb b)
+  ∀ (r : ℕ) (b : Fin r → ℂ), IsAdaptedBasisD (zetaN N) N.totient b →
+    HyperplaneKappaOn (gmAn N g κ P Pb b) (TorInj (gmAn N g κ P Pb b))
 
 lemma zetaN_pow_sq (hN : 2 ≤ N) (e : ℕ) : zetaN N ^ ((N - 1) * ((N - 1) * e)) = zetaN N ^ e := by
   have h1 : (N - 1) * ((N - 1) * e) = N * ((N - 2) * e) + e := by
@@ -63,10 +67,92 @@ lemma zetaN_pow_sq (hN : 2 ≤ N) (e : ℕ) : zetaN N ^ ((N - 1) * ((N - 1) * e)
     rw [show M + 2 - 1 = M + 1 by omega, show M + 2 - 2 = M by omega]; ring
   rw [h1, pow_add, pow_mul, (zetaN_prim N (by omega)).pow_eq_one, one_pow, one_mul]
 
+lemma perAn_poly {N g : ℕ} {κ : Fin g → ℕ} {P : Fin g → ℂ} {Pb : ℂ} {r : ℕ} {b : Fin r → ℂ}
+    {q : (Fin g × Fin r → ℂ) × ℂ} (hq : q ∈ Submodule.span ℚ (perAngen N g κ P Pb b)) :
+    ∃ f : Fin r → Polynomial ℚ, (∀ p, q.1 p = P p.1 * Polynomial.aeval (zetaN N ^ κ p.1) (f p.2)) ∧
+      q.2 = Pb * ∑ j, b j * Polynomial.aeval (zetaN N ^ (N - 1)) (f j) := by
+  induction hq using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨⟨j, e⟩, rfl⟩ := hx
+    refine ⟨fun j' => if j' = j then Polynomial.X ^ e else 0, fun p => ?_, ?_⟩
+    · by_cases h : p.2 = j
+      · simp [h, pow_mul]; ring
+      · simp [h]
+    · simp [apply_ite, pow_mul]; ring
+  | zero => exact ⟨0, fun p => by simp, by simp⟩
+  | add x y _ _ hx hy =>
+    obtain ⟨f, hf1, hf2⟩ := hx
+    obtain ⟨f', hf1', hf2'⟩ := hy
+    refine ⟨f + f', fun p => by simp [hf1, hf1', mul_add], ?_⟩
+    simp only [Prod.snd_add, hf2, hf2', Pi.add_apply, map_add, mul_add, Finset.sum_add_distrib]
+  | smul c x _ hx =>
+    obtain ⟨f, hf1, hf2⟩ := hx
+    refine ⟨c • f, fun p => ?_, ?_⟩
+    · simp only [Prod.smul_fst, Pi.smul_apply, hf1, map_smul, Rat.smul_def]; ring
+    · simp only [Prod.smul_snd, hf2, Pi.smul_apply, map_smul, Rat.smul_def, Finset.mul_sum]
+      exact Finset.sum_congr rfl fun j _ => by ring
+
+/-- **The fibre form is injective on the periods of `Q''`**: the frame hyperplanes are toric-injective. -/
+lemma perAn_inj {N g : ℕ} (κ : Fin g → ℕ) (P : Fin g → ℂ) (Pb : ℂ) {r : ℕ} {b : Fin r → ℂ}
+    (hN : 2 ≤ N) (hb : IsAdaptedBasisD (zetaN N) N.totient b) (hκN : ∀ s, (κ s).Coprime N) (hPb : Pb ≠ 0) :
+    ∀ q ∈ Submodule.span ℚ (perAngen N g κ P Pb b), LinearMap.snd ℂ _ ℂ q = 0 → q = 0 := by
+  intro q hq hl
+  have hN0 : N ≠ 0 := by omega
+  obtain ⟨f, hf1, hf2⟩ := perAn_poly hq
+  set Φ := Polynomial.cyclotomic N ℚ with hΦ
+  have hmon : Φ.Monic := Polynomial.cyclotomic.monic N ℚ
+  have hdeg : Φ.natDegree = N.totient := Polynomial.natDegree_cyclotomic N ℚ
+  have ht0 : 0 < N.totient := Nat.totient_pos.mpr (Nat.pos_of_ne_zero hN0)
+  have hΦ1 : Φ ≠ 1 := fun h => by rw [h, Polynomial.natDegree_one] at hdeg; omega
+  have hroot : ∀ k, k.Coprime N → Polynomial.aeval (zetaN N ^ k) Φ = 0 := by
+    intro k hk
+    have := ((zetaN_prim N hN0).pow_of_coprime k hk).isRoot_cyclotomic (Nat.pos_of_ne_zero hN0)
+    rw [hΦ, Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
+    exact this
+  set G : Fin r → Polynomial ℚ := fun j => (f j).comp (Polynomial.X ^ (N - 1)) with hGdef
+  have hG : ∀ j, Polynomial.aeval (zetaN N) (G j) = Polynomial.aeval (zetaN N ^ (N - 1)) (f j) := by
+    intro j; simp [hGdef, Polynomial.aeval_comp]
+  have hl' : ∑ j, b j * Polynomial.aeval (zetaN N) (G j) = 0 := by
+    have h2 : q.2 = 0 := hl
+    rw [hf2] at h2
+    simp only [hG]
+    exact (mul_eq_zero.mp h2).resolve_left hPb
+  have hR : ∀ j, Polynomial.aeval (zetaN N) (G j) =
+      ∑ k : Fin N.totient, ((G j %ₘ Φ).coeff k : ℂ) * zetaN N ^ (k : ℕ) := by
+    intro j
+    have h1 : Polynomial.aeval (zetaN N) Φ = 0 := by simpa using hroot 1 (Nat.coprime_one_left N)
+    rw [← Polynomial.aeval_modByMonic_eq_self_of_root h1,
+      Polynomial.aeval_eq_sum_range' (n := N.totient) (by
+        rw [← hdeg]; exact Polynomial.natDegree_modByMonic_lt _ hmon hΦ1), Finset.sum_range]
+    simp [Algebra.smul_def]
+  have hzero := Fintype.linearIndependent_iff.mp hb.indep (fun p => (G p.1 %ₘ Φ).coeff p.2) (by
+    rw [Fintype.sum_prod_type, ← hl']
+    refine Finset.sum_congr rfl fun j _ => ?_
+    rw [hR j, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun k _ => ?_
+    simp only [thetaD, Rat.smul_def]
+    ring)
+  have hGz : ∀ j, Polynomial.aeval (zetaN N) (G j) = 0 := by
+    intro j
+    rw [hR j]
+    refine Finset.sum_eq_zero fun k _ => ?_
+    rw [hzero (j, k)]; simp
+  have hc : (N - 1).Coprime N := by
+    have h := (Nat.coprime_self_add_right (m := N - 1) (n := 1)).mpr (Nat.coprime_one_right _)
+    rwa [Nat.sub_add_cancel (by omega : 1 ≤ N)] at h
+  have hmin : Φ = minpoly ℚ (zetaN N ^ (N - 1)) :=
+    Polynomial.cyclotomic_eq_minpoly_rat ((zetaN_prim N hN0).pow_of_coprime (N - 1) hc) (by omega)
+  have hdvd : ∀ j, Φ ∣ f j := fun j => by
+    rw [hmin]; exact minpoly.dvd ℚ _ (by rw [← hG]; exact hGz j)
+  refine Prod.ext (funext fun p => ?_) hl
+  obtain ⟨u, hu⟩ := hdvd p.2
+  rw [hf1 p, hu, map_mul, hroot _ (hκN p.1), zero_mul, mul_zero]
+  rfl
+
 /-- **Theorem MG♮-A (second-kind slot)**: `FourExpAt (cP̄/π)` for every algebraic `c ≠ 0`. Hypotheses: W88 §5d for the
 groups `G_m^{2n} × Q''` (`hW`), `g r + 1 < φ(N) r` for all `r ≥ 1` (here: `2 ≤ g`, `2g ≤ φ(N)`), and `P̄/π ∉ ℚ̄`. -/
 theorem fourExpAt_An (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb) (hg2 : 2 ≤ g) (hg : 2 * g ≤ N.totient)
-    (hT : Transcendental ℚ (Pb / Real.pi)) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
+    (hκN : ∀ s, (κ s).Coprime N) (hT : Transcendental ℚ (Pb / Real.pi)) (c : ℂ) (hc : IsAlgebraic ℚ c) (hc0 : c ≠ 0) :
     FourExpAt (c * Pb / Real.pi) := by
   intro x₁ x₂ hx₁ hx₂ hind ⟨ht₁, ht₂⟩
   obtain ⟨r, hr, b, hb, hS⟩ := exists_adapted_basisN N (by omega) {c, I}
@@ -120,8 +206,9 @@ theorem fourExpAt_An (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb) (hg2 : 2 ≤
     simp only [Module.finrank_prod, Module.finrank_fintype_fun_eq_card, Fintype.card_prod, Fintype.card_fin,
       Module.finrank_self]
     nlinarith
-  refine frame_false (thetaD (zetaN N) N.totient b) hb.indep hθalg (algAn g) (perAngen N g κ P Pb b)
-    (LinearMap.snd ℂ _ ℂ) (hW r b hb) hfin ⟨fun _ => isAlgebraic_zero, isAlgebraic_zero⟩
+  have hPb0 : Pb ≠ 0 := fun h => hT (by rw [h, zero_div]; exact isAlgebraic_zero)
+  refine frame_false_on (thetaD (zetaN N) N.totient b) hb.indep hθalg (algAn g) (perAngen N g κ P Pb b)
+    (LinearMap.snd ℂ _ ℂ) (hW r b hb) (perAn_inj κ P Pb hN hb hκN hPb0) hfin ⟨fun _ => isAlgebraic_zero, isAlgebraic_zero⟩
     (fun c' q hc' hq => ⟨fun p => by simpa using hc'.mul (hq.1 p), by simpa using hc'.mul hq.2⟩)
     (0, 1) ⟨fun _ => isAlgebraic_zero, isAlgebraic_one⟩ rfl
     (Set.range fun p => ((Pi.single p 1 : Fin g × Fin r → ℂ), (0 : ℂ)))
@@ -149,7 +236,8 @@ theorem fourExpAt_An (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb) (hg2 : 2 ≤
 of `λ`). If `P̄ = απ` with `α ∈ ℚ̄`, the hyperplane `V = W = ker (f − aθᵀx − aμθᵀy)` (`a = α/(2i)`, `μ ∈ ℚ̄ ∖ K`)
 contains the period lift `(2πi e_{(0,0)}, 0; [ζ⁰]γ̃)` (fibre `b_0 P̄`), and `(5.4)` holds with `m = 1`; but `V` contains
 no `T_L × H ≠ 0` (`Gen.frameW_false`). -/
-theorem transcendental_div_pi_of_thm11KappaAn (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb) (hPb : Pb ≠ 0) :
+theorem transcendental_div_pi_of_thm11KappaAn (hN : 2 ≤ N) (hW : Thm11KappaAn N g κ P Pb)
+    (hκN : ∀ s, (κ s).Coprime N) (hPb : Pb ≠ 0) :
     Transcendental ℚ (Pb / Real.pi) := by
   intro hα
   have hpi : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr Real.pi_ne_zero
@@ -159,9 +247,10 @@ theorem transcendental_div_pi_of_thm11KappaAn (hN : 2 ≤ N) (hW : Thm11KappaAn 
   set j0 : Fin r := ⟨0, by omega⟩
   refine frameW_false (thetaD (zetaN N) N.totient b) hb.indep
     (thetaD_isAlgebraic (isAlgebraic_zetaN N (by omega)) N.totient hb.alg) (algAn g) (perAngen N g κ P Pb b)
-    (LinearMap.snd ℂ _ ℂ) (good := fun _ => True) (hW r b hb).on (fun q hq => hq.2) ⟨fun _ => isAlgebraic_zero, isAlgebraic_zero⟩
+    (LinearMap.snd ℂ _ ℂ) (hW r b hb) (fun q hq => hq.2) ⟨fun _ => isAlgebraic_zero, isAlgebraic_zero⟩
     (Set.range (fun p => ((Pi.single p 1 : Fin g × Fin r → ℂ), (0 : ℂ))) ∪ {((0 : Fin g × Fin r → ℂ), (1 : ℂ))})
-    ?_ ?_ μ hμalg (adapted_mu_indep hb hμK) (Pb / Real.pi) hα (div_ne_zero hPb hpi) trivial
+    ?_ ?_ μ hμalg (adapted_mu_indep hb hμK) (Pb / Real.pi) hα (div_ne_zero hPb hpi)
+    (torInj_ker_phiW _ _ _ _ _ _ (perAn_inj κ P Pb hN hb hκN hPb))
     (j0, ⟨0, ht0⟩)
     ((fun p => if p.2 = j0 then zetaN N ^ (κ p.1 * 0) * P p.1 else 0), b j0 * zetaN N ^ ((N - 1) * 0) * Pb)
     ⟨(j0, 0), rfl⟩ ?_
@@ -224,7 +313,7 @@ lemma perB5_ne_zero : perB5 ≠ 0 := by
 
 /-- **`WuestholzB5` is a corollary of the hypothesis of Theorem MG♮-A** at `y⁵ = x(1 − x)`. -/
 theorem wuestholzB5_of (hW : Thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 perB5) : WuestholzB5 :=
-  transcendental_div_pi_of_thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 perB5 (by norm_num) hW perB5_ne_zero
+  transcendental_div_pi_of_thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 perB5 (by norm_num) hW (by decide) perB5_ne_zero
 
 /-- The constant `ρ = (5/3) sin(2π/5)/sin(π/5)²` with `B(1/5, 1/5) B(4/5, 4/5) = ρπ`. -/
 noncomputable def rho5 : ℂ :=
@@ -288,7 +377,8 @@ theorem fourExpAt_beta5' (hW : Thm11KappaAn 5 2 (fun s => (s : ℕ) + 1) perA5 p
       (pow_mem (mem_algebraicClosure_iff.mpr (isAlgebraic_zetaN 5 (by norm_num))) 4)))
       (mem_algebraicClosure_iff.mpr isAlgebraic_rho5))
   have hc'0 : c' ≠ 0 := inv_ne_zero (mul_ne_zero (mul_ne_zero hc0 hz4) hρ0)
-  have h := fourExpAt_An 5 2 (fun s => (s : ℕ) + 1) perA5 perB5 (by norm_num) hW le_rfl (by decide) (wuestholzB5_of hW) c'
+  have h := fourExpAt_An 5 2 (fun s => (s : ℕ) + 1) perA5 perB5 (by norm_num) hW le_rfl (by decide) (by decide)
+    (wuestholzB5_of hW) c'
     hc'alg hc'0
   have ht0 : c' * perB5 / Real.pi ≠ 0 := by
     rw [perB5]; exact div_ne_zero (mul_ne_zero hc'0 (mul_ne_zero hz4 hB4)) hpi

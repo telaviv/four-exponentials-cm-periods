@@ -78,9 +78,11 @@ with its own dependency `StrongSix`), pinned to a commit in `lakefile.toml`; `la
 
 ```bash
 lake exe cache get
-lake build
+LEAN_NUM_THREADS=4 lake build
 lake env lean Axioms.lean
 ```
+
+Fresh-clone check, 2026-11-06, at commit `a02679d`, on Windows 11 with 32 logical processors and 31.7 GB of RAM: 9924 jobs in about 3 h 40 min, no errors, and `Axioms.lean` reports only `propext`, `Classical.choice` and `Quot.sound`. Limit the thread count as shown: the `lean_lsg` README records a failed build at Lake's default concurrency, with memory exhaustion suspected.
 
 Toolchain: `leanprover/lean4:v4.35.0`, Mathlib `v4.35.0`.
 

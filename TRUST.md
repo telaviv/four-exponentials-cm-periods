@@ -2,7 +2,7 @@
 
 Project: `four-exponentials-cm-periods` (Lean 4.35, Mathlib v4.35.0; library `CM4E`). Results are cited by the numbering of the
 extended draft in [`paper/`](paper/), *A proof of the Roy–Waldschmidt theorem with period term, with explicit consequences at CM
-and Beta periods* (unrefereed); the short paper *Four exponentials at CM and Beta periods* uses its own numbering. W88 below is M. Waldschmidt,
+and Beta periods* (unrefereed); the short paper *Four exponentials at CM and Beta periods* (Hexagon preprint 2611.00171v1, https://hexagonmath.org/2611.00171v1) uses its own numbering. W88 below is M. Waldschmidt,
 *On the transcendence methods of Gel'fond and Schneider in several variables*, in: A. Baker (ed.), New Advances in
 Transcendence Theory (Durham 1986), Cambridge Univ. Press, 1988, pp. 375–398.
 

@@ -1,8 +1,9 @@
 # four-exponentials-cm-periods: four exponentials at CM periods, in Lean 4
 
 Lean 4 + Mathlib certificate (library `CM4E`) for four exponentials statements at CM and Beta periods. Results are cited by
-the numbering of the extended draft in [`paper/`](paper/), which is unrefereed. Two shorter papers carry its content, both
-unposted: the short paper *Four exponentials at CM and Beta periods*, and the Theorem R paper *The Roy–Waldschmidt theorem with
+the numbering of the extended draft in [`paper/`](paper/), which is unrefereed. Two shorter papers carry its content: the short paper
+[*Four exponentials at CM and Beta periods*](https://hexagonmath.org/2611.00171v1) (Hexagon preprint 2611.00171v1), and the
+unposted Theorem R paper *The Roy–Waldschmidt theorem with
 period term and inner weight: a written proof from Waldschmidt's subgroup theorem*.
 
 ## Results
@@ -73,7 +74,7 @@ is assumed, why it is believed, and which paper results are covered: [TRUST.md](
 
 ## Build
 
-The project depends on Mathlib and on [`lean_lsg`](https://github.com/telaviv/waldschmidt-subgroup-theorem) (library `LSG`,
+The project depends on Mathlib and on [`lean_lsg`](https://github.com/telaviv/waldschmidt-subgroup-theorem) (paper: [Hexagon preprint 2611.00170v1](https://hexagonmath.org/2611.00170v1); library `LSG`,
 with its own dependency `StrongSix`), pinned to a commit in `lakefile.toml`; `lake` fetches them.
 
 ```bash
